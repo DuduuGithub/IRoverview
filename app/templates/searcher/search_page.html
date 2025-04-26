@@ -1,0 +1,872 @@
+{% extends "base.html" %}
+
+{% block title %}文书检阅 - 永泰文书{% endblock %}
+
+{% block styles %}
+<style>
+    .search-section {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+    .filter-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .filter-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: white;
+        min-width: 300px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        padding: 1rem;
+        border-radius: 4px;
+        z-index: 1000;
+        margin-top: 0.5rem;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s, transform 0.2s;
+    }
+    .filter-content.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .year-selector {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .year-selector select {
+        width: auto;
+    }
+    .document-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 1.2rem;
+        margin-bottom: 0.8rem;
+        background: #fff;
+        transition: transform 0.2s;
+        position: relative;
+    }
+    .document-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .doc-id {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 0.85rem;
+        color: #fff;
+        font-weight: 500;
+        background: #444;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        white-space: nowrap;
+        z-index: 2;
+    }
+    .doc-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+        line-height: 1.3;
+    }
+    .doc-type {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        font-size: 0.85rem;
+        padding: 0.2rem 0.8rem;
+        border-radius: 4px;
+        background: #e3f2fd;
+        color: #1976d2;
+        white-space: nowrap;
+        z-index: 2;
+    }
+    .doc-summary {
+        position: relative;
+        height: 3em;  /* 两行文本的高度 */
+        line-height: 1.5em;
+        overflow: hidden;
+    }
+    .doc-summary::after {
+        content: "...";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding-left: 40px;
+        background: linear-gradient(to right, transparent, white 50%);
+    }
+    .doc-info {
+        position: relative;
+        padding-bottom: 3rem;
+        display: flex;
+        gap: 2rem;
+        font-size: 0.9rem;
+        color: #444;
+    }
+    .contractors-section, .participants-section {
+        flex: 1;
+        overflow: hidden;
+    }
+    .doc-info h6 {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.3rem;
+        font-weight: 600;
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+    .doc-info p {
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+    }
+    .participant-tags {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
+    .participant-tag {
+        display: inline-block;
+        background: #f5f5f5;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        margin-right: 0.3rem;
+        font-size: 0.85rem;
+        color: #444;
+    }
+    .document-list .row > div {
+        margin-bottom: 1rem;
+    }
+    .category-tabs {
+        margin-bottom: 2rem;
+    }
+    .category-tabs .nav-link {
+        color: #495057;
+        border: none;
+        padding: 1rem 1.5rem;
+    }
+    .category-tabs .nav-link.active {
+        color: #0d6efd;
+        border-bottom: 2px solid #0d6efd;
+        background: none;
+    }
+    #advancedSearchPanel {
+        background-color: white;
+        padding: 1rem;
+        border-radius: 4px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        margin-top: 1rem;
+    }
+    #basicSearchGroup {
+        display: flex;  /* 用 flex 布局 */
+        width: 100%;
+    }
+
+    #advancedSearchGroup {
+        background-color: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-top: 0.5rem;
+    }
+
+    .input-group {
+        flex: 1;  /* 让搜索框占据剩余空间 */
+    }
+
+    .filter-summary {
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        background: #f8f9fa;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .filter-tag {
+        display: inline-block;
+        background: #e9ecef;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        margin: 0.2rem;
+        font-size: 0.85rem;
+    }
+
+    #advancedSearchPanel {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    #advancedSearchPanel .card {
+        border: none;
+    }
+
+    #backToBasicSearch {
+        font-size: 0.9rem;
+    }
+
+    .doc-header {
+        position: relative;
+        margin-bottom: 0.8rem;
+        padding-right: 5rem;
+    }
+
+    .doc-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .doc-meta {
+        position: absolute;
+        top: -1.2rem;
+        right: -1.2rem;
+        display: flex;
+        flex-direction: row;
+        gap: 0.8rem;
+        align-items: center;
+        padding: 1.2rem;
+    }
+
+    .doc-id {
+        font-size: 0.85rem;
+        color: #fff;
+        font-weight: 500;
+        background: #444;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        white-space: nowrap;
+        z-index: 2;
+    }
+
+    .doc-type {
+        font-size: 0.85rem;
+        padding: 0.2rem 0.8rem;
+        border-radius: 4px;
+        background: #e3f2fd;
+        color: #1976d2;
+        white-space: nowrap;
+        z-index: 2;
+    }
+
+    .doc-summary {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .doc-divider {
+        height: 1px;
+        background: #eee;
+        margin: 1rem 0;
+    }
+
+    .info-group {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+
+    .doc-info h6 {
+        font-size: 0.85rem;
+        color: #666;
+        font-weight: 600;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .doc-info p {
+        margin: 0;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .participant-tags {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .filter-content .form-label {
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .filter-content .form-select,
+    .filter-content .form-control {
+        margin-bottom: 0.5rem;
+    }
+
+    .filter-content .btn {
+        margin-top: 0.5rem;
+    }
+
+    .hover-shadow:hover {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .doc-summary {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        line-clamp: 2;
+        box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- 搜索和筛选域 -->
+    <div class="search-section">
+        <!-- 基本搜索面板 -->
+        <div id="basicSearchPanel">
+            <div class="row align-items-center">
+                <!-- 筛选按钮 -->
+                <div class="col-auto">
+                    <div class="filter-dropdown">
+                        <button class="btn btn-outline-secondary" type="button" id="filterButton">
+                            <i class="fas fa-filter"></i> 筛选
+                        </button>
+                        <div class="filter-content" id="filterContent">
+                            <!-- 时间筛选 -->
+                            <div class="mb-3">
+                                <label class="form-label">起始时间</label>
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <select class="form-select" id="startEra">
+                                            <option value="">选择年号</option>
+                                            <option value="康熙">康熙</option>
+                                            <option value="雍正">雍正</option>
+                                            <option value="乾隆">乾隆</option>
+                                            <option value="嘉庆">嘉庆</option>
+                                            <option value="道光">道光</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="number" class="form-control" id="startYear" placeholder="年" min="1" max="61">
+                                    </div>
+                                    <div class="col-4">
+                                        <select class="form-select" id="startMonth">
+                                            <option value="">选择月份</option>
+                                            <option value="正">正月</option>
+                                            <option value="二">二月</option>
+                                            <option value="三">三月</option>
+                                            <option value="四">四月</option>
+                                            <option value="五">五月</option>
+                                            <option value="六">六月</option>
+                                            <option value="七">七月</option>
+                                            <option value="八">八月</option>
+                                            <option value="九">九月</option>
+                                            <option value="十">十月</option>
+                                            <option value="十一">十一月</option>
+                                            <option value="十二">十二月</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">终止时间</label>
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <select class="form-select" id="endEra">
+                                            <option value="">选择年号</option>
+                                            <option value="康熙">康熙</option>
+                                            <option value="雍正">雍正</option>
+                                            <option value="乾隆">乾隆</option>
+                                            <option value="嘉庆">嘉庆</option>
+                                            <option value="道光">道光</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="number" class="form-control" id="endYear" placeholder="年" min="1" max="61">
+                                    </div>
+                                    <div class="col-4">
+                                        <select class="form-select" id="endMonth">
+                                            <option value="">选择月份</option>
+                                            <option value="正">正月</option>
+                                            <option value="二">二月</option>
+                                            <option value="三">三月</option>
+                                            <option value="四">四月</option>
+                                            <option value="五">五月</option>
+                                            <option value="六">六月</option>
+                                            <option value="七">七月</option>
+                                            <option value="八">八月</option>
+                                            <option value="九">九月</option>
+                                            <option value="十">十月</option>
+                                            <option value="十一">十一月</option>
+                                            <option value="十二">十二月</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 文书类型筛选 -->
+                            <div class="mb-3">
+                                <label class="form-label">文书类型</label>
+                                <select class="form-select" id="documentType">
+                                    <option value="">全部类型</option>
+                                    <option value="借钱契">借钱契</option>
+                                    <option value="租赁契">租赁契</option>
+                                    <option value="抵契">抵押契</option>
+                                    <option value="赋税契">赋税契</option>
+                                    <option value="诉状">诉状</option>
+                                    <option value="判决书">判决书</option>
+                                    <option value="祭祀契约">祭祀契约</option>
+                                    <option value="祠堂契">祠堂契</option>
+                                    <option value="劳役契">劳役契</option>
+                                </select>
+                            </div>
+                            <!-- 应用筛选按钮 -->
+                            <div class="d-grid">
+                                <button class="btn btn-primary" type="button" id="applyFilter">
+                                    应用筛选
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 搜索框 -->
+                <div class="col">
+                    <!-- 添加 CSRF token -->
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" name="query"
+                                placeholder="搜索册号、标题、契约人或参与人...">
+                                <button class="btn btn-primary" type="button" id="searchButton">
+                            <i class="fas fa-search"></i> 搜索
+                        </button>
+                        <button class="btn btn-outline-primary" type="button" id="showAdvancedSearch">
+                            <i class="fas fa-search-plus"></i> 精细检索
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 精细检索面板 -->
+        <div id="advancedSearchPanel" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">精细检索</h5>
+                        <button class="btn btn-outline-secondary btn-sm" id="backToBasicSearch">
+                            <i class="fas fa-arrow-left"></i> 返回普通搜索
+                        </button>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">契约人/参与人</label>
+                            <input type="text" class="form-control" id="personSearch" 
+                                   placeholder="输入契约人或参与人姓">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">文书标题</label>
+                            <input type="text" class="form-control" id="titleSearch" 
+                                   placeholder="输入文书标题">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">文书内容</label>
+                            <textarea class="form-control" id="contentSearch" 
+                                     placeholder="输入文书具体内容" rows="2"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button class="btn btn-primary w-100" id="advancedSearchSubmit">
+                                <i class="fas fa-search"></i> 搜索
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文书列表区域 -->
+    <div class="document-list mt-4">
+        <div class="row" id="document-container">
+            <!-- 文书列表项会通过 JavaScript 动态添加 -->
+        </div>
+        
+        <!-- 分页控件 -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- 分页按钮会通过 JavaScript 动态生成 -->
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// 年号对应的年份范围
+const eraYearRanges = {
+    '康熙': { start: 1, end: 61 },
+    '雍正': { start: 1, end: 13 },
+    '乾隆': { start: 1, end: 60 },
+    '嘉庆': { start: 1, end: 25 },
+    '道光': { start: 1, end: 30 }
+};
+
+// 监听年号选择变化，动态设置年份范围
+function setupEraYearLimit(eraSelect, yearInput) {
+    eraSelect.addEventListener('change', function() {
+        const era = this.value;
+        const range = eraYearRanges[era];
+        if (range) {
+            yearInput.min = range.start;
+            yearInput.max = range.end;
+            yearInput.value = '';  // 清空当前值
+        }
+    });
+}
+
+// 格式化年号时间
+function formatChineseDate(era, year, month) {
+    if (!era || !year) return '';
+    let date = `${era}${year}年`;
+    if (month) {
+        date += `${month}月`;
+    }
+    return date;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 设置年份范围限制
+    setupEraYearLimit(
+        document.getElementById('startEra'),
+        document.getElementById('startYear')
+    );
+    setupEraYearLimit(
+        document.getElementById('endEra'),
+        document.getElementById('endYear')
+    );
+
+    // 修改筛选应用的处理
+    document.getElementById('applyFilter').addEventListener('click', async function() {
+        // 获取起始时间
+        const startEra = document.getElementById('startEra').value;
+        const startYear = document.getElementById('startYear').value;
+        const startMonth = document.getElementById('startMonth').value;
+        
+        // 获取终止时间
+        const endEra = document.getElementById('endEra').value;
+        const endYear = document.getElementById('endYear').value;
+        const endMonth = document.getElementById('endMonth').value;
+        
+        // 格式化中文日期
+        const startDate = formatChineseDate(startEra, startYear, startMonth);
+        const endDate = formatChineseDate(endEra, endYear, endMonth);
+        
+        const docType = document.getElementById('documentType').value;
+        
+        // 显示应用的筛选条件
+        const filterSummary = [];
+        if (startDate) filterSummary.push(`起始时间: ${startDate}`);
+        if (endDate) filterSummary.push(`终止时间: ${endDate}`);
+        if (docType) filterSummary.push(`类型: ${docType}`);
+        
+        if (filterSummary.length > 0) {
+            alert('已应用筛选条件：\n' + filterSummary.join('\n'));
+        }
+        
+        // 执行搜索
+        performSearch(1, {
+            startDate,
+            endDate,
+            docType
+        });
+        
+        filterContent.classList.remove('show');
+    });
+
+    // 面板切换
+    const basicSearchPanel = document.getElementById('basicSearchPanel');
+    const advancedSearchPanel = document.getElementById('advancedSearchPanel');
+    const showAdvancedSearchBtn = document.getElementById('showAdvancedSearch');
+    const backToBasicSearchBtn = document.getElementById('backToBasicSearch');
+    
+    // 切换到精细搜索
+    showAdvancedSearchBtn.addEventListener('click', function() {
+        basicSearchPanel.style.display = 'none';
+        advancedSearchPanel.style.display = 'block';
+        // 清空精细搜索的输入框
+        document.getElementById('personSearch').value = '';
+        document.getElementById('titleSearch').value = '';
+        document.getElementById('contentSearch').value = '';
+        // 重新加载所有文书
+        performAdvancedSearch({
+            type: 'advanced',
+            person: '',
+            title: '',
+            content: '',
+            page: 1
+        });
+    });
+    
+    // 返回普通搜索
+    backToBasicSearchBtn.addEventListener('click', function() {
+        advancedSearchPanel.style.display = 'none';
+        basicSearchPanel.style.display = 'block';
+        // 清空普通搜索的输入框
+        document.getElementById('searchInput').value = '';
+        // 重置筛选条件
+        document.getElementById('startEra').value = '';
+        document.getElementById('startYear').value = '';
+        document.getElementById('startMonth').value = '';
+        document.getElementById('endEra').value = '';
+        document.getElementById('endYear').value = '';
+        document.getElementById('endMonth').value = '';
+        document.getElementById('documentType').value = '';
+        // 重新加载所有文书
+        performSearch(1);
+    });
+
+    // 精细搜索提交
+    document.getElementById('advancedSearchSubmit').addEventListener('click', function() {
+        const person = document.getElementById('personSearch').value;
+        const title = document.getElementById('titleSearch').value;
+        const content = document.getElementById('contentSearch').value;
+        
+        performAdvancedSearch({
+            type: 'advanced',
+            person: person,
+            title: title,
+            content: content,
+            page: 1
+        });
+    });
+
+    // 初始搜索
+    performSearch(1);
+
+    // 添加筛选按钮的点击事件监听
+    const filterButton = document.getElementById('filterButton');
+    const filterContent = document.getElementById('filterContent');
+    
+    filterButton.addEventListener('click', function() {
+        filterContent.classList.toggle('show');
+    });
+
+    // 点击其他地方关闭筛选面板
+    document.addEventListener('click', function(event) {
+        if (!filterButton.contains(event.target) && !filterContent.contains(event.target)) {
+            filterContent.classList.remove('show');
+        }
+    });
+
+    // 阻止筛选面板内部点击事件冒泡
+    filterContent.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+
+    // 添加普通搜索按钮的点击事件监听
+    document.getElementById('searchButton').addEventListener('click', function() {
+        performSearch(1);
+    });
+
+    // 添加搜索框的回车事件监听
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch(1);
+        }
+    });
+});
+
+// 修改搜索函数
+function performSearch(page = 1, filterParams = {}) {
+    const keyword = document.getElementById('searchInput').value;
+    const startEra = document.getElementById('startEra').value;
+    const startYear = document.getElementById('startYear').value;
+    const startMonth = document.getElementById('startMonth').value;
+    const endEra = document.getElementById('endEra').value;
+    const endYear = document.getElementById('endYear').value;
+    const endMonth = document.getElementById('endMonth').value;
+    const docType = document.getElementById('documentType').value;
+    
+    // 构建起止时间字符串
+    let startDate = '';
+    if (startEra && startYear) {
+        startDate = `${startEra}${startYear}年`;
+        if (startMonth) {
+            startDate += `${startMonth}月`;
+        }
+    }
+    
+    let endDate = '';
+    if (endEra && endYear) {
+        endDate = `${endEra}${endYear}年`;
+        if (endMonth) {
+            endDate += `${endMonth}月`;
+        }
+    }
+
+    const searchParams = {
+        type: 'basic',
+        keyword: keyword,
+        startDate: startDate,
+        endDate: endDate,
+        docType: docType,
+        page: page
+    };
+
+    console.log('Performing search with params:', searchParams);
+    
+    fetch('/searcher/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(searchParams)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.documents) {
+            updateDocumentList(data.documents);
+            updatePagination(data.current_page, data.total_pages);
+        }
+    })
+    .catch(error => {
+        console.error('Search error:', error);
+        alert('搜索出错，请重试');
+    });
+}
+
+// 改精细搜索函数
+function performAdvancedSearch(params) {
+    console.log('Performing advanced search with params:', params);
+    
+    fetch('/searcher/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token() }}'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(params)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.documents) {
+            updateDocumentList(data.documents);
+            updatePagination(data.current_page, data.total_pages);
+        }
+    })
+    .catch(error => {
+        console.error('Advanced search error:', error);
+        alert('搜索出错，请重试');
+    });
+}
+
+
+function updateDocumentList(documents) {
+    const container = document.getElementById('document-container');
+    container.innerHTML = '';
+
+    documents.forEach(doc => {
+        const col = document.createElement('div');
+        col.className = 'col-12';
+        
+        const participantTags = doc.participants
+            .filter(p => p && p.trim())
+            .map(p => `<span class="participant-tag">${p}</span>`)
+            .join('');
+        
+        col.innerHTML = `
+            <a href="/reader/document/${doc.doc_id}?from_page=searcher" class="text-decoration-none">
+                <div class="document-card hover-shadow">
+                    <span class="doc-id">${doc.doc_id}</span>
+                    
+                    <div class="doc-header">
+                        <h3 class="doc-title">${doc.title}</h3>
+                    </div>
+                    
+                    <div class="doc-summary">
+                        ${doc.summary || '暂无文书大意'}
+                    </div>
+                    
+                    <div class="doc-info">
+                        <div class="contractors-section">
+                            <div class="info-group">
+                                <h6>契约人：</h6>
+                                <p>${doc.contractors || '无'}</p>
+                            </div>
+                        </div>
+                        <div class="participants-section">
+                            <div class="info-group">
+                                <h6>参与人：</h6>
+                                <div class="participant-tags">
+                                    ${participantTags || '<span class="text-muted">无</span>'}
+                                </div>
+                            </div>
+                        </div>
+                        <span class="doc-type">${doc.type || '其他'}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+        container.appendChild(col);
+    });
+}
+
+function updatePagination(currentPage, totalPages) {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+    
+    // 上一页按钮
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="performSearch(${currentPage - 1})">上一页</a>
+        </li>
+    `;
+    
+    // 页码按钮
+    for (let i = 1; i <= totalPages; i++) {
+        pagination.innerHTML += `
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+                <a class="page-link" href="#" onclick="performSearch(${i})">${i}</a>
+            </li>
+        `;
+    }
+    
+    // 下一页按钮
+    pagination.innerHTML += `
+        <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+            <a class="page-link" href="#" onclick="performSearch(${currentPage + 1})">下一页</a>
+        </li>
+    `;
+}
+</script>
+{% endblock %}

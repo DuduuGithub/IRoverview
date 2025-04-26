@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+    {% if results %}
+        <ul>
+        {% for document in results %}
+            <li>
+                <strong>{{ document.Doc_title }}</strong><br>
+                Type: {{ document.Doc_type }}<br>
+                Created At: {{ document.Doc_createdAt }}<br>
+                <a href="/documents/{{ document.Doc_id }}">View Document</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    <br>
+    <a href="/">Back to Search Page</a>
+</body>
+</html>

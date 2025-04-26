@@ -1,0 +1,2938 @@
+{% extends "base.html" %}
+
+{% block title %}{{ document.Doc_title }} - 永泰文书{% endblock %}
+
+{% block content %}
+
+<!-- 面包屑导航 -->
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb mb-0">
+        {% if from_page == 'searcher' %}
+            <li class="breadcrumb-item"><a href="{{ url_for('home.index') }}">首页</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('searcher.index') }}">文书检索</a></li>
+        {% elif from_page == 'folder' %}
+            <li class="breadcrumb-item"><a href="{{ url_for('user.dashboard') }}">个人中心</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('user.folder_detail', folder_id=folder_id) }}">我的收藏</a></li>
+        {% elif from_page == 'history' %}
+            <li class="breadcrumb-item"><a href="{{ url_for('user.dashboard') }}">个人中心</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('user.dashboard', active_tab='browsingHistory') }}">浏览记录</a></li>
+        {% else %}
+            <li class="breadcrumb-item"><a href="{{ url_for('home.index') }}">首页</a></li>
+        {% endif %}
+        <li class="breadcrumb-item active">{{ document.Doc_title }}</li>
+    </ol>
+</nav>
+
+<div class="container-fluid px-4">
+    <div class="row">
+        <!-- 左侧文书图片 -->
+        <div class="col-3">
+            <div class="document-image bg-light rounded p-3">
+                <img src="{{ url_for('static', filename=picture_path) }}" 
+                    alt="文书图片" 
+                    class="img-fluid rounded">
+            </div>
+        </div>
+
+
+
+        <!-- 中间内容区 -->
+        <div class="col-6">
+            <div class="document-content">
+                <!-- 功能按钮区 -->
+                <div class="content-header d-flex justify-content-between align-items-center mb-3">
+                    <div class="btn-group">
+                        <button class="btn btn-outline-primary" onclick="switchText('original')">
+                            <i class="bi bi-file-text"></i>
+                            繁体
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="switchText('simplified')">
+                            <i class="bi bi-file-text-fill"></i>
+                            简体
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline-success" onclick="addToFavorites()">
+                            <i class="bi bi-bookmark-plus"></i>
+                            收藏
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="showExportOptions()">
+                            <i class="bi bi-download"></i>
+                            导出
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 文书原文 -->
+                <div class="doc-text bg-white rounded p-4 shadow-sm mb-4">
+                    <!-- 添加册号和文书类型信息 -->
+                    <div class="doc-info mb-3 d-flex justify-content-start align-items-center">
+                        <div class="me-4">
+                            <span class="info-label">册号：</span>
+                            <span class="info-value">{{ document.Doc_id }}</span>
+                        </div>
+                        <div>
+                            <span class="info-label">文书类型：</span>
+                            <span class="info-value">{{ document.Doc_type }}</span>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mb-3">原文</h5>
+                    <div id="documentContent" class="position-relative">
+                        {{ content|safe }}
+                    </div>
+                </div>
+
+                <!-- 文书大意 -->
+                <div class="doc-text bg-white rounded p-4 shadow-sm">
+                    <h5 class="mb-3">大意</h5>
+                    <div id="docSummary">
+                        {{ document.Doc_summary }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧导航 -->
+        <div class="col-3">
+            <div class="right-nav">
+                <!-- 局部导航栏 -->
+                <div class="local-nav">
+                    <div class="nav flex-column nav-pills" role="tablist">
+                        <button class="nav-link active custom-nav-link" data-bs-toggle="pill" data-bs-target="#info" type="button" role="tab">
+                            <i class="bi bi-info-circle me-2"></i>详细信息
+                        </button>
+                        <button class="nav-link custom-nav-link" data-bs-toggle="pill" data-bs-target="#comments" type="button" role="tab">
+                            <i class="bi bi-chat-dots me-2"></i>评论
+                        </button>
+                        <button class="nav-link custom-nav-link" data-bs-toggle="pill" data-bs-target="#notes" type="button" role="tab">
+                            <i class="bi bi-journal-text me-2"></i>笔记
+                        </button>
+                        <button class="nav-link custom-nav-link" data-bs-toggle="pill" data-bs-target="#corrections" type="button" role="tab">
+                            <i class="bi bi-exclamation-circle me-2"></i>纠错
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 内容区域 -->
+                <div class="tab-content">
+                    <!-- 关键信息 -->
+                    <div class="tab-pane fade show active" id="info" role="tabpanel">
+                        <div class="info-card">
+                            <h6 class="section-title">关键词</h6>
+                            <div class="keyword-list">
+                                {% for keyword in keywords %}
+                                <span class="keyword-tag">{{ keyword.KeyWord }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <h6 class="section-title mt-4">当事人信息</h6>
+                            <div class="relation-list">
+                                {% if contractors %}
+                                <div class="relation-item">
+                                    <span class="relation-label">当事人：</span>
+                                    {% for contractor in contractors %}
+                                    <span class="relation-name">{{ contractor.name }}</span>{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                    {% if relation %}
+                                    <span class="relation-role">({{ relation }})</span>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <h6 class="section-title mt-4">参与人信息</h6>
+                            <div class="relation-list">
+                                {% if participants %}
+                                {% for participant in participants %}
+                                <div class="relation-item">
+                                    <span class="relation-name">{{ participant.name }}</span>
+                                    <span class="relation-role">({{ participant.role }})</span>
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 评论区域 -->
+                    <div class="tab-pane fade" id="comments" role="tabpanel">
+                        <div class="input-section">
+                            <textarea class="form-control" id="commentContent" placeholder="写下你的评论..."></textarea>
+                            <button class="btn btn-primary" onclick="addLocalComment()">发表评论</button>
+                        </div>
+                        <div id="localCommentsList" class="items-list">
+                            <!-- 评论内容 -->
+                        </div>
+                    </div>
+
+                    <!-- 笔记区域 -->
+                    <div class="tab-pane fade" id="notes" role="tabpanel">
+                        <div class="input-section">
+                            <textarea class="form-control" id="noteContent" placeholder="写你的笔记..."></textarea>
+                            <button class="btn btn-primary" onclick="addLocalNote()">保存笔记</button>
+                        </div>
+                        <div id="localNotesList" class="items-list">
+                            <!-- 笔记内容 -->
+                        </div>
+                    </div>
+
+                    <!-- 纠错区域 -->
+                    <div class="tab-pane fade" id="corrections" role="tabpanel">
+                        <div class="input-section">
+                            <textarea class="form-control" id="correctionContent" 
+                                placeholder="发现文书中的错误？请在这里提交纠错内容..."></textarea>
+                            <button class="btn btn-primary" onclick="addCorrection()">提交纠错</button>
+                        </div>
+                        <div id="correctionsList" class="items-list">
+                            <!-- 纠错内容 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 工具栏 -->
+<div id="textToolbar" class="text-toolbar">
+    <button class="toolbar-btn" onclick="showColorOptions(event)" title="高亮">
+        <div class="color-cube">
+            <div class="cube-yellow"></div>
+            <div class="cube-green"></div>
+            <div class="cube-blue"></div>
+            <div class="cube-pink"></div>
+        </div>
+    </button>
+    <button class="toolbar-btn" onclick="addAnnotation()" title="批注">
+        <i class="bi bi-chat-right-text"></i>
+    </button>
+</div>
+
+<!-- 颜色选择器 -->
+<div id="colorOptions" class="color-options">
+    <button class="color-option" style="background-color: rgba(255, 255, 0, 0.5);" onclick="addHighlight('yellow')"></button>
+    <button class="color-option" style="background-color: rgba(0, 255, 0, 0.4);" onclick="addHighlight('green')"></button>
+    <button class="color-option" style="background-color: rgba(0, 0, 255, 0.3);" onclick="addHighlight('blue')"></button>
+    <button class="color-option" style="background-color: rgba(255, 192, 203, 0.5);" onclick="addHighlight('pink')"></button>
+</div>
+
+<!-- 批注模态框 -->
+<div class="modal fade" id="annotationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">添加批注</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="annotationContent" class="form-label">批注内容</label>
+                    <textarea class="form-control" id="annotationContent" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveAnnotation">保存批注</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 收藏选择模态框 -->
+<div class="modal fade" id="favoriteChoiceModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">收藏文书</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-grid gap-3">
+                    <button class="btn btn-outline-primary" onclick="showExistingFolders()">
+                        <i class="bi bi-folder"></i> 添加到已有收藏夹
+                    </button>
+                    <button class="btn btn-outline-success" onclick="showNewFolderForm()">
+                        <i class="bi bi-folder-plus"></i> 创建新收藏夹
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 选择已有收藏夹模态框 -->
+<div class="modal fade" id="existingFoldersModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">选择收藏夹</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="list-group" id="foldersList">
+                    <!-- 收藏夹列表将通过JavaScript动态加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新建收藏夹模态框 -->
+<div class="modal fade" id="newFolderModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">创建新收藏夹</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="newFolderName" class="form-label">收藏夹名称</label>
+                    <input type="text" class="form-control" id="newFolderName">
+                </div>
+                <div class="mb-3">
+                    <label for="newFolderRemarks" class="form-label">备注</label>
+                    <textarea class="form-control" id="newFolderRemarks" rows="3" placeholder="可选"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="createNewFolder()">创建</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 导出选项模态框 -->
+<div class="modal fade" id="exportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">导出选项</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">导出格式</label>
+                    <select class="form-select" id="exportFormat">
+                        <option value="word">Word文档 (.docx)</option>
+                        <option value="txt">文本文件 (.txt)</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">导出内容</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="exportHighlights" checked>
+                        <label class="form-check-label" for="exportHighlights">包含高亮内容</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="exportAnnotations" checked>
+                        <label class="form-check-label" for="exportAnnotations">包含批注</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="exportNotes" checked>
+                        <label class="form-check-label" for="exportNotes">包含笔记</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="exportComments" checked>
+                        <label class="form-check-label" for="exportComments">包含评论</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" onclick="startExport()">导出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI助手模态框 -->
+<div class="modal fade" id="llmModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">AI助手</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="promptInput" class="form-label">请输入您的问题</label>
+                    <textarea class="form-control" id="promptInput" rows="3" placeholder="例如：帮我分析这份文书的主要内容..."></textarea>
+                </div>
+                <div id="llmResponse" class="border rounded p-3 bg-light" style="display: none;">
+                    <h6 class="mb-2">AI回复：</h6>
+                    <div id="responseContent" class="text-break"></div>
+                </div>
+                <div id="loadingSpinner" class="text-center" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                    <p class="mt-2">正在思考中...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="callLLM()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast 消息提示 -->
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div id="messageToast" class="toast align-items-center text-white border-0" role="alert" aria-live="polite" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <!-- 消息内容将通过 JavaScript 动态插入 -->
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-4 mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="ai-chat-section bg-white rounded shadow-sm">
+                <div class="chat-header p-3 border-bottom">
+                    <h5 class="mb-0">
+                        <i class="bi bi-robot"></i>
+                        永泰小桥ai助手
+                    </h5>
+                </div>
+                
+                <!-- 聊天记录区域 -->
+                <div id="chatMessages" class="chat-messages p-3" style="height: 400px; overflow-y: auto;">
+                    <!-- 欢迎消息 -->
+                    <div class="chat-message assistant">
+                        <div class="message-content">
+                            <div class="message-avatar">
+                                <i class="bi bi-robot"></i>
+                            </div>
+                            <div class="message-bubble">
+                                你好！我是你的古籍文书分析助手。我可以帮你：
+                                <ul>
+                                    <li>解读文书内容和含义</li>
+                                    <li>分析文书中的关键信息</li>
+                                    <li>回答你关于文书的问题</li>
+                                </ul>
+                                请问有什么我可以帮你的吗？
+                            </div>
+                        </div>
+                        <div class="message-time">系统消息</div>
+                    </div>
+                </div>
+                
+                <!-- 输入区域 -->
+                <div class="chat-input-area p-3 border-top">
+                    <div class="input-group">
+                        <textarea id="chatInput" class="form-control" rows="2" placeholder="输入你的问题..."></textarea>
+                        <button class="btn btn-primary" onclick="sendMessage()">
+                            <i class="bi bi-send"></i> 发送
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css">
+<style>
+    /* 页面布局 */
+    .container-fluid {
+        min-height: calc(100vh - 60px);
+        padding: 20px;
+        background-color: #f8f9fa;
+    }
+
+    .row {
+        min-height: calc(100vh - 100px);
+    }
+
+    /* 左侧文书图片 */
+    .document-image {
+        height: 100%;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .document-image img {
+        max-width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    /* 中间内容区 */
+    .document-content {
+        height: 100%;
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+
+    .content-header {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 100;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* 标题样式 */
+    h5 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2c3e50;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #3498db;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 3px solid #3498db;
+    }
+
+    .doc-text {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* 右侧导航 */
+    .right-nav {
+        height: 100%;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .local-nav {
+        padding: 15px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .nav-pills .nav-link {
+        color: #495057;
+        border-radius: 4px;
+        padding: 10px 15px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .tab-content {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+    }
+
+    .tab-pane {
+        height: 100%;
+    }
+
+    /* 信息卡片样式 */
+    .info-card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .info-card h6 {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    /* 工具栏和高亮样式 */
+    .text-toolbar {
+        position: fixed;
+        display: none;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 1000;
+        gap: 8px;
+    }
+
+    .toolbar-btn {
+        width: 32px;
+        height: 32px;
+        border: 1px solid #ddd;
+        background: white;
+        padding: 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .toolbar-btn:hover {
+        border-color: #3498db;
+        background-color: #f8f9fa;
+    }
+
+    .color-options {
+        position: fixed;
+        display: none;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 1000;
+        gap: 4px;
+    }
+
+    .color-option {
+        width: 24px;
+        height: 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .color-option:hover {
+        transform: scale(1.1);
+    }
+
+    .highlight {
+        cursor: pointer;
+        position: relative;
+        display: inline;
+    }
+
+    .highlight-yellow { background-color: rgba(255, 255, 0, 0.5) !important; }
+    .highlight-green { background-color: rgba(0, 255, 0, 0.4) !important; }
+    .highlight-blue { background-color: rgba(0, 0, 255, 0.3) !important; }
+    .highlight-pink { background-color: rgba(255, 192, 203, 0.5) !important; }
+
+    .annotation {
+        background-color: #e3f2fd;
+        border-bottom: 1px dashed #2196f3;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .annotation:hover::after {
+        content: attr(data-annotation);
+        position: absolute;
+        background: white;
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 300px;
+        z-index: 1000;
+        left: 0;
+        top: 100%;
+        margin-top: 5px;
+    }
+
+    /* 颜色选择器样式 */
+    .color-cube {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        width: 24px;
+        height: 24px;
+        padding: 2px;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .cube-yellow { background-color: rgba(255, 255, 0, 0.5); }
+    .cube-green { background-color: rgba(0, 255, 0, 0.4); }
+    .cube-blue { background-color: rgba(0, 0, 255, 0.3); }
+    .cube-pink { background-color: rgba(255, 192, 203, 0.5); }
+
+    /* 评论笔记区域 */
+    .comment-section,
+    .note-section {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .comment-input,
+    .note-input {
+        margin-bottom: 15px;
+    }
+
+    .comment-item,
+    .note-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid #e9ecef;
+    }
+
+    /* 模态框样式统一 */
+    .modal-content {
+        border-radius: 8px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .modal-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .modal-footer {
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        border-radius: 0 0 8px 8px;
+    }
+
+    /* Toast 消息样式 */
+    .toast {
+        background-color: rgba(52, 152, 219, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .toast.bg-danger {
+        background-color: rgba(231, 76, 60, 0.9) !important;
+    }
+
+    .toast.bg-success {
+        background-color: rgba(46, 204, 113, 0.9) !important;
+    }
+
+    /* 关键词和人物关系样式 */
+    .keyword-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .keyword-tag {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-size: 0.9rem;
+    }
+
+    .relation-item {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .relation-label {
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .relation-name {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .relation-role {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    /* 导航按钮样式 */
+    .custom-nav-link {
+        color: #000 !important;
+        border: 1px solid #dee2e6 !important;
+        margin-bottom: 8px !important;
+        border-radius: 4px !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .custom-nav-link:hover {
+        background-color: #e9ecef !important;
+    }
+
+    .custom-nav-link.active {
+        background-color: #3498db !important;
+        border-color: #3498db !important;
+        color: #fff !important;
+    }
+
+    /* 笔记样式 */
+    .note-item {
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .note-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .note-time {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .note-content {
+        color: #2c3e50;
+        white-space: pre-wrap;
+    }
+
+    .note-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    /* 评论样式 */
+    .comment-item {
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .comment-author {
+        font-weight: 500;
+        color: #3498db;
+    }
+
+    .comment-time {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .comment-content {
+        color: #2c3e50;
+        white-space: pre-wrap;
+    }
+
+    .comment-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .context-menu {
+        position: fixed;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 4px 0;
+        min-width: 150px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 1000;
+    }
+
+    .context-menu-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .context-menu-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .context-menu-divider {
+        height: 1px;
+        background-color: #e9ecef;
+        margin: 4px 0;
+    }
+
+    .color-preview {
+        width: 16px;
+        height: 16px;
+        border-radius: 2px;
+        border: 1px solid #ddd;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .text-danger:hover {
+        background-color: #dc354520;
+    }
+
+    /* 文书信息样式 */
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .info-item {
+        padding: 0.5rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+    }
+
+    .info-label {
+        color: #6c757d;
+        font-weight: 500;
+        margin-right: 0.5rem;
+    }
+
+    .info-value {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    /* 当事人和参与人信息样式 */
+    .relation-list {
+        margin-bottom: 1rem;
+    }
+
+    .relation-item {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .relation-name {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .relation-role {
+        color: #6c757d;
+        font-size: 0.9rem;
+        background-color: #e9ecef;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+    }
+
+    /* 关键词样式 */
+    .keyword-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .keyword-tag {
+        background-color: #e9ecef;
+        color: #2c3e50;
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    /* AI助手模态框样式 */
+    #llmResponse {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    #responseContent {
+        white-space: pre-wrap;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    /* 添加动画效果 */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    #llmResponse {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* AI聊天区域样式 */
+    .ai-chat-section {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .chat-messages {
+        background-color: #f8f9fa;
+    }
+    
+    .chat-message {
+        margin-bottom: 20px;
+    }
+    
+    .chat-message.user {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    
+    .chat-message.assistant {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .message-content {
+        display: flex;
+        max-width: 80%;
+        gap: 12px;
+    }
+    
+    .chat-message.user .message-content {
+        flex-direction: row-reverse;
+    }
+    
+    .message-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    
+    .chat-message.user .message-avatar {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .message-bubble {
+        padding: 12px 16px;
+        border-radius: 12px;
+        background-color: white;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        position: relative;
+    }
+    
+    .chat-message.user .message-bubble {
+        background-color: #3498db;
+        color: white;
+    }
+    
+    .message-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 4px;
+        padding: 0 50px;
+    }
+    
+    .chat-input-area {
+        background-color: white;
+    }
+    
+    .chat-input-area .input-group {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 8px;
+    }
+    
+    #chatInput {
+        border: none;
+        resize: none;
+        background-color: transparent;
+    }
+    
+    #chatInput:focus {
+        box-shadow: none;
+    }
+    
+    .typing-indicator {
+        display: flex;
+        gap: 4px;
+        padding: 8px 12px;
+        background-color: #e9ecef;
+        border-radius: 12px;
+        margin: 8px 0;
+    }
+    
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #6c757d;
+        border-radius: 50%;
+        animation: typing-animation 1.4s infinite;
+    }
+    
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes typing-animation {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+    }
+
+    /* 在已有的样式中添加 */
+    .doc-info {
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+    }
+
+    .info-label {
+        color: #6c757d;
+        font-weight: 500;
+        margin-right: 8px;
+    }
+
+    .info-value {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    /* 在现有样式中添加 */
+    .correction-item {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .correction-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .correction-info {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .correction-author {
+        font-weight: 500;
+        color: #3498db;
+    }
+
+    .correction-time {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .correction-content {
+        color: #2c3e50;
+        white-space: pre-wrap;
+    }
+
+    .correction-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    /* 通用卡片样式 */
+    .content-card, .note-item, .comment-item, .correction-item {
+        background: white;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* 卡片头部样式 */
+    .card-header, .note-header, .comment-header, .correction-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    /* 卡片信息样式 */
+    .card-info, .note-info, .comment-info, .correction-info {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    /* 作者样式 */
+    .card-author, .note-author, .comment-author, .correction-author {
+        font-weight: 500;
+        color: #3498db;
+    }
+
+    /* 时间样式 */
+    .card-time, .note-time, .comment-time, .correction-time {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    /* 内容样式 */
+    .card-content, .note-content, .comment-content, .correction-content {
+        color: #2c3e50;
+        white-space: pre-wrap;
+    }
+
+    /* 操作按钮样式 */
+    .card-actions, .note-actions, .comment-actions, .correction-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    /* 输入区域样式 */
+    .input-section {
+        margin-bottom: 20px;
+    }
+
+    .input-section textarea {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 10px;
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    .input-section button {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+    }
+
+    /* 操作按钮样式 */
+    .action-btn {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+
+    .action-btn i {
+        margin-right: 4px;
+    }
+
+    /* 列表容器样式 */
+    .items-list {
+        margin-top: 15px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .items-list::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .items-list::-webkit-scrollbar-track {
+        background: #f8f9fa;
+    }
+
+    .items-list::-webkit-scrollbar-thumb {
+        background: #dee2e6;
+        border-radius: 3px;
+    }
+
+    .items-list::-webkit-scrollbar-thumb:hover {
+        background: #adb5bd;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+// 全局变量
+let selectedText = '';
+let selectedRange = null;
+let currentHighlight = null;
+let currentAnnotationRange = null;
+let isToolbarVisible = false;
+
+// 在页面加载时设置全局的 CSRF token
+const csrfToken = '{{ csrf_token() }}';
+
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 加载高亮和批注
+    loadHighlightsAndNotes();
+    
+    // 加载评论和笔记
+    loadComments();
+    loadNotes();
+    loadCorrections();  // 确保这行代码被执行
+    
+    // 初始化拖动功能
+    initializeDraggableNotes();
+});
+
+// 初始化拖动功能
+function initializeDraggableNotes() {
+    document.querySelectorAll('.note-item').forEach(noteItem => {
+        noteItem.addEventListener('mousedown', function(e) {
+            if (e.target.closest('.note-actions')) return;
+            
+            const rect = noteItem.getBoundingClientRect();
+            const offsetX = e.clientX - rect.left;
+            const offsetY = e.clientY - rect.top;
+            
+            noteItem.style.position = 'absolute';
+            noteItem.style.zIndex = 1000;
+            noteItem.classList.add('dragging');
+            
+            function moveAt(pageX, pageY) {
+                noteItem.style.left = pageX - offsetX + 'px';
+                noteItem.style.top = pageY - offsetY + 'px';
+            }
+            
+            function onMouseMove(e) {
+                moveAt(e.pageX, e.pageY);
+            }
+            
+            document.addEventListener('mousemove', onMouseMove);
+            
+            noteItem.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                noteItem.onmouseup = null;
+                noteItem.classList.remove('dragging');
+            };
+        });
+        
+        noteItem.ondragstart = function() {
+            return false;
+        };
+    });
+}
+
+// 文本选择事件处理
+document.addEventListener('selectionchange', function() {
+    const selection = window.getSelection();
+    const toolbar = document.getElementById('textToolbar');
+    selectedText = selection.toString().trim();
+    
+    if (!selectedText || !toolbar) {
+        hideToolbar();
+        return;
+    }
+    
+    selectedRange = selection.getRangeAt(0);
+    const rect = selectedRange.getBoundingClientRect();
+    
+    // 设置工具栏位置
+    toolbar.style.display = 'flex';
+    const toolbarRect = toolbar.getBoundingClientRect();
+    
+    // 计算位置，工具栏居中显示在选中文本上方
+    const left = rect.left + (rect.width - toolbarRect.width) / 2;
+    const top = rect.top + window.scrollY - toolbarRect.height - 10;
+    
+    // 确保工具栏不会超出视窗边界
+    const adjustedLeft = Math.max(10, Math.min(left, window.innerWidth - toolbarRect.width - 10));
+    const adjustedTop = Math.max(10, top);
+    
+    toolbar.style.left = `${adjustedLeft}px`;
+    toolbar.style.top = `${adjustedTop}px`;
+    isToolbarVisible = true;
+});
+
+// 隐藏工具栏和相关UI
+function hideToolbar() {
+    const toolbar = document.getElementById('textToolbar');
+    const colorOptions = document.getElementById('colorOptions');
+    if (toolbar) {
+        toolbar.style.display = 'none';
+        if (colorOptions) colorOptions.style.display = 'none';
+    }
+    isToolbarVisible = false;
+}
+
+// 点击文档其他区域时隐藏工具栏
+document.addEventListener('mousedown', function(e) {
+    if (!e.target.closest('#textToolbar') && 
+        !e.target.closest('#colorOptions') && 
+        !e.target.closest('.highlight') &&
+        !e.target.closest('.annotation')) {
+        
+        if (isToolbarVisible) {
+            hideToolbar();
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+        }
+    }
+});
+
+// ��示颜色选择器
+function showColorOptions(event) {
+    event.stopPropagation();
+    const toolbar = document.getElementById('textToolbar');
+    const colorOptions = document.getElementById('colorOptions');
+    
+    colorOptions.style.display = 'flex';
+    colorOptions.style.top = toolbar.style.top;
+    colorOptions.style.left = toolbar.style.left;
+    toolbar.style.display = 'none';
+}
+
+// 添加高亮
+function addHighlight(color) {
+    if (!selectedRange || !selectedText) {
+        showMessage('请先选择要���亮的文本', 'error');
+        return;
+    }
+
+    // 获取选中文本的容器元素
+    const container = selectedRange.commonAncestorContainer.parentElement;
+    
+    // 查是否已经存在高亮
+    if (container && container.classList.contains('highlight')) {
+        showMessage('该文本已经被高亮，请先删除现有高亮', 'error');
+        return;
+    }
+
+    // 获取文本偏移量
+    const startOffset = getTextOffset(selectedRange.startContainer, selectedRange.startOffset);
+    if (startOffset === null) {
+        showMessage('无法确定文本位置，请重新选择', 'error');
+        return;
+    }
+
+    const endOffset = startOffset + selectedText.length;
+
+    fetch('/reader/add_highlight', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            start_offset: startOffset,
+            end_offset: endOffset,
+            color: color,
+            text: selectedText
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('服务器响应错误');
+        }
+        return response.json();
+    })
+    .then(result => {
+        if (result.success) {
+            const span = document.createElement('span');
+            span.className = `highlight highlight-${color}`;
+            span.dataset.highlightId = result.data.id;
+            
+            try {
+                selectedRange.surroundContents(span);
+                hideToolbar();
+                showMessage('添加高亮成功');
+                // 清除选区，允许继续选择
+                window.getSelection().removeAllRanges();
+            } catch (error) {
+                console.error('Error applying highlight:', error);
+                showMessage('无法在当前选区应用高亮，请重新选择', 'error');
+            }
+        } else {
+            showMessage(result.error || '添加高亮失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('添加高亮失败：' + error.message, 'error');
+    });
+}
+
+// 改进获取文本偏移量的函数
+function getTextOffset(node, offset = 0) {
+    // 获取所有可能的文本容器
+    const containers = [
+        document.getElementById('documentContent'),
+        document.getElementById('docSummary'),
+        ...document.querySelectorAll('.keyword-tag'),
+        ...document.querySelectorAll('.relation-name')
+    ];
+
+    // 遍历所有容器查找节点
+    for (const container of containers) {
+        if (!container) continue;
+
+        let totalOffset = 0;
+        
+        function traverse(currentNode) {
+            if (currentNode === node) {
+                return totalOffset + offset;
+            }
+            
+            if (currentNode.nodeType === Node.TEXT_NODE) {
+                totalOffset += currentNode.length;
+            }
+            
+            for (let child of currentNode.childNodes) {
+                const result = traverse(child);
+                if (result !== null) {
+                    return result;
+                }
+            }
+            
+            return null;
+        }
+        
+        const result = traverse(container);
+        if (result !== null) {
+            return result;
+        }
+    }
+
+    return null;
+}
+
+// 加载高亮和批注
+function loadHighlightsAndNotes() {
+    // 加载高亮
+    fetch(`/reader/get_highlights/{{ document.Doc_id }}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.highlights) {
+            data.highlights.forEach(highlight => {
+                const containers = [
+                    document.getElementById('documentContent'),
+                    document.getElementById('docSummary'),
+                    ...document.querySelectorAll('.keyword-tag'),
+                    ...document.querySelectorAll('.relation-name')
+                ];
+
+                for (const container of containers) {
+                    if (!container) continue;
+
+                    const range = getTextRangeInContainer(
+                        container,
+                        highlight.Highlight_startPosition,
+                        highlight.Highlight_endPosition
+                    );
+
+                    if (range) {
+                        const span = document.createElement('span');
+                        span.className = `highlight highlight-${highlight.Highlight_color}`;
+                        span.dataset.highlightId = highlight.Highlight_id;
+                        
+                        // 添加右键菜单事件
+                        span.addEventListener('contextmenu', function(e) {
+                            e.preventDefault();
+                            showHighlightMenu(e, highlight.Highlight_id, highlight.Highlight_color);
+                        });
+                        
+                        try {
+                            range.surroundContents(span);
+                            break;
+                        } catch (error) {
+                            console.error('Error applying highlight:', error);
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+    // 加载批注
+    fetch(`/reader/get_notes/{{ document.Doc_id }}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.notes) {
+            data.notes.forEach(note => {
+                const containers = [
+                    document.getElementById('documentContent'),
+                    document.getElementById('docSummary'),
+                    ...document.querySelectorAll('.keyword-tag'),
+                    ...document.querySelectorAll('.relation-name')
+                ];
+
+                for (const container of containers) {
+                    if (!container) continue;
+
+                    const range = getTextRangeInContainer(
+                        container,
+                        note.Note_startPosition,
+                        note.Note_endPosition
+                    );
+
+                    if (range) {
+                        const span = document.createElement('span');
+                        span.className = 'annotation';
+                        span.setAttribute('data-annotation', note.Note_annotationText);
+                        span.dataset.noteId = note.Note_id;
+                        
+                        // 添加右键菜单事件
+                        span.addEventListener('contextmenu', function(e) {
+                            e.preventDefault();
+                            showAnnotationMenu(e, note.Note_id, note.Note_annotationText);
+                        });
+                        
+                        try {
+                            range.surroundContents(span);
+                            break;
+                        } catch (error) {
+                            console.error('Error applying annotation:', error);
+                        }
+                    }
+                }
+            });
+        }
+    });
+}
+
+// 在指定容器中获取文本范围
+function getTextRangeInContainer(container, start, end) {
+    try {
+        const textNodes = [];
+        const walker = document.createTreeWalker(
+            container,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+
+        while (walker.nextNode()) {
+            textNodes.push(walker.currentNode);
+        }
+
+        let currentOffset = 0;
+        let startNode = null, endNode = null;
+        let startNodeOffset = 0, endNodeOffset = 0;
+
+        for (let node of textNodes) {
+            const length = node.textContent.length;
+
+            if (!startNode && currentOffset + length > start) {
+                startNode = node;
+                startNodeOffset = start - currentOffset;
+            }
+
+            if (!endNode && currentOffset + length >= end) {
+                endNode = node;
+                endNodeOffset = end - currentOffset;
+                break;
+            }
+
+            currentOffset += length;
+        }
+
+        if (startNode && endNode) {
+            const range = document.createRange();
+            range.setStart(startNode, startNodeOffset);
+            range.setEnd(endNode, endNodeOffset);
+            return range;
+        }
+    } catch (error) {
+        console.error('Error creating range:', error);
+    }
+    return null;
+}
+
+// 切换文本
+function switchText(type) {
+    fetch(`/reader/get_text/{{ document.Doc_id }}/${type}`)
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const content = document.getElementById('documentContent');
+            content.textContent = result.text;
+            // 重加载高亮和批注
+            loadHighlightsAndNotes();
+        } else {
+            showMessage(result.error || '切换文本失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('切换文本失败：' + error.message, 'error');
+    });
+}
+
+// 添加到收藏夹
+function addToFavorites() {
+    const modal = new bootstrap.Modal(document.getElementById('folderModal'));
+    modal.show();
+}
+
+// 显示息提示
+function showMessage(message, type = 'success') {
+    const toast = new bootstrap.Toast(document.getElementById('messageToast'));
+    const toastBody = document.querySelector('.toast-body');
+    toastBody.textContent = message;
+    
+    const toastElement = document.getElementById('messageToast');
+    toastElement.className = `toast align-items-center text-white bg-${type} border-0`;
+    
+    toast.show();
+}
+
+// 加载评论
+function loadComments() {
+    fetch(`/reader/get_comments/{{ document.Doc_id }}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const commentsList = document.getElementById('localCommentsList');
+            commentsList.innerHTML = '';
+            
+            if (data.comments && data.comments.length > 0) {
+                data.comments.forEach(comment => {
+                    const commentItem = document.createElement('div');
+                    commentItem.className = 'comment-item';
+                    commentItem.innerHTML = `
+                        <div class="comment-header">
+                            <div class="comment-info">
+                                <span class="comment-author">${comment.user_name}</span>
+                                <span class="comment-time">${formatDate(comment.created_at)}</span>
+                            </div>
+                            ${comment.is_mine ? `
+                            <div class="comment-actions">
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteComment('${comment.id}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            ` : ''}
+                        </div>
+                        <div class="comment-content">${comment.content}</div>
+                    `;
+                    commentsList.appendChild(commentItem);
+                });
+            } else {
+                commentsList.innerHTML = '<div class="text-muted text-center">暂无评论</div>';
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error loading comments:', error);
+        showMessage('加载评论失败', 'error');
+    });
+}
+
+// 格式化日期
+function formatDate(dateString) {
+    if (!dateString) return '未知时间';
+    try {
+        // 尝试解析不同格式的日期字符串
+        let date;
+        if (typeof dateString === 'string') {
+            // 处理 ISO 格的日字符串
+            if (dateString.includes('T')) {
+                date = new Date(dateString);
+            } else {
+                // 处理其他格式的日期字符串
+                const parts = dateString.split(/[-\/ :]/);
+                if (parts.length >= 3) {
+                    date = new Date(parts[0], parts[1] - 1, parts[2],
+                                  parts[3] || 0, parts[4] || 0);
+                } else {
+                    date = new Date(dateString);
+                }
+            }
+        } else {
+            // 处理时间戳
+            date = new Date(dateString);
+        }
+
+        if (isNaN(date.getTime())) {
+            return '未知时间';
+        }
+
+        return date.toLocaleString('zh-CN', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return '未知时间';
+    }
+}
+
+// 加载笔记
+function loadNotes() {
+    fetch(`/reader/get_evernotes/{{ document.Doc_id }}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const notesList = document.getElementById('localNotesList');
+            notesList.innerHTML = '';
+            
+            if (data.notes && data.notes.length > 0) {
+                data.notes.forEach(note => {
+                    const noteItem = document.createElement('div');
+                    noteItem.className = 'note-item';
+                    noteItem.innerHTML = `
+                        <div class="note-header">
+                            <span class="note-time">${formatDate(note.created_at)}</span>
+                            <div class="note-actions">
+                                <button class="btn btn-sm btn-outline-primary" onclick="editNote('${note.id}', this)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteLocalNote('${note.id}')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="note-content" data-note-id="${note.id}">${note.content}</div>
+                    `;
+                    notesList.appendChild(noteItem);
+                });
+            } else {
+                notesList.innerHTML = '<div class="text-muted text-center">暂无笔记</div>';
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error loading notes:', error);
+        showMessage('加载笔记失败', 'error');
+    });
+}
+
+// 添加本地评论
+function addLocalComment() {
+    const content = document.getElementById('commentContent').value.trim();
+    if (!content) {
+        showMessage('评论内容不能为空', 'error');
+        return;
+    }
+
+    fetch('/reader/add_comment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            Doc_id: '{{ document.Doc_id }}',
+            Comment_text: content
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            document.getElementById('commentContent').value = '';
+            loadComments();  // 重新加载所有评论
+            showMessage('评论发表成功');
+        } else {
+            showMessage(result.error || '评论发表失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('评论发表失败：' + error.message, 'error');
+    });
+}
+
+// 添加本地笔记
+function addLocalNote() {
+    const content = document.getElementById('noteContent').value.trim();
+    if (!content) {
+        showMessage('笔记内容不能为空', 'error');
+        return;
+    }
+
+    fetch('/reader/add_evernote', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            content: content
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // 创建新的笔记项
+            const noteItem = document.createElement('div');
+            noteItem.className = 'note-item';
+            noteItem.innerHTML = `
+                <div class="note-header">
+                    <span class="note-time">${formatDate(result.data.created_at)}</span>
+                    <div class="note-actions">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editNote('${result.data.Evernote_id}', this)">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteLocalNote('${result.data.Evernote_id}')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="note-content" data-note-id="${result.data.Evernote_id}">${result.data.Evernote_text}</div>
+            `;
+            
+            // 清空输入框
+            document.getElementById('noteContent').value = '';
+            
+            // 添加到列表顶部
+            const notesList = document.getElementById('localNotesList');
+            if (notesList.firstChild) {
+                notesList.insertBefore(noteItem, notesList.firstChild);
+            } else {
+                notesList.appendChild(noteItem);
+            }
+            
+            showMessage('笔记保存成功');
+        } else {
+            showMessage(result.error || '笔记保存失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('笔记保存失败：' + error.message, 'error');
+    });
+}
+
+// 添加批注
+function addAnnotation() {
+    if (!selectedRange || !selectedText) {
+        showMessage('请先选择要添加批注的文本', 'error');
+        return;
+    }
+
+    const startOffset = getTextOffset(selectedRange.startContainer, selectedRange.startOffset);
+    if (startOffset === null) {
+        showMessage('无法确定文本位置，请重新选择', 'error');
+        return;
+    }
+
+    const endOffset = startOffset + selectedText.length;
+
+    // 检查是否已经存在批注
+    const container = selectedRange.commonAncestorContainer.parentElement;
+    if (container && container.classList.contains('annotation')) {
+        showMessage('该文本经有注，请先删除现有批注', 'error');
+        return;
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('annotationModal'));
+    const saveButton = document.getElementById('saveAnnotation');
+
+    const handleSave = () => {
+        const content = document.getElementById('annotationContent').value.trim();
+        if (!content) {
+            showMessage('批注内容不能为空', 'error');
+            return;
+        }
+
+        fetch('/reader/add_note', {  // 使用 notes 表的接口
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({
+                doc_id: '{{ document.Doc_id }}',
+                content: content,
+                start_offset: startOffset,
+                end_offset: endOffset,
+                text: selectedText,
+                user_id: '{{ current_user.id }}',  // 添加用户ID
+                note_type: 'annotation'  // 添加批注类型
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('服务器响应错误');
+            }
+            return response.json();
+        })
+        .then(result => {
+            if (result.success) {
+                const span = document.createElement('span');
+                span.className = 'annotation';
+                span.setAttribute('data-annotation', content);
+                span.dataset.noteId = result.data.id;
+                
+                try {
+                    selectedRange.surroundContents(span);
+                    modal.hide();
+                    hideToolbar();
+                    showMessage('添加批注成功');
+                    window.getSelection().removeAllRanges();
+                } catch (error) {
+                    console.error('Error applying annotation:', error);
+                    showMessage('无法在当前选区应用批注，请重新选择', 'error');
+                }
+            } else {
+                showMessage(result.error || '添加批注失败', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('添加批注失败：' + error.message, 'error');
+        });
+    };
+
+    saveButton.removeEventListener('click', handleSave);
+    saveButton.addEventListener('click', handleSave);
+    
+    document.getElementById('annotationContent').value = '';
+    modal.show();
+}
+
+// 删除本地笔记
+function deleteLocalNote(noteId) {
+    if (!confirm('确定要删除这条笔记吗？')) return;
+
+    fetch(`/reader/delete_evernote/${noteId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('服务器响应错误');
+        }
+        return response.json();
+    })
+    .then(result => {
+        if (result.success) {
+            loadNotes();
+            showMessage('笔记删除成功');
+        } else {
+            showMessage(result.error || '笔记删除失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('笔记删除失败：' + error.message, 'error');
+    });
+}
+
+// 修改收藏功能
+function saveFavorite() {
+    const isNewFolder = document.getElementById('newFolderOption').checked;
+    let folderName;
+    
+    if (isNewFolder) {
+        folderName = document.getElementById('folderName').value.trim();
+        if (!folderName) {
+            showMessage('请输入收藏夹名称', 'error');
+            return;
+        }
+    } else {
+        const select = document.getElementById('existingFolders');
+        if (!select.value) {
+            showMessage('请选择收藏夹', 'error');
+            return;
+        }
+        folderName = select.value;
+    }
+
+    const remarks = document.getElementById('folderRemarks').value.trim();
+
+    fetch('/reader/add_to_folder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            folder_name: folderName,
+            remarks: remarks
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('folderModal'));
+            modal.hide();
+            
+            // 清空表单
+            document.getElementById('folderName').value = '';
+            document.getElementById('folderRemarks').value = '';
+            
+            showMessage('添加到收藏夹成功');
+        } else {
+            showMessage(result.error || '添加到收藏夹失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('添加到收藏夹失败：' + error.message, 'error');
+    });
+}
+
+// 显示导出选项
+function showExportOptions() {
+    const exportModal = new bootstrap.Modal(document.getElementById('exportModal'));
+    exportModal.show();
+}
+
+// 开始导出
+function startExport() {
+    const format = document.getElementById('exportFormat').value;
+    const highlights = document.getElementById('exportHighlights').checked;
+    const annotations = document.getElementById('exportAnnotations').checked;
+    const notes = document.getElementById('exportNotes').checked;
+    const comments = document.getElementById('exportComments').checked;
+
+    // 使用fetch发送JSON数据
+    fetch('/reader/export_document', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            format: format,
+            highlights: highlights,
+            annotations: annotations,
+            notes: notes,
+            comments: comments
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('服务器响应错误');
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        // 创建下载链接
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `{{ document.Doc_title or '导出文档' }}.docx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        // 关闭导出选项模态框
+        const exportModal = bootstrap.Modal.getInstance(document.getElementById('exportModal'));
+        exportModal.hide();
+        
+        showMessage('文档导出成功');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('导出文档失败：' + error.message, 'error');
+    });
+}
+
+// 编辑笔记
+function editNote(noteId, button) {
+    const noteContent = button.closest('.note-item').querySelector('.note-content');
+    const currentContent = noteContent.textContent;
+    
+    // 创建编辑区域
+    const editArea = document.createElement('div');
+    editArea.className = 'edit-area';
+    editArea.innerHTML = `
+        <textarea class="form-control mb-2">${currentContent}</textarea>
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-primary" onclick="saveNoteEdit(${noteId}, this)">
+                <i class="bi bi-check"></i> 保存
+            </button>
+            <button class="btn btn-sm btn-secondary" onclick="cancelNoteEdit(this)">
+                <i class="bi bi-x"></i> 取消
+            </button>
+        </div>
+    `;
+    
+    // 隐藏原内容，显示编辑区域
+    noteContent.style.display = 'none';
+    noteContent.parentNode.insertBefore(editArea, noteContent.nextSibling);
+}
+
+// 保存笔记编辑
+function saveNoteEdit(noteId, button) {
+    const editArea = button.closest('.edit-area');
+    const newContent = editArea.querySelector('textarea').value;
+    const noteContent = editArea.previousElementSibling;
+    
+    fetch('/reader/update_evernote/' + noteId, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            content: newContent
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            noteContent.textContent = newContent;
+            noteContent.style.display = 'block';
+            editArea.remove();
+            showMessage('笔记更新成功');
+        } else {
+            showMessage(result.error || '笔记更新失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('笔记更新失败：' + error.message, 'error');
+    });
+}
+
+// 取消笔记编辑
+function cancelNoteEdit(button) {
+    const editArea = button.closest('.edit-area');
+    const noteContent = editArea.previousElementSibling;
+    noteContent.style.display = 'block';
+    editArea.remove();
+}
+
+// 删除评论
+function deleteComment(commentId) {
+    if (!confirm('确定要删除这条评论吗？')) return;
+    
+    fetch(`/reader/delete_comment/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            loadComments();
+            showMessage('评论删除成功');
+        } else {
+            showMessage(result.error || '评论删除失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('评论删除失败：' + error.message, 'error');
+    });
+}
+
+// 添加高亮菜单和相关功能
+function showHighlightMenu(event, highlightId, currentColor) {
+    const menu = document.createElement('div');
+    menu.className = 'context-menu';
+    menu.innerHTML = `
+        <div class="context-menu-item" onclick="changeHighlightColor(${highlightId}, 'yellow')">
+            <div class="color-preview" style="background-color: rgba(255, 255, 0, 0.5)"></div>
+            黄色
+        </div>
+        <div class="context-menu-item" onclick="changeHighlightColor(${highlightId}, 'green')">
+            <div class="color-preview" style="background-color: rgba(0, 255, 0, 0.4)"></div>
+            绿色
+        </div>
+        <div class="context-menu-item" onclick="changeHighlightColor(${highlightId}, 'blue')">
+            <div class="color-preview" style="background-color: rgba(0, 0, 255, 0.3)"></div>
+            蓝色
+        </div>
+        <div class="context-menu-item" onclick="changeHighlightColor(${highlightId}, 'pink')">
+            <div class="color-preview" style="background-color: rgba(255, 192, 203, 0.5)"></div>
+            粉色
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item text-danger" onclick="deleteHighlight(${highlightId})">
+            <i class="bi bi-trash"></i> 删除高亮
+        </div>
+    `;
+    
+    showContextMenu(event, menu);
+}
+
+// 添加批注菜单和相关功能
+function showAnnotationMenu(event, noteId, currentText) {
+    const menu = document.createElement('div');
+    menu.className = 'context-menu';
+    menu.innerHTML = `
+        <div class="context-menu-item" onclick="editAnnotation(${noteId}, '${currentText.replace(/'/g, "\\'")}')">
+            <i class="bi bi-pencil"></i> 编辑��注
+        </div>
+        <div class="context-menu-item text-danger" onclick="deleteAnnotation(${noteId})">
+            <i class="bi bi-trash"></i> 删除批注
+        </div>
+    `;
+    
+    showContextMenu(event, menu);
+}
+
+// 显示上下文菜单
+function showContextMenu(event, menu) {
+    // 移除任何已存在的上下文菜单
+    const existingMenu = document.querySelector('.context-menu');
+    if (existingMenu) {
+        existingMenu.remove();
+    }
+    
+    // 设置菜单位置
+    menu.style.left = `${event.pageX}px`;
+    menu.style.top = `${event.pageY}px`;
+    
+    // 添加菜单到文档
+    document.body.appendChild(menu);
+    
+    // 点击其他区域时关闭菜单
+    document.addEventListener('click', function closeMenu(e) {
+        if (!menu.contains(e.target)) {
+            menu.remove();
+            document.removeEventListener('click', closeMenu);
+        }
+    });
+}
+
+// 修改高亮颜色
+function changeHighlightColor(highlightId, color) {
+    fetch(`/reader/update_highlight_color/${highlightId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ color: color })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const highlight = document.querySelector(`[data-highlight-id="${highlightId}"]`);
+            if (highlight) {
+                // 移除所有颜色类
+                highlight.classList.remove('highlight-yellow', 'highlight-green', 'highlight-blue', 'highlight-pink');
+                // 添加新颜色类
+                highlight.classList.add(`highlight-${color}`);
+            }
+            showMessage('高亮颜色修改成功');
+        } else {
+            showMessage(result.error || '修改高亮颜色失', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('修改高亮颜色失败：' + error.message, 'error');
+    });
+}
+
+// 删除高亮
+function deleteHighlight(highlightId) {
+    if (!confirm('确定要删除这个高亮吗？')) return;
+    
+    fetch(`/reader/delete_highlight/${highlightId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const highlight = document.querySelector(`[data-highlight-id="${highlightId}"]`);
+            if (highlight) {
+                // 保留文本内容，移除高亮样式
+                highlight.outerHTML = highlight.innerHTML;
+            }
+            showMessage('高亮删除成功');
+        } else {
+            showMessage(result.error || '删除高亮失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('删除高亮失败：' + error.message, 'error');
+    });
+}
+
+// 编辑批注
+function editAnnotation(noteId, currentText) {
+    const modal = new bootstrap.Modal(document.getElementById('annotationModal'));
+    const saveButton = document.getElementById('saveAnnotation');
+    
+    // 设置当前批注内容
+    document.getElementById('annotationContent').value = currentText;
+    
+    const handleSave = () => {
+        const newContent = document.getElementById('annotationContent').value.trim();
+        if (!newContent) {
+            showMessage('批注内容不能为空', 'error');
+            return;
+        }
+        
+        fetch(`/reader/update_note/${noteId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ content: newContent })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                const annotation = document.querySelector(`[data-note-id="${noteId}"]`);
+                if (annotation) {
+                    annotation.setAttribute('data-annotation', newContent);
+                }
+                modal.hide();
+                showMessage('批注更新成功');
+            } else {
+                showMessage(result.error || '更新批注失败', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showMessage('更新批注失败：' + error.message, 'error');
+        });
+    };
+    
+    saveButton.removeEventListener('click', handleSave);
+    saveButton.addEventListener('click', handleSave);
+    
+    modal.show();
+}
+
+// 删除批注
+function deleteAnnotation(noteId) {
+    if (!confirm('确定要删除这个批注吗')) return;
+    
+    fetch(`/reader/delete_note/${noteId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const annotation = document.querySelector(`[data-note-id="${noteId}"]`);
+            if (annotation) {
+                // 保留文本内容，移除批注样式
+                annotation.outerHTML = annotation.innerHTML;
+            }
+            showMessage('批注删除成功');
+        } else {
+            showMessage(result.error || '删除批注失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('删除批注失败：' + error.message, 'error');
+    });
+}
+
+// 添加新的聊天相关函数
+function formatTime() {
+    const now = new Date();
+    return now.toLocaleTimeString('zh-CN', { 
+        hour: '2-digit', 
+        minute: '2-digit'
+    });
+}
+
+function addMessage(content, isUser = false) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${isUser ? 'user' : 'assistant'}`;
+    
+    messageDiv.innerHTML = `
+        <div class="message-content">
+            <div class="message-avatar">
+                <i class="bi bi-${isUser ? 'person' : 'robot'}"></i>
+            </div>
+            <div class="message-bubble">${content}</div>
+        </div>
+        <div class="message-time">${formatTime()}</div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addTypingIndicator() {
+    const chatMessages = document.getElementById('chatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'chat-message assistant';
+    typingDiv.id = 'typingIndicator';
+    
+    typingDiv.innerHTML = `
+        <div class="message-content">
+            <div class="message-avatar">
+                <i class="bi bi-robot"></i>
+            </div>
+            <div class="typing-indicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+    `;
+    
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    // 清空输入框
+    input.value = '';
+    
+    // 添加用户消息
+    addMessage(message, true);
+    
+    // 显示输入中动画
+    addTypingIndicator();
+    
+    // 获取文书内容和相关信息
+    const documentContent = document.getElementById('documentContent').innerText;
+    const docSummary = document.getElementById('docSummary').innerText;
+    
+    // 获取关键词
+    const keywords = Array.from(document.querySelectorAll('.keyword-tag'))
+        .map(tag => tag.innerText)
+        .join('、');
+    
+    // 获取当事人信息
+    const contractors = Array.from(document.querySelectorAll('.relation-item'))
+        .filter(item => item.textContent.includes('当事人'))
+        .map(item => item.textContent.trim())
+        .join('\n');
+    
+    // 获取参与人信息
+    const participants = Array.from(document.querySelectorAll('.relation-item'))
+        .filter(item => !item.textContent.includes('当事人'))
+        .map(item => item.textContent.trim())
+        .join('\n');
+    
+    try {
+        const response = await fetch('/reader/call_llm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({
+                prompt: message,
+                doc_content: documentContent,
+                doc_summary: docSummary,
+                doc_title: '{{ document.Doc_title }}',
+                doc_keywords: keywords,
+                doc_contractors: contractors,
+                doc_participants: participants,
+                doc_id: '{{ document.Doc_id }}'
+            })
+        });
+        
+        const result = await response.json();
+        
+        // 移除输入中动画
+        removeTypingIndicator();
+        
+        if (result.success) {
+            // 添加AI回复
+            addMessage(result.response);
+        } else {
+            // 显示错误消息
+            addMessage('抱歉，我遇到了一些问题：' + result.error);
+        }
+        
+    } catch (error) {
+        // 移除输入中动画
+        removeTypingIndicator();
+        // 显示错误消息
+        addMessage('抱歉，发生了错误：' + error.message);
+    }
+}
+
+// 添加回车发送功能
+document.getElementById('chatInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
+// 添加纠错
+function addCorrection() {
+    const content = document.getElementById('correctionContent').value.trim();
+    if (!content) {
+        showMessage('纠错内容不能为空', 'error');
+        return;
+    }
+
+    fetch('/reader/add_correction', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            text: content
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // 创建新的纠错项
+            const correctionItem = document.createElement('div');
+            correctionItem.className = 'correction-item';
+            correctionItem.innerHTML = `
+                <div class="correction-header">
+                    <div class="correction-info">
+                        <span class="correction-author">${result.data.user_name}</span>
+                        <span class="correction-time">${formatDate(result.data.created_at)}</span>
+                    </div>
+                    <div class="correction-actions">
+                        <button class="btn btn-sm btn-outline-danger" 
+                            onclick="deleteCorrection('${result.data.correction_id}')">
+                            <i class="bi bi-trash"></i> 
+                        </button>
+                    </div>
+                </div>
+                <div class="correction-content">${result.data.text}</div>
+            `;
+            
+            // 清空输入框
+            document.getElementById('correctionContent').value = '';
+            
+            // 添加到列表顶部
+            const correctionsList = document.getElementById('correctionsList');
+            if (correctionsList.firstChild) {
+                correctionsList.insertBefore(correctionItem, correctionsList.firstChild);
+            } else {
+                correctionsList.appendChild(correctionItem);
+            }
+            
+            showMessage('纠错提交成功');
+        } else {
+            showMessage(result.error || '纠错提交失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('纠错提交失败：' + error.message, 'error');
+    });
+}
+
+// 删除纠错
+function deleteCorrection(correctionId) {
+    if (!confirm('确定要删除这条纠错吗？')) return;
+
+    fetch(`/reader/delete_correction/${correctionId}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': csrfToken
+        }
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // 直接从DOM中移除元素
+            const correctionItem = document.querySelector(`.correction-item button[onclick*="${correctionId}"]`).closest('.correction-item');
+            if (correctionItem) {
+                correctionItem.remove();
+            }
+            showMessage('纠错记录删除成功');
+        } else {
+            showMessage(result.error || '删除失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('删除失败：' + error.message, 'error');
+    });
+}
+
+// 加载纠错记录
+function loadCorrections() {
+    console.log('Loading corrections...');  // 添加调试日志
+    fetch(`/reader/get_corrections/{{ document.Doc_id }}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log('Corrections data:', data);  // 添加调试日志
+        const correctionsList = document.getElementById('correctionsList');
+        correctionsList.innerHTML = '';
+        
+        if (data.success && data.corrections && data.corrections.length > 0) {
+            data.corrections.forEach(correction => {
+                const correctionItem = document.createElement('div');
+                correctionItem.className = 'correction-item';
+                correctionItem.innerHTML = `
+                    <div class="correction-header">
+                        <div class="correction-info">
+                            <span class="correction-author">${correction.user_name}</span>
+                            <span class="correction-time">${formatDate(correction.created_at)}</span>
+                        </div>
+                        ${correction.user_id === '{{ current_user.User_id }}' ? `
+                        <div class="correction-actions">
+                            <button class="btn btn-sm btn-outline-danger" 
+                                onclick="deleteCorrection('${correction.correction_id}')">
+                                <i class="bi bi-trash"></i> 
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="correction-content">${correction.text}</div>
+                `;
+                correctionsList.appendChild(correctionItem);
+            });
+        } else {
+            correctionsList.innerHTML = '<div class="text-muted text-center">暂无纠错记录</div>';
+        }
+    })
+    .catch(error => {
+        console.error('Error loading corrections:', error);
+        showMessage('加载纠错记录失败', 'error');
+    });
+}
+
+// 加载收藏夹列表
+function loadFolders() {
+    fetch('/reader/get_folders')
+    .then(response => response.json())
+    .then(data => {
+        const select = document.getElementById('existingFolders');
+        select.innerHTML = '';
+        
+        if (data.folders && data.folders.length > 0) {
+            data.folders.forEach(folder => {
+                const option = document.createElement('option');
+                option.value = folder.name;
+                option.textContent = folder.name;
+                select.appendChild(option);
+            });
+        } else {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = '暂无收藏夹';
+            option.disabled = true;
+            select.appendChild(option);
+            
+            // 如果没有收藏夹，自动切换到创建新收藏夹
+            document.getElementById('newFolderOption').checked = true;
+            toggleFolderSections();
+        }
+    })
+    .catch(error => {
+        console.error('Error loading folders:', error);
+        showMessage('加载收藏夹失败', 'error');
+    });
+}
+
+// 切换收藏夹表单区域
+function toggleFolderSections() {
+    const isNewFolder = document.getElementById('newFolderOption').checked;
+    document.getElementById('existingFolderSection').style.display = isNewFolder ? 'none' : 'block';
+    document.getElementById('newFolderSection').style.display = isNewFolder ? 'block' : 'none';
+}
+
+// 在打开模态框时加载收藏夹列表
+function addToFavorites() {
+    loadFolders();  // 加载收藏夹列表
+    const modal = new bootstrap.Modal(document.getElementById('folderModal'));
+    modal.show();
+}
+
+// 添加收藏夹选项切换事件监听
+document.addEventListener('DOMContentLoaded', function() {
+    const radioButtons = document.querySelectorAll('input[name="folderOption"]');
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', toggleFolderSections);
+    });
+});
+
+// 显示收藏选择模态框
+function addToFavorites() {
+    const modal = new bootstrap.Modal(document.getElementById('favoriteChoiceModal'));
+    modal.show();
+}
+
+// 显示已有收藏夹列表
+function showExistingFolders() {
+    // 关闭选择模态框
+    const choiceModal = bootstrap.Modal.getInstance(document.getElementById('favoriteChoiceModal'));
+    choiceModal.hide();
+
+    // 加载并显示收藏夹列表
+    fetch('/reader/get_folders')
+    .then(response => response.json())
+    .then(data => {
+        const foldersList = document.getElementById('foldersList');
+        foldersList.innerHTML = '';
+        
+        if (data.folders && data.folders.length > 0) {
+            data.folders.forEach(folder => {
+                const button = document.createElement('button');
+                button.className = 'list-group-item list-group-item-action d-flex justify-content-between align-items-center';
+                button.innerHTML = `
+                    <span>${folder.name}</span>
+                    <i class="bi bi-chevron-right"></i>
+                `;
+                button.onclick = () => addToExistingFolder(folder.name);
+                foldersList.appendChild(button);
+            });
+        } else {
+            foldersList.innerHTML = '<div class="text-center text-muted p-3">暂无收藏夹</div>';
+        }
+
+        // 显示收藏夹列表模态框
+        const modal = new bootstrap.Modal(document.getElementById('existingFoldersModal'));
+        modal.show();
+    })
+    .catch(error => {
+        console.error('Error loading folders:', error);
+        showMessage('加载收藏夹失败', 'error');
+    });
+}
+
+// 显示新建收藏夹表单
+function showNewFolderForm() {
+    // 关闭选择模态框
+    const choiceModal = bootstrap.Modal.getInstance(document.getElementById('favoriteChoiceModal'));
+    choiceModal.hide();
+
+    // 显示新建收藏夹模态框
+    const modal = new bootstrap.Modal(document.getElementById('newFolderModal'));
+    modal.show();
+}
+
+// 添加到现有收藏夹
+function addToExistingFolder(folderName) {
+    fetch('/reader/add_to_folder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            folder_name: folderName
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('existingFoldersModal'));
+            modal.hide();
+            showMessage('添加到收藏夹成功');
+        } else {
+            showMessage(result.error || '添加到收藏夹失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('添加到收藏夹失败：' + error.message, 'error');
+    });
+}
+
+// 创建新收藏夹
+function createNewFolder() {
+    const folderName = document.getElementById('newFolderName').value.trim();
+    const remarks = document.getElementById('newFolderRemarks').value.trim();
+
+    if (!folderName) {
+        showMessage('请输入收藏夹名称', 'error');
+        return;
+    }
+
+    fetch('/reader/add_to_folder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            doc_id: '{{ document.Doc_id }}',
+            folder_name: folderName,
+            remarks: remarks
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('newFolderModal'));
+            modal.hide();
+            
+            // 清空表单
+            document.getElementById('newFolderName').value = '';
+            document.getElementById('newFolderRemarks').value = '';
+            
+            showMessage('创建收藏夹并添加文书成功');
+        } else {
+            showMessage(result.error || '创建收藏夹失败', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showMessage('创建收藏夹失败：' + error.message, 'error');
+    });
+}
+</script>
+{% endblock %}

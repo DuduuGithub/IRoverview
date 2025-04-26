@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}永泰文书{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --theme-color: #2c3e50;  /* 更改主题色为深青灰色 */
+        }
+        
+        .navbar {
+            background-color: var(--theme-color) !important;
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand img {
+            height: 60px;  /* 增大 Logo 尺寸 */
+            width: auto;
+        }
+        
+        .user-avatar {
+            width: 40px;  /* 增大头像尺寸 */
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-link {
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            color: rgba(255,255,255,0.9) !important;
+        }
+        
+        .nav-link:hover {
+            color: #fff !important;
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: #fff !important;
+            font-weight: bold;
+        }
+    </style>
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="永泰文书">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint.startswith('analysis') %}active{% endif %}" 
+                           href="{{ url_for('analysis.index') }}">
+                            数据分析
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('searcher.index') }}">文书检阅</a>
+                    </li>
+                </ul>
+                
+                <!-- 用户信息 -->
+                <div class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+                           id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="{{ url_for('static', filename='images/avatar/avatar-' + current_user.avatar_id|default('1') + '.png') }}" 
+                                 class="user-avatar" alt="用户头像">
+                            <span>{{ current_user.User_name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% if current_user.User_role == 'Admin' %}
+                                <li><a class="dropdown-item" href="{{ url_for('user.admin_dashboard') }}">
+                                    <i class="fas fa-tachometer-alt"></i> 管理控制台
+                                </a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('user.manage_documents') }}">
+                                    <i class="fas fa-file-alt"></i> 文书管理
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{{ url_for('user.dashboard') }}">
+                                <i class="fas fa-user"></i> 个人中心
+                            </a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('user.profile') }}">
+                                <i class="fas fa-cog"></i> 个人设置
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('user.logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> 退出登录
+                            </a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <a class="nav-link" href="{{ url_for('user.login') }}">
+                        <i class="fas fa-sign-in-alt me-1"></i>登录
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <main class="container py-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- 在body结束标签之前加载JS -->
+    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>
