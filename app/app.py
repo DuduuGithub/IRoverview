@@ -14,21 +14,13 @@ from sqlalchemy.sql import text
 def init_database():
     with app.app_context():
         try:
-            # 先删除视图和表
-            try:
-                db.session.execute(text('DROP VIEW IF EXISTS DocumentDisplayView'))
-                db.session.commit()
-            except:
-                pass
-            
+            # 删除所有表
             db.drop_all()
             db.session.commit()
             
             # 创建所有表
             db.create_all()
             db.session.commit()
-            print("表创建成功！")
-            
             print("数据库初始化完成！")
             
         except Exception as e:
@@ -66,6 +58,6 @@ def index():
 
 
 if __name__ == '__main__':
-    # 当数据库表结构发生变化时，需执行一下这个
-    # init_database()
-    app.run()
+    # 初始化数据库
+    init_database()
+    app.run(debug=True)

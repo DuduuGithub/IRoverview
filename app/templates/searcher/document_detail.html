@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}{{ document.title }} - 文献详情{% endblock %}
+
+{% block styles %}
+<style>
+    .document-header {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .document-title {
+        font-size: 1.8rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .document-meta {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    .meta-item {
+        margin-right: 2rem;
+        display: inline-block;
+    }
+
+    .document-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #eee;
+    }
+
+    .citation-network {
+        height: 500px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+    }
+
+    .highlight {
+        background-color: #fff3cd;
+        padding: 0 2px;
+        border-radius: 2px;
+    }
+
+    .action-buttons {
+        margin-bottom: 2rem;
+    }
+
+    .action-buttons .btn {
+        margin-right: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="document-header">
+    <h1 class="document-title">{{ document.title }}</h1>
+    <div class="document-meta">
+        {% if document.author %}
+        <span class="meta-item">
+            <i class="fas fa-user"></i> 作者：{{ document.author }}
+        </span>
+        {% endif %}
+        {% if document.publish_date %}
+        <span class="meta-item">
+            <i class="fas fa-calendar"></i> 发表时间：{{ document.publish_date.strftime('%Y-%m-%d') }}
+        </span>
+        {% endif %}
+        {% if document.keywords %}
+        <span class="meta-item">
+            <i class="fas fa-tags"></i> 关键词：{{ document.keywords }}
+        </span>
+        {% endif %}
+    </div>
+    <div class="action-buttons">
+        <button class="btn btn-primary" onclick="downloadFullText()">
+            <i class="fas fa-download"></i> 下载全文
+        </button>
+        <button class="btn btn-secondary" onclick="showCitationInfo()">
+            <i class="fas fa-quote-right"></i> 引用信息
+        </button>
+    </div>
+</div>
+
+<div class="document-content">
+    <h2 class="section-title">摘要</h2>
+    <div class="abstract">
+        {{ document.content }}
+    </div>
+</div>
+
+<div class="document-content">
+    <h2 class="section-title">引用网络</h2>
+    <div id="citationNetwork" class="citation-network">
+        <!-- 引用网络可视化将在这里渲染 -->
+    </div>
+</div>
+
+<!-- 引用信息模态框 -->
+<div class="modal" id="citationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">引用信息</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 这里将显示各种引用格式 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 存储会话信息的隐藏字段 -->
+<input type="hidden" id="sessionId" value="{{ session_id }}">
+<input type="hidden" id="documentId" value="{{ document.id }}">
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let startTime = Date.now();
+    let isPageVisible = true;
+
+    // 页面可见性变化处理
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            isPageVisible = false;
+            recordDwellTime();
+        } else {
+            isPageVisible = true;
+            startTime = Date.now();
+        }
+    });
+
+    // 页面卸载前记录停留时间
+    window.addEventListener('beforeunload', function() {
+        recordDwellTime();
+    });
+
+    // 记录停留时间
+    function recordDwellTime() {
+        const sessionId = document.getElementById('sessionId').value;
+        const documentId = document.getElementById('documentId').value;
+        
+        if (!sessionId || !isPageVisible) return;
+        
+        const dwellTime = Math.floor((Date.now() - startTime) / 1000); // 转换为秒
+        
+        fetch('/searcher/api/record-dwell-time', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                document_id: documentId,
+                dwell_time: dwellTime
+            })
+        }).catch(error => console.error('Error recording dwell time:', error));
+    }
+
+    // 下载全文功能
+    function downloadFullText() {
+        // 实现下载全文的逻辑
+        alert('下载功能将由您实现');
+    }
+
+    // 显示引用信息
+    function showCitationInfo() {
+        // 实现显示引用信息的逻辑
+        const modal = new bootstrap.Modal(document.getElementById('citationModal'));
+        modal.show();
+    }
+
+    // 初始化引用网络可视化
+    function initCitationNetwork() {
+        const documentId = document.getElementById('documentId').value;
+        fetch(`/searcher/api/citation-network/${documentId}`)
+            .then(response => response.json())
+            .then(data => {
+                // 这里将实现网络可视化
+                console.log('Citation network data:', data);
+            })
+            .catch(error => {
+                console.error('Error loading citation network:', error);
+            });
+    }
+
+    // 页面加载完成后初始化引用网络
+    document.addEventListener('DOMContentLoaded', function() {
+        initCitationNetwork();
+    });
+</script>
+{% endblock %} 

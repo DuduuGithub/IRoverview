@@ -2,13 +2,14 @@
 
 # 搜索框是文书内容的全文搜索，并类似知网提供筛选条件(高级检索)
 from flask import Blueprint,request, render_template, jsonify
-from utils import db_context_query
 from sqlalchemy import or_
-from Database.model import *
+from Database.model import Document
 from Database.config import db
-from yearToyearTools.run import convert_to_gregorian
+import openai
 
-searcher_bp=Blueprint('searcher',__name__,template_folder='app/templates/searcher',static_folder='app/static/searcher',url_prefix='/searcher')
+searcher_bp = Blueprint('searcher', __name__, 
+                       template_folder='../templates/searcher',
+                       static_folder='../static/searcher')
 
 @searcher_bp.route('/')
 def index():
@@ -30,133 +31,57 @@ def search():
         
         search_type = data.get('type', 'basic')
         page = data.get('page', 1)
-        per_page = 9
+        per_page = 10
         
         # 构建基础查询
-        query = DocumentDisplayView.query
+        query = Document.query
         
-        if search_type == 'advanced':
-            # 精细搜索
-            person = data.get('person', '').strip()
-            title = data.get('title', '').strip()
-            content = data.get('content', '').strip()
-            
-            # 只有当提供了搜索条件时才进行筛选
-            if person or title or content:
-                if person:
-                    query = query.filter(
-                        or_(
-                            DocumentDisplayView.ContractorInfo.like(f'%{person}%'),
-                            DocumentDisplayView.ParticipantInfo.like(f'%{person}%')
-                        )
-                    )
-                if title:
-                    query = query.filter(DocumentDisplayView.Doc_title.like(f'%{title}%'))
-                if content:
-                    content_results = db_context_query(content)
-                    content_ids = [doc.Doc_id for doc in content_results]
-                    if content_ids:
-                        query = query.filter(DocumentDisplayView.Doc_id.in_(content_ids))
-                    else:
-                        return jsonify({
-                            'documents': [],
-                            'total_pages': 0,
-                            'current_page': page
-                        })
-        else:
+        if search_type == 'basic':
             # 基本搜索
             keyword = data.get('keyword', '').strip()
-            start_date = data.get('startDate')
-            end_date = data.get('endDate')
-            doc_type = data.get('docType')
-            
-            # 只有当提供了搜索条件时才进行筛选
-            if keyword or start_date or end_date or doc_type:
-                if keyword:
-                    query = query.filter(
-                        or_(
-                            DocumentDisplayView.Doc_id.like(f'%{keyword}%'),
-                            DocumentDisplayView.Doc_title.like(f'%{keyword}%'),
-                            DocumentDisplayView.ContractorInfo.like(f'%{keyword}%'),
-                            DocumentDisplayView.ParticipantInfo.like(f'%{keyword}%')
-                        )
+            if keyword:
+                query = query.filter(
+                    or_(
+                        Document.title.like(f'%{keyword}%'),
+                        Document.author.like(f'%{keyword}%'),
+                        Document.content.like(f'%{keyword}%'),
+                        Document.keywords.like(f'%{keyword}%')
                     )
+                )
                 
-                # 处理时间筛选
-                if start_date:
-                    # 转换为公历日期
-                    standard_start = convert_to_gregorian(start_date)
-                    if standard_start and ':' in standard_start:
-                        year, month, day = map(int, standard_start.split(':'))
-                        if month == 0:
-                            standard_start = f"{year}-01-01"
-                        else:
-                            standard_start = f"{year}-{month:02d}-01"
-                        query = query.filter(DocumentDisplayView.Doc_standardTime >= standard_start)
+        elif search_type == 'advanced':
+            # 高级搜索
+            title = data.get('title', '').strip()
+            author = data.get('author', '').strip()
+            keywords = data.get('keywords', '').strip()
+            date_from = data.get('dateFrom')
+            date_to = data.get('dateTo')
+            
+            if title:
+                query = query.filter(Document.title.like(f'%{title}%'))
+            if author:
+                query = query.filter(Document.author.like(f'%{author}%'))
+            if keywords:
+                query = query.filter(Document.keywords.like(f'%{keywords}%'))
+            if date_from:
+                query = query.filter(Document.publish_date >= date_from)
+            if date_to:
+                query = query.filter(Document.publish_date <= date_to)
                 
-                if end_date:
-                    # 转换为公历日期
-                    standard_end = convert_to_gregorian(end_date)
-                    if standard_end and ':' in standard_end:
-                        year, month, day = map(int, standard_end.split(':'))
-                        if month == 0:
-                            standard_end = f"{year}-12-31"
-                        else:
-                            standard_end = f"{year}-{month:02d}-31"
-                        query = query.filter(DocumentDisplayView.Doc_standardTime <= standard_end)
-                
-                if doc_type:
-                    query = query.filter(DocumentDisplayView.Doc_type == doc_type)
+        elif search_type == 'query':
+            # 检索式搜索
+            search_query = data.get('query', '').strip()
+            if search_query:
+                # 这里需要实现检索式解析和查询逻辑
+                pass
         
         # 执行分页查询
         pagination = query.paginate(page=page, per_page=per_page, error_out=False)
         total_pages = pagination.pages
         documents = pagination.items
         
-        # 格式化结果
-        def format_contractors(contractor_info):
-            """格式化契约人信息"""
-            if not contractor_info:
-                return ''
-            # 移除所有《》
-            text = contractor_info.replace('《', '').replace('》', '')
-            # 处理关系
-            if '（' in text:
-                names, relation = text.split('（')
-                relation = relation.rstrip('）')
-                # 只有在关系不为 null 且不为空时才显示
-                if relation and relation.lower() != 'null':
-                    return f"{names}, {relation}"
-                return names
-            return text
-        
-        def format_participants(participant_info):
-            """格式化参与人信息"""
-            if not participant_info:
-                return []
-            result = []
-            # 分割每个参与人信息
-            parts = participant_info.split('《')
-            for part in parts:
-                if not part:
-                    continue
-                # 处理每个参与人
-                part = part.strip('》')
-                if '（' in part:
-                    name, role = part.split('（')
-                    role = role.rstrip('）')
-                    if name and role:  # 确保名字和角色都不为空
-                        result.append(f"{name}（{role}）")
-            return result
-        
-        formatted_results = [{
-            'doc_id': doc.Doc_id,
-            'title': doc.Doc_title,
-            'type': doc.Doc_type,
-            'summary': doc.Doc_summary,
-            'contractors': format_contractors(doc.ContractorInfo),
-            'participants': format_participants(doc.ParticipantInfo)
-        } for doc in documents]
+        # 使用to_dict方法格式化结果
+        formatted_results = [doc.to_dict() for doc in documents]
         
         return jsonify({
             'documents': formatted_results,
@@ -165,7 +90,35 @@ def search():
         })
         
     except Exception as e:
-        print(f"搜索文书时出错: {str(e)}")
+        print(f"搜索出错: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@searcher_bp.route('/ai-assist', methods=['POST'])
+def ai_assist():
+    try:
+        data = request.get_json()
+        if not data or 'query' not in data:
+            return jsonify({'error': 'No query provided'}), 400
+            
+        user_query = data['query']
+        
+        # 调用OpenAI API构建检索式
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "你是一个专业的文献检索助手，帮助用户将自然语言需求转换为规范的检索式。"},
+                {"role": "user", "content": f"请将以下检索需求转换为布尔检索式：{user_query}"}
+            ]
+        )
+        
+        suggested_query = response.choices[0].message.content
+        
+        return jsonify({
+            'suggested_query': suggested_query
+        })
+        
+    except Exception as e:
+        print(f"AI助手出错: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 

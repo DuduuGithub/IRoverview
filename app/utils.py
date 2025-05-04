@@ -1,6 +1,7 @@
 # 连接数据库的基本功能
 import sys
 import os
+from datetime import datetime
 
 from flask import jsonify
 from sqlalchemy import text
@@ -12,9 +13,193 @@ from sqlalchemy import or_
 from flask import session
 from flask_login import current_user
 import json
-from yearToyearTools.run import convert_to_gregorian
 
+def record_search_session(search_data, total_results):
+    """
+    记录搜索会话信息
+    
+    Args:
+        search_data: 搜索请求数据
+        total_results: 搜索结果总数
+    
+    Returns:
+        str: 会话ID
+    """
+    try:
+        # 生成会话ID（使用时间戳和随机数）
+        session_id = f"{int(datetime.utcnow().timestamp())}_{hash(str(search_data))}"
+        
+        # 创建搜索会话记录
+        search_session = SearchSession(
+            session_id=session_id,
+            search_time=datetime.utcnow(),
+            keyword=search_data.get('keyword'),
+            title_query=search_data.get('title'),
+            author_query=search_data.get('author'),
+            date_from=search_data.get('date_from'),
+            date_to=search_data.get('date_to'),
+            search_type=search_data.get('type', 'basic'),
+            total_results=total_results
+        )
+        
+        db.session.add(search_session)
+        db.session.commit()
+        
+        return session_id
+    except Exception as e:
+        print(f"记录搜索会话出错: {str(e)}")
+        db.session.rollback()
+        return None
 
+def record_search_results(session_id, documents):
+    """
+    记录搜索结果列表
+    
+    Args:
+        session_id: 搜索会话ID
+        documents: 文档列表
+    """
+    try:
+        # 批量创建搜索结果记录
+        search_results = []
+        for rank, doc in enumerate(documents, 1):
+            result = SearchResult(
+                session_id=session_id,
+                document_id=doc.id,
+                rank_position=rank
+            )
+            search_results.append(result)
+        
+        db.session.bulk_save_objects(search_results)
+        db.session.commit()
+    except Exception as e:
+        print(f"记录搜索结果出错: {str(e)}")
+        db.session.rollback()
+
+def record_document_click(session_id, document_id):
+    """
+    记录文档点击信息
+    
+    Args:
+        session_id: 搜索会话ID
+        document_id: 被点击的文档ID
+    """
+    try:
+        # 获取当前会话中最大的点击顺序
+        max_order = db.session.query(db.func.max(SearchResult.click_order))\
+            .filter_by(session_id=session_id)\
+            .scalar() or 0
+            
+        # 更新搜索结果记录
+        result = SearchResult.query.filter_by(
+            session_id=session_id,
+            document_id=document_id
+        ).first()
+        
+        if result:
+            result.is_clicked = True
+            result.click_time = datetime.utcnow()
+            result.click_order = max_order + 1
+            db.session.commit()
+    except Exception as e:
+        print(f"记录文档点击出错: {str(e)}")
+        db.session.rollback()
+
+def update_dwell_time(session_id, document_id, dwell_time):
+    """
+    更新文档停留时间
+    
+    Args:
+        session_id: 搜索会话ID
+        document_id: 文档ID
+        dwell_time: 停留时间（秒）
+    """
+    try:
+        result = SearchResult.query.filter_by(
+            session_id=session_id,
+            document_id=document_id
+        ).first()
+        
+        if result:
+            result.dwell_time = dwell_time
+            db.session.commit()
+    except Exception as e:
+        print(f"更新停留时间出错: {str(e)}")
+        db.session.rollback()
+
+def get_citation_network_data(doc_id):
+    """
+    获取指定文档的引用网络数据
+    
+    Args:
+        doc_id: 文档ID
+        
+    Returns:
+        dict: 包含节点和边的网络数据
+    """
+    try:
+        # 获取中心文档
+        center_doc = Document.query.get(doc_id)
+        if not center_doc:
+            return None
+            
+        # 初始化节点和边的列表
+        nodes = []
+        edges = []
+        node_ids = set()  # 用于跟踪已添加的节点
+
+        # 添加中心节点
+        nodes.append({
+            'id': center_doc.id,
+            'label': center_doc.title,
+            'type': 'center',  # 中心节点类型
+            'author': center_doc.author,
+            'date': center_doc.publish_date.strftime('%Y-%m-%d') if center_doc.publish_date else None
+        })
+        node_ids.add(center_doc.id)
+
+        # 添加引用的文献（向外的引用）
+        for cited_doc in center_doc.citations:
+            if cited_doc.id not in node_ids:
+                nodes.append({
+                    'id': cited_doc.id,
+                    'label': cited_doc.title,
+                    'type': 'cited',  # 被引用节点类型
+                    'author': cited_doc.author,
+                    'date': cited_doc.publish_date.strftime('%Y-%m-%d') if cited_doc.publish_date else None
+                })
+                node_ids.add(cited_doc.id)
+            edges.append({
+                'source': center_doc.id,
+                'target': cited_doc.id,
+                'type': 'cites'
+            })
+
+        # 添加引用该文献的文献（向内的引用）
+        for citing_doc in center_doc.cited_by:
+            if citing_doc.id not in node_ids:
+                nodes.append({
+                    'id': citing_doc.id,
+                    'label': citing_doc.title,
+                    'type': 'citing',  # 引用中心文献的节点类型
+                    'author': citing_doc.author,
+                    'date': citing_doc.publish_date.strftime('%Y-%m-%d') if citing_doc.publish_date else None
+                })
+                node_ids.add(citing_doc.id)
+            edges.append({
+                'source': citing_doc.id,
+                'target': center_doc.id,
+                'type': 'cites'
+            })
+
+        return {
+            'nodes': nodes,
+            'edges': edges
+        }
+        
+    except Exception as e:
+        print(f"获取引用网络数据出错: {str(e)}")
+        return None
 
 #全文搜索
 def db_context_query(query, doc_type=None, date_from=None, date_to=None):
@@ -71,9 +256,9 @@ def db_context_query(query, doc_type=None, date_from=None, date_to=None):
         if not doc_ids:
             return []
             
-        # 使用找到的文档ID从 DocumentDisplayView 中获取完整信息
-        display_results = DocumentDisplayView.query.filter(
-            DocumentDisplayView.Doc_id.in_(doc_ids)
+        # 使用找到的文档ID从 Document中获取完整信息
+        display_results = Document.query.filter(
+            Document.Doc_id.in_(doc_ids)
         ).all()
         
         return display_results
@@ -81,98 +266,3 @@ def db_context_query(query, doc_type=None, date_from=None, date_to=None):
     except Exception as e:
         print(f"全文搜索出错: {str(e)}")
         return []
-
-
-
-def get_document_info(text: str):
-    """调用星火大模型API获取文书信息"""
-    try:
-        # 配置星火认知大模型
-        spark = ChatSparkLLM(
-            spark_api_url='wss://spark-api.xf-yun.com/v4.0/chat',
-            spark_app_id='ce9ffe63',
-            spark_api_key='37a6c3241c800fc455c445176efddc0d',
-            spark_api_secret='ODhjMzViODcwODU4Njk0ZTgxZWI1ZGVh',
-            spark_llm_domain='4.0Ultra',
-            streaming=False
-        )
-        
-        # 构建提示词
-        prompt_base = """分析下面这份清代契约文书，提取以下信息：
-        1. 文书标题（根据内容生成一个合适的标题）
-        2. 文书类型（借钱契、租赁契、抵押契、赋税契、诉状、判决书、祭祀契约、祠堂契、劳役契、其他）
-        3. 文书大意（200字以内）
-        4. 签订时间（从文书中提取具体的时间）
-        5. 更改时间（如果有）
-        6. 关键词（3-5个）
-        7. 契约双方（两个人的姓名）
-        8. 契约双方关系（如叔侄、父子等，如果有）
-        9. 参与人及其身份（如见证人、代书等，可能有多人）
-        10.对文书内容进行断句，如果有字体仍为繁体则将其转换为简体，返回断句且再次简体化的文书内容
-
-        请用JSON格式返回结果，格式如下：
-        {
-            "title": "文书标题",
-            "type": "文书类型",
-            "summary": "文书大意",
-            "created_time": "签订时间",
-            "updated_time": "更��时间（如果有则填写，没有则为null）",
-            "keywords": ["关键词1", "关键词2", "关键词3"],
-            "contractors": [
-                {"name": "第一个契约人姓名"},
-                {"name": "第二个契约人姓名"}
-            ],
-            "relation": "契约双方关系（如果有则填写，没有则为null）",
-            "participants": [
-                {"name": "参与人1姓名", "role": "参与人1身份"},
-                {"name": "参与人2姓名", "role": "参与人2身份"}
-            ],
-            "simple_text": "文书内容断句且简体化"
-        }
-
-        请严格按照上述JSON格式返回结果。以下是文书内容：
-        """
-        
-        # 创建消息
-        messages = [ChatMessage(role="user", content=prompt_base+text)]
-        
-        # 调用API
-        handler = ChunkPrintHandler()
-        response = spark.generate([messages], callbacks=[handler])
-        print("问答完成\n")
-        
-        # 获取并清理JSON字符串
-        if isinstance(response.generations[0], list):
-            json_str = response.generations[0][0].text
-        else:
-            json_str = response.generations[0].text
-            
-        json_str = json_str.strip()
-        if json_str.startswith("```json"):
-            json_str = json_str[7:]
-        if json_str.endswith("```"):
-            json_str = json_str[:-3]
-        json_str = json_str.strip()
-        
-        # 解析返回的JSON
-        try:
-            result = json.loads(json_str)
-            # 验证返回的数据是否包含所有必要字段
-            required_fields = ['title', 'type', 'summary', 'created_time', 'keywords', 
-                             'contractors', 'participants', 'simple_text']
-            for field in required_fields:
-                if field not in result:
-                    raise ValueError(f"API返回的数据缺少必要字段: {field}")
-            return result
-        except Exception as e:
-            print(f"解析文书信息失败: {e}")
-            print(f"尝试解析的字符串: {json_str}")
-            raise ValueError(f"解析文书信息失败: {str(e)}")
-            
-    except Exception as e:
-        print(f"调用星火API失败: {e}")
-        raise
-
-
-    
-
