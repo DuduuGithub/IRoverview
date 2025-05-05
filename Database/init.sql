@@ -46,7 +46,7 @@ CREATE TABLE search_sessions (
 
 -- 创建搜索结果表
 CREATE TABLE search_results (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     session_id VARCHAR(50),
     document_id INT,
     rank_position INT,
@@ -54,7 +54,9 @@ CREATE TABLE search_results (
     click_time DATETIME,
     click_order INT,
     dwell_time INT,
+    relevance_score FLOAT,
     FOREIGN KEY (session_id) REFERENCES search_sessions(session_id),
     FOREIGN KEY (document_id) REFERENCES documents(id),
-    INDEX idx_session_document (session_id, document_id)
+    INDEX idx_session_id (session_id),
+    INDEX idx_document_id (document_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci; 

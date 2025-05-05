@@ -2,6 +2,7 @@
 import sys
 import os
 from datetime import datetime
+import math
 
 from flask import jsonify
 from sqlalchemy import text
@@ -13,6 +14,7 @@ from sqlalchemy import or_
 from flask import session
 from flask_login import current_user
 import json
+import openai
 
 def record_search_session(search_data, total_results):
     """
@@ -266,3 +268,148 @@ def db_context_query(query, doc_type=None, date_from=None, date_to=None):
     except Exception as e:
         print(f"全文搜索出错: {str(e)}")
         return []
+
+def generate_search_query(text, api_key=None):
+    """
+    使用AI助手生成检索式
+    
+    Args:
+        text: 文本内容
+        api_key: OpenAI API密钥（可选）
+        
+    Returns:
+        str: 生成的检索式，如果生成失败则返回None
+    """
+    try:
+        # 设置API密钥
+        api_key = api_key or os.getenv('OPENAI_API_KEY')
+        if not api_key:
+            raise ValueError("OpenAI API密钥未提供")
+        openai.api_key = api_key
+
+        # 调用API生成检索式
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "你是一个专业的文献检索专家，擅长将文本内容转换为布尔检索式。"
+                                            "请分析输入的文本，提取关键概念和术语，生成一个合适的布尔检索式。"
+                                            "检索式应该包含AND、OR、NOT等布尔操作符，并使用括号表示优先级。"},
+                {"role": "user", "content": f"请为以下文本生成一个布尔检索式：\n\n{text}"}
+            ],
+            temperature=0.7,
+            max_tokens=200
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        print(f"生成检索式出错: {str(e)}")
+        return None
+
+def get_search_session_data(min_dwell_time=30):
+    """
+    获取搜索会话数据，用于训练数据生成
+    
+    Args:
+        min_dwell_time: 最小停留时间（秒）
+        
+    Returns:
+        list: 会话数据列表
+    """
+    try:
+        session_data = []
+        
+        # 获取所有搜索会话
+        sessions = SearchSession.query.all()
+        
+        for session in sessions:
+            # 获取会话中的搜索结果
+            results = SearchResult.query.filter_by(session_id=session.session_id).all()
+            
+            if not results:
+                continue
+            
+            # 获取点击的文档
+            clicked_docs = [r for r in results if r.is_clicked and (r.dwell_time or 0) >= min_dwell_time]
+            
+            if not clicked_docs:
+                continue
+            
+            # 收集会话数据
+            session_info = {
+                'session_id': session.session_id,
+                'original_query': session.keyword,
+                'clicks': []
+            }
+            
+            # 收集点击数据
+            for click in clicked_docs:
+                doc = Document.query.get(click.document_id)
+                if not doc:
+                    continue
+                    
+                click_info = {
+                    'document_id': doc.id,
+                    'content': doc.content,
+                    'rank_position': click.rank_position,
+                    'dwell_time': click.dwell_time,
+                    'click_order': click.click_order
+                }
+                session_info['clicks'].append(click_info)
+            
+            if session_info['clicks']:
+                session_data.append(session_info)
+        
+        return session_data
+        
+    except Exception as e:
+        print(f"获取会话数据出错: {str(e)}")
+        return []
+
+def calculate_relevance_score(dwell_time, page_number, items_per_page=10):
+    """
+    计算文档相关性得分
+    
+    Args:
+        dwell_time (int): 停留时间（秒）
+        page_number (int): 文档所在页码，如果为None则根据rank_position计算
+        items_per_page (int): 每页显示的文档数量，默认为10
+    
+    Returns:
+        float: 相关性得分，范围[-1, 1]
+    """
+    if dwell_time == 0:  # 未点击的文档
+        return -1.0
+    
+    # 基础得分：根据停留时间计算，归一化到[0,1]区间
+    # 使用对数函数将停留时间映射到[0,1]区间，最大停留时间假设为300秒
+    base_score = math.log(dwell_time + 1) / math.log(301)
+    
+    # 页面衰减因子：考虑用户浏览到该页面的耐心程度
+    # 使用平方根函数使得衰减更平缓
+    page_decay = 1.0 / math.sqrt(page_number)
+    
+    # 最终得分：基础得分 * 页面衰减因子
+    return base_score * page_decay
+
+def update_search_result_score(search_result, items_per_page=10):
+    """
+    更新搜索结果的相关性得分
+    
+    Args:
+        search_result (SearchResult): 搜索结果记录
+        items_per_page (int): 每页显示的文档数量，默认为10
+    """
+    if not search_result:
+        return
+        
+    # 计算页码
+    page_number = math.ceil(search_result.rank_position / items_per_page)
+    
+    # 计算相关性得分
+    score = calculate_relevance_score(
+        dwell_time=search_result.dwell_time or 0,
+        page_number=page_number,
+        items_per_page=items_per_page
+    )
+    
+    # 更新得分
+    search_result.relevance_score = score

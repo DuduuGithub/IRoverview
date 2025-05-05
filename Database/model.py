@@ -11,7 +11,7 @@ from datetime import datetime
 # 日志表 记录对文书数据表的更改日志
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, Text, Date, Enum, TIMESTAMP, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, Text, Date, Enum, TIMESTAMP, ForeignKey, DateTime, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_login import UserMixin
@@ -108,6 +108,7 @@ class SearchResult(db.Model):
     click_time = db.Column(db.DateTime)  # 点击时间
     click_order = db.Column(db.Integer)  # 在当前会话中的点击顺序
     dwell_time = db.Column(db.Integer)  # 停留时间（秒）
+    relevance_score = db.Column(db.Float)  # 相关性得分，范围[-1, 1]
 
     def to_dict(self):
         return {
@@ -118,5 +119,6 @@ class SearchResult(db.Model):
             'is_clicked': self.is_clicked,
             'click_time': self.click_time.strftime('%Y-%m-%d %H:%M:%S') if self.click_time else None,
             'click_order': self.click_order,
-            'dwell_time': self.dwell_time
+            'dwell_time': self.dwell_time,
+            'relevance_score': self.relevance_score
         }
