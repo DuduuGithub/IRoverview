@@ -314,12 +314,8 @@ CREATE TABLE yearly_stats (
     cited_by_count INT DEFAULT 0 COMMENT '该年度作品被引用的总次数',
     oa_works_count INT DEFAULT 0 COMMENT '该年度开放获取的作品数量',
     PRIMARY KEY (entity_id, entity_type, year),
-    CONSTRAINT chk_entity_type CHECK (
-        (entity_type = 'author' AND EXISTS (SELECT 1 FROM authors WHERE id = entity_id)) OR
-        (entity_type = 'concept' AND EXISTS (SELECT 1 FROM concepts WHERE id = entity_id)) OR
-        (entity_type = 'institution' AND EXISTS (SELECT 1 FROM institutions WHERE id = entity_id)) OR
-        (entity_type = 'source' AND EXISTS (SELECT 1 FROM sources WHERE id = entity_id))
-    )
+    INDEX idx_entity (entity_type, entity_id),
+    INDEX idx_year (year)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表22：年度统计表，记录各类实体的年度统计信息';
 
 -- 表23：操作记录表（从属表）
@@ -338,6 +334,49 @@ CREATE TABLE operation_logs (
     INDEX idx_operation_time (operation_time),
     INDEX idx_entity (entity_type, entity_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表23：操作记录表，记录数据导入、更新、删除等操作历史';
+
+-- 表24：搜索会话表（核心表）
+CREATE TABLE search_sessions (
+    id BIGINT AUTO_INCREMENT COMMENT '会话ID',
+    session_id VARCHAR(50) NOT NULL COMMENT '会话唯一标识符',
+    search_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '搜索时间',
+    keyword VARCHAR(255) COMMENT '关键词搜索内容',
+    title_query VARCHAR(255) COMMENT '标题搜索内容',
+    author_query VARCHAR(255) COMMENT '作者搜索内容',
+    concept_query VARCHAR(255) COMMENT '概念搜索内容',
+    institution_query VARCHAR(255) COMMENT '机构搜索内容',
+    date_from DATETIME COMMENT '时间范围起始',
+    date_to DATETIME COMMENT '时间范围结束',
+    search_type ENUM('keyword', 'semantic', 'advanced', 'citation') COMMENT '搜索类型',
+    total_results INT DEFAULT 0 COMMENT '搜索结果总数',
+    search_filters JSON COMMENT '搜索过滤条件（JSON格式）',
+    user_id VARCHAR(50) COMMENT '用户标识（如果有）',
+    client_info JSON COMMENT '客户端信息（JSON格式）',
+    PRIMARY KEY (id),
+    INDEX idx_session_id (session_id),
+    INDEX idx_search_time (search_time),
+    INDEX idx_user_id (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表24：搜索会话表，记录用户搜索行为和条件';
+
+-- 表25：搜索结果表（核心表）
+CREATE TABLE search_results (
+    id BIGINT AUTO_INCREMENT COMMENT '结果ID',
+    session_id VARCHAR(50) COMMENT '关联的会话ID',
+    entity_type ENUM('work', 'author', 'concept', 'institution', 'source', 'topic') COMMENT '结果实体类型',
+    entity_id VARCHAR(255) COMMENT '结果实体ID',
+    rank_position INT COMMENT '搜索结果排名位置',
+    relevance_score FLOAT COMMENT '相关性得分',
+    is_clicked BOOLEAN DEFAULT FALSE COMMENT '是否被点击',
+    click_time DATETIME COMMENT '点击时间',
+    click_order INT COMMENT '点击顺序',
+    dwell_time INT COMMENT '停留时间（秒）',
+    user_feedback JSON COMMENT '用户反馈信息（JSON格式）',
+    PRIMARY KEY (id),
+    INDEX idx_session_id (session_id),
+    INDEX idx_entity (entity_type, entity_id),
+    INDEX idx_click_time (click_time),
+    FOREIGN KEY (session_id) REFERENCES search_sessions(session_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表25：搜索结果表，记录搜索结果及用户交互行为';
 
 -- 创建触发器函数
 -- 为五个主要表（authors、works、concepts、institutions、sources、topics）都创建了触发器，每个表都有三个触发器：
@@ -729,6 +768,107 @@ BEGIN
         CONCAT('删除主题: ', OLD.display_name),
         1
     );
+END//
+
+-- 实体验证触发器
+CREATE TRIGGER yearly_stats_before_insert
+BEFORE INSERT ON yearly_stats
+FOR EACH ROW
+BEGIN
+    DECLARE entity_exists INT;
+    
+    CASE NEW.entity_type
+        WHEN 'author' THEN
+            SELECT COUNT(*) INTO entity_exists FROM authors WHERE id = NEW.entity_id;
+        WHEN 'concept' THEN
+            SELECT COUNT(*) INTO entity_exists FROM concepts WHERE id = NEW.entity_id;
+        WHEN 'institution' THEN
+            SELECT COUNT(*) INTO entity_exists FROM institutions WHERE id = NEW.entity_id;
+        WHEN 'source' THEN
+            SELECT COUNT(*) INTO entity_exists FROM sources WHERE id = NEW.entity_id;
+    END CASE;
+    
+    IF entity_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid entity reference in yearly_stats';
+    END IF;
+END//
+
+CREATE TRIGGER yearly_stats_before_update
+BEFORE UPDATE ON yearly_stats
+FOR EACH ROW
+BEGIN
+    DECLARE entity_exists INT;
+    
+    CASE NEW.entity_type
+        WHEN 'author' THEN
+            SELECT COUNT(*) INTO entity_exists FROM authors WHERE id = NEW.entity_id;
+        WHEN 'concept' THEN
+            SELECT COUNT(*) INTO entity_exists FROM concepts WHERE id = NEW.entity_id;
+        WHEN 'institution' THEN
+            SELECT COUNT(*) INTO entity_exists FROM institutions WHERE id = NEW.entity_id;
+        WHEN 'source' THEN
+            SELECT COUNT(*) INTO entity_exists FROM sources WHERE id = NEW.entity_id;
+    END CASE;
+    
+    IF entity_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid entity reference in yearly_stats';
+    END IF;
+END//
+
+CREATE TRIGGER search_results_before_insert
+BEFORE INSERT ON search_results
+FOR EACH ROW
+BEGIN
+    DECLARE entity_exists INT;
+    
+    CASE NEW.entity_type
+        WHEN 'work' THEN
+            SELECT COUNT(*) INTO entity_exists FROM works WHERE id = NEW.entity_id;
+        WHEN 'author' THEN
+            SELECT COUNT(*) INTO entity_exists FROM authors WHERE id = NEW.entity_id;
+        WHEN 'concept' THEN
+            SELECT COUNT(*) INTO entity_exists FROM concepts WHERE id = NEW.entity_id;
+        WHEN 'institution' THEN
+            SELECT COUNT(*) INTO entity_exists FROM institutions WHERE id = NEW.entity_id;
+        WHEN 'source' THEN
+            SELECT COUNT(*) INTO entity_exists FROM sources WHERE id = NEW.entity_id;
+        WHEN 'topic' THEN
+            SELECT COUNT(*) INTO entity_exists FROM topics WHERE id = NEW.entity_id;
+    END CASE;
+    
+    IF entity_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid entity reference in search_results';
+    END IF;
+END//
+
+CREATE TRIGGER search_results_before_update
+BEFORE UPDATE ON search_results
+FOR EACH ROW
+BEGIN
+    DECLARE entity_exists INT;
+    
+    CASE NEW.entity_type
+        WHEN 'work' THEN
+            SELECT COUNT(*) INTO entity_exists FROM works WHERE id = NEW.entity_id;
+        WHEN 'author' THEN
+            SELECT COUNT(*) INTO entity_exists FROM authors WHERE id = NEW.entity_id;
+        WHEN 'concept' THEN
+            SELECT COUNT(*) INTO entity_exists FROM concepts WHERE id = NEW.entity_id;
+        WHEN 'institution' THEN
+            SELECT COUNT(*) INTO entity_exists FROM institutions WHERE id = NEW.entity_id;
+        WHEN 'source' THEN
+            SELECT COUNT(*) INTO entity_exists FROM sources WHERE id = NEW.entity_id;
+        WHEN 'topic' THEN
+            SELECT COUNT(*) INTO entity_exists FROM topics WHERE id = NEW.entity_id;
+    END CASE;
+    
+    IF entity_exists = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid entity reference in search_results';
+    END IF;
 END//
 
 DELIMITER ;

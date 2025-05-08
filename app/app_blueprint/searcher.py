@@ -1,11 +1,13 @@
 # 检索页面，即是主页面
 
 # 搜索框是文书内容的全文搜索，并类似知网提供筛选条件(高级检索)
-from flask import Blueprint,request, render_template, jsonify
+from flask import Blueprint,request, render_template, jsonify, session
 from sqlalchemy import or_
-from Database.model import Document
 from Database.config import db
 import openai
+from Database.model import Work, Author, WorkAuthorship, SearchSession, SearchResult
+import uuid
+from datetime import datetime
 
 searcher_bp = Blueprint('searcher', __name__, 
                        template_folder='../templates/searcher',
@@ -21,77 +23,130 @@ def index():
 @searcher_bp.route('/search', methods=['POST'])
 def search():
     try:
+        # 获取搜索参数
+        keyword = request.form.get('keyword', '')
+        title_query = request.form.get('title', '')
+        author_query = request.form.get('author', '')
+        date_from = request.form.get('date_from')
+        date_to = request.form.get('date_to')
+        search_type = request.form.get('search_type', 'keyword')
         
-        data = request.get_json()
-        if not data:
-            print("No JSON data received")
-            return jsonify({'error': 'No data received'}), 400
+        # 创建搜索会话
+        session_id = str(uuid.uuid4())
+        search_session = SearchSession(
+            session_id=session_id,
+            keyword=keyword,
+            title_query=title_query,
+            author_query=author_query,
+            date_from=datetime.strptime(date_from, '%Y-%m-%d') if date_from else None,
+            date_to=datetime.strptime(date_to, '%Y-%m-%d') if date_to else None,
+            search_type=search_type,
+            client_info={"user_agent": request.user_agent.string}
+        )
+        
+        db.session.add(search_session)
+        
+        # 执行搜索（这里以作品搜索为例）
+        query = Work.query
+        
+        if keyword:
+            query = query.filter(Work.title.ilike(f'%{keyword}%'))
+        if title_query:
+            query = query.filter(Work.title.ilike(f'%{title_query}%'))
+        if author_query:
+            # 通过作者署名关联查询
+            query = query.join(WorkAuthorship).join(Author).filter(
+                Author.display_name.ilike(f'%{author_query}%')
+            )
+        if date_from:
+            query = query.filter(Work.publication_date >= date_from)
+        if date_to:
+            query = query.filter(Work.publication_date <= date_to)
             
-        print("Received search request:", data)
+        results = query.limit(50).all()  # 限制返回50条结果
         
-        search_type = data.get('type', 'basic')
-        page = data.get('page', 1)
-        per_page = 10
+        # 记录搜索结果
+        for rank, work in enumerate(results, 1):
+            search_result = SearchResult(
+                session_id=session_id,
+                entity_type='work',
+                entity_id=work.id,
+                rank_position=rank,
+                relevance_score=1.0  # 这里可以根据实际相关性算法计算得分
+            )
+            db.session.add(search_result)
         
-        # 构建基础查询
-        query = Document.query
+        # 更新搜索会话的结果数
+        search_session.total_results = len(results)
+        db.session.commit()
         
-        if search_type == 'basic':
-            # 基本搜索
-            keyword = data.get('keyword', '').strip()
-            if keyword:
-                query = query.filter(
-                    or_(
-                        Document.title.like(f'%{keyword}%'),
-                        Document.author.like(f'%{keyword}%'),
-                        Document.content.like(f'%{keyword}%'),
-                        Document.keywords.like(f'%{keyword}%')
-                    )
-                )
-                
-        elif search_type == 'advanced':
-            # 高级搜索
-            title = data.get('title', '').strip()
-            author = data.get('author', '').strip()
-            keywords = data.get('keywords', '').strip()
-            date_from = data.get('dateFrom')
-            date_to = data.get('dateTo')
+        # 准备返回数据
+        results_data = []
+        for work in results:
+            # 获取作者信息
+            authors = []
+            for authorship in work.authorships:
+                if authorship.author:
+                    authors.append({
+                        'name': authorship.author.display_name,
+                        'institution': authorship.institution.display_name if authorship.institution else None
+                    })
             
-            if title:
-                query = query.filter(Document.title.like(f'%{title}%'))
-            if author:
-                query = query.filter(Document.author.like(f'%{author}%'))
-            if keywords:
-                query = query.filter(Document.keywords.like(f'%{keywords}%'))
-            if date_from:
-                query = query.filter(Document.publish_date >= date_from)
-            if date_to:
-                query = query.filter(Document.publish_date <= date_to)
-                
-        elif search_type == 'query':
-            # 检索式搜索
-            search_query = data.get('query', '').strip()
-            if search_query:
-                # 这里需要实现检索式解析和查询逻辑
-                pass
-        
-        # 执行分页查询
-        pagination = query.paginate(page=page, per_page=per_page, error_out=False)
-        total_pages = pagination.pages
-        documents = pagination.items
-        
-        # 使用to_dict方法格式化结果
-        formatted_results = [doc.to_dict() for doc in documents]
+            results_data.append({
+                'id': work.id,
+                'title': work.title,
+                'authors': authors,
+                'publication_date': work.publication_date.strftime('%Y-%m-%d') if work.publication_date else None,
+                'type': work.type,
+                'cited_by_count': work.cited_by_count
+            })
         
         return jsonify({
-            'documents': formatted_results,
-            'total_pages': total_pages,
-            'current_page': page
+            'status': 'success',
+            'session_id': session_id,
+            'total_results': len(results),
+            'results': results_data
         })
         
     except Exception as e:
-        print(f"搜索出错: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        db.session.rollback()
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+@searcher_bp.route('/record_click', methods=['POST'])
+def record_click():
+    try:
+        session_id = request.form.get('session_id')
+        entity_id = request.form.get('entity_id')
+        
+        # 更新搜索结果的点击信息
+        search_result = SearchResult.query.filter_by(
+            session_id=session_id,
+            entity_id=entity_id
+        ).first()
+        
+        if search_result:
+            search_result.is_clicked = True
+            search_result.click_time = datetime.now()
+            search_result.click_order = (
+                db.session.query(db.func.count(SearchResult.id))
+                .filter(
+                    SearchResult.session_id == session_id,
+                    SearchResult.is_clicked == True
+                ).scalar() + 1
+            )
+            db.session.commit()
+            
+        return jsonify({'status': 'success'})
+        
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
 @searcher_bp.route('/ai-assist', methods=['POST'])
 def ai_assist():

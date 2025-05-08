@@ -479,55 +479,74 @@ class DataImporter:
 class SearchSession(db.Model):
     __tablename__ = 'search_sessions'
     
-    id = db.Column(db.Integer, primary_key=True)
-    session_id = db.Column(db.String(50), nullable=False)  # 前端生成的会话ID
-    search_time = db.Column(db.DateTime, default=datetime.utcnow)
-    keyword = db.Column(db.String(255))  # 基本搜索关键词
-    # 高级搜索字段
-    title_query = db.Column(db.String(255))
-    author_query = db.Column(db.String(255))
-    date_from = db.Column(db.DateTime)
-    date_to = db.Column(db.DateTime)
-    search_type = db.Column(db.String(20))  # 'basic', 'advanced', 'query'
-    total_results = db.Column(db.Integer)  # 搜索结果总数
-
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    session_id = Column(String(50), nullable=False, unique=True)
+    search_time = Column(DateTime, default=datetime.utcnow)
+    keyword = Column(String(255))
+    title_query = Column(String(255))
+    author_query = Column(String(255))
+    concept_query = Column(String(255))
+    institution_query = Column(String(255))
+    date_from = Column(DateTime)
+    date_to = Column(DateTime)
+    search_type = Column(Enum('keyword', 'semantic', 'advanced', 'citation'))
+    total_results = Column(Integer, default=0)
+    search_filters = Column(JSON)
+    user_id = Column(String(50))
+    client_info = Column(JSON)
+    
+    # 关系
+    results = relationship('SearchResult', back_populates='session')
+    
     def to_dict(self):
         return {
             'id': self.id,
             'session_id': self.session_id,
-            'search_time': self.search_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'search_time': self.search_time.isoformat() if self.search_time else None,
             'keyword': self.keyword,
             'title_query': self.title_query,
             'author_query': self.author_query,
-            'date_from': self.date_from.strftime('%Y-%m-%d') if self.date_from else None,
-            'date_to': self.date_to.strftime('%Y-%m-%d') if self.date_to else None,
+            'concept_query': self.concept_query,
+            'institution_query': self.institution_query,
+            'date_from': self.date_from.isoformat() if self.date_from else None,
+            'date_to': self.date_to.isoformat() if self.date_to else None,
             'search_type': self.search_type,
-            'total_results': self.total_results
+            'total_results': self.total_results,
+            'search_filters': self.search_filters,
+            'user_id': self.user_id,
+            'client_info': self.client_info
         }
 
 # 搜索结果记录
 class SearchResult(db.Model):
     __tablename__ = 'search_results'
     
-    id = db.Column(db.Integer, primary_key=True)
-    session_id = db.Column(db.String(50), db.ForeignKey('search_sessions.session_id'))
-    document_id = db.Column(db.Integer, db.ForeignKey('documents.id'))
-    rank_position = db.Column(db.Integer)  # 在结果列表中的位置
-    is_clicked = db.Column(db.Boolean, default=False)  # 是否被点击
-    click_time = db.Column(db.DateTime)  # 点击时间
-    click_order = db.Column(db.Integer)  # 在当前会话中的点击顺序
-    dwell_time = db.Column(db.Integer)  # 停留时间（秒）
-    relevance_score = db.Column(db.Float)  # 相关性得分，范围[-1, 1]
-
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    session_id = Column(String(50), ForeignKey('search_sessions.session_id'))
+    entity_type = Column(Enum('work', 'author', 'concept', 'institution', 'source', 'topic'))
+    entity_id = Column(String(255))
+    rank_position = Column(Integer)
+    relevance_score = Column(Float)
+    is_clicked = Column(Boolean, default=False)
+    click_time = Column(DateTime)
+    click_order = Column(Integer)
+    dwell_time = Column(Integer)
+    user_feedback = Column(JSON)
+    
+    # 关系
+    session = relationship('SearchSession', back_populates='results')
+    
     def to_dict(self):
         return {
             'id': self.id,
             'session_id': self.session_id,
-            'document_id': self.document_id,
+            'entity_type': self.entity_type,
+            'entity_id': self.entity_id,
             'rank_position': self.rank_position,
+            'relevance_score': self.relevance_score,
             'is_clicked': self.is_clicked,
-            'click_time': self.click_time.strftime('%Y-%m-%d %H:%M:%S') if self.click_time else None,
+            'click_time': self.click_time.isoformat() if self.click_time else None,
             'click_order': self.click_order,
             'dwell_time': self.dwell_time,
-            'relevance_score': self.relevance_score
+            'user_feedback': self.user_feedback
         }

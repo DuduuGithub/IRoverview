@@ -28,7 +28,7 @@ def init_database():
             db.session.rollback()
             raise
 
-def createApp():
+def createApp(debug=False):
     app = Flask(__name__,
                static_folder='static',
                static_url_path='/static')
@@ -37,19 +37,18 @@ def createApp():
     # 加载配置
     app.config.from_object(Database.config)
     
+    # 只在调试模式下显示SQL语句
+    app.config['SQLALCHEMY_ECHO'] = debug
+    
     # 初始化数据库
     db.init_app(app)
-
-    app.config['SQLALCHEMY_ECHO'] = True
-    
     
     # 注册蓝图
     register_blueprints(app=app)
     
-
     return app
 
-app = createApp()
+app = createApp(debug=False)  # 设置为False来关闭SQL语句输出
 
 # 根路由重定向到首页
 @app.route('/')
@@ -60,4 +59,4 @@ def index():
 if __name__ == '__main__':
     # 初始化数据库
     init_database()
-    app.run(debug=True)
+    app.run(debug=True)  # 这里的debug只控制Flask的调试模式，不影响SQL输出
