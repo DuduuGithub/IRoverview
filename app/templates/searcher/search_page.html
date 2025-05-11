@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}文献检索平台{% endblock %}
+{% block title %}文献检索平台 - 检索{% endblock %}
 
 {% block styles %}
 <style>
@@ -53,7 +53,19 @@
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         margin-top: 1rem;
     }
-
+    
+    /* 排序选项 */
+    .sort-options {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .sort-options label {
+        margin-right: 10px;
+        font-weight: 500;
+    }
+    
     /* AI助手侧边栏 */
     .ai-assistant-sidebar {
         position: fixed;
@@ -130,6 +142,30 @@
         padding: 0 2px;
         border-radius: 2px;
     }
+    
+    /* 提示和错误消息 */
+    .message-container {
+        margin-top: 1rem;
+    }
+    
+    .alert {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
+    
+    .alert-danger {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+    }
+    
+    .alert-info {
+        color: #0c5460;
+        background-color: #d1ecf1;
+        border-color: #bee5eb;
+    }
 </style>
 {% endblock %}
 
@@ -138,7 +174,7 @@
     <div class="row">
         <!-- 主搜索区域 -->
         <div class="col-12">
-    <div class="search-section">
+            <div class="search-section">
                 <!-- 搜索类型切换 -->
                 <ul class="nav nav-tabs search-type-tabs" id="searchTypeTabs" role="tablist">
                     <li class="nav-item">
@@ -148,7 +184,7 @@
                         <a class="nav-link" id="advanced-tab" data-bs-toggle="tab" href="#advancedSearch" role="tab">高级检索</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="query-tab" data-bs-toggle="tab" href="#querySearch" role="tab">检索式检索</a>
+                        <a class="nav-link" id="query-tab" data-bs-toggle="tab" href="#querySearch" role="tab">布尔检索</a>
                     </li>
                 </ul>
 
@@ -158,9 +194,18 @@
                     <div class="tab-pane fade show active" id="basicSearch" role="tabpanel">
                         <div class="search-input-group">
                             <input type="text" class="form-control" id="searchInput" placeholder="请输入关键词...">
-                            <button class="btn btn-primary" onclick="performSearch()">搜索</button>
-                                    </div>
-                                    </div>
+                            <div class="sort-options">
+                                <label>排序方式：</label>
+                                <select id="basicSortMethod" class="form-select">
+                                    <option value="relevance">相关性</option>
+                                    <option value="tf-idf">TF-IDF</option>
+                                    <option value="date">发布日期</option>
+                                    <option value="citation">引用次数</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="performBasicSearch()">搜索</button>
+                        </div>
+                    </div>
 
                     <!-- 高级检索 -->
                     <div class="tab-pane fade" id="advancedSearch" role="tabpanel">
@@ -168,56 +213,80 @@
                             <form id="advancedSearchForm">
                                 <div class="mb-3">
                                     <label class="form-label">标题</label>
-                                    <input type="text" class="form-control" name="title">
-                                    </div>
+                                    <input type="text" class="form-control" name="title" id="advTitle">
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">作者</label>
-                                    <input type="text" class="form-control" name="author">
+                                    <input type="text" class="form-control" name="author" id="advAuthor">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">关键词</label>
-                                    <input type="text" class="form-control" name="keywords">
-                            </div>
-                            <div class="mb-3">
+                                    <input type="text" class="form-control" name="keywords" id="advKeywords">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">机构</label>
+                                    <input type="text" class="form-control" name="institution" id="advInstitution">
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label">发表时间</label>
                                     <div class="row">
                                         <div class="col">
-                                            <input type="date" class="form-control" name="dateFrom">
-                                    </div>
+                                            <input type="date" class="form-control" name="dateFrom" id="advDateFrom">
+                                        </div>
                                         <div class="col-auto">至</div>
                                         <div class="col">
-                                            <input type="date" class="form-control" name="dateTo">
-                                    </div>
+                                            <input type="date" class="form-control" name="dateTo" id="advDateTo">
+                                        </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">搜索</button>
+                                <div class="mb-3">
+                                    <label class="form-label">排序方式</label>
+                                    <select id="advancedSortMethod" class="form-select" name="sortMethod">
+                                        <option value="relevance">相关性</option>
+                                        <option value="tf-idf">TF-IDF</option>
+                                        <option value="date">发布日期</option>
+                                        <option value="citation">引用次数</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="performAdvancedSearch()">搜索</button>
                             </form>
                         </div>
                     </div>
 
-                    <!-- 检索式检索 -->
+                    <!-- 布尔检索 -->
                     <div class="tab-pane fade" id="querySearch" role="tabpanel">
                         <div class="query-search-panel">
                             <div class="mb-3">
-                                <label class="form-label">检索式</label>
-                                <textarea class="form-control" id="queryInput" rows="3" placeholder="请输入检索式..."></textarea>
-                    </div>
-                            <button class="btn btn-primary" onclick="performQuerySearch()">执行检索</button>
+                                <label class="form-label">布尔检索式</label>
+                                <textarea class="form-control" id="queryInput" rows="3" placeholder="示例: (机器学习 AND 数据挖掘) OR 人工智能"></textarea>
+                                <small class="form-text text-muted">支持的操作符: AND, OR, NOT, 以及括号 ()</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">排序方式</label>
+                                <select id="booleanSortMethod" class="form-select">
+                                    <option value="relevance">相关性</option>
+                                    <option value="tf-idf">TF-IDF</option>
+                                    <option value="date">发布日期</option>
+                                    <option value="citation">引用次数</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="performBooleanSearch()">执行检索</button>
                         </div>
                     </div>
                 </div>
+                
+                <!-- 提示和错误消息 -->
+                <div class="message-container" id="messageContainer"></div>
             </div>
 
             <!-- 搜索结果区域 -->
-            <div id="searchResults">
-                <!-- 搜索结果将通过JavaScript动态加载 -->
-            </div>
+            <div id="searchResults"></div>
 
             <!-- 分页区域 -->
             <div id="pagination" class="pagination"></div>
         </div>
     </div>
-        </div>
+</div>
         
 <!-- AI助手侧边栏 -->
 <button class="btn btn-primary rounded-circle ai-assistant-toggle" onclick="toggleAIAssistant()">
@@ -242,15 +311,39 @@
 
 {% block scripts %}
 <script>
+    let currentSessionId = null;
+    let currentPage = 1;
+    let totalPages = 0;
+    
     // 切换AI助手侧边栏
     function toggleAIAssistant() {
         const sidebar = document.getElementById('aiAssistant');
         sidebar.classList.toggle('show');
     }
-
-    // 基本检索
-    function performSearch(page = 1) {
-        const keyword = document.getElementById('searchInput').value;
+    
+    // 显示消息
+    function showMessage(message, type = 'info') {
+        const container = document.getElementById('messageContainer');
+        container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        
+        // 5秒后自动隐藏
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 5000);
+    }
+    
+    // 执行基本检索
+    function performBasicSearch() {
+        const query = document.getElementById('searchInput').value.trim();
+        const sortMethod = document.getElementById('basicSortMethod').value;
+        
+        if (!query) {
+            showMessage('请输入搜索关键词', 'danger');
+            return;
+        }
+        
+        // 显示加载消息
+        showMessage('正在搜索...', 'info');
         
         fetch('/searcher/search', {
             method: 'POST',
@@ -258,102 +351,340 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                type: 'basic',
-                keyword: keyword,
-                page: page
+                keyword: query,
+                sort_method: sortMethod,
+                page: currentPage,
+                search_type: 'basic'
             })
         })
         .then(response => response.json())
         .then(data => {
-            displayResults(data.documents);
-            displayPagination(data.current_page, data.total_pages);
+            if (data.error) {
+                showMessage(`搜索出错: ${data.error}`, 'danger');
+                return;
+            }
+            
+            displaySearchResults(data);
+            currentSessionId = data.session_id;
+            
+            // 清除消息
+            document.getElementById('messageContainer').innerHTML = '';
         })
         .catch(error => {
-            console.error('搜索出错:', error);
-            document.getElementById('searchResults').innerHTML = '<p class="text-danger">搜索出错，请重试</p>';
+            showMessage(`请求失败: ${error.message}`, 'danger');
         });
     }
-
-    function displayResults(documents) {
-        const resultsContainer = document.getElementById('searchResults');
-        if (!documents || documents.length === 0) {
-            resultsContainer.innerHTML = '<p>未找到相关文献</p>';
+    
+    // 执行高级检索
+    function performAdvancedSearch() {
+        const title = document.getElementById('advTitle').value.trim();
+        const author = document.getElementById('advAuthor').value.trim();
+        const keywords = document.getElementById('advKeywords').value.trim();
+        const institution = document.getElementById('advInstitution').value.trim();
+        const dateFrom = document.getElementById('advDateFrom').value;
+        const dateTo = document.getElementById('advDateTo').value;
+        const sortMethod = document.getElementById('advancedSortMethod').value;
+        
+        if (!title && !author && !keywords && !institution && !dateFrom && !dateTo) {
+            showMessage('请至少填写一项搜索条件', 'danger');
             return;
         }
-
-        resultsContainer.innerHTML = documents.map(doc => `
-            <div class="search-result-card" onclick="window.location.href='/searcher/document/${doc.id}'">
-                <h3 class="result-title">${doc.title}</h3>
-                <div class="result-metadata">
-                    ${doc.author ? `作者: ${doc.author}` : ''}
-                    ${doc.publish_date ? ` | 发表时间: ${doc.publish_date}` : ''}
-                </div>
-                <div class="result-summary">${doc.content || '暂无摘要'}</div>
-            </div>
-        `).join('');
+        
+        // 显示加载消息
+        showMessage('正在执行高级搜索...', 'info');
+        
+        fetch('/searcher/advanced_search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: title,
+                author: author,
+                keywords: keywords,
+                institution: institution,
+                date_from: dateFrom,
+                date_to: dateTo,
+                sort_method: sortMethod,
+                page: currentPage,
+                search_type: 'advanced'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                showMessage(`搜索出错: ${data.error}`, 'danger');
+                return;
+            }
+            
+            displaySearchResults(data);
+            currentSessionId = data.session_id;
+            
+            // 清除消息
+            document.getElementById('messageContainer').innerHTML = '';
+        })
+        .catch(error => {
+            showMessage(`请求失败: ${error.message}`, 'danger');
+        });
     }
-
-    function displayPagination(currentPage, totalPages) {
+    
+    // 执行布尔检索
+    function performBooleanSearch() {
+        const query = document.getElementById('queryInput').value.trim();
+        const sortMethod = document.getElementById('booleanSortMethod').value;
+        
+        if (!query) {
+            showMessage('请输入布尔检索式', 'danger');
+            return;
+        }
+        
+        // 显示加载消息
+        showMessage('正在执行布尔检索...', 'info');
+        
+        fetch('/searcher/boolean_search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                query: query,
+                sort_method: sortMethod,
+                page: currentPage,
+                search_type: 'boolean'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                showMessage(`搜索出错: ${data.error}`, 'danger');
+                return;
+            }
+            
+            displaySearchResults(data);
+            currentSessionId = data.session_id;
+            
+            // 清除消息
+            document.getElementById('messageContainer').innerHTML = '';
+        })
+        .catch(error => {
+            showMessage(`请求失败: ${error.message}`, 'danger');
+        });
+    }
+    
+    // 获取AI检索建议
+    function getAIAssistance() {
+        const userQuery = document.getElementById('aiInput').value.trim();
+        
+        if (!userQuery) {
+            showMessage('请描述您的检索需求', 'danger');
+            return;
+        }
+        
+        const suggestionsContainer = document.getElementById('aiSuggestions');
+        suggestionsContainer.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div><div>正在生成建议...</div></div>';
+        
+        fetch('/searcher/ai_assistance', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_query: userQuery
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                suggestionsContainer.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                return;
+            }
+            
+            // 显示建议
+            let suggestionsHTML = `
+                <h6 class="mt-3">检索建议</h6>
+                <div class="card">
+                    <div class="card-body">
+                        <p>${data.suggestion}</p>
+                    </div>
+                </div>
+            `;
+            
+            // 如果有推荐的查询
+            if (data.recommended_queries && data.recommended_queries.length > 0) {
+                suggestionsHTML += `
+                    <h6 class="mt-3">推荐检索式</h6>
+                    <div class="list-group">
+                `;
+                
+                data.recommended_queries.forEach(query => {
+                    suggestionsHTML += `
+                        <button type="button" class="list-group-item list-group-item-action" 
+                            onclick="applyRecommendedQuery('${query.type}', '${query.query.replace(/'/g, "\\'")}')">
+                            ${query.description} <small class="text-muted">${query.type}</small>
+                        </button>
+                    `;
+                });
+                
+                suggestionsHTML += '</div>';
+            }
+            
+            suggestionsContainer.innerHTML = suggestionsHTML;
+        })
+        .catch(error => {
+            suggestionsContainer.innerHTML = `<div class="alert alert-danger">请求失败: ${error.message}</div>`;
+        });
+    }
+    
+    // 应用推荐的检索式
+    function applyRecommendedQuery(type, query) {
+        // 根据查询类型切换到相应的搜索面板
+        switch (type) {
+            case 'basic':
+                document.getElementById('basic-tab').click();
+                document.getElementById('searchInput').value = query;
+                break;
+            case 'advanced':
+                document.getElementById('advanced-tab').click();
+                // 解析高级查询参数并填充表单
+                // 实际实现需要根据返回的query格式进行处理
+                try {
+                    const parsedQuery = JSON.parse(query);
+                    for (const [key, value] of Object.entries(parsedQuery)) {
+                        const element = document.getElementById(`adv${key.charAt(0).toUpperCase() + key.slice(1)}`);
+                        if (element) element.value = value;
+                    }
+                } catch (e) {
+                    console.error('Failed to parse advanced query:', e);
+                }
+                break;
+            case 'boolean':
+                document.getElementById('query-tab').click();
+                document.getElementById('queryInput').value = query;
+                break;
+        }
+        
+        // 关闭AI助手侧边栏
+        toggleAIAssistant();
+    }
+    
+    // 显示搜索结果
+    function displaySearchResults(data) {
+        const resultsContainer = document.getElementById('searchResults');
+        const documents = data.documents;
+        currentPage = data.current_page;
+        totalPages = data.total_pages;
+        
+        if (!documents || documents.length === 0) {
+            resultsContainer.innerHTML = '<div class="alert alert-info">没有找到匹配的结果。</div>';
+            document.getElementById('pagination').innerHTML = '';
+            return;
+        }
+        
+        let resultsHTML = '';
+        
+        documents.forEach(doc => {
+            resultsHTML += `
+                <div class="search-result-card" onclick="viewDocument(${doc.id}, '${currentSessionId}')">
+                    <h3 class="result-title">${doc.title || '无标题'}</h3>
+                    <div class="result-metadata">
+                        ${doc.author ? `<span><i class="fas fa-user"></i> ${doc.author}</span> · ` : ''}
+                        ${doc.publish_date ? `<span><i class="fas fa-calendar"></i> ${doc.publish_date}</span> · ` : ''}
+                        ${doc.cited_by_count !== undefined ? `<span><i class="fas fa-quote-right"></i> 引用次数: ${doc.cited_by_count}</span>` : ''}
+                    </div>
+                    <p class="result-summary">${doc.content || '无可用摘要'}</p>
+                </div>
+            `;
+        });
+        
+        resultsContainer.innerHTML = resultsHTML;
+        
+        // 更新分页
+        updatePagination();
+    }
+    
+    // 更新分页
+    function updatePagination() {
         const paginationContainer = document.getElementById('pagination');
+        
         if (totalPages <= 1) {
             paginationContainer.innerHTML = '';
             return;
         }
-
-        let html = '';
+        
+        let paginationHTML = '';
         
         // 上一页按钮
-        html += `<button class="btn ${currentPage === 1 ? 'btn-secondary' : 'btn-primary'}" 
-                         onclick="performSearch(${currentPage - 1})" 
-                         ${currentPage === 1 ? 'disabled' : ''}>上一页</button>`;
+        paginationHTML += `
+            <button class="btn ${currentPage === 1 ? 'btn-secondary disabled' : 'btn-outline-primary'}" 
+                ${currentPage === 1 ? 'disabled' : 'onclick="goToPage(' + (currentPage - 1) + ')"'}>
+                &laquo;
+            </button>
+        `;
         
         // 页码按钮
-        for (let i = 1; i <= totalPages; i++) {
-            html += `<button class="btn ${i === currentPage ? 'btn-primary' : 'btn-secondary'}" 
-                             onclick="performSearch(${i})">${i}</button>`;
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            paginationHTML += `
+                <button class="btn ${i === currentPage ? 'btn-primary' : 'btn-outline-primary'}" 
+                    onclick="goToPage(${i})">
+                    ${i}
+                </button>
+            `;
         }
         
         // 下一页按钮
-        html += `<button class="btn ${currentPage === totalPages ? 'btn-secondary' : 'btn-primary'}" 
-                         onclick="performSearch(${currentPage + 1})" 
-                         ${currentPage === totalPages ? 'disabled' : ''}>下一页</button>`;
+        paginationHTML += `
+            <button class="btn ${currentPage === totalPages ? 'btn-secondary disabled' : 'btn-outline-primary'}" 
+                ${currentPage === totalPages ? 'disabled' : 'onclick="goToPage(' + (currentPage + 1) + ')"'}>
+                &raquo;
+            </button>
+        `;
         
-        paginationContainer.innerHTML = html;
+        paginationContainer.innerHTML = paginationHTML;
     }
-
-    // 添加回车键搜索功能
-    document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            performSearch();
+    
+    // 跳转到指定页码
+    function goToPage(page) {
+        currentPage = page;
+        
+        // 根据当前激活的搜索类型执行相应的搜索
+        const activeTab = document.querySelector('#searchTypeTabs .nav-link.active');
+        
+        if (activeTab.id === 'basic-tab') {
+            performBasicSearch();
+        } else if (activeTab.id === 'advanced-tab') {
+            performAdvancedSearch();
+        } else if (activeTab.id === 'query-tab') {
+            performBooleanSearch();
         }
+    }
+    
+    // 查看文档详情
+    function viewDocument(docId, sessionId) {
+        window.location.href = `/searcher/document/${docId}?session_id=${sessionId}`;
+    }
+    
+    // 初始化
+    document.addEventListener('DOMContentLoaded', function() {
+        // 添加Bootstrap的tab事件监听器
+        const tabEls = document.querySelectorAll('a[data-bs-toggle="tab"]');
+        tabEls.forEach(tabEl => {
+            tabEl.addEventListener('shown.bs.tab', function (event) {
+                // 重置页码
+                currentPage = 1;
+                // 清空结果
+                document.getElementById('searchResults').innerHTML = '';
+                document.getElementById('pagination').innerHTML = '';
+            });
+        });
     });
-
-    // 高级检索
-    document.getElementById('advancedSearchForm').onsubmit = function(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        // 实现高级检索逻辑
-    }
-
-    // 检索式检索
-    function performQuerySearch() {
-        const query = document.getElementById('queryInput').value;
-        // 实现检索式检索逻辑
-    }
-
-    // 获取AI助手建议
-    function getAIAssistance() {
-        const userInput = document.getElementById('aiInput').value;
-        // 实现AI助手建议逻辑
-    }
-
-    // 应用AI建议的检索式
-    function applyAISuggestion(suggestion) {
-        document.getElementById('queryInput').value = suggestion;
-        // 切换到检索式检索标签
-        document.getElementById('query-tab').click();
-        // 关闭AI助手侧边栏
-        toggleAIAssistant();
-}
 </script>
 {% endblock %}
+

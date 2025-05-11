@@ -14,6 +14,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 
+
 # 作者表
 class Author(db.Model):
     __tablename__ = 'authors'

@@ -1,6 +1,5 @@
 import sys
 import os
-# 将项目根目录添加到 sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from werkzeug.security import generate_password_hash
 from flask import Flask, redirect, url_for, jsonify
@@ -53,7 +52,7 @@ app = createApp(debug=False)  # 设置为False来关闭SQL语句输出
 # 根路由重定向到首页
 @app.route('/')
 def index():
-    return redirect(url_for('searcher.index'))
+    return redirect(url_for('search.index'))  # 修改为您的search蓝图索引路由
 
 
 if __name__ == '__main__':
