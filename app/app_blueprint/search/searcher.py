@@ -1,16 +1,31 @@
-from flask import render_template, request, jsonify
-from ..searcher import searcher_bp
-from . import search as basic_search_engine
-from ..rank.rank import SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
+from flask import Blueprint, render_template, request, jsonify
+from Database.model import Work, SearchResult, Author, WorkAuthorship
+from Database.config import db
+from sqlalchemy import or_
+from .search_utils import (
+    record_search_session,
+    record_search_results,
+    # record_document_click,
+    # update_dwell_time,
+    # calculate_relevance_score,
+    # update_search_result_score
+)
+from .basicSearch.search import search as basic_search
+from .proSearch.search import search as advanced_search_engine
+from .aiSearch.search import convert_to_structured_query, search as ai_search_engine
+from .rank.rank import SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
 import re
 import sys
-import importlib
 import os
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
-# 高亮文本的辅助函数
+# 创建蓝图
+searcher_bp = Blueprint('searcher', __name__,
+                       template_folder='templates',
+                       static_folder='static')
+
 def highlight_text(text, keywords):
     if not text:
         return text
@@ -37,13 +52,17 @@ def highlight_text(text, keywords):
     
     return result
 
-# 首页路由
-@searcher_bp.route('/basic')
-@searcher_bp.route('/basic/index')
+@searcher_bp.route('/')
+@searcher_bp.route('/index')
 def index():
+    """搜索首页"""
     return render_template('search/index.html')
 
-# 基本搜索API
+@searcher_bp.route('/search_page')
+def search_page():
+    return render_template('search/index.html')
+
+@searcher_bp.route('/search', methods=['POST'])
 @searcher_bp.route('/api/basic/search', methods=['POST'])
 def api_search():
     try:
@@ -71,7 +90,7 @@ def api_search():
             keywords = [keyword]
         
         # 执行搜索
-        work_ids = basic_search_engine.search(query_text=keyword, use_db=True, sort_method=sort_method)
+        work_ids = basic_search(query_text=keyword, use_db=True, sort_method=sort_method)
         total = len(work_ids)
         
         # 分页
@@ -80,7 +99,6 @@ def api_search():
         paginated_ids = work_ids[start:end] if start < len(work_ids) else []
         
         # 获取搜索结果
-        from Database.model import Work, Author, WorkAuthorship
         works = []
         for work_id in paginated_ids:
             work = Work.query.get(work_id)
@@ -96,7 +114,7 @@ def api_search():
                 
                 # 创建结果对象
                 result = {
-                    'id': work.id,
+                    'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
                     'title': highlight_text(work.title or work.display_name or '', keywords),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
@@ -113,9 +131,9 @@ def api_search():
         })
         
     except Exception as e:
+        print(f"搜索出错: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-# 高级搜索API
 @searcher_bp.route('/api/basic/advanced_search', methods=['POST'])
 def api_advanced_search():
     try:
@@ -135,23 +153,23 @@ def api_advanced_search():
         keywords_for_highlight = []
         
         if title:
-            query_parts.append(f'title:{title}')
+            query_parts.append(f'title:"{title}"')
             keywords_for_highlight.append(title)
         if author:
-            query_parts.append(f'author:{author}')
+            query_parts.append(f'author:"{author}"')
             keywords_for_highlight.append(author)
         if keyword:
-            query_parts.append(f'keyword:{keyword}')
+            query_parts.append(f'keyword:"{keyword}"')
             keywords_for_highlight.append(keyword)
         if institution:
-            query_parts.append(f'institution:{institution}')
+            query_parts.append(f'institution:"{institution}"')
             keywords_for_highlight.append(institution)
         
         # 添加时间范围
         if date_from or date_to:
             date_from = date_from or '1900-01-01'
             date_to = date_to or '2099-12-31'
-            query_parts.append(f'time:{date_from}~{date_to}')
+            query_parts.append(f'time:"{date_from}~{date_to}"')
         
         # 组合查询
         advanced_query = ' AND '.join(query_parts)
@@ -164,12 +182,13 @@ def api_advanced_search():
                 'per_page': per_page
             })
         
-        # 动态导入高级搜索模块，避免循环导入
-        from ..proSearch.search import search as advanced_search_engine
+        print(f"高级搜索查询: {advanced_query}")  # 添加日志
         
         # 执行高级搜索
         work_ids = advanced_search_engine(query_text=advanced_query, use_db=True, sort_method=sort_method)
         total = len(work_ids)
+        
+        print(f"搜索结果数量: {total}")  # 添加日志
         
         # 分页
         start = (page - 1) * per_page
@@ -177,7 +196,6 @@ def api_advanced_search():
         paginated_ids = work_ids[start:end] if start < len(work_ids) else []
         
         # 获取搜索结果
-        from Database.model import Work, Author, WorkAuthorship
         works = []
         for work_id in paginated_ids:
             work = Work.query.get(work_id)
@@ -193,7 +211,7 @@ def api_advanced_search():
                 
                 # 创建结果对象
                 result = {
-                    'id': work.id,
+                    'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
                     'title': highlight_text(work.title or work.display_name or '', keywords_for_highlight),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
@@ -206,21 +224,13 @@ def api_advanced_search():
             'results': works,
             'total': total,
             'page': page,
-            'per_page': per_page,
-            'query': advanced_query
+            'per_page': per_page
         })
         
     except Exception as e:
-        print(f"高级搜索出错: {e}")
-        return jsonify({
-            'error': str(e),
-            'results': [],
-            'total': 0,
-            'page': 1,
-            'per_page': 10
-        }), 500
+        print(f"高级搜索出错: {str(e)}")
+        return jsonify({'error': str(e)}), 500
 
-# AI搜索API
 @searcher_bp.route('/api/basic/ai_search', methods=['POST'])
 def api_ai_search():
     try:
@@ -238,9 +248,6 @@ def api_ai_search():
                 'page': page,
                 'per_page': per_page
             })
-        
-        # 动态导入AI搜索模块，避免循环导入
-        from ..aiSearch.search import search as ai_search_engine, convert_to_structured_query
         
         try:
             # 使用AI转换为结构化查询
@@ -272,7 +279,7 @@ def api_ai_search():
         except Exception as search_error:
             print(f"AI搜索执行失败: {search_error}")
             # 出错时尝试使用基本搜索
-            work_ids = basic_search_engine.search(query_text=nl_query, use_db=True)
+            work_ids = basic_search(query_text=nl_query, use_db=True)
             keywords_for_highlight = [nl_query]
         
         total = len(work_ids)
@@ -283,7 +290,6 @@ def api_ai_search():
         paginated_ids = work_ids[start:end] if start < len(work_ids) else []
         
         # 获取搜索结果
-        from Database.model import Work, Author, WorkAuthorship
         works = []
         for work_id in paginated_ids:
             work = Work.query.get(work_id)
@@ -299,7 +305,7 @@ def api_ai_search():
                 
                 # 创建结果对象
                 result = {
-                    'id': work.id,
+                    'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
                     'title': highlight_text(work.title or work.display_name or '', keywords_for_highlight),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
@@ -332,23 +338,3 @@ def api_ai_search():
             'page': 1,
             'per_page': 10
         }), 500
-
-# 文档详情页
-@searcher_bp.route('/basic/document/<doc_id>')
-def document(doc_id):
-    from Database.model import Work, Author, WorkAuthorship
-    
-    work = Work.query.get_or_404(doc_id)
-    
-    # 获取作者
-    authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
-    authors = []
-    for authorship in authorships:
-        if authorship.author_id:
-            author = Author.query.get(authorship.author_id)
-            if author:
-                authors.append(author.display_name)
-    
-    return render_template('search/document.html', 
-                          document=work,
-                          authors=authors) 

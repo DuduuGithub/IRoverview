@@ -1,11 +1,10 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from werkzeug.security import generate_password_hash
 from flask import Flask, redirect, url_for, jsonify
-from app_blueprint import register_blueprints
+from app_blueprint.search import searcher_bp
+from app_blueprint.reader import reader_bp
 from Database.model import *
-from utils import *
 from Database.config import db
 import Database.config 
 from sqlalchemy.sql import text
@@ -43,17 +42,19 @@ def createApp(debug=False):
     db.init_app(app)
     
     # 注册蓝图
-    register_blueprints(app=app)
+    app.register_blueprint(searcher_bp)
+    app.register_blueprint(reader_bp)
+    
+    print(app.url_map)
     
     return app
 
 app = createApp(debug=False)  # 设置为False来关闭SQL语句输出
 
-# 根路由重定向到首页
+# 根路由重定向到搜索首页
 @app.route('/')
 def index():
-    return redirect(url_for('search.index'))  # 修改为您的search蓝图索引路由
-
+    return redirect(url_for('searcher.search_page'))  # 修改为searcher蓝图的search_page路由
 
 if __name__ == '__main__':
     # 初始化数据库

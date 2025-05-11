@@ -2,21 +2,21 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from werkzeug.security import generate_password_hash
-from flask import Flask
-from app_blueprint import register_blueprints
+from flask import Flask, redirect, url_for, jsonify
+from app_blueprint.search import searcher_bp
+from app_blueprint.reader import reader_bp
 from Database.model import *
-from utils import *
 from Database.config import db
 import Database.config 
 from sqlalchemy.sql import text
 import json
 
-# 创建Flask应用
-def createApp(debug=True):
+def createApp(debug=False):
     app = Flask(__name__,
                static_folder='static',
                static_url_path='/static')
                
+    
     # 加载配置
     app.config.from_object(Database.config)
     
@@ -27,33 +27,30 @@ def createApp(debug=True):
     db.init_app(app)
     
     # 注册蓝图
-    register_blueprints(app=app)
-    
+    app.register_blueprint(searcher_bp)
+    app.register_blueprint(reader_bp, url_prefix='/reader')
+    print(app.url_map)
     return app
 
-app = createApp(debug=True)  # 设置为True以显示SQL语句输出
+app = createApp(debug=False)  # 设置为False来关闭SQL语句输出
 
-# 初始化数据库并添加测试数据
-def init_database_with_test_data():
-    with app.app_context():
-        try:
-            # 删除所有表
-            db.drop_all()
-            db.session.commit()
-            
-            # 创建所有表
-            db.create_all()
-            db.session.commit()
-            print("数据库初始化完成！")
-            
-            # 添加测试数据
-            add_test_data()
-            print("测试数据已添加！")
-            
-        except Exception as e:
-            print(f"数据库初始化失败: {str(e)}")
-            db.session.rollback()
-            raise
+# 根路由重定向到首页
+@app.route('/')
+def index():
+    return redirect(url_for('searcher.search_page'))  # 修改为searcher蓝图的search_page路由
+
+# 添加一个路径来查看数据库内容
+@app.route('/check_db')
+def check_db():
+    works = Work.query.all()
+    result = []
+    for work in works:
+        result.append({
+            'id': work.id,
+            'title': work.title,
+            'year': work.publication_year
+        })
+    return jsonify({"works": result})
 
 # 添加测试数据
 def add_test_data():
@@ -277,29 +274,25 @@ def verify_test_data():
         for work in algo_works:
             print(f"  - {work.title} (ID: {work.id})")
 
-# 根路由重定向到首页
-@app.route('/')
-def index():
-    from flask import redirect, url_for
-    return redirect(url_for('search.index'))  # 修改为您的search蓝图索引路由
-
-# 添加一个路径来查看数据库内容
-@app.route('/check_db')
-def check_db():
-    from flask import jsonify
-    works = Work.query.all()
-    result = []
-    for work in works:
-        result.append({
-            'id': work.id,
-            'title': work.title,
-            'year': work.publication_year
-        })
-    return jsonify({"works": result})
-
 if __name__ == '__main__':
-    # 初始化数据库并添加测试数据
-    init_database_with_test_data()
+    with app.app_context():
+        try:
+            # 删除所有表
+            db.drop_all()
+            db.session.commit()
+            
+            # 创建所有表
+            db.create_all()
+            db.session.commit()
+            print("数据库初始化完成！")
+            
+            # 添加测试数据
+            add_test_data()
+            print("测试数据已添加！")
+            
+        except Exception as e:
+            print(f"数据库初始化失败: {str(e)}")
+            db.session.rollback()
+            raise
     
-    # 运行应用
-    app.run(debug=True, port=5000)  # 使用不同的端口以避免冲突 
+    app.run(debug=True)  # 这里的debug只控制Flask的调试模式，不影响SQL输出 

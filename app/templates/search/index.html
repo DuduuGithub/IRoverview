@@ -315,11 +315,11 @@
             };
             
             // 确定请求URL
-            let requestUrl = '/search/api/search';
+            let requestUrl = '/search';
             if (requestParams.search_type === 'advanced') {
-                requestUrl = '/search/api/advanced_search';
+                requestUrl = '/api/basic/advanced_search';
             } else if (requestParams.search_type === 'ai') {
-                requestUrl = '/search/api/ai_search';
+                requestUrl = '/api/basic/ai_search';
             }
             
             // 发送搜索请求
@@ -368,7 +368,7 @@
                 resultsHtml += `
                     <div class="result-item">
                         <div class="result-title">
-                            <a href="/search/document/${result.id}">${result.title}</a>
+                            <a href="/reader/document/${result.id}">${result.title}</a>
                         </div>
                         <div class="result-authors">${result.authors}</div>
                         <div class="result-meta">
