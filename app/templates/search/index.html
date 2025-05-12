@@ -3,227 +3,525 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/search/">
+    <link rel="icon" href="/static/search/favicon.png">
     <title>文献检索系统</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        .search-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding-top: 50px;
+        /* 根样式 */
+        :root {
+            --primary-color: #4a6bdf;
+            --secondary-color: #f5f5f5;
+            --text-color: #333;
+            --border-color: #ddd;
+            --sidebar-width: 380px;
+            --sidebar-min-width: 280px;
+            --sidebar-max-width: 500px;
+            --transition-time: 0.3s;
         }
-        .search-title {
-            margin-bottom: 30px;
-            text-align: center;
+        
+        /* 基础样式 */
+        body {
+            font-family: 'Arial', sans-serif;
+            color: var(--text-color);
+            background-color: #f8f9fa;
         }
-        .nav-tabs {
-            margin-bottom: 20px;
-            border-bottom: 1px solid #dee2e6;
+        
+        .container {
+            max-width: 1200px;
         }
-        .nav-tabs .nav-link {
-            border: none;
-            color: #495057;
-            padding: 10px 20px;
-            margin-right: 5px;
-            border-radius: 5px 5px 0 0;
-        }
-        .nav-tabs .nav-link.active {
-            color: #0d6efd;
-            background-color: #fff;
-            border-bottom: 3px solid #0d6efd;
-        }
-        .search-form {
-            margin-bottom: 30px;
-        }
-        .search-results {
-            margin-top: 30px;
-        }
-        .result-item {
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-        }
-        .result-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .result-authors {
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 5px;
-        }
-        .result-meta {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 8px;
-        }
-        .result-abstract {
-            font-size: 14px;
-            color: #333;
-        }
-        .highlight {
-            background-color: #ffffd0;
-            font-weight: bold;
-        }
-        .pagination {
-            justify-content: center;
-            margin-top: 30px;
-        }
-        .sort-options {
-            margin-bottom: 20px;
-        }
-        .advanced-search-panel {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .date-range {
+        
+        /* 主容器样式 */
+        .main-container {
             display: flex;
+            position: relative;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            min-height: calc(100vh - 200px);
+            transition: margin-right var(--transition-time) ease;
+        }
+        
+        /* 当侧边栏展开时，主容器右侧留出空间 */
+        .main-container.sidebar-expanded {
+            margin-right: var(--sidebar-width);
+        }
+
+        /* 搜索区域样式 */
+        .search-section {
+            flex-grow: 1;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            transition: width var(--transition-time) ease;
+        }
+        
+        /* AI侧边栏样式 */
+        .ai-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: width var(--transition-time) ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 侧边栏展开状态 */
+        .ai-sidebar.expanded {
+            width: var(--sidebar-width);
+        }
+        
+        /* 侧边栏头部样式 */
+        .ai-sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        /* 侧边栏内容区域样式 */
+        .ai-sidebar-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        
+        /* 缩放手柄样式 */
+        .ai-resize-handle {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            cursor: ew-resize;
+            background-color: transparent;
+            z-index: 1001;
+        }
+        
+        /* AI辅助按钮样式 */
+        .ai-toggle-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.2s ease;
+        }
+        
+        .ai-toggle-btn:hover {
+            transform: scale(1.05);
+            background-color: #3a5bc7;
+        }
+        
+        /* 聊天容器样式 */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .messages-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 1rem;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+        
+        .ai-message {
+            background-color: #f0f2ff;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+        
+        .message-content {
+            margin-bottom: 0;
+        }
+        
+        /* 输入框容器样式 */
+        .input-container {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            background-color: white;
+            position: sticky;
+            bottom: 0;
+        }
+        
+        .chat-input {
+            flex-grow: 1;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-right: 0.5rem;
+        }
+        
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            justify-content: center;
             align-items: center;
         }
-        .date-range .form-control {
-            width: 45%;
+        
+        /* 搜索框样式 */
+        .search-box {
+            position: relative;
         }
-        .date-range .separator {
-            width: 10%;
+        
+        .search-input {
+            padding-right: 50px;
+            border-radius: 30px;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Tab样式 */
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        /* 高级检索样式 */
+        .advanced-condition-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .condition-field {
+            width: 25%;
+        }
+        
+        .condition-input {
+            flex-grow: 1;
+        }
+        
+        .condition-remove {
+            cursor: pointer;
+            color: #dc3545;
+            font-size: 1.2rem;
+        }
+        
+        .add-condition-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* 检索历史样式 */
+        .search-history {
+            margin-top: 2rem;
+        }
+        
+        .search-history-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+        
+        .history-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s;
+        }
+        
+        .history-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .history-query {
+            font-weight: 500;
+        }
+        
+        .history-time {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
             text-align: center;
+            border-top: 1px solid var(--border-color);
         }
-        .search-type-description {
-            color: #666;
-            margin-bottom: 20px;
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .condition-field {
+                width: 40%;
+            }
+            
+            .search-section {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* 查询预览样式 */
+        .query-preview {
+            background-color: #f0f2ff;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary-color);
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        
+        /* 应用检索式按钮样式 */
+        .apply-query-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            margin-top: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .apply-query-btn:hover {
+            background-color: #3a5bc7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .apply-query-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        
+        /* 加载动画样式 */
+        .loading-spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+            margin-right: 5px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="container search-container">
-        <h1 class="search-title">文献搜索系统</h1>
-        
-        <!-- 搜索类型选项卡 -->
-        <ul class="nav nav-tabs" id="searchTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic-search" type="button" role="tab">基本检索</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced-search" type="button" role="tab">高级检索</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="ai-tab" data-bs-toggle="tab" data-bs-target="#ai-search" type="button" role="tab">AI检索</button>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 mb-0">
+                        <a href="index.html" class="text-decoration-none">
+                            文献检索系统
+                        </a>
+                    </h1>
+                </div>
+                <div class="d-flex align-items-center">
+                    <nav class="me-3">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="index.html">
+                                    检索
+                                </a>
             </li>
         </ul>
-        
-        <!-- 搜索表单内容 -->
-        <div class="tab-content" id="searchTabContent">
-            <!-- 基本检索 -->
-            <div class="tab-pane fade show active" id="basic-search" role="tabpanel" aria-labelledby="basic-tab">
-                <p class="search-type-description">输入关键词进行基本检索，支持多个关键词组合</p>
-                <div class="search-form">
-                    <div class="input-group mb-3">
-                        <input type="text" id="basic-search-input" class="form-control" placeholder="请输入关键词...">
-                        <button class="btn btn-primary" id="basic-search-btn" type="button">搜索</button>
-                    </div>
-                    
-                    <div class="sort-options">
-                        <label for="basic-sort-method">排序方式：</label>
-                        <select id="basic-sort-method" class="form-select">
-                            <option value="relevance">相关性排序</option>
-                            <option value="time_desc">时间降序</option>
-                            <option value="time_asc">时间升序</option>
-                            <option value="combined">综合排序</option>
-                        </select>
-                    </div>
+                    </nav>
                 </div>
             </div>
-            
-            <!-- 高级检索 -->
-            <div class="tab-pane fade" id="advanced-search" role="tabpanel" aria-labelledby="advanced-tab">
-                <p class="search-type-description">高级检索支持按标题、作者、机构等字段组合查询</p>
-                <div class="advanced-search-panel">
-                    <form id="advanced-search-form">
-                        <div class="form-group">
-                            <label for="title-input">标题：</label>
-                            <input type="text" class="form-control" id="title-input" placeholder="请输入标题关键词">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="author-input">作者：</label>
-                            <input type="text" class="form-control" id="author-input" placeholder="请输入作者姓名">
+    </header>
+
+    <div class="container main-container">
+        <!-- 主搜索区域 -->
+        <div class="search-section">
+            <ul class="nav nav-tabs" id="searchTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab" aria-controls="basic" aria-selected="true">
+                        基本检索
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="advanced-tab" data-bs-toggle="tab" data-bs-target="#advanced" type="button" role="tab" aria-controls="advanced" aria-selected="false">
+                        高级检索
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="searchTabsContent">
+                <!-- 基本检索 -->
+                <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
+                    <form id="basicSearchForm" action="results" method="get">
+                        <div class="search-box mb-3">
+                            <input type="text" id="basicQuery" name="query" class="form-control form-control-lg search-input" placeholder="输入关键词" required>
+                            <button type="submit" class="btn btn-primary search-btn">
+                                <i class="bi bi-search"></i>
+                            </button>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="keyword-input">关键词：</label>
-                            <input type="text" class="form-control" id="keyword-input" placeholder="请输入关键词">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="institution-input">机构：</label>
-                            <input type="text" class="form-control" id="institution-input" placeholder="请输入机构名称">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>发表时间：</label>
-                            <div class="date-range">
-                                <input type="date" class="form-control" id="date-from-input">
-                                <div class="separator">至</div>
-                                <input type="date" class="form-control" id="date-to-input">
+                    </form>
+                </div>
+                
+                <!-- 高级检索 -->
+                <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
+                    <form id="advancedSearchForm" action="results" method="get">
+                        <div id="advancedConditions">
+                            <!-- 默认的条件行 -->
+                            <div class="advanced-condition-row">
+                                <select class="form-select condition-field">
+                                    <option value="title">标题</option>
+                                    <option value="author">作者</option>
+                                    <option value="keyword">关键词</option>
+                                    <option value="institution">机构</option>
+                                </select>
+                                <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                                <div class="condition-remove">
+                                    <i class="bi bi-x-circle"></i>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="advanced-sort-method">排序方式：</label>
-                            <select id="advanced-sort-method" class="form-select">
-                                <option value="relevance">相关性排序</option>
-                                <option value="time_desc">时间降序</option>
-                                <option value="time_asc">时间升序</option>
-                                <option value="combined">综合排序</option>
-                            </select>
-                        </div>
+                        <button type="button" id="addCondition" class="btn btn-outline-secondary add-condition-btn">
+                            <i class="bi bi-plus-circle"></i>
+                            添加条件
+                        </button>
                         
-                        <button type="button" class="btn btn-primary" id="advanced-search-btn">搜索</button>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">
+                                搜索
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
             
-            <!-- AI检索 -->
-            <div class="tab-pane fade" id="ai-search" role="tabpanel" aria-labelledby="ai-tab">
-                <p class="search-type-description">使用自然语言描述您的检索需求，AI将帮您转换为精准的检索式</p>
-                <div class="search-form">
-                    <div class="mb-3">
-                        <label for="ai-search-input" class="form-label">自然语言检索：</label>
-                        <textarea class="form-control" id="ai-search-input" rows="3" placeholder="例如：我想找近五年关于深度学习在医疗影像分析中的应用研究..."></textarea>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="show-structured-query" checked>
-                            <label class="form-check-label" for="show-structured-query">
-                                显示AI转换后的检索式
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button type="button" class="btn btn-primary" id="ai-search-btn">AI检索</button>
-                </div>
+            <!-- 搜索历史 -->
+            <div class="search-history">
+                <h3 class="search-history-title">
+                    最近检索
+                </h3>
+                <ul class="history-list" id="searchHistory">
+                    <!-- 历史记录将由JavaScript动态加载 -->
+                </ul>
             </div>
         </div>
         
-        <div id="search-results" class="search-results">
-            <!-- 搜索结果将动态加载到这里 -->
+        <!-- AI辅助侧边栏 -->
+        <div class="ai-sidebar" id="aiSidebar">
+            <div class="ai-resize-handle" id="aiResizeHandle"></div>
+            <div class="ai-sidebar-header">
+                <h5 class="mb-0">
+                    AI辅助检索
+                </h5>
+                <button type="button" class="btn-close" id="closeSidebar"></button>
+            </div>
+            <div class="ai-sidebar-content">
+                <div class="chat-container">
+                    <div class="messages-container" id="aiMessages">
+                        <div class="message ai-message">
+                            <p class="message-content">
+                                您好！我是您的AI检索助手。请用自然语言描述您想要查找的文献，我将帮您生成专业的检索式。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-container">
+                <input type="text" class="chat-input" id="aiQueryInput" placeholder="请输入您的问题...">
+                <button class="send-button" id="sendQuery">
+                    <i class="bi bi-send"></i>
+                </button>
+            </div>
         </div>
-        
-        <nav>
-            <ul id="pagination" class="pagination">
-                <!-- 分页控件将动态加载到这里 -->
-            </ul>
-        </nav>
     </div>
+    
+    <!-- AI辅助按钮放在页面底部，不是容器内部 -->
+    <button class="ai-toggle-btn" id="aiToggleBtn">
+        <i class="bi bi-robot"></i>
+    </button>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">
+                © 2025 文献检索系统. 保留所有权利.
+            </p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+<<<<<<< HEAD
         // 定义排序方式常量
         const SORT_BY_RELEVANCE = 'relevance';
         const SORT_BY_TIME_DESC = 'time_desc';
@@ -483,22 +781,40 @@
         }
         
         // 添加事件监听
+=======
+>>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         document.addEventListener('DOMContentLoaded', function() {
-            // 基本检索
-            document.getElementById('basic-search-btn').addEventListener('click', performBasicSearch);
-            document.getElementById('basic-search-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performBasicSearch();
+            // DOM元素引用
+            const aiToggleBtn = document.getElementById('aiToggleBtn');
+            const aiSidebar = document.getElementById('aiSidebar');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const mainContainer = document.querySelector('.main-container');
+            const aiQueryInput = document.getElementById('aiQueryInput');
+            const sendQueryBtn = document.getElementById('sendQuery');
+            const aiMessages = document.getElementById('aiMessages');
+            const aiResizeHandle = document.getElementById('aiResizeHandle');
+            const basicForm = document.getElementById('basicSearchForm');
+            const advancedForm = document.getElementById('advancedSearchForm');
+            
+            // 获取URL查询参数
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+            
+            // 当前搜索模式（基本或高级）
+            let currentSearchMode = 'basic';
+            
+            // 切换标签页时更新搜索模式
+            document.getElementById('basic-tab').addEventListener('click', function() {
+                currentSearchMode = 'basic';
             });
             
-            // 高级检索
-            document.getElementById('advanced-search-btn').addEventListener('click', performAdvancedSearch);
-            
-            // AI检索
-            document.getElementById('ai-search-btn').addEventListener('click', performAiSearch);
-            document.getElementById('ai-search-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') performAiSearch();
+            document.getElementById('advanced-tab').addEventListener('click', function() {
+                currentSearchMode = 'advanced';
             });
             
+<<<<<<< HEAD
             // 为所有文档链接添加事件监听器
             document.addEventListener('click', function(e) {
                 const link = e.target.closest('a[data-document-id]');
@@ -508,6 +824,386 @@
                     recordClick(documentId);
                 }
             });
+=======
+            // 跨页面保持搜索模式
+            const savedMode = localStorage.getItem('searchMode');
+            if (savedMode) {
+                if (savedMode === 'advanced') {
+                    document.getElementById('advanced-tab').click();
+                } else {
+                    document.getElementById('basic-tab').click();
+                }
+            }
+            
+            // 打开侧边栏
+            function openSidebar() {
+                aiSidebar.classList.add('expanded');
+                mainContainer.classList.add('sidebar-expanded');
+                setTimeout(() => {
+                    aiQueryInput.focus();
+                }, 300);
+            }
+            
+            // 关闭侧边栏
+            function closeSidebarFunc() {
+                aiSidebar.classList.remove('expanded');
+                mainContainer.classList.remove('sidebar-expanded');
+            }
+            
+            // 侧边栏调整大小
+            let isResizing = false;
+            let lastDownX = 0;
+
+            // 开始调整大小
+            aiResizeHandle.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                lastDownX = e.clientX;
+                document.body.style.cursor = 'ew-resize';
+                aiResizeHandle.style.backgroundColor = 'rgba(74, 107, 223, 0.3)'; // 当正在拖动时，给手柄一个颜色提示
+                document.addEventListener('mousemove', handleMouseMove);
+                document.addEventListener('mouseup', stopResize);
+                e.preventDefault();
+            });
+
+            // 调整大小时的处理函数
+            function handleMouseMove(e) {
+                if (!isResizing) return;
+                
+                // 计算新宽度：窗口宽度减去鼠标水平位置
+                let newWidth = window.innerWidth - e.clientX;
+                
+                // 确保宽度在允许的范围内
+                if (newWidth < parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-min-width'))) {
+                    newWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-min-width'));
+                }
+                
+                if (newWidth > parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-max-width'))) {
+                    newWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-max-width'));
+                }
+                
+                // 应用新宽度
+                document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
+                mainContainer.style.marginRight = newWidth + 'px';
+                
+                e.preventDefault();
+            }
+
+            // 停止调整大小
+            function stopResize() {
+                isResizing = false;
+                document.body.style.cursor = '';
+                aiResizeHandle.style.backgroundColor = 'transparent';
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', stopResize);
+            }
+            
+            // 按钮事件监听
+            aiToggleBtn.addEventListener('click', openSidebar);
+            closeSidebar.addEventListener('click', closeSidebarFunc);
+            
+            // AI聊天功能
+            sendQueryBtn.addEventListener('click', sendQuery);
+            aiQueryInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendQuery();
+                }
+            });
+            
+            // 发送查询到AI
+            function sendQuery() {
+                const query = aiQueryInput.value.trim();
+                if (!query) return;
+                
+                // 添加用户消息
+                addMessage(query, 'user');
+                
+                // 清空输入框
+                aiQueryInput.value = '';
+                
+                // 添加加载指示器
+                const loadingMessageEl = document.createElement('div');
+                loadingMessageEl.className = 'message ai-message';
+                loadingMessageEl.innerHTML = `
+                    <p class="message-content">
+                        <span class="loading-spinner"></span>
+                        正在生成检索式...
+                    </p>
+                `;
+                aiMessages.appendChild(loadingMessageEl);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+                
+                // 禁用发送按钮和输入框
+                sendQueryBtn.disabled = true;
+                aiQueryInput.disabled = true;
+                
+                // 获取当前搜索模式
+                const searchMode = currentSearchMode;
+                
+                // 发送请求到AI服务
+                fetch('/search/api/ai_search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        search_mode: searchMode
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 移除加载消息
+                    aiMessages.removeChild(loadingMessageEl);
+                    
+                    // 添加AI响应
+                    const formattedResponse = formatAIResponse(data);
+                    addMessage(formattedResponse, 'ai');
+                    
+                    // 启用发送按钮和输入框
+                    sendQueryBtn.disabled = false;
+                    aiQueryInput.disabled = false;
+                    aiQueryInput.focus();
+                })
+                .catch(error => {
+                    // 移除加载消息
+                    aiMessages.removeChild(loadingMessageEl);
+                    
+                    // 添加错误消息
+                    addMessage('抱歉，服务器发生错误，请稍后再试。', 'ai');
+                    
+                    // 启用发送按钮和输入框
+                    sendQueryBtn.disabled = false;
+                    aiQueryInput.disabled = false;
+                    aiQueryInput.focus();
+                    
+                    console.error('Error:', error);
+                });
+            }
+            
+            // 添加消息到聊天界面
+            function addMessage(content, sender) {
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${sender}-message`;
+                
+                // 如果是AI消息且包含检索式，则格式化显示
+                if (sender === 'ai' && typeof content === 'object') {
+                    messageEl.innerHTML = `
+                        <p class="message-content">
+                            ${content.message}
+                        </p>
+                        <div class="query-preview">
+                            ${content.query}
+                        </div>
+                        <button class="apply-query-btn" data-query="${content.query}">
+                            <i class="bi bi-search"></i>
+                            应用检索式
+                        </button>
+                    `;
+                } else {
+                    messageEl.innerHTML = `
+                        <p class="message-content">
+                            ${content}
+                        </p>
+                    `;
+                }
+                
+                aiMessages.appendChild(messageEl);
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+                
+                // 为"应用检索式"按钮添加事件
+                if (sender === 'ai') {
+                    const applyBtns = messageEl.querySelectorAll('.apply-query-btn');
+                    applyBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const query = this.getAttribute('data-query');
+                            applySearchQuery(query);
+                        });
+                    });
+                }
+            }
+            
+            // 格式化AI响应
+            function formatAIResponse(data) {
+                if (data.success && data.structured_query) {
+                    return {
+                        message: data.ai_response || '根据您的描述，我生成了以下检索式：',
+                        query: data.structured_query
+                    };
+                } else {
+                    return data.ai_response || '抱歉，我无法生成适合的检索式。请尝试提供更详细的描述。';
+                }
+            }
+            
+            // 应用检索式
+            function applySearchQuery(query) {
+                // 获取当前活跃的搜索表单
+                let activeForm;
+                if (currentSearchMode === 'basic') {
+                    activeForm = basicForm;
+                    // 设置基本检索表单的查询值
+                    document.getElementById('basicQuery').value = query;
+                    // 自动提交基本检索表单
+                    activeForm.submit();
+                } else {
+                    // 高级检索的逻辑会更复杂，这里简化处理
+                    // 可以根据需要扩展
+                    document.querySelector('#advanced .condition-input').value = query;
+                }
+            }
+            
+            // 初始化
+            function init() {
+                // 如果需要，从URL参数初始化搜索框
+                const queryParam = getQueryParam('query');
+                if (queryParam) {
+                    document.getElementById('basicQuery').value = decodeURIComponent(queryParam);
+                }
+                
+                // 从本地存储加载搜索历史
+                loadSearchHistory();
+                
+                // 处理表单提交
+                basicForm.addEventListener('submit', function(e) {
+                    const query = document.getElementById('basicQuery').value.trim();
+                    if (!query) {
+                        e.preventDefault(); // 阻止表单提交
+                        alert('请输入检索条件');
+                        return false;
+                    }
+                    
+                    if (query) {
+                        saveSearchHistory(query);
+                        localStorage.setItem('searchMode', 'basic');
+                    }
+                });
+                
+                advancedForm.addEventListener('submit', function(e) {
+                    // 构建高级搜索查询
+                    const conditions = document.querySelectorAll('.advanced-condition-row');
+                    let query = '';
+                    conditions.forEach(function(condition, index) {
+                        const field = condition.querySelector('.condition-field').value;
+                        const input = condition.querySelector('.condition-input').value.trim();
+                        if (input) {
+                            if (index > 0) query += ' AND ';
+                            query += `${field}:${input}`;
+                        }
+                    });
+                    
+                    if (query) {
+                        saveSearchHistory(query);
+                        localStorage.setItem('searchMode', 'advanced');
+                    }
+                });
+                
+                // 添加新条件行的按钮
+                document.getElementById('addCondition').addEventListener('click', function() {
+                    addConditionRow();
+                });
+                
+                // 初始添加一个条件行
+                addConditionRow();
+            }
+            
+            // 添加高级检索条件行
+            function addConditionRow() {
+                const conditionsContainer = document.getElementById('advancedConditions');
+                const newRow = document.createElement('div');
+                newRow.className = 'advanced-condition-row';
+                newRow.innerHTML = `
+                    <select class="form-select condition-field">
+                        <option value="title">标题</option>
+                        <option value="author">作者</option>
+                        <option value="keyword">关键词</option>
+                        <option value="institution">机构</option>
+                    </select>
+                    <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                    <div class="condition-remove">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                `;
+                
+                // 添加删除事件
+                const removeBtn = newRow.querySelector('.condition-remove');
+                removeBtn.addEventListener('click', function() {
+                    if (document.querySelectorAll('.advanced-condition-row').length > 1) {
+                        conditionsContainer.removeChild(newRow);
+                    }
+                });
+                
+                conditionsContainer.appendChild(newRow);
+            }
+            
+            // 保存搜索历史
+            function saveSearchHistory(query) {
+                let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+                
+                // 移除重复的查询
+                history = history.filter(item => item.query !== query);
+                
+                // 添加新查询到历史开头
+                history.unshift({
+                    query: query,
+                    time: new Date().toISOString()
+                });
+                
+                // 保持历史记录不超过10项
+                if (history.length > 10) {
+                    history = history.slice(0, 10);
+                }
+                
+                localStorage.setItem('searchHistory', JSON.stringify(history));
+                loadSearchHistory();
+            }
+            
+            // 加载搜索历史
+            function loadSearchHistory() {
+                const historyList = document.getElementById('searchHistory');
+                historyList.innerHTML = '';
+                
+                const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
+                
+                if (history.length === 0) {
+                    historyList.innerHTML = '<li class="text-muted p-3">暂无检索历史</li>';
+                    return;
+                }
+                
+                history.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'history-item';
+                    
+                    // 格式化时间
+                    const date = new Date(item.time);
+                    const formattedTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+                    
+                    li.innerHTML = `
+                        <div>
+                            <div class="history-query">${item.query}</div>
+                            <div class="history-time">${formattedTime}</div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary history-apply-btn">应用</button>
+                    `;
+                    
+                    // 添加应用历史查询事件
+                    const applyBtn = li.querySelector('.history-apply-btn');
+                    applyBtn.addEventListener('click', function() {
+                        const query = item.query.trim();
+                        if (query) {
+                            document.getElementById('basicQuery').value = query;
+                            basicForm.submit();
+                        } else {
+                            // 如果查询为空，显示一个提示或警告
+                            alert('检索式不能为空');
+                        }
+                    });
+                    
+                    historyList.appendChild(li);
+                });
+            }
+            
+            // 初始化页面
+            init();
+>>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         });
     </script>
 </body>

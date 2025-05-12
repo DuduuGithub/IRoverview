@@ -3,6 +3,7 @@ import math
 import logging
 from Database.model import SearchSession, SearchResult, Work, UserBehavior
 from Database.config import db
+<<<<<<< HEAD
 from sqlalchemy import text
 
 # 配置日志
@@ -10,9 +11,16 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def record_search_session(query_text, total_results):
+=======
+from flask import request
+import uuid
+
+def record_search_session(query, total_results=0):
+>>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
     """
-    记录搜索会话信息
+    记录一次搜索会话
     
+<<<<<<< HEAD
     Args:
         query_text: 检索式
         total_results: 搜索结果总数
@@ -43,11 +51,44 @@ def record_search_session(query_text, total_results):
         db.session.commit()
         
         logger.info(f"成功创建新会话: session_id={session_id}, query={query_text}")
+=======
+    参数:
+        query (str): 搜索查询
+        total_results (int): 搜索结果总数
+        
+    返回:
+        str: 会话ID
+    """
+    try:
+        # 生成唯一的会话ID
+        session_id = str(uuid.uuid4())
+        
+        # 创建会话记录
+        session = SearchSession(
+            session_id=session_id,
+            search_time=datetime.now(),  # 使用search_time而不是timestamp
+            keyword=query,  # 使用query作为keyword字段
+            search_type='keyword',  # 默认设置为keyword类型
+            user_id=None,  # 可以在用户系统中设置
+            total_results=total_results,
+            client_info={"ip_address": request.remote_addr} if request else None
+        )
+        
+        # 保存到数据库
+        db.session.add(session)
+        db.session.commit()
+        
+        # 返回会话ID
+>>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         return session_id
         
     except Exception as e:
+<<<<<<< HEAD
         logger.error(f"创建搜索会话失败: {str(e)}", exc_info=True)
         db.session.rollback()
+=======
+        print(f"记录搜索会话出错: {e}")
+>>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         return None
 
 def record_search_results(session_id, results, page, per_page):

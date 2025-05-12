@@ -42,7 +42,7 @@ def createApp(debug=False):
     db.init_app(app)
     
     # 注册蓝图
-    app.register_blueprint(searcher_bp)
+    app.register_blueprint(searcher_bp, url_prefix='/search')
     app.register_blueprint(reader_bp)
     
     print(app.url_map)
