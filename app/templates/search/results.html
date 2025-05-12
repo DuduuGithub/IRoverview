@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/search/">
+    <link rel="icon" href="/static/search/favicon.png">
+    <title>搜索结果 | Search Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+        
+        .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .content-container {
+            max-width: 1140px;
+            margin: 2rem auto;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .results-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+        }
+        
+        .language-switch {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .results-header {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .filter-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+        
+        .filter-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filter-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .filter-count {
+            color: #adb5bd;
+            font-size: 0.875rem;
+        }
+        
+        .result-item {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .result-title a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .result-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .result-authors {
+            font-size: 0.875rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-meta {
+            font-size: 0.75rem;
+            color: #777;
+            margin-bottom: 0.75rem;
+        }
+        
+        .result-abstract {
+            font-size: 0.875rem;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .citation-count {
+            font-weight: 600;
+            color: #198754;
+        }
+        
+        .pagination {
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5rem 0;
+        }
+        
+        .highlight {
+            background-color: #ffffd0;
+            font-weight: 500;
+            padding: 0 2px;
+        }
+        
+        .structured-query-box {
+            background-color: #f0f8ff;
+            border: 1px solid #d0e3ff;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .structured-query-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sort-dropdown {
+            min-width: 200px;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+        
+        .filter-link.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .filter-link.active .filter-count {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .filter-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            border-radius: 11px;
+            background-color: var(--light-bg);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* 复选框样式 */
+        .form-check {
+            padding: 8px 10px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .form-check:hover {
+            background-color: var(--light-bg);
+        }
+        
+        .form-check-input {
+            cursor: pointer;
+        }
+        
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .form-check-label {
+            cursor: pointer;
+            margin-left: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .form-check-input:checked ~ .form-check-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 mb-0">
+                        <a href="/search/" class="text-decoration-none">
+                            文献检索系统
+                        </a>
+                    </h1>
+                </div>
+                <div class="d-flex align-items-center">
+                    <nav class="me-3">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/search/">
+                                    检索
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content-container">
+        <div class="row g-4">
+            <!-- 左侧筛选栏 -->
+            <div class="col-md-3">
+                <div class="sidebar">
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            返回检索
+                        </h3>
+                        <ul class="filter-list">
+                            <li class="filter-item">
+                                <a href="/search/" class="filter-link">
+                                    <i class="bi bi-arrow-left me-2"></i>
+                                    基本/高级检索
+                                </a>
+                            </li>
+                        </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            发表年份
+                        </h3>
+                        <ul class="filter-list" id="year-filters">
+                            <!-- 发表年份筛选将动态加载 -->
+                            <li class="filter-item">
+                                <div class="form-check d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input year-filter-checkbox" type="checkbox" id="year-2022-2023" data-year="2022-2023">
+                                        <label class="form-check-label" for="year-2022-2023">2022-2023</label>
+                                    </div>
+                                    <span class="filter-count">0</span>
+                                </div>
+                            </li>
+                            <li class="filter-item">
+                                <div class="form-check d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input year-filter-checkbox" type="checkbox" id="year-2020-2021" data-year="2020-2021">
+                                        <label class="form-check-label" for="year-2020-2021">2020-2021</label>
+                                    </div>
+                                    <span class="filter-count">0</span>
+                                </div>
+                            </li>
+                            <li class="filter-item">
+                                <div class="form-check d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input year-filter-checkbox" type="checkbox" id="year-2018-2019" data-year="2018-2019">
+                                        <label class="form-check-label" for="year-2018-2019">2018-2019</label>
+                                    </div>
+                                    <span class="filter-count">0</span>
+                                </div>
+                            </li>
+                            <li class="filter-item">
+                                <div class="form-check d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <input class="form-check-input year-filter-checkbox" type="checkbox" id="year-2015-2017" data-year="2015-2017">
+                                        <label class="form-check-label" for="year-2015-2017">2015-2017</label>
+                                    </div>
+                                    <span class="filter-count">0</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            热门作者
+                        </h3>
+                        <ul class="filter-list" id="author-filters">
+                            <!-- 作者筛选将动态加载 -->
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            研究领域
+                        </h3>
+                        <ul class="filter-list" id="field-filters">
+                            <!-- 研究领域筛选将动态加载 -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧结果区域 -->
+            <div class="col-md-9">
+                <div class="results-container">
+                    <!-- AI查询的结构化表达式 -->
+                    <div id="structured-query-container" class="structured-query-box d-none">
+                        <div class="structured-query-title">
+                            AI转换后的检索式：
+                        </div>
+                        <div id="structured-query-text"></div>
+                    </div>
+                    
+                    <!-- 结果头部 -->
+                    <div class="results-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="h5 mb-1">
+                                检索结果
+                                <span id="result-count" class="ms-2"></span>
+                            </h2>
+                            <div id="search-query" class="text-secondary"></div>
+                        </div>
+                        <div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle sort-dropdown" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    排序方式
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                                    <li>
+                                        <a class="dropdown-item sort-option" href="#" data-sort="relevance">
+                                            相关性
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item sort-option" href="#" data-sort="time_desc">
+                                            时间(最新)
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item sort-option" href="#" data-sort="time_asc">
+                                            时间(最早)
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item sort-option" href="#" data-sort="combined">
+                                            综合排序
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 加载提示 -->
+                    <div id="loading-spinner" class="spinner-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 搜索结果 -->
+                    <div id="search-results" class="d-none">
+                        <!-- 结果将动态加载到这里 -->
+                    </div>
+                    
+                    <!-- 分页控件 -->
+                    <nav>
+                        <ul id="pagination" class="pagination d-none">
+                            <!-- 分页将动态加载到这里 -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">
+                © 2025 文献检索系统. 保留所有权利.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/search/language.js"></script>
+    <script>
+        // 全局变量
+        let searchParams = {};  // 搜索参数
+        let currentPage = 1;    // 当前页码
+        let totalPages = 1;     // 总页数
+        let perPage = 10;       // 每页结果数
+        let searchResults = []; // 搜索结果
+        
+        // 页面加载后执行的函数
+        document.addEventListener('DOMContentLoaded', function() {
+            // 首先尝试从URL参数获取查询
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryFromUrl = urlParams.get('query');
+            
+            if (queryFromUrl) {
+                // 如果URL中有查询参数，则创建搜索参数
+                searchParams = {
+                    search_type: 'basic',
+                    keyword: queryFromUrl,
+                    page: 1,
+                    per_page: 10,
+                    sort_method: 'relevance'
+                };
+                
+                // 保存到会话存储中
+                sessionStorage.setItem('searchParams', JSON.stringify(searchParams));
+                
+                // 设置当前页码和每页结果数
+                currentPage = searchParams.page;
+                perPage = searchParams.per_page;
+                
+                // 显示查询
+                displaySearchQuery();
+                
+                // 获取搜索结果
+                fetchResults();
+                return;
+            }
+            
+            // 如果URL中没有查询参数，尝试从会话存储中获取
+            const storedParams = sessionStorage.getItem('searchParams');
+            if (storedParams) {
+                searchParams = JSON.parse(storedParams);
+                searchParams.page = searchParams.page || 1;
+                searchParams.per_page = searchParams.per_page || 10;
+                
+                // 设置当前页码和每页结果数
+                currentPage = searchParams.page;
+                perPage = searchParams.per_page;
+                
+                // 显示查询
+                displaySearchQuery();
+                
+                // 获取搜索结果
+                fetchResults();
+            } else {
+                // 如果没有搜索参数，显示提示并返回主页
+                document.getElementById('loading-spinner').innerHTML = `
+                    <div class="alert alert-warning">
+                        <span class="text-zh">没有搜索参数，请返回检索页面进行查询</span>
+                        <span class="text-en d-none">No search parameters, please go back to the search page</span>
+                    </div>
+                `;
+                
+                // 3秒后返回主页
+                setTimeout(function() {
+                    window.location.href = '/search/';
+                }, 3000);
+            }
+            
+            // 添加排序选项点击事件
+            document.querySelectorAll('.sort-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sortMethod = this.getAttribute('data-sort');
+                    
+                    // 如果排序方式与当前不同，则更新并重新获取结果
+                    if (sortMethod !== searchParams.sort_method) {
+                        searchParams.sort_method = sortMethod;
+                        searchParams.page = 1;  // 重置为第一页
+                        currentPage = 1;
+                        
+                        // 更新会话存储中的搜索参数
+                        sessionStorage.setItem('searchParams', JSON.stringify(searchParams));
+                        
+                        // 获取搜索结果
+                        fetchResults();
+                    }
+                });
+            });
+        });
+        
+        // 显示搜索查询
+        function displaySearchQuery() {
+            const searchQueryElem = document.getElementById('search-query');
+            let queryText = '';
+            
+            if (searchParams.search_type === 'basic') {
+                queryText = searchParams.keyword || '';
+            } else if (searchParams.search_type === 'advanced') {
+                const queryParts = [];
+                
+                if (searchParams.title) queryParts.push(`标题:${searchParams.title}`);
+                if (searchParams.author) queryParts.push(`作者:${searchParams.author}`);
+                if (searchParams.keyword) queryParts.push(`关键词:${searchParams.keyword}`);
+                if (searchParams.institution) queryParts.push(`机构:${searchParams.institution}`);
+                
+                queryText = queryParts.join(' AND ');
+            } else if (searchParams.search_type === 'ai') {
+                queryText = searchParams.query || '';
+                
+                // 如果需要显示结构化查询，则在获取结果后显示
+            }
+            
+            searchQueryElem.textContent = queryText;
+        }
+        
+        // 获取搜索结果
+        function fetchResults() {
+            // 显示加载指示器
+            document.getElementById('loading-spinner').classList.remove('d-none');
+            document.getElementById('search-results').classList.add('d-none');
+            
+            // 获取排序方式
+            const sortMethod = searchParams.sort_method || 'relevance';
+            
+            // 更新排序选项UI
+            document.querySelectorAll('.sort-option').forEach(option => {
+                if (option.getAttribute('data-sort') === sortMethod) {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+            
+            // 判断搜索类型
+            let apiUrl, requestData;
+            
+            if (searchParams.search_type === 'basic') {
+                apiUrl = '/search/api/basic/search';
+                requestData = {
+                    keyword: searchParams.keyword,
+                    sort_method: sortMethod,
+                    page: currentPage,
+                    per_page: perPage
+                };
+                
+                // 添加年份筛选条件 - 支持多个年份范围
+                if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
+                    // 将所有年份范围合并为一个最大范围
+                    let minYear = 3000;
+                    let maxYear = 0;
+                    
+                    searchParams.year_ranges.forEach(range => {
+                        const [rangeMin, rangeMax] = range.split('-').map(Number);
+                        minYear = Math.min(minYear, rangeMin);
+                        maxYear = Math.max(maxYear, rangeMax);
+                    });
+                    
+                    requestData.date_from = `${minYear}-01-01`;
+                    requestData.date_to = `${maxYear}-12-31`;
+                    // 添加额外参数指示这是多选
+                    requestData.year_ranges = searchParams.year_ranges;
+                }
+                
+            } else if (searchParams.search_type === 'advanced') {
+                apiUrl = '/search/api/advanced_search';
+                requestData = {
+                    title: searchParams.title || '',
+                    author: searchParams.author || '',
+                    keyword: searchParams.keyword || '',
+                    institution: searchParams.institution || '',
+                    sort_method: sortMethod,
+                    page: currentPage,
+                    per_page: perPage
+                };
+                
+                // 添加日期范围
+                if (searchParams.date_from) requestData.date_from = searchParams.date_from;
+                if (searchParams.date_to) requestData.date_to = searchParams.date_to;
+                
+                // 添加年份筛选条件 - 支持多个年份范围
+                if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
+                    // 将所有年份范围合并为一个最大范围
+                    let minYear = 3000;
+                    let maxYear = 0;
+                    
+                    searchParams.year_ranges.forEach(range => {
+                        const [rangeMin, rangeMax] = range.split('-').map(Number);
+                        minYear = Math.min(minYear, rangeMin);
+                        maxYear = Math.max(maxYear, rangeMax);
+                    });
+                    
+                    requestData.date_from = `${minYear}-01-01`;
+                    requestData.date_to = `${maxYear}-12-31`;
+                    // 添加额外参数指示这是多选
+                    requestData.year_ranges = searchParams.year_ranges;
+                }
+                
+            } else if (searchParams.search_type === 'ai') {
+                apiUrl = '/search/api/basic/search';
+                requestData = {
+                    keyword: searchParams.query,
+                    sort_method: sortMethod,
+                    page: currentPage,
+                    per_page: perPage
+                };
+                
+                // 添加年份筛选条件 - 支持多个年份范围
+                if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
+                    // 将所有年份范围合并为一个最大范围
+                    let minYear = 3000;
+                    let maxYear = 0;
+                    
+                    searchParams.year_ranges.forEach(range => {
+                        const [rangeMin, rangeMax] = range.split('-').map(Number);
+                        minYear = Math.min(minYear, rangeMin);
+                        maxYear = Math.max(maxYear, rangeMax);
+                    });
+                    
+                    requestData.date_from = `${minYear}-01-01`;
+                    requestData.date_to = `${maxYear}-12-31`;
+                    // 添加额外参数指示这是多选
+                    requestData.year_ranges = searchParams.year_ranges;
+                }
+                
+            } else {
+                console.error('未知的搜索类型:', searchParams.search_type);
+                return;
+            }
+            
+            // 发送搜索请求
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('搜索请求失败');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 隐藏加载指示器
+                document.getElementById('loading-spinner').classList.add('d-none');
+                
+                // 处理结果
+                searchResults = data.results || [];
+                
+                // 检查是否有结果
+                if (searchResults.length === 0) {
+                    document.getElementById('search-results').innerHTML = `
+                        <div class="alert alert-info">
+                            <span class="text-zh">未找到与"${searchParams.keyword || searchParams.query}"相关的结果</span>
+                            <span class="text-en d-none">No results found for "${searchParams.keyword || searchParams.query}"</span>
+                        </div>
+                    `;
+                } else {
+                    renderResults(searchResults);
+                }
+                
+                // 显示结果区域
+                document.getElementById('search-results').classList.remove('d-none');
+                
+                // 更新分页
+                totalPages = Math.ceil(data.total / perPage);
+                renderPagination(currentPage, totalPages);
+                
+                // 更新侧边栏过滤器
+                updateFilters(data);
+            })
+            .catch(error => {
+                console.error('搜索出错:', error);
+                document.getElementById('loading-spinner').classList.add('d-none');
+                document.getElementById('search-results').innerHTML = `
+                    <div class="alert alert-danger">
+                        <span class="text-zh">搜索出错，请稍后重试</span>
+                        <span class="text-en d-none">Search error, please try again later</span>
+                        <p class="mt-2"><small>${error.message}</small></p>
+                    </div>
+                `;
+                document.getElementById('search-results').classList.remove('d-none');
+            });
+        }
+        
+        // 渲染搜索结果
+        function renderResults(results) {
+            const resultsContainer = document.getElementById('search-results');
+            let resultsHtml = '';
+            
+            results.forEach(result => {
+                resultsHtml += `
+                    <div class="result-item">
+                        <div class="result-title">
+                            <a href="/search/document/${result.id}">${result.title}</a>
+                        </div>
+                        <div class="result-authors">${result.authors}</div>
+                        <div class="result-meta">
+                            <span class="me-3">
+                                <i class="bi bi-calendar-event"></i> ${result.year || '年份未知'}
+                            </span>
+                            <span>
+                                <i class="bi bi-journals"></i> 
+                                <span class="citation-count">${result.cited_by_count}</span>
+                                <span class="text-zh">次引用</span>
+                                <span class="text-en d-none">citations</span>
+                            </span>
+                        </div>
+                        <div class="result-abstract">${result.abstract || '无摘要'}</div>
+                    </div>
+                `;
+            });
+            
+            resultsContainer.innerHTML = resultsHtml;
+        }
+        
+        // 渲染分页控件
+        function renderPagination(current, total) {
+            const paginationElement = document.getElementById('pagination');
+            
+            if (total <= 1) {
+                paginationElement.classList.add('d-none');
+                return;
+            }
+            
+            let html = '';
+            
+            // 上一页按钮
+            html += `
+                <li class="page-item ${current === 1 ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${current - 1}">
+                        <span class="text-zh">上一页</span>
+                        <span class="text-en d-none">Previous</span>
+                    </a>
+                </li>
+            `;
+            
+            // 页码按钮
+            const maxPages = 5;
+            let startPage = Math.max(1, current - Math.floor(maxPages / 2));
+            let endPage = Math.min(total, startPage + maxPages - 1);
+            
+            if (endPage - startPage + 1 < maxPages) {
+                startPage = Math.max(1, endPage - maxPages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                html += `
+                    <li class="page-item ${i === current ? 'active' : ''}">
+                        <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    </li>
+                `;
+            }
+            
+            // 下一页按钮
+            html += `
+                <li class="page-item ${current === total ? 'disabled' : ''}">
+                    <a class="page-link" href="#" data-page="${current + 1}">
+                        <span class="text-zh">下一页</span>
+                        <span class="text-en d-none">Next</span>
+                    </a>
+                </li>
+            `;
+            
+            paginationElement.innerHTML = html;
+            paginationElement.classList.remove('d-none');
+            
+            // 添加分页事件监听
+            document.querySelectorAll('#pagination .page-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = parseInt(this.getAttribute('data-page'));
+                    if (page < 1 || page > total || page === current) return;
+                    
+                    // 更新页码
+                    currentPage = page;
+                    searchParams.page = page;
+                    
+                    // 更新会话存储中的搜索参数
+                    sessionStorage.setItem('searchParams', JSON.stringify(searchParams));
+                    
+                    // 获取搜索结果
+                    fetchResults();
+                    
+                    // 滚动到顶部
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
+        
+        // 更新侧边栏过滤器
+        function updateFilters(data) {
+            // 统计各年份范围的文献数量
+            // 定义年份范围
+            const yearRanges = [
+                { label: '2022-2023', min: 2022, max: 2023, count: 0 },
+                { label: '2020-2021', min: 2020, max: 2021, count: 0 },
+                { label: '2018-2019', min: 2018, max: 2019, count: 0 },
+                { label: '2015-2017', min: 2015, max: 2017, count: 0 }
+            ];
+            
+            // 计算每个范围内的文档数量
+            if (data.total > 0) {
+                // 向后端请求新的统计
+                fetch('/search/api/basic/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        keyword: searchParams.keyword || searchParams.query || '',
+                        sort_method: searchParams.sort_method || 'relevance',
+                        page: 1,
+                        per_page: 1000, // 获取足够多的结果以进行统计
+                        count_only: true // 仅请求计数，不返回完整结果
+                    })
+                })
+                .then(response => response.json())
+                .then(countData => {
+                    if (countData && countData.results) {
+                        const allResults = countData.results;
+                        
+                        // 计算各年份范围内的文档数量
+                        yearRanges.forEach(range => {
+                            range.count = allResults.filter(item => 
+                                item.year >= range.min && item.year <= range.max
+                            ).length;
+                        });
+                        
+                        // 更新UI显示
+                        const yearFilterItems = document.querySelectorAll('#year-filters .filter-item');
+                        yearRanges.forEach((range, index) => {
+                            if (index < yearFilterItems.length) {
+                                const countElem = yearFilterItems[index].querySelector('.filter-count');
+                                if (countElem) {
+                                    countElem.textContent = range.count;
+                                }
+                            }
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.error('获取年份统计出错:', err);
+                    // 出错时使用默认统计值
+                    const yearFilterItems = document.querySelectorAll('#year-filters .filter-item');
+                    yearFilterItems.forEach((item, index) => {
+                        const countElem = item.querySelector('.filter-count');
+                        if (countElem) {
+                            countElem.textContent = yearRanges[index]?.count || 0;
+                        }
+                    });
+                });
+            } else {
+                // 如果没有搜索结果，则所有过滤器为0
+                const yearFilterItems = document.querySelectorAll('#year-filters .filter-item');
+                yearFilterItems.forEach(item => {
+                    const countElem = item.querySelector('.filter-count');
+                    if (countElem) {
+                        countElem.textContent = '0';
+                    }
+                });
+            }
+            
+            // 为复选框添加点击事件
+            document.querySelectorAll('.year-filter-checkbox').forEach(checkbox => {
+                // 移除之前添加的事件监听器
+                const newCheckbox = checkbox.cloneNode(true);
+                checkbox.parentNode.replaceChild(newCheckbox, checkbox);
+                
+                // 设置选中状态
+                if (searchParams.year_ranges && searchParams.year_ranges.includes(newCheckbox.getAttribute('data-year'))) {
+                    newCheckbox.checked = true;
+                }
+                
+                // 添加新的事件监听器
+                newCheckbox.addEventListener('change', function() {
+                    // 初始化年份范围数组（如果不存在）
+                    if (!searchParams.year_ranges) {
+                        searchParams.year_ranges = [];
+                    }
+                    
+                    const yearRange = this.getAttribute('data-year');
+                    
+                    if (this.checked) {
+                        // 如果选中，添加到筛选数组
+                        if (!searchParams.year_ranges.includes(yearRange)) {
+                            searchParams.year_ranges.push(yearRange);
+                        }
+                    } else {
+                        // 如果取消选中，从筛选数组中移除
+                        const index = searchParams.year_ranges.indexOf(yearRange);
+                        if (index !== -1) {
+                            searchParams.year_ranges.splice(index, 1);
+                        }
+                    }
+                    
+                    // 设置页码为第一页
+                    searchParams.page = 1;
+                    currentPage = 1;
+                    
+                    // 更新会话存储
+                    sessionStorage.setItem('searchParams', JSON.stringify(searchParams));
+                    
+                    // 获取新的搜索结果
+                    fetchResults();
+                });
+            });
+        }
+    </script>
+</body>
+</html> 

@@ -19,8 +19,14 @@ IGNORE_STOPWORDS = True     # 是否忽略停用词
 IGNORE_NUMBERS = True       # 是否忽略数字
 IGNORE_SINGLES = True       # 是否忽略单字符词项
 
-"""加载停用词表"""
-def load_stopwords(stopwords_file="IRoverview\stopwords_cn.txt"):
+"""
+加载停用词表
+参数:
+    - stopwords_file: 停用词文件路径
+返回:
+    - 停用词集合
+"""
+def load_stopwords(stopwords_file="IRoverview/stopwords_cn.txt"):
     stopwords = set()
     
     with open(stopwords_file, 'r', encoding='utf-8') as f:
@@ -33,8 +39,15 @@ def load_stopwords(stopwords_file="IRoverview\stopwords_cn.txt"):
 
 """
 构建倒排索引，从document_dir读取文档，生成词典文件和倒排文件
+参数:
+    - document_dir: 文档目录
+    - dictionary_file: 输出的词典文件
+    - postings_file: 输出的倒排索引文件
 """
 def build_index(document_dir, dictionary_file, postings_file):
+    print(f"开始构建索引，文档目录: {document_dir}")
+    start_time = timeit.default_timer()
+    
     # 打开输出文件
     dict_file = codecs.open(dictionary_file, 'w', encoding='utf-8')
     post_file = io.open(postings_file, 'wb')
@@ -44,30 +57,34 @@ def build_index(document_dir, dictionary_file, postings_file):
     
     # 获取文档列表并排序
     docIDs = sorted([int(filename) for filename in os.listdir(document_dir) if filename.isdigit()])
-    dictionary = {}  # 词项到(文档频率, 偏移量)的映射
-    term_freq = {}   # 记录每个词项在每个文档中的频率: {term: {docID: 频率}}
-    doc_lengths = {} # 文档长度: {docID: 词项总数}
+    print(f"发现{len(docIDs)}个文档")
     
-    # 处理所有文档，构建内存中的倒排索引
+    # 初始化索引数据结构
+    dictionary = {}  # 词项到文档ID集合的映射
+    term_freq = {}   # 记录每个词项在每个文档中的频率
+    doc_lengths = {} # 记录每个文档的词项总数
+    
+    # 第一步：处理所有文档，构建内存中的索引
     for docID in docIDs:
         doc_lengths[docID] = 0  # 初始化文档长度
+        
+        # 读取文档内容
         with codecs.open(os.path.join(document_dir, str(docID)), 'r', encoding='utf-8') as doc_file:
-            # 读取文档并分词
             content = doc_file.read()
-            tokens = list(jieba.cut(content))
+            tokens = list(jieba.cut(content))  # 使用jieba分词
             
             # 处理每个词项
             for token in tokens:
-                term = token.lower().strip()  # 全部转为小写并去除空白
+                term = token.lower().strip()  # 转为小写并去除空白
                 
-                # 过滤条件
+                # 应用过滤条件
                 if not term:  # 跳过空字符串
                     continue
-                if IGNORE_STOPWORDS and term in stopwords:
+                if IGNORE_STOPWORDS and term in stopwords:  # 跳过停用词
                     continue
-                if IGNORE_NUMBERS and is_number(term):
+                if IGNORE_NUMBERS and is_number(term):  # 跳过数字
                     continue
-                if IGNORE_SINGLES and len(term) <= 1:
+                if IGNORE_SINGLES and len(term) <= 1:  # 跳过单字符词项
                     continue
                 
                 # 移除标点符号
@@ -90,23 +107,31 @@ def build_index(document_dir, dictionary_file, postings_file):
                 # 更新文档长度
                 doc_lengths[docID] += 1
     
-    # 写入所有索引的文档ID到词典文件第一行
+    # 第二步：写入元数据到词典文件
+    # 写入所有索引的文档ID
     dict_file.write(f"all_indexed_docIDs: {','.join(map(str, docIDs))}\n")
     
-    # 写入文档长度信息到词典文件的第二行
+    # 写入文档长度信息
     dict_file.write(f"doc_lengths: {json.dumps(doc_lengths)}\n")
     
-    # 将内存中的倒排索引写入文件
+    # 第三步：将内存中的倒排索引写入文件
     current_offset = 0  # 当前在倒排文件中的偏移量
+    term_count = 0      # 已处理的词项数
     
-    # 按词项字母顺序排序
-    for term in sorted(dictionary.keys()):
+    # 按词项字母顺序排序以便二分查找
+    sorted_terms = sorted(dictionary.keys())
+    
+    for term in sorted_terms:
+        term_count += 1
+        if term_count % 1000 == 0:
+            print(f"处理词项进度: {term_count}/{len(sorted_terms)}")
+            
         # 获取包含该词项的文档列表并排序
         postings_list = sorted(list(dictionary[term]))
         df = len(postings_list)  # 文档频率
         
         # 计算该词项的IDF值
-        idf = math.log10(len(docIDs) / df) if df < len(docIDs) else 0
+        idf = math.log10(len(docIDs) / df) if df > 0 else 0
         
         # 将词项、文档频率、IDF和偏移量写入词典文件
         dict_file.write(f"{term} {df} {idf} {current_offset}\n")
@@ -123,9 +148,25 @@ def build_index(document_dir, dictionary_file, postings_file):
     # 关闭文件
     dict_file.close()
     post_file.close()
+    
+    end_time = timeit.default_timer()
+    
+    print(f"索引构建完成:")
+    print(f"- 文档数: {len(docIDs)}")
+    print(f"- 词项数: {len(dictionary)}")
+    print(f"- 词典文件: {dictionary_file}")
+    print(f"- 倒排文件: {postings_file}")
+    print(f"- 耗时: {end_time - start_time:.2f}秒")
 
-"""判断词项是否为数字"""
+"""
+判断词项是否为数字
+参数:
+    - token: 要检查的词项
+返回:
+    - 布尔值，表示词项是否为数字
+"""
 def is_number(token):
+    # 移除数字中的逗号
     token = token.replace(",", "")
     try:
         float(token)
@@ -133,7 +174,9 @@ def is_number(token):
     except ValueError:
         return False
 
-"""显示正确的命令用法"""
+"""
+显示正确的命令用法
+"""
 def print_usage():
     print("用法: " + sys.argv[0] + " -i 文档目录 -d 词典文件 -p 倒排文件")
 

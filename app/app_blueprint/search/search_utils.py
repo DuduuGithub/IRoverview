@@ -2,52 +2,43 @@ from datetime import datetime
 import math
 from Database.model import SearchSession, SearchResult, Work
 from Database.config import db
+from flask import request
+import uuid
 
-def record_search_session(search_data, total_results):
+def record_search_session(query, total_results=0):
     """
-    记录搜索会话信息
+    记录一次搜索会话
     
-    Args:
-        search_data: 搜索请求数据
-        total_results: 搜索结果总数
-    
-    Returns:
+    参数:
+        query (str): 搜索查询
+        total_results (int): 搜索结果总数
+        
+    返回:
         str: 会话ID
     """
     try:
-        # 生成会话ID（使用时间戳和随机数）
-        session_id = f"{int(datetime.utcnow().timestamp())}_{hash(str(search_data))}"
+        # 生成唯一的会话ID
+        session_id = str(uuid.uuid4())
         
-        # 获取搜索类型并映射到数据库允许的值
-        search_type = search_data.get('search_type', 'basic')
-        # 映射搜索类型到数据库允许的值
-        type_mapping = {
-            'basic': 'keyword',
-            'advanced': 'advanced',
-            'ai': 'semantic'
-        }
-        search_type = type_mapping.get(search_type, 'keyword')  # 默认使用keyword类型
-        
-        # 创建搜索会话记录
-        search_session = SearchSession(
+        # 创建会话记录
+        session = SearchSession(
             session_id=session_id,
-            search_time=datetime.utcnow(),
-            keyword=search_data.get('keyword'),
-            title_query=search_data.get('title'),
-            author_query=search_data.get('author'),
-            date_from=search_data.get('date_from'),
-            date_to=search_data.get('date_to'),
-            search_type=search_type,
-            total_results=total_results
+            search_time=datetime.now(),  # 使用search_time而不是timestamp
+            keyword=query,  # 使用query作为keyword字段
+            search_type='keyword',  # 默认设置为keyword类型
+            user_id=None,  # 可以在用户系统中设置
+            total_results=total_results,
+            client_info={"ip_address": request.remote_addr} if request else None
         )
         
-        db.session.add(search_session)
+        # 保存到数据库
+        db.session.add(session)
         db.session.commit()
         
+        # 返回会话ID
         return session_id
     except Exception as e:
-        print(f"记录搜索会话出错: {str(e)}")
-        db.session.rollback()
+        print(f"记录搜索会话出错: {e}")
         return None
 
 def record_search_results(session_id, documents):

@@ -30,7 +30,7 @@ def search(dictionary_file=None, postings_file=None, queries_file=None, output_f
         
         # 将自然语言转换为结构化查询
         try:
-            structured_query = convert_to_structured_query(query_text if query_text else "")
+            structured_query = convert_to_structured_query(query_text if query_text else "", 'basic')
             print(f"原始查询: {query_text}" if query_text else "查询为空")
             print(f"转换后的检索式: {structured_query}")
         except Exception as e:
@@ -69,7 +69,7 @@ def search(dictionary_file=None, postings_file=None, queries_file=None, output_f
 """
 调用deepseek API将自然语言转换为结构化检索式
 """
-def convert_to_structured_query(nl_query):
+def convert_to_structured_query(nl_query, search_mode='basic'):
     if not nl_query:
         return ""  # 如果查询为空，返回空字符串
     
@@ -83,52 +83,50 @@ def convert_to_structured_query(nl_query):
             "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
         }
         
-        # 优化的prompt
-        prompt = f"""作为一个学术文献检索系统的核心组件，你需要将用户的自然语言查询转换为精确的布尔检索式或高级检索式。
+        # 创建统一的Prompt，关注用户意图而非UI模式
+        prompt = f"""作为一个学术文献检索系统的智能助手，你需要分析用户的自然语言查询，
+提取关键信息，并将其转换为适当的检索式。
 
-请遵循以下格式规范：
-1. 若是简单关键词查询，直接返回关键词。例如：
-   - 输入："机器学习"
-   - 输出："机器学习"
+请先分析用户意图，识别以下要素：
+1. 核心主题或关键词
+2. 作者信息
+3. 发表年份或时间范围
+4. 标题中包含的特定词语
+5. 机构信息
+6. 逻辑关系（AND, OR, NOT）
 
-2. 若包含明确的逻辑关系，使用AND、OR、NOT等布尔操作符连接。例如：
-   - 输入："找到同时包含深度学习和图像识别的论文"
-   - 输出："深度学习 AND 图像识别"
-   - 输入："人工智能或机器学习"
-   - 输出："人工智能 OR 机器学习"
-   - 输入："计算机视觉但不包含人脸识别"
-   - 输出："计算机视觉 NOT 人脸识别"
+请遵循以下规则生成检索式：
+1. 当前模式是：{search_mode}
+2. 在基本模式下：
+   - 生成简单的布尔表达式，如 "深度学习 AND 图像识别"
+   - 将时间、作者等过滤条件单独记录，而不包含在检索式中
+   
+3. 在高级模式下：
+   - 使用字段限定语法，如 "title:\"深度学习\" AND author:\"李明\""
+   - 对时间范围使用 year:[起始年 TO 终止年] 语法
 
-3. 当提到特定字段，使用field:value格式。支持的字段包括：
-   - title: 标题
-   - author: 作者
-   - keyword: 关键词
-   - time: 时间
-   - institution: 机构
-   - abstract: 摘要
-   - content: 全文
+你的回复必须是一个JSON格式，包含以下字段：
+{{
+  "query": "检索式字符串",
+  "has_time_filter": true/false,
+  "time_range": [起始年,终止年],
+  "has_author_filter": true/false,
+  "authors": ["作者1", "作者2"],
+  "has_institution_filter": true/false,
+  "institutions": ["机构1", "机构2"]
+}}
 
-   例如：
-   - 输入："查找张三发表的关于机器学习的论文"
-   - 输出："author:张三 AND 机器学习"
-   - 输入："标题包含深度学习的论文"
-   - 输出："title:深度学习"
-
-4. 对于时间范围，使用time:YYYY-MM-DD~YYYY-MM-DD格式。例如：
-   - 输入："2020年到2022年的人工智能论文"
-   - 输出："time:2020~2022 AND 人工智能"
-   - 输入："2018年3月之后发表的深度学习论文"
-   - 输出："time:2018-03~2025-05-11 AND 深度学习"
-
-仅返回转换后的检索式，不要包含任何解释或多余的文字。
+对于基本模式，将所有过滤器信息记录在各自字段中，但"query"字段只包含简单的布尔表达式
+对于高级模式，可以在"query"字段中使用完整的字段限定语法
 
 自然语言查询: {nl_query}
+搜索模式: {search_mode}
 检索式:"""
         
         data = {
             "model": "deepseek-chat",
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 100,
+            "max_tokens": 300,
             "temperature": 0.1  # 低温度使输出更确定
         }
         
@@ -142,9 +140,49 @@ def convert_to_structured_query(nl_query):
             
         try:
             result = response.json()
-            structured_query = result["choices"][0]["message"]["content"].strip()
-            return structured_query
-        except (KeyError, IndexError, json.JSONDecodeError) as e:
+            ai_response = result["choices"][0]["message"]["content"].strip()
+            
+            # 尝试解析JSON结果
+            try:
+                response_json = json.loads(ai_response)
+                
+                # 获取检索式
+                structured_query = response_json.get("query", "")
+                
+                # 记录额外的过滤条件信息，供后端使用
+                # 这些信息可以用于后端过滤，不必全部包含在检索式中
+                has_time_filter = response_json.get("has_time_filter", False)
+                time_range = response_json.get("time_range", [])
+                has_author_filter = response_json.get("has_author_filter", False)
+                authors = response_json.get("authors", [])
+                has_institution_filter = response_json.get("has_institution_filter", False)
+                institutions = response_json.get("institutions", [])
+                
+                # 保存完整的意图分析结果，便于后续处理
+                # 可以考虑将这些信息存储在某个地方，以便后端检索使用
+                print(f"意图分析结果: {response_json}")
+                
+                return structured_query
+                
+            except json.JSONDecodeError:
+                # 如果无法解析为JSON，则直接返回原始回复
+                print("无法解析API返回的JSON，使用原始文本")
+                # 提取回复中的检索式部分
+                if "```json" in ai_response:
+                    # 尝试提取代码块中的内容
+                    match = re.search(r'```json\s*(.*?)\s*```', ai_response, re.DOTALL)
+                    if match:
+                        try:
+                            json_str = match.group(1)
+                            response_json = json.loads(json_str)
+                            return response_json.get("query", ai_response)
+                        except:
+                            pass
+                
+                # 如果上述尝试都失败，返回原始回复作为检索式
+                return ai_response
+                
+        except (KeyError, IndexError) as e:
             error_msg = f"解析API响应出错: {e}"
             print(error_msg)
             raise ValueError(error_msg)

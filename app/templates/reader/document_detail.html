@@ -1,154 +1,648 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <!-- 文档内容 -->
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <h1 class="card-title">{{ work.title or work.display_name }}</h1>
-                    
-                    <!-- 作者信息 -->
-                    <div class="authors mb-3">
-                        <h5>作者</h5>
-                        <ul class="list-unstyled">
-                            {% for author in authors %}
-                            <li>
-                                {{ author.name }}
-                                {% if author.institution %}
-                                <small class="text-muted">({{ author.institution }})</small>
-                                {% endif %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/search/">
+    <link rel="icon" href="/static/search/favicon.png">
+    <title>文献详情 | Document Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+        
+        .nav-link {
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .content-container {
+            max-width: 1140px;
+            margin: 2rem auto;
+        }
+        
+        .document-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 2rem;
+        }
+        
+        .sidebar {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .language-switch {
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .document-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .document-meta {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .author-list {
+            margin-bottom: 0.75rem;
+        }
+        
+        .author-item {
+            display: inline-block;
+            margin-right: 1rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .meta-item {
+            display: inline-block;
+            margin-right: 1.5rem;
+            color: var(--secondary-color);
+            font-size: 0.875rem;
+        }
+        
+        .abstract-section {
+            margin-bottom: 2rem;
+        }
+        
+        .abstract-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+        
+        .abstract-content {
+            line-height: 1.6;
+            color: #333;
+            text-align: justify;
+        }
+        
+        .keywords-section {
+            margin-bottom: 2rem;
+        }
+        
+        .keyword-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            margin: 0.25rem;
+            background-color: #f0f7ff;
+            color: var(--primary-color);
+            border-radius: 50px;
+            font-size: 0.875rem;
+        }
+        
+        .references-section {
+            margin-bottom: 2rem;
+        }
+        
+        .reference-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .reference-item:last-child {
+            border-bottom: none;
+        }
+        
+        .reference-title {
+            font-weight: 500;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .reference-title:hover {
+            text-decoration: underline;
+        }
+        
+        .toc-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .toc-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .toc-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .toc-link:hover {
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+        }
+        
+        .toc-link.active {
+            background-color: #e7f1ff;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .citation-section {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .citation-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+        
+        .citation-formats {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .citation-item {
+            margin-bottom: 0.75rem;
+        }
+        
+        .citation-text {
+            font-family: monospace;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+        }
+        
+        .copy-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.875rem;
+            text-decoration: underline;
+        }
+        
+        .back-to-results {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .back-to-results:hover {
+            color: var(--primary-color);
+        }
+        
+        .related-section {
+            margin-bottom: 0;
+        }
+        
+        .related-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .related-item:last-child {
+            border-bottom: none;
+        }
+        
+        .related-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+        
+        .related-title a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .related-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .related-info {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+        
+        .citation-count {
+            font-weight: 600;
+            color: #198754;
+        }
+        
+        .footer {
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #333;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h4 mb-0">
+                        <a href="/search/" class="text-decoration-none">
+                            文献检索系统
+                        </a>
+                    </h1>
+                </div>
+                <div class="d-flex align-items-center">
+                    <nav class="me-3">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/search/">
+                                    检索
+                                </a>
                             </li>
-                            {% endfor %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container content-container">
+        <a href="javascript:history.back()" class="back-to-results">
+            <i class="bi bi-arrow-left me-1"></i>
+            返回检索结果
+        </a>
+        
+        <div class="row g-4">
+            <!-- 主内容区 -->
+        <div class="col-md-8">
+                <div class="document-container">
+                    <h1 id="document-title" class="document-title">Loading...</h1>
+                    
+                    <div class="document-meta">
+                        <div id="author-list" class="author-list">
+                            <!-- 作者列表将动态加载 -->
+                        </div>
+                        <div class="meta-info">
+                            <span id="publication-date" class="meta-item">
+                                <i class="bi bi-calendar-event me-1"></i>
+                                <span id="publication-year"></span>
+                            </span>
+                            <span id="publication-venue" class="meta-item">
+                                <i class="bi bi-journal me-1"></i>
+                                <span id="venue-name"></span>
+                            </span>
+                            <span id="citation-info" class="meta-item">
+                                <i class="bi bi-diagram-3 me-1"></i>
+                                被引用
+                                <span id="citation-count" class="citation-count"></span>
+                                次
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="citation-section">
+                        <h3 class="citation-title">
+                            引用此文献
+                        </h3>
+                        <ul class="citation-formats">
+                            <li class="citation-item">
+                                <div class="d-flex justify-content-between">
+                                    <span>BibTeX</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')">
+                                        复制
+                                    </button>
+                                </div>
+                                <div id="bibtex-citation" class="citation-text"></div>
+                            </li>
+                            <li class="citation-item">
+                                <div class="d-flex justify-content-between">
+                                    <span>APA</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')">
+                                        复制
+                                    </button>
+                                </div>
+                                <div id="apa-citation" class="citation-text"></div>
+                            </li>
                         </ul>
                     </div>
                     
-                    <!-- 元数据 -->
-                    <div class="metadata mb-3">
-                        <p><strong>发表年份：</strong> {{ work.publication_year }}</p>
-                        <p><strong>引用次数：</strong> {{ work.cited_by_count or 0 }}</p>
-                    </div>
-                    
-                    <!-- 摘要 -->
-                    {% if work.abstract_inverted_index %}
-                    <div class="abstract mb-3">
-                        <h5>摘要</h5>
-                        <p>{{ work.abstract_inverted_index }}</p>
-                    </div>
-                    {% endif %}
-                    
-                    <!-- 全文内容 -->
-                    {% if work.content %}
-                    <div class="content">
-                        <h5>全文</h5>
-                        <div class="content-text">
-                            {{ work.content | safe }}
+                    <div id="abstract-section" class="abstract-section">
+                        <h2 class="abstract-title">
+                            摘要
+                        </h2>
+                        <div id="abstract-content" class="abstract-content">
+                            <!-- 摘要内容将动态加载 -->
                         </div>
                     </div>
-                    {% endif %}
+                    
+                    <div id="keywords-section" class="keywords-section">
+                        <h2 class="abstract-title">
+                            关键词
+                        </h2>
+                        <div id="keyword-list">
+                            <!-- 关键词列表将动态加载 -->
+                        </div>
+                    </div>
+                    
+                    <div id="references-section" class="references-section">
+                        <h2 class="abstract-title">
+                            参考文献
+                        </h2>
+                        <div id="references-list">
+                            <!-- 参考文献列表将动态加载 -->
+                        </div>
                 </div>
             </div>
         </div>
         
         <!-- 侧边栏 -->
         <div class="col-md-4">
-            <!-- 引用网络 -->
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">引用网络</h5>
-                    <div id="citationNetwork" style="height: 300px;"></div>
-                </div>
+                <div class="sidebar">
+                    <div class="toc-section">
+                        <h3 class="toc-title">
+                            目录
+                        </h3>
+                        <ul class="toc-list">
+                            <li class="toc-item">
+                                <a href="#abstract-section" class="toc-link active">
+                                    摘要
+                                </a>
+                            </li>
+                            <li class="toc-item">
+                                <a href="#keywords-section" class="toc-link">
+                                    关键词
+                                </a>
+                            </li>
+                            <li class="toc-item">
+                                <a href="#references-section" class="toc-link">
+                                    参考文献
+                                </a>
+                            </li>
+                        </ul>
             </div>
             
-            <!-- 相关文档 -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">相关文档</h5>
-                    <div id="relatedDocuments">
-                        <!-- 相关文档将通过JavaScript动态加载 -->
+                    <div class="related-section">
+                        <h3 class="toc-title">
+                            相关文献
+                        </h3>
+                        <div id="related-list">
+                            <!-- 相关文献列表将动态加载 -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">
+                © 2025 文献检索系统. 保留所有权利.
+            </p>
 </div>
+    </footer>
 
-<!-- 添加必要的JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sessionId = '{{ session_id }}';
-    const docId = {{ work.id }};
-    let startTime = Date.now();
-    
-    // 加载引用网络
-    function loadCitationNetwork() {
-        fetch(`/reader/api/citation-network/${docId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('加载引用网络失败:', data.error);
-                    return;
+        // 获取文献ID
+        const pathParts = window.location.pathname.split('/');
+        let documentId = pathParts.pop();
+        // 处理可能的斜杠结尾
+        if (documentId === '') {
+            documentId = pathParts.pop();
+        }
+        console.log('提取的文档ID:', documentId);
+        
+        // 目录导航功能
+        document.querySelectorAll('.toc-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                    
+                    document.querySelectorAll('.toc-link').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    this.classList.add('active');
                 }
-                // 这里添加引用网络可视化的代码
-                // 可以使用D3.js或其他可视化库
-            })
-            .catch(error => console.error('请求失败:', error));
-    }
-    
-    // 记录停留时间
-    function recordDwellTime() {
-        const dwellTime = Math.floor((Date.now() - startTime) / 1000);
-        fetch('/reader/api/record-dwell-time', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                session_id: sessionId,
-                document_id: docId,
-                dwell_time: dwellTime
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error('记录停留时间失败:', data.error);
+            });
+        });
+        
+        // 复制到剪贴板功能
+        function copyToClipboard(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            
+            const text = el.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text)
+                    .then(() => {
+                        alert('已复制到剪贴板');
+                    })
+                    .catch(err => {
+                        console.error('复制失败:', err);
+                    });
+            } else {
+                // 兼容旧版浏览器
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('已复制到剪贴板');
             }
-        })
-        .catch(error => console.error('请求失败:', error));
-    }
-    
-    // 页面加载时初始化
-    loadCitationNetwork();
-    
-    // 页面关闭时记录停留时间
-    window.addEventListener('beforeunload', recordDwellTime);
-});
-</script>
-
-<!-- 添加样式 -->
-<style>
-.content-text {
-    white-space: pre-wrap;
-    line-height: 1.6;
-}
-
-.authors li {
-    margin-bottom: 0.5rem;
-}
-
-.metadata p {
-    margin-bottom: 0.5rem;
-}
-
-.abstract, .content {
-    margin-top: 2rem;
-}
-
-#citationNetwork {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-</style>
-{% endblock %} 
+        }
+        
+        // 页面加载后获取文献详情
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchDocumentDetails(documentId);
+        });
+        
+        // 获取文献详情
+        function fetchDocumentDetails(documentId) {
+            const apiUrl = `/search/api/document/${documentId}`;
+            console.log('请求API:', apiUrl);
+            
+            fetch(apiUrl)
+                .then(response => {
+                    console.log('API响应状态:', response.status);
+                    if (!response.ok) {
+                        throw new Error('文献信息获取失败，状态码: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('获取到的文档数据:', data);
+                    renderDocumentDetails(data);
+                })
+                .catch(error => {
+                    console.error('获取文献详情出错:', error);
+                    document.querySelector('.document-container').innerHTML = `
+                        <div class="alert alert-danger">
+                            <span class="text-zh">获取文献详情失败，请稍后重试</span>
+                            <p class="mt-2"><small>${error.message}</small></p>
+                        </div>
+                    `;
+                });
+        }
+        
+        // 渲染文献详情
+        function renderDocumentDetails(doc) {
+            // 更新标题
+            document.getElementById('document-title').textContent = doc.title;
+            
+            // 更新作者列表
+            const authorList = document.getElementById('author-list');
+            if (doc.authors && doc.authors.length > 0) {
+                authorList.innerHTML = doc.authors.map(author => 
+                    `<span class="author-item">${author}</span>`
+                ).join('');
+            } else {
+                authorList.innerHTML = '<span class="author-item">Unknown</span>';
+            }
+            
+            // 更新发表年份
+            document.getElementById('publication-year').textContent = doc.year || 'N/A';
+            
+            // 更新发表期刊/会议
+            document.getElementById('venue-name').textContent = doc.venue || 'N/A';
+            
+            // 更新引用次数
+            document.getElementById('citation-count').textContent = doc.cited_by_count || '0';
+            
+            // 更新摘要
+            document.getElementById('abstract-content').innerHTML = doc.abstract || 
+                '<p class="text-muted">暂无摘要</p>';
+            
+            // 更新关键词
+            const keywordList = document.getElementById('keyword-list');
+            if (doc.keywords && doc.keywords.length > 0) {
+                keywordList.innerHTML = doc.keywords.map(keyword => 
+                    `<span class="keyword-badge">${keyword}</span>`
+                ).join('');
+            } else {
+                keywordList.innerHTML = '<p class="text-muted">暂无关键词</p>';
+            }
+            
+            // 更新引用格式
+            const bibtexTemplate = `@article{${doc.id},
+title={${doc.title}},
+author={${doc.authors ? doc.authors.join(' and ') : 'Unknown'}},
+journal={${doc.venue || 'N/A'}},
+year={${doc.year || 'N/A'}},
+volume={${doc.volume || 'N/A'}},
+number={${doc.issue || 'N/A'}},
+pages={${doc.pages || 'N/A'}}
+}`;
+            document.getElementById('bibtex-citation').textContent = bibtexTemplate;
+            
+            const authorsAPA = doc.authors ? 
+                doc.authors.map((author, index) => {
+                    if (index === doc.authors.length - 1) {
+                        return `& ${author}`;
+                    } else {
+                        return author;
+                    }
+                }).join(', ') : 'Unknown';
+            
+            const apaTemplate = `${authorsAPA} (${doc.year || 'n.d.'}). ${doc.title}. ${doc.venue ? doc.venue + ',' : ''} ${doc.volume ? doc.volume + (doc.issue ? '(' + doc.issue + ')' : '') + ',' : ''} ${doc.pages || ''}.`;
+            document.getElementById('apa-citation').textContent = apaTemplate;
+            
+            // 更新参考文献
+            const referencesList = document.getElementById('references-list');
+            if (doc.references && doc.references.length > 0) {
+                referencesList.innerHTML = doc.references.map(ref => 
+                    `<div class="reference-item">
+                        <a href="/search/document/${ref.id}" class="reference-title">${ref.title}</a>
+                        <div class="reference-authors">${ref.authors || 'Unknown'}</div>
+                        <div class="reference-venue">${ref.venue || ''} ${ref.year ? '(' + ref.year + ')' : ''}</div>
+                    </div>`
+                ).join('');
+            } else {
+                referencesList.innerHTML = '<p class="text-muted">暂无参考文献</p>';
+            }
+            
+            // 更新相关文献
+            const relatedList = document.getElementById('related-list');
+            if (doc.related && doc.related.length > 0) {
+                relatedList.innerHTML = doc.related.map(rel => 
+                    `<div class="related-item">
+                        <div class="related-title">
+                            <a href="/search/document/${rel.id}">${rel.title}</a>
+                        </div>
+                        <div class="related-meta">
+                            <span>${rel.authors.join(', ')}</span>
+                            <span>${rel.year}</span>
+                            <span><i class="bi bi-diagram-3"></i> ${rel.cited_by_count || 0}</span>
+                        </div>
+                    </div>`
+                ).join('');
+            } else {
+                relatedList.innerHTML = '<p class="text-muted">暂无相关文献</p>';
+            }
+        }
+    </script>
+</body>
+</html> 
