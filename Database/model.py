@@ -483,18 +483,8 @@ class SearchSession(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     session_id = Column(String(50), nullable=False, unique=True)
     search_time = Column(DateTime, default=datetime.utcnow)
-    keyword = Column(String(255))
-    title_query = Column(String(255))
-    author_query = Column(String(255))
-    concept_query = Column(String(255))
-    institution_query = Column(String(255))
-    date_from = Column(DateTime)
-    date_to = Column(DateTime)
-    search_type = Column(Enum('keyword', 'semantic', 'advanced', 'citation'))
+    query_text = Column(Text, nullable=False)  # 检索式
     total_results = Column(Integer, default=0)
-    search_filters = Column(JSON)
-    user_id = Column(String(50))
-    client_info = Column(JSON)
     
     # 关系
     results = relationship('SearchResult', back_populates='session')
@@ -504,18 +494,8 @@ class SearchSession(db.Model):
             'id': self.id,
             'session_id': self.session_id,
             'search_time': self.search_time.isoformat() if self.search_time else None,
-            'keyword': self.keyword,
-            'title_query': self.title_query,
-            'author_query': self.author_query,
-            'concept_query': self.concept_query,
-            'institution_query': self.institution_query,
-            'date_from': self.date_from.isoformat() if self.date_from else None,
-            'date_to': self.date_to.isoformat() if self.date_to else None,
-            'search_type': self.search_type,
-            'total_results': self.total_results,
-            'search_filters': self.search_filters,
-            'user_id': self.user_id,
-            'client_info': self.client_info
+            'query_text': self.query_text,
+            'total_results': self.total_results
         }
 
 # 搜索结果记录
@@ -526,13 +506,14 @@ class SearchResult(db.Model):
     session_id = Column(String(50), ForeignKey('search_sessions.session_id'))
     entity_type = Column(Enum('work', 'author', 'concept', 'institution', 'source', 'topic'))
     entity_id = Column(String(255))
-    rank_position = Column(Integer)
+    rank = Column(Integer)  # 在总结果中的排名
     relevance_score = Column(Float)
+    query_text = Column(Text)  # 检索式
+    result_page = Column(Integer)  # 结果所在页码
+    result_position = Column(Integer)  # 结果在页面中的位置
     is_clicked = Column(Boolean, default=False)
     click_time = Column(DateTime)
-    click_order = Column(Integer)
-    dwell_time = Column(Integer)
-    user_feedback = Column(JSON)
+    dwell_time = Column(Integer, default=0)  # 停留时间（秒）
     
     # 关系
     session = relationship('SearchSession', back_populates='results')
@@ -543,11 +524,62 @@ class SearchResult(db.Model):
             'session_id': self.session_id,
             'entity_type': self.entity_type,
             'entity_id': self.entity_id,
-            'rank_position': self.rank_position,
+            'rank': self.rank,
             'relevance_score': self.relevance_score,
+            'query_text': self.query_text,
+            'result_page': self.result_page,
+            'result_position': self.result_position,
             'is_clicked': self.is_clicked,
             'click_time': self.click_time.isoformat() if self.click_time else None,
-            'click_order': self.click_order,
+            'dwell_time': self.dwell_time
+        }
+
+class UserBehavior(db.Model):
+    """用户行为记录模型"""
+    __tablename__ = 'user_behaviors'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    session_id = db.Column(db.String(50), db.ForeignKey('search_sessions.session_id'), nullable=False)
+    document_id = db.Column(db.String(50), nullable=False)
+    dwell_time = db.Column(db.Integer, default=0)  # 停留时间（秒）
+    behavior_time = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # 关系
+    search_session = db.relationship('SearchSession', backref='behaviors')
+    
+    __table_args__ = (
+        db.UniqueConstraint('session_id', 'document_id', name='uix_session_document'),
+    )
+    
+    @classmethod
+    def record_dwell_time(cls, session_id, document_id, dwell_time):
+        """记录文档停留时间
+        
+        Args:
+            session_id: 会话ID
+            document_id: 文档ID
+            dwell_time: 停留时间（秒）
+        """
+        # 限制最大停留时间为20分钟（1200秒）
+        max_dwell_time = 1200
+        dwell_time = min(dwell_time, max_dwell_time)
+        
+        behavior = cls(
+            session_id=session_id,
+            document_id=document_id,
+            dwell_time=dwell_time,
+            behavior_time=datetime.utcnow()
+        )
+        db.session.add(behavior)
+        db.session.commit()
+        return behavior
+    
+    def to_dict(self):
+        """转换为字典格式"""
+        return {
+            'id': self.id,
+            'session_id': self.session_id,
+            'document_id': self.document_id,
             'dwell_time': self.dwell_time,
-            'user_feedback': self.user_feedback
+            'behavior_time': self.behavior_time.isoformat() if self.behavior_time else None
         }

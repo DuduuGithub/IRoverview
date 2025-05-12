@@ -5,10 +5,8 @@ from sqlalchemy import or_
 from .search_utils import (
     record_search_session,
     record_search_results,
-    # record_document_click,
-    # update_dwell_time,
-    # calculate_relevance_score,
-    # update_search_result_score
+    record_document_click,
+    get_search_history
 )
 from .basicSearch.search import search as basic_search
 from .proSearch.search import search as advanced_search_engine
@@ -17,6 +15,7 @@ from .rank.rank import SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, S
 import re
 import sys
 import os
+import logging
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../')))
@@ -25,6 +24,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 searcher_bp = Blueprint('searcher', __name__,
                        template_folder='templates',
                        static_folder='static')
+
+logger = logging.getLogger(__name__)
 
 def highlight_text(text, keywords):
     if not text:
@@ -93,6 +94,12 @@ def api_search():
         work_ids = basic_search(query_text=keyword, use_db=True, sort_method=sort_method)
         total = len(work_ids)
         
+        # 记录搜索会话
+        session_id = record_search_session(keyword, total)
+        if not session_id:
+            logger.error("记录搜索会话失败")
+            return jsonify({'error': '记录搜索会话失败'}), 500
+        
         # 分页
         start = (page - 1) * per_page
         end = start + per_page
@@ -100,7 +107,8 @@ def api_search():
         
         # 获取搜索结果
         works = []
-        for work_id in paginated_ids:
+        raw_results = []  # 用于记录原始搜索结果
+        for i, work_id in enumerate(paginated_ids):
             work = Work.query.get(work_id)
             if work:
                 # 获取作者
@@ -114,24 +122,49 @@ def api_search():
                 
                 # 创建结果对象
                 result = {
-                    'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
+                    'id': work.id,  # 使用原始ID
                     'title': highlight_text(work.title or work.display_name or '', keywords),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
                     'cited_by_count': work.cited_by_count or 0,
-                    'abstract': work.abstract_inverted_index or ''
+                    'abstract': highlight_text(work.abstract_inverted_index or '', keywords),
+                    'rank': start + i + 1,
+                    'page': page,
+                    'position': i + 1,
+                    'url': f'/reader/document/{work.id}?session_id={session_id}'
                 }
                 works.append(result)
+                
+                # 创建原始结果对象用于记录
+                raw_result = {
+                    'id': work.id,
+                    'relevance_score': 0.0,  # 初始相关性得分
+                    'query_text': keyword
+                }
+                raw_results.append(raw_result)
+        
+        # 记录搜索结果
+        if session_id and raw_results:
+            try:
+                record_search_results(
+                    session_id=session_id,
+                    results=raw_results,
+                    page=page,
+                    per_page=per_page
+                )
+            except Exception as e:
+                logger.error(f"记录搜索结果失败: {str(e)}", exc_info=True)
         
         return jsonify({
             'results': works,
             'total': total,
             'page': page,
-            'per_page': per_page
+            'per_page': per_page,
+            'session_id': session_id
         })
         
     except Exception as e:
-        print(f"搜索出错: {str(e)}")
+        logger.error(f"搜索出错: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 500
 
 @searcher_bp.route('/api/basic/advanced_search', methods=['POST'])
@@ -182,13 +215,15 @@ def api_advanced_search():
                 'per_page': per_page
             })
         
-        print(f"高级搜索查询: {advanced_query}")  # 添加日志
-        
         # 执行高级搜索
         work_ids = advanced_search_engine(query_text=advanced_query, use_db=True, sort_method=sort_method)
         total = len(work_ids)
         
-        print(f"搜索结果数量: {total}")  # 添加日志
+        # 记录搜索会话
+        session_id = record_search_session(advanced_query, total)
+        if not session_id:
+            logger.error("记录搜索会话失败")
+            return jsonify({'error': '记录搜索会话失败'}), 500
         
         # 分页
         start = (page - 1) * per_page
@@ -197,7 +232,8 @@ def api_advanced_search():
         
         # 获取搜索结果
         works = []
-        for work_id in paginated_ids:
+        raw_results = []  # 用于记录原始搜索结果
+        for i, work_id in enumerate(paginated_ids):
             work = Work.query.get(work_id)
             if work:
                 # 获取作者
@@ -211,24 +247,49 @@ def api_advanced_search():
                 
                 # 创建结果对象
                 result = {
-                    'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
+                    'id': work.id,  # 使用原始ID
                     'title': highlight_text(work.title or work.display_name or '', keywords_for_highlight),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
                     'cited_by_count': work.cited_by_count or 0,
-                    'abstract': work.abstract_inverted_index or ''
+                    'abstract': highlight_text(work.abstract_inverted_index or '', keywords_for_highlight),
+                    'rank': start + i + 1,
+                    'page': page,
+                    'position': i + 1,
+                    'url': f'/reader/document/{work.id}?session_id={session_id}'
                 }
                 works.append(result)
+                
+                # 创建原始结果对象用于记录
+                raw_result = {
+                    'id': work.id,
+                    'relevance_score': 0.0,  # 初始相关性得分
+                    'query_text': advanced_query
+                }
+                raw_results.append(raw_result)
+        
+        # 记录搜索结果
+        if session_id and raw_results:
+            try:
+                record_search_results(
+                    session_id=session_id,
+                    results=raw_results,
+                    page=page,
+                    per_page=per_page
+                )
+            except Exception as e:
+                logger.error(f"记录搜索结果失败: {str(e)}", exc_info=True)
         
         return jsonify({
             'results': works,
             'total': total,
             'page': page,
-            'per_page': per_page
+            'per_page': per_page,
+            'session_id': session_id
         })
         
     except Exception as e:
-        print(f"高级搜索出错: {str(e)}")
+        logger.error(f"高级搜索出错: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 500
 
 @searcher_bp.route('/api/basic/ai_search', methods=['POST'])
@@ -270,7 +331,7 @@ def api_ai_search():
                         if keyword.strip() and keyword.strip() not in keywords_for_highlight:
                             keywords_for_highlight.append(keyword.strip())
             
-            # 直接使用AI搜索引擎，它会自动判断是基本查询还是高级查询
+            # 直接使用AI搜索引擎
             work_ids = ai_search_engine(query_text=nl_query, use_db=True)
             
             # 搜索失败时返回空结果
@@ -280,9 +341,15 @@ def api_ai_search():
             print(f"AI搜索执行失败: {search_error}")
             # 出错时尝试使用基本搜索
             work_ids = basic_search(query_text=nl_query, use_db=True)
+            structured_query = nl_query
             keywords_for_highlight = [nl_query]
         
         total = len(work_ids)
+        
+        # 记录搜索会话
+        session_id = record_search_session(structured_query, total)
+        if not session_id:
+            print("记录搜索会话失败")
         
         # 分页
         start = (page - 1) * per_page
@@ -291,7 +358,7 @@ def api_ai_search():
         
         # 获取搜索结果
         works = []
-        for work_id in paginated_ids:
+        for i, work_id in enumerate(paginated_ids):
             work = Work.query.get(work_id)
             if work:
                 # 获取作者
@@ -305,27 +372,38 @@ def api_ai_search():
                 
                 # 创建结果对象
                 result = {
-                    'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
+                    'id': work.openalex or work.id,
                     'title': highlight_text(work.title or work.display_name or '', keywords_for_highlight),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
                     'cited_by_count': work.cited_by_count or 0,
-                    'abstract': work.abstract_inverted_index or ''
+                    'abstract': highlight_text(work.abstract_inverted_index or '', keywords_for_highlight),
+                    'rank': start + i + 1,
+                    'page': page,
+                    'position': i + 1,
+                    'url': f'/reader/document/{work.id}?session_id={session_id}'
                 }
                 works.append(result)
+        
+        # 记录搜索结果
+        if session_id:
+            record_search_results(
+                session_id=session_id,
+                results=works,
+                page=page,
+                per_page=per_page
+            )
         
         response = {
             'results': works,
             'total': total,
             'page': page,
-            'per_page': per_page
+            'per_page': per_page,
+            'session_id': session_id
         }
         
         if show_structured:
-            try:
-                response['structured_query'] = structured_query
-            except:
-                response['structured_query'] = nl_query  # 如果转换失败，使用原始查询
+            response['structured_query'] = structured_query
         
         return jsonify(response)
         
@@ -338,3 +416,34 @@ def api_ai_search():
             'page': 1,
             'per_page': 10
         }), 500
+
+@searcher_bp.route('/api/basic/record_click', methods=['POST'])
+def record_click():
+    """记录文档点击"""
+    try:
+        data = request.get_json()
+        session_id = data.get('session_id')
+        document_id = data.get('document_id')
+        
+        if not session_id or not document_id:
+            return jsonify({'error': '缺少必要参数'}), 400
+            
+        record_document_click(session_id, document_id)
+        return jsonify({'status': 'success'})
+    except Exception as e:
+        logger.error(f"记录点击失败: {str(e)}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
+@searcher_bp.route('/api/basic/search-history/<session_id>', methods=['GET'])
+def get_session_history(session_id):
+    """获取搜索历史"""
+    try:
+        history = get_search_history(session_id)
+        if not history:
+            return jsonify({'error': '未找到搜索历史'}), 404
+            
+        return jsonify(history)
+        
+    except Exception as e:
+        print(f"获取搜索历史失败: {str(e)}")
+        return jsonify({'error': '获取搜索历史失败'}), 500

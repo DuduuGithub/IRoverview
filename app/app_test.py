@@ -10,6 +10,7 @@ from Database.config import db
 import Database.config 
 from sqlalchemy.sql import text
 import json
+from datetime import datetime
 
 def createApp(debug=False):
     app = Flask(__name__,
@@ -273,6 +274,35 @@ def verify_test_data():
         print(f"概念为'算法'的论文有 {len(algo_works)} 篇:")
         for work in algo_works:
             print(f"  - {work.title} (ID: {work.id})")
+
+def record_document_click(session_id, document_id):
+    """记录文档点击（只插入一次，后续只更新时间）"""
+    if not session_id or not document_id:
+        logger.warning(f"无效的会话ID或文档ID: session_id={session_id}, document_id={document_id}")
+        return
+    try:
+        behavior = UserBehavior.query.filter_by(
+            session_id=session_id,
+            document_id=document_id
+        ).first()
+        if behavior:
+            # 只更新时间，不重置dwell_time
+            behavior.behavior_time = datetime.now()
+            logger.info(f"更新已存在的点击记录: session_id={session_id}, document_id={document_id}")
+        else:
+            # 只在没有记录时插入
+            behavior = UserBehavior(
+                session_id=session_id,
+                document_id=document_id,
+                dwell_time=0,
+                behavior_time=datetime.now()
+            )
+            db.session.add(behavior)
+            logger.info(f"创建新的点击记录: session_id={session_id}, document_id={document_id}")
+        db.session.commit()
+    except Exception as e:
+        logger.error(f"记录文档点击失败: session_id={session_id}, document_id={document_id}, 错误={str(e)}", exc_info=True)
+        db.session.rollback()
 
 if __name__ == '__main__':
     with app.app_context():

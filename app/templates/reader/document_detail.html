@@ -76,10 +76,25 @@
 
 <!-- 添加必要的JavaScript -->
 <script>
+console.log('[用户行为] 开始加载文档详情页');
+console.log('[用户行为] 当前URL:', window.location.href);
+
 document.addEventListener('DOMContentLoaded', function() {
-    const sessionId = '{{ session_id }}';
+    console.log('[用户行为] DOM加载完成');
+    
+    // 从URL获取session_id
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
     const docId = {{ work.id }};
     let startTime = Date.now();
+    let isRecording = true;  // 标记是否正在记录时间
+    
+    console.log(`[用户行为] 页面加载:
+        - 文档ID: ${docId}
+        - 会话ID: ${sessionId || '未提供'}
+        - 开始时间: ${new Date(startTime).toLocaleString()}
+        - URL: ${window.location.href}
+    `);
     
     // 加载引用网络
     function loadCitationNetwork() {
@@ -98,32 +113,79 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 记录停留时间
     function recordDwellTime() {
-        const dwellTime = Math.floor((Date.now() - startTime) / 1000);
-        fetch('/reader/api/record-dwell-time', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                session_id: sessionId,
-                document_id: docId,
-                dwell_time: dwellTime
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                console.error('记录停留时间失败:', data.error);
-            }
-        })
-        .catch(error => console.error('请求失败:', error));
+        if (!isRecording) return;  // 如果已经记录过了，就不再记录
+        
+        if (!sessionId) {
+            console.warn('[用户行为] 没有有效的会话ID，无法记录停留时间');
+            return;
+        }
+        
+        const endTime = Date.now();
+        const dwellTime = Math.floor((endTime - startTime) / 1000);
+        
+        console.log(`[用户行为] 计算停留时间:
+            - 文档ID: ${docId}
+            - 会话ID: ${sessionId}
+            - 开始时间: ${new Date(startTime).toLocaleString()}
+            - 结束时间: ${new Date(endTime).toLocaleString()}
+            - 停留时间: ${dwellTime}秒
+            - 当前URL: ${window.location.href}
+        `);
+        
+        if (dwellTime <= 0) {
+            console.warn('[用户行为] 停留时间过短，不记录');
+            return;
+        }
+        
+        // 使用 sendBeacon API 确保在页面关闭时也能发送请求
+        const data = new Blob([JSON.stringify({
+            session_id: sessionId,
+            document_id: docId,
+            dwell_time: dwellTime
+        })], { type: 'application/json' });
+        
+        const success = navigator.sendBeacon('/api/record-dwell-time', data);
+        
+        if (success) {
+            console.log(`[用户行为] 成功发送停留时间记录请求: ${dwellTime}秒`);
+            isRecording = false;  // 标记已记录
+        } else {
+            console.error('[用户行为] 发送停留时间记录请求失败');
+        }
     }
     
     // 页面加载时初始化
     loadCitationNetwork();
     
     // 页面关闭时记录停留时间
-    window.addEventListener('beforeunload', recordDwellTime);
+    window.addEventListener('beforeunload', function(e) {
+        console.log('[用户行为] 页面即将关闭，记录停留时间');
+        recordDwellTime();
+    });
+    
+    // 页面隐藏时记录停留时间
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            console.log('[用户行为] 页面隐藏，记录停留时间');
+            recordDwellTime();
+        } else {
+            console.log('[用户行为] 页面重新可见，重置开始时间');
+            startTime = Date.now();
+            isRecording = true;  // 重新开始记录
+        }
+    });
+    
+    // 定期保存停留时间（每60秒）
+    setInterval(function() {
+        if (!document.hidden) {
+            console.log('[用户行为] 定期保存停留时间');
+            recordDwellTime();
+            startTime = Date.now();  // 重置开始时间
+            isRecording = true;  // 允许继续记录
+        }
+    }, 60000);
+    
+    console.log('[用户行为] 事件监听器设置完成');
 });
 </script>
 

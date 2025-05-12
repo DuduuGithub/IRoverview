@@ -5,7 +5,7 @@ from ..search.search_utils import (
     record_search_session,
     record_search_results,
     record_document_click,
-    update_dwell_time,
+    record_dwell_time,
     calculate_relevance_score,
     update_search_result_score
 )
@@ -53,19 +53,11 @@ def record_dwell_time():
         if not all([session_id, document_id, dwell_time]):
             return jsonify({'error': '缺少必要参数'}), 400
             
-        # 更新停留时间
-        result = SearchResult.query.filter_by(
-            session_id=session_id,
-            document_id=document_id
-        ).first()
-        
-        if result:
-            result.dwell_time = dwell_time
-            # 更新相关性得分
-            update_search_result_score(result)
-            db.session.commit()
-            
-        return jsonify({'message': '停留时间记录成功'})
+        # 记录停留时间
+        if record_dwell_time(session_id, document_id, dwell_time):
+            return jsonify({'message': '停留时间记录成功'})
+        else:
+            return jsonify({'error': '记录停留时间失败'}), 500
         
     except Exception as e:
         print(f"记录停留时间出错: {str(e)}")

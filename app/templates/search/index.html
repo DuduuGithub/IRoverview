@@ -240,6 +240,40 @@
         // 当前搜索参数
         let currentSearchParams = {};
         
+        // 当前会话ID
+        let currentSessionId = null;
+        
+        // 记录点击
+        function recordClick(documentId) {
+            if (!currentSessionId) {
+                console.warn('没有有效的会话ID，无法记录点击');
+                return;
+            }
+            
+            console.log(`[用户行为] 开始记录文档点击: document_id=${documentId}, session_id=${currentSessionId}`);
+            
+            // 记录点击
+            fetch('/api/basic/record_click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    session_id: currentSessionId,
+                    document_id: documentId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('[用户行为] 记录点击失败:', data.error);
+                } else {
+                    console.log('[用户行为] 成功记录文档点击');
+                }
+            })
+            .catch(error => console.error('[用户行为] 记录点击失败:', error));
+        }
+        
         // 基本检索函数
         function performBasicSearch() {
             const keyword = document.getElementById('basic-search-input').value.trim();
@@ -332,6 +366,10 @@
             })
             .then(response => response.json())
             .then(data => {
+                // 保存会话ID
+                if (data.session_id) {
+                    currentSessionId = data.session_id;
+                }
                 renderResults(data);
             })
             .catch(error => {
@@ -368,7 +406,9 @@
                 resultsHtml += `
                     <div class="result-item">
                         <div class="result-title">
-                            <a href="/reader/document/${result.id}">${result.title}</a>
+                            <a href="${result.url}" 
+                               onclick="recordClick('${result.id}')"
+                               data-document-id="${result.id}">${result.title}</a>
                         </div>
                         <div class="result-authors">${result.authors}</div>
                         <div class="result-meta">
@@ -457,6 +497,16 @@
             document.getElementById('ai-search-btn').addEventListener('click', performAiSearch);
             document.getElementById('ai-search-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') performAiSearch();
+            });
+            
+            // 为所有文档链接添加事件监听器
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a[data-document-id]');
+                if (link) {
+                    const documentId = link.getAttribute('data-document-id');
+                    console.log(`[用户行为] 检测到文档点击: document_id=${documentId}`);
+                    recordClick(documentId);
+                }
             });
         });
     </script>

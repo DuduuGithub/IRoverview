@@ -321,8 +321,8 @@ CREATE TABLE yearly_stats (
 -- 表23：操作记录表（从属表）
 CREATE TABLE operation_logs (
     id BIGINT AUTO_INCREMENT COMMENT '记录ID',
-    operation_type ENUM('import', 'update', 'delete', 'export') COMMENT '操作类型',
-    entity_type ENUM('author', 'concept', 'institution', 'source', 'work', 'topic') COMMENT '实体类型',
+    operation_type ENUM('import', 'update', 'delete', 'export', 'search') COMMENT '操作类型',
+    entity_type ENUM('author', 'concept', 'institution', 'source', 'work', 'topic', 'search_session', 'search_result') COMMENT '实体类型',
     entity_id VARCHAR(255) COMMENT '实体ID',
     operation_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '操作时间',
     operator VARCHAR(50) COMMENT '操作者',
@@ -337,46 +337,44 @@ CREATE TABLE operation_logs (
 
 -- 表24：搜索会话表（核心表）
 CREATE TABLE search_sessions (
-    id BIGINT AUTO_INCREMENT COMMENT '会话ID',
-    session_id VARCHAR(50) NOT NULL COMMENT '会话唯一标识符',
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '会话ID',
+    session_id VARCHAR(50) NOT NULL UNIQUE COMMENT '会话唯一标识符',
     search_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '搜索时间',
-    keyword VARCHAR(255) COMMENT '关键词搜索内容',
-    title_query VARCHAR(255) COMMENT '标题搜索内容',
-    author_query VARCHAR(255) COMMENT '作者搜索内容',
-    concept_query VARCHAR(255) COMMENT '概念搜索内容',
-    institution_query VARCHAR(255) COMMENT '机构搜索内容',
-    date_from DATETIME COMMENT '时间范围起始',
-    date_to DATETIME COMMENT '时间范围结束',
-    search_type ENUM('keyword', 'semantic', 'advanced', 'citation') COMMENT '搜索类型',
+    query_text TEXT NOT NULL COMMENT '检索式',
     total_results INT DEFAULT 0 COMMENT '搜索结果总数',
-    search_filters JSON COMMENT '搜索过滤条件（JSON格式）',
-    user_id VARCHAR(50) COMMENT '用户标识（如果有）',
-    client_info JSON COMMENT '客户端信息（JSON格式）',
-    PRIMARY KEY (id),
     INDEX idx_session_id (session_id),
-    INDEX idx_search_time (search_time),
-    INDEX idx_user_id (user_id)
+    INDEX idx_search_time (search_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表24：搜索会话表，记录用户搜索行为和条件';
 
 -- 表25：搜索结果表（核心表）
 CREATE TABLE search_results (
-    id BIGINT AUTO_INCREMENT COMMENT '结果ID',
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '结果ID',
     session_id VARCHAR(50) COMMENT '关联的会话ID',
     entity_type ENUM('work', 'author', 'concept', 'institution', 'source', 'topic') COMMENT '结果实体类型',
     entity_id VARCHAR(255) COMMENT '结果实体ID',
     rank_position INT COMMENT '搜索结果排名位置',
     relevance_score FLOAT COMMENT '相关性得分',
+    query_text TEXT COMMENT '检索式',
+    result_page INT COMMENT '结果所在页码',
+    result_position INT COMMENT '结果在页面中的位置',
     is_clicked BOOLEAN DEFAULT FALSE COMMENT '是否被点击',
     click_time DATETIME COMMENT '点击时间',
-    click_order INT COMMENT '点击顺序',
-    dwell_time INT COMMENT '停留时间（秒）',
-    user_feedback JSON COMMENT '用户反馈信息（JSON格式）',
-    PRIMARY KEY (id),
+    dwell_time INT DEFAULT 0 COMMENT '停留时间（秒）',
     INDEX idx_session_id (session_id),
     INDEX idx_entity (entity_type, entity_id),
     INDEX idx_click_time (click_time),
     FOREIGN KEY (session_id) REFERENCES search_sessions(session_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表25：搜索结果表，记录搜索结果及用户交互行为';
+
+-- 表26：用户行为记录表（核心表）
+CREATE TABLE IF NOT EXISTS user_behaviors (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    session_id VARCHAR(50) NOT NULL,
+    document_id VARCHAR(50) NOT NULL,
+    dwell_time INT DEFAULT 0,
+    behavior_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY uix_session_document (session_id, document_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表26：用户行为记录表，记录用户在文献上的停留时间';
 
 -- 创建触发器函数
 -- 为五个主要表（authors、works、concepts、institutions、sources、topics）都创建了触发器，每个表都有三个触发器：
@@ -868,6 +866,91 @@ BEGIN
     IF entity_exists = 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Invalid entity reference in search_results';
+    END IF;
+END//
+
+-- 搜索会话表触发器
+CREATE TRIGGER search_sessions_after_insert
+AFTER INSERT ON search_sessions
+FOR EACH ROW
+BEGIN
+    INSERT INTO operation_logs (
+        operation_type,
+        entity_type,
+        entity_id,
+        operation_status,
+        operation_details,
+        affected_rows
+    ) VALUES (
+        'search',
+        'search_session',
+        NEW.session_id,
+        'success',
+        CONCAT('新增搜索会话: ', NEW.query_text),
+        1
+    );
+END//
+
+-- 搜索结果表触发器
+CREATE TRIGGER search_results_after_insert
+AFTER INSERT ON search_results
+FOR EACH ROW
+BEGIN
+    INSERT INTO operation_logs (
+        operation_type,
+        entity_type,
+        entity_id,
+        operation_status,
+        operation_details,
+        affected_rows
+    ) VALUES (
+        'search',
+        'search_result',
+        NEW.id,
+        'success',
+        CONCAT('新增搜索结果: 会话ID=', NEW.session_id, ', 实体ID=', NEW.entity_id),
+        1
+    );
+END//
+
+CREATE TRIGGER search_results_after_update
+AFTER UPDATE ON search_results
+FOR EACH ROW
+BEGIN
+    -- 记录点击行为
+    IF NEW.is_clicked != OLD.is_clicked AND NEW.is_clicked = TRUE THEN
+        INSERT INTO user_behaviors (
+            session_id,
+            document_id,
+            dwell_time,
+            behavior_time
+        ) VALUES (
+            NEW.session_id,
+            NEW.entity_id,
+            NEW.dwell_time,
+            NEW.click_time  -- 用点击时间
+        )
+        ON DUPLICATE KEY UPDATE
+            dwell_time = VALUES(dwell_time),
+            behavior_time = VALUES(behavior_time);
+    END IF;
+    
+    -- 记录停留时间
+    IF NEW.dwell_time != OLD.dwell_time AND NEW.dwell_time > 0 THEN
+        INSERT INTO user_behaviors (
+            session_id,
+            document_id,
+            dwell_time,
+            behavior_time
+        ) VALUES (
+            NEW.session_id,
+            NEW.entity_id,
+            NEW.dwell_time,
+            NOW()  -- 用当前时间
+        )
+        ON DUPLICATE KEY UPDATE
+            dwell_time = VALUES(dwell_time),
+            behavior_time = VALUES(behavior_time);
     END IF;
 END//
 
