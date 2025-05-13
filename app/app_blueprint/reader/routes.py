@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from Database.model import Work, Author, WorkAuthorship, SearchResult
+from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat
 from Database.config import db
 from ..search.search_utils import (
     record_search_session,
@@ -46,12 +46,44 @@ def document_detail(doc_id):
             'authors': authors,
             'session_id': session_id  # 添加session_id到文档数据中
         }
+
+        # 获取年度引用统计数据
+        yearly_citations = YearlyStat.query.filter_by(
+            entity_id=doc_id#,
+            # entity_type='work'
+        ).order_by(YearlyStat.year).all()
+        
+        print(f"[DEBUG] 查询到的年度引用数据数量: {len(yearly_citations)}")
+        for citation in yearly_citations:
+            print(f"[DEBUG] 年份: {citation.year}, 引用次数: {citation.cited_by_count}")
+        
+        # 处理年度引用数据，补全缺失年份
+        if yearly_citations:
+            min_year = min(stat.year for stat in yearly_citations)
+            max_year = max(stat.year for stat in yearly_citations)
+            
+            # 创建完整的年份序列和对应的引用数
+            complete_years = list(range(min_year, max_year + 1))
+            existing_citations = {stat.year: stat.cited_by_count for stat in yearly_citations}
+            
+            citation_data = {
+                'years': complete_years,
+                'citations': [existing_citations.get(year, 0) for year in complete_years]
+            }
+            print(f"[DEBUG] 处理后的数据: {citation_data}")
+        else:
+            citation_data = {
+                'years': [],
+                'citations': []
+            }
+            print("[DEBUG] 没有找到年度引用数据")
                     
         return render_template('reader/document_detail.html', 
                              work=work,
                              authors=authors,
                              message=message,
-                             document_data=document_data)  # 传递document_data到模板
+                             document_data=document_data,
+                             citation_data=citation_data)  # 传递document_data到模板
     except Exception as e:
         print(f"[ERROR] 查询文档失败: {e}")
         return jsonify({'error': str(e)}), 500

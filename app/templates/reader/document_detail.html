@@ -11,6 +11,7 @@
     <title>文献详情 | Document Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary-color: #0d6efd;
@@ -333,7 +334,7 @@
         
         <div class="row g-4">
             <!-- 主内容区 -->
-        <div class="col-md-8">
+            <div class="col-md-8">
                 <div class="document-container">
                     <h1 id="document-title" class="document-title">Loading...</h1>
                     
@@ -360,25 +361,19 @@
                     </div>
                     
                     <div class="citation-section">
-                        <h3 class="citation-title">
-                            引用此文献
-                        </h3>
+                        <h3 class="citation-title">引用此文献</h3>
                         <ul class="citation-formats">
                             <li class="citation-item">
                                 <div class="d-flex justify-content-between">
                                     <span>BibTeX</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')">
-                                        复制
-                                    </button>
+                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')">复制</button>
                                 </div>
                                 <div id="bibtex-citation" class="citation-text"></div>
                             </li>
                             <li class="citation-item">
                                 <div class="d-flex justify-content-between">
                                     <span>APA</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')">
-                                        复制
-                                    </button>
+                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')">复制</button>
                                 </div>
                                 <div id="apa-citation" class="citation-text"></div>
                             </li>
@@ -386,64 +381,59 @@
                     </div>
                     
                     <div id="abstract-section" class="abstract-section">
-                        <h2 class="abstract-title">
-                            摘要
-                        </h2>
+                        <h2 class="abstract-title">摘要</h2>
                         <div id="abstract-content" class="abstract-content">
                             <!-- 摘要内容将动态加载 -->
                         </div>
                     </div>
                     
                     <div id="keywords-section" class="keywords-section">
-                        <h2 class="abstract-title">
-                            关键词
-                        </h2>
+                        <h2 class="abstract-title">关键词</h2>
                         <div id="keyword-list">
                             <!-- 关键词列表将动态加载 -->
                         </div>
                     </div>
+
+                    <!-- 年度引用统计图部分 -->
+                    <div id="citations-section" class="citations-section mb-4">
+                        <h2 class="abstract-title">年度引用统计</h2>
+                        <div class="chart-container" style="position: relative; height:400px;">
+                            <canvas id="citationsChart"></canvas>
+                        </div>
+                    </div>
                     
                     <div id="references-section" class="references-section">
-                        <h2 class="abstract-title">
-                            参考文献
-                        </h2>
+                        <h2 class="abstract-title">参考文献</h2>
                         <div id="references-list">
                             <!-- 参考文献列表将动态加载 -->
                         </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- 侧边栏 -->
-        <div class="col-md-4">
+            
+            <!-- 侧边栏 -->
+            <div class="col-md-4">
                 <div class="sidebar">
                     <div class="toc-section">
-                        <h3 class="toc-title">
-                            目录
-                        </h3>
+                        <h3 class="toc-title">目录</h3>
                         <ul class="toc-list">
                             <li class="toc-item">
-                                <a href="#abstract-section" class="toc-link active">
-                                    摘要
-                                </a>
+                                <a href="#abstract-section" class="toc-link active">摘要</a>
                             </li>
                             <li class="toc-item">
-                                <a href="#keywords-section" class="toc-link">
-                                    关键词
-                                </a>
+                                <a href="#keywords-section" class="toc-link">关键词</a>
                             </li>
                             <li class="toc-item">
-                                <a href="#references-section" class="toc-link">
-                                    参考文献
-                                </a>
+                                <a href="#citations-section" class="toc-link">年度引用统计</a>
+                            </li>
+                            <li class="toc-item">
+                                <a href="#references-section" class="toc-link">参考文献</a>
                             </li>
                         </ul>
-            </div>
-            
+                    </div>
+                    
                     <div class="related-section">
-                        <h3 class="toc-title">
-                            相关文献
-                        </h3>
+                        <h3 class="toc-title">相关文献</h3>
                         <div id="related-list">
                             <!-- 相关文献列表将动态加载 -->
                         </div>
@@ -458,7 +448,7 @@
             <p class="mb-0">
                 © 2025 文献检索系统. 保留所有权利.
             </p>
-</div>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
@@ -618,6 +608,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 60000);
     
     console.log('[用户行为] 事件监听器设置完成, 时间:', new Date().toISOString());
+    
+    // 初始化引用统计图
+    const citationData = {{ citation_data|tojson }};
+    const ctx = document.getElementById('citationsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: citationData.years,
+            datasets: [{
+                label: '年度被引用次数',
+                data: citationData.citations,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '被引用次数'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: '年份'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: false
+                },
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
 });
 
 // 记录页面完全加载完成的时间
