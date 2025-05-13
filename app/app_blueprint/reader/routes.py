@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat
+from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat, WorkReferencedWork
 from Database.config import db
 from ..search.search_utils import (
     record_search_session,
@@ -109,3 +109,100 @@ def record_dwell_time():
     except Exception as e:
         print(f"记录停留时间出错: {str(e)}")
         return jsonify({'error': '记录停留时间失败'}), 500
+
+@reader_bp.route('/citation-network/<doc_id>')
+def citation_network(doc_id):
+    """渲染论文引用关系图"""
+    try:
+        # 获取当前论文
+        work = Work.query.get(doc_id)
+        if not work:
+            return jsonify({'error': '未找到文档'}), 404
+            
+        # 从数据库中查询引用关系
+        # 获取当前论文引用的论文（从属引用关系）
+        referenced_works_ids = WorkReferencedWork.query.filter_by(work_id=doc_id).all()
+        referenced_works_ids = [row.referenced_work_id for row in referenced_works_ids]
+        
+        # 获取引用当前论文的论文（被引用关系）
+        citing_works_ids = WorkReferencedWork.query.filter_by(referenced_work_id=doc_id).all()
+        citing_works_ids = [row.work_id for row in citing_works_ids]
+        
+        # 准备节点数据
+        papers = []
+        paper_ids = set()
+        
+        # 添加当前论文
+        papers.append({
+            'id': work.id,
+            'title': work.title,
+            'citations': work.cited_by_count if hasattr(work, 'cited_by_count') else 10
+        })
+        paper_ids.add(work.id)
+        
+        # 添加当前论文引用的论文
+        for ref_id in referenced_works_ids:
+            if ref_id not in paper_ids:
+                ref_work = Work.query.get(ref_id)
+                if ref_work:
+                    papers.append({
+                        'id': ref_work.id,
+                        'title': ref_work.title,
+                        'citations': ref_work.cited_by_count if hasattr(ref_work, 'cited_by_count') else 5
+                    })
+                    paper_ids.add(ref_work.id)
+        
+        # 添加引用当前论文的论文
+        for citing_id in citing_works_ids:
+            if citing_id not in paper_ids:
+                citing_work = Work.query.get(citing_id)
+                if citing_work:
+                    papers.append({
+                        'id': citing_work.id,
+                        'title': citing_work.title,
+                        'citations': citing_work.cited_by_count if hasattr(citing_work, 'cited_by_count') else 5
+                    })
+                    paper_ids.add(citing_work.id)
+        
+        # 准备边数据（引用关系）
+        citations = []
+        
+        # 当前论文 -> 引用的论文
+        for ref_id in referenced_works_ids:
+            citations.append({
+                'source': work.id,
+                'target': ref_id
+            })
+        
+        # 引用当前论文的论文 -> 当前论文
+        for citing_id in citing_works_ids:
+            citations.append({
+                'source': citing_id,
+                'target': work.id
+            })
+        
+        # 添加二级引用关系（可选：如果图太简单可以添加更多连接）
+        # 在已有节点之间查找额外的引用关系
+        for paper1_id in paper_ids:
+            for paper2_id in paper_ids:
+                if paper1_id != paper2_id and paper1_id != work.id and paper2_id != work.id:
+                    # 检查paper1是否引用了paper2
+                    ref_exists = WorkReferencedWork.query.filter_by(work_id=paper1_id, 
+                                                                 referenced_work_id=paper2_id).first()
+                    if ref_exists:
+                        citations.append({
+                            'source': paper1_id,
+                            'target': paper2_id
+                        })
+        
+        print(f"[INFO] 引用关系图: 找到 {len(papers)} 个节点和 {len(citations)} 条边")
+        
+        return render_template('reader/citation_network.html', 
+                              papers=papers,
+                              citations=citations,
+                              current_doc_id=doc_id)  # 传递当前文档ID
+    except Exception as e:
+        import traceback
+        print(f"[ERROR] 生成引用关系图失败: {e}")
+        print(traceback.format_exc())
+        return jsonify({'error': str(e)}), 500

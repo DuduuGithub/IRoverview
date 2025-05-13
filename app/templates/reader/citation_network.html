@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>论文引用关系图</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        #graph-container {
+            width: 100%;
+            height: 100vh;
+            background-color: #f8f9fa;
+        }
+        
+        .node {
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        
+        .node:hover {
+            opacity: 0.8;
+            stroke: #555;
+            stroke-width: 2px;
+        }
+        
+        .link {
+            stroke: #999;
+            stroke-opacity: 0.6;
+        }
+        
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            pointer-events: none;
+            opacity: 0;
+            max-width: 300px;
+            z-index: 1000;
+        }
+        
+        .tooltip-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        
+        .tooltip-info {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        
+        .controls button {
+            margin: 5px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #0d6efd;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .controls button:hover {
+            background-color: #0a58ca;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #0d6efd;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <div>正在加载引用关系图...</div>
+    </div>
+    
+    <div id="graph-container"></div>
+    
+    <div class="tooltip" id="tooltip">
+        <div class="tooltip-title" id="tooltip-title"></div>
+        <div class="tooltip-info" id="tooltip-info"></div>
+    </div>
+    
+    <div class="controls">
+        <button id="resetZoom">重置视图</button>
+        <button id="toggleClusters">切换社区显示</button>
+    </div>
+    
+    <div class="legend" id="legend"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取后端传递的数据
+            const papers = {{ papers|tojson }};
+            const citations = {{ citations|tojson }};
+            
+            const loading = document.getElementById('loading');
+            const graphContainer = document.getElementById('graph-container');
+            const tooltip = document.getElementById('tooltip');
+            const tooltipTitle = document.getElementById('tooltip-title');
+            const tooltipInfo = document.getElementById('tooltip-info');
+            const legend = document.getElementById('legend');
+            
+            // 获取当前文档ID
+            const currentDocId = "{{ current_doc_id }}";
+            
+            // 设置SVG大小为容器大小
+            const width = graphContainer.clientWidth;
+            const height = graphContainer.clientHeight;
+            
+            // 创建SVG
+            const svg = d3.select("#graph-container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+            
+            // 添加箭头标记
+            svg.append("defs")
+                .append("marker")
+                .attr("id", "arrowhead")
+                .attr("viewBox", "0 -5 10 10")
+                .attr("refX", 20)  // 增加箭头与节点的距离，避免被大节点挡住
+                .attr("refY", 0)
+                .attr("markerWidth", 6)
+                .attr("markerHeight", 6)
+                .attr("orient", "auto")
+                .append("path")
+                .attr("d", "M0,-5L10,0L0,5")
+                .attr("fill", "#999");
+            
+            // 创建缩放行为
+            const zoom = d3.zoom()
+                .scaleExtent([0.1, 10])
+                .on("zoom", (event) => {
+                    g.attr("transform", event.transform);
+                });
+            
+            svg.call(zoom);
+            
+            // 创建一个分组来包含所有元素，以便于缩放
+            const g = svg.append("g");
+            
+            // 创建六边形路径生成器函数
+            function hexagonPath(radius) {
+                let points = [];
+                for (let i = 0; i < 6; i++) {
+                    const angle = 2 * Math.PI / 6 * i;
+                    const x = radius * Math.cos(angle);
+                    const y = radius * Math.sin(angle);
+                    points.push([x, y]);
+                }
+                return d3.line()(points) + "Z";
+            }
+            
+            // 处理数据
+            const nodes = papers.map((paper, index) => ({
+                id: paper.id,
+                title: paper.title,
+                citations: paper.citations || 0,
+                index: index
+            }));
+            
+            // 调整links数据，确保指向方向为论文->参考文献
+            const links = citations.map(citation => ({
+                source: citation.target,
+                target: citation.source,
+                value: 1
+            }));
+            
+            // 准备力导向图
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+                .force("charge", d3.forceManyBody().strength(-200))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collide", d3.forceCollide().radius(d => Math.sqrt(d.citations) * 1.5 + 10));
+            
+            // 计算社区（采用简化版的社区发现算法）
+            const communities = detectCommunities(nodes, links);
+            
+            // 为节点分配社区标识
+            nodes.forEach((node, i) => {
+                node.community = communities[i];
+            });
+            
+            // 生成社区颜色方案
+            const uniqueCommunities = [...new Set(communities)];
+            
+            // 使用更美观的自定义颜色方案
+            const customColors = [
+                "#4285F4", // 蓝色
+                "#EA4335", // 红色 
+                "#FBBC05", // 黄色
+                "#34A853", // 绿色
+                "#8E24AA", // 紫色
+                "#00ACC1", // 青色
+                "#FF7043", // 橙色
+                "#3949AB", // 靛蓝色
+                "#5D4037", // 棕色
+                "#7CB342"  // 浅绿色
+            ];
+            
+            // 当前文档的特殊颜色
+            const currentDocColor = "#FF1493"; // 亮粉色
+            
+            const colorScale = d3.scaleOrdinal()
+                .domain(uniqueCommunities)
+                .range(customColors);
+            
+            // 创建图例
+            createLegend(uniqueCommunities, colorScale);
+            
+            // 先绘制连线
+            const link = g.append("g")
+                .attr("class", "links")
+                .selectAll("line")
+                .data(links)
+                .enter()
+                .append("line")
+                .attr("class", "link")
+                .attr("stroke-width", 1)
+                .attr("marker-end", "url(#arrowhead)");
+            
+            // 创建所有节点的容器组
+            const nodeGroup = g.append("g")
+                .attr("class", "nodes");
+            
+            // 为普通节点创建圆形
+            const circleNodes = nodeGroup.selectAll(".circle-node")
+                .data(nodes.filter(d => d.id !== currentDocId))
+                .enter()
+                .append("circle")
+                .attr("class", "node circle-node")
+                .attr("r", d => Math.sqrt(d.citations) * 1.5 + 5)
+                .attr("fill", d => colorScale(d.community))
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1.5);
+            
+            // 为当前文档创建六边形
+            const hexNodes = nodeGroup.selectAll(".hex-node")
+                .data(nodes.filter(d => d.id === currentDocId))
+                .enter()
+                .append("path")
+                .attr("class", "node hex-node")
+                .attr("d", d => hexagonPath(Math.sqrt(d.citations) * 1.5 + 8))
+                .attr("fill", d => colorScale(d.community))
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1.5);
+            
+            // 添加拖拽行为
+            circleNodes.call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+                
+            hexNodes.call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+            
+            // 添加交互 - 圆形节点
+            circleNodes.on("mouseover", function(event, d) {
+                tooltip.style.opacity = 0.9;
+                tooltipTitle.textContent = d.title;
+                tooltipInfo.textContent = `被引用次数: ${d.citations}`;
+                
+                // 定位tooltip
+                tooltip.style.left = (event.pageX + 10) + "px";
+                tooltip.style.top = (event.pageY - 10) + "px";
+            });
+            
+            circleNodes.on("mouseout", function() {
+                tooltip.style.opacity = 0;
+            });
+            
+            circleNodes.on("mousemove", function(event) {
+                tooltip.style.left = (event.pageX + 10) + "px";
+                tooltip.style.top = (event.pageY - 10) + "px";
+            });
+            
+            // 添加点击事件 - 圆形节点
+            circleNodes.on("click", function(event, d) {
+                // 阻止事件冒泡，防止触发svg的zoom事件
+                event.stopPropagation();
+                // 在新标签页跳转到论文详情页
+                window.open(`/reader/document/${d.id}`, '_blank');
+            });
+            
+            // 添加交互 - 六边形节点
+            hexNodes.on("mouseover", function(event, d) {
+                tooltip.style.opacity = 0.9;
+                tooltipTitle.textContent = d.title;
+                tooltipInfo.textContent = `被引用次数: ${d.citations} (当前文档)`;
+                
+                // 定位tooltip
+                tooltip.style.left = (event.pageX + 10) + "px";
+                tooltip.style.top = (event.pageY - 10) + "px";
+            });
+            
+            hexNodes.on("mouseout", function() {
+                tooltip.style.opacity = 0;
+            });
+            
+            hexNodes.on("mousemove", function(event) {
+                tooltip.style.left = (event.pageX + 10) + "px";
+                tooltip.style.top = (event.pageY - 10) + "px";
+            });
+            
+            // 添加点击事件 - 六边形节点
+            hexNodes.on("click", function(event, d) {
+                // 阻止事件冒泡，防止触发svg的zoom事件
+                event.stopPropagation();
+                // 在新标签页跳转到论文详情页
+                window.open(`/reader/document/${d.id}`, '_blank');
+            });
+            
+            // 仿真更新
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => {
+                        // 计算从目标节点指向源节点的单位向量
+                        const dx = d.source.x - d.target.x;
+                        const dy = d.source.y - d.target.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist === 0) return d.target.x;
+                        
+                        // 计算目标节点半径（根据引用数）
+                        const nodeRadius = Math.sqrt(d.target.citations) * 1.5 + 10;
+                        
+                        // 设置箭头终点在节点边缘之外
+                        const offsetX = dx / dist * nodeRadius;
+                        return d.target.x + offsetX;
+                    })
+                    .attr("y2", d => {
+                        // 类似x2的计算方法
+                        const dx = d.source.x - d.target.x;
+                        const dy = d.source.y - d.target.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist === 0) return d.target.y;
+                        
+                        const nodeRadius = Math.sqrt(d.target.citations) * 1.5 + 10;
+                        const offsetY = dy / dist * nodeRadius;
+                        return d.target.y + offsetY;
+                    });
+                
+                circleNodes
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
+                    
+                hexNodes
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+            });
+            
+            // 控制按钮
+            document.getElementById('resetZoom').addEventListener('click', function() {
+                svg.transition().duration(750).call(
+                    zoom.transform,
+                    d3.zoomIdentity,
+                    d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+                );
+            });
+            
+            document.getElementById('toggleClusters').addEventListener('click', function() {
+                const showClusters = this.getAttribute('data-show') !== 'true';
+                this.setAttribute('data-show', showClusters);
+                
+                if (showClusters) {
+                    // 增强社区之间的分离
+                    simulation
+                        .force("link", d3.forceLink(links).id(d => d.id).distance(d => 100))
+                        .force("charge", d3.forceManyBody().strength(-400))
+                        .force("x", d3.forceX(width / 2).strength(d => 0.1 * d.community / uniqueCommunities.length))
+                        .force("y", d3.forceY(height / 2).strength(d => 0.1 * d.community / uniqueCommunities.length))
+                        .alpha(1)
+                        .restart();
+                } else {
+                    // 还原为普通布局
+                    simulation
+                        .force("link", d3.forceLink(links).id(d => d.id).distance(100))
+                        .force("charge", d3.forceManyBody().strength(-200))
+                        .force("x", null)
+                        .force("y", null)
+                        .alpha(1)
+                        .restart();
+                }
+            });
+            
+            // 拖动事件处理
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+            
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+            
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+            
+            // 简化版社区发现算法（基于Louvain方法的简化版）
+            function detectCommunities(nodes, links) {
+                // 构建邻接表
+                const adjList = {};
+                nodes.forEach(node => {
+                    adjList[node.id] = [];
+                });
+                
+                links.forEach(link => {
+                    adjList[link.source.id || link.source].push(link.target.id || link.target);
+                    adjList[link.target.id || link.target].push(link.source.id || link.source);
+                });
+                
+                // 初始化每个节点为单独的社区
+                const communities = nodes.map((_, i) => i);
+                
+                // 简化的社区合并过程（迭代3次）
+                for (let iter = 0; iter < 3; iter++) {
+                    let changes = false;
+                    
+                    for (let i = 0; i < nodes.length; i++) {
+                        const nodeId = nodes[i].id;
+                        const neighbors = adjList[nodeId];
+                        
+                        if (!neighbors || neighbors.length === 0) continue;
+                        
+                        // 统计邻居社区
+                        const communityCounts = {};
+                        let maxCount = 0;
+                        let maxCommunity = communities[i];
+                        
+                        neighbors.forEach(neighborId => {
+                            const neighborIndex = nodes.findIndex(n => n.id === neighborId);
+                            if (neighborIndex >= 0) {
+                                const community = communities[neighborIndex];
+                                communityCounts[community] = (communityCounts[community] || 0) + 1;
+                                
+                                if (communityCounts[community] > maxCount) {
+                                    maxCount = communityCounts[community];
+                                    maxCommunity = community;
+                                }
+                            }
+                        });
+                        
+                        // 如果找到更好的社区，则更新
+                        if (maxCommunity !== communities[i]) {
+                            communities[i] = maxCommunity;
+                            changes = true;
+                        }
+                    }
+                    
+                    if (!changes) break;
+                }
+                
+                // 重新映射社区编号，确保从0开始连续编号
+                const uniqueCommunities = [...new Set(communities)];
+                const communityMap = {};
+                uniqueCommunities.forEach((c, i) => {
+                    communityMap[c] = i;
+                });
+                
+                return communities.map(c => communityMap[c]);
+            }
+            
+            // 创建图例
+            function createLegend(communities, colorScale) {
+                legend.innerHTML = '<div style="margin-bottom:8px;font-weight:bold;">节点类型</div>';
+                
+                // 获取当前文档对象
+                const currentDoc = nodes.find(n => n.id === currentDocId);
+                let currentDocCommunity = 0;
+                if (currentDoc) {
+                    currentDocCommunity = currentDoc.community;
+                }
+                
+                // 添加当前文档图例项 - 使用SVG实现六边形
+                const currentDocItem = document.createElement('div');
+                currentDocItem.className = 'legend-item';
+                currentDocItem.style.display = 'flex';
+                currentDocItem.style.alignItems = 'center';
+                
+                // 创建小型SVG来绘制六边形
+                const svgSize = 20;
+                const svgContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svgContainer.setAttribute("width", svgSize);
+                svgContainer.setAttribute("height", svgSize);
+                svgContainer.style.marginRight = "8px";
+                
+                // 画六边形
+                const hexSize = 8;
+                const hexPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                
+                // 创建简单六边形路径
+                let hexPoints = [];
+                for (let i = 0; i < 6; i++) {
+                    const angle = 2 * Math.PI / 6 * i;
+                    const x = hexSize * Math.cos(angle) + svgSize/2;
+                    const y = hexSize * Math.sin(angle) + svgSize/2;
+                    hexPoints.push([x, y]);
+                }
+                
+                // 构建SVG路径
+                let pathData = "M" + hexPoints[0][0] + "," + hexPoints[0][1];
+                for (let i = 1; i < hexPoints.length; i++) {
+                    pathData += " L" + hexPoints[i][0] + "," + hexPoints[i][1];
+                }
+                pathData += " Z";
+                
+                hexPath.setAttribute("d", pathData);
+                hexPath.setAttribute("fill", colorScale(currentDocCommunity)); // 使用当前文档的社区颜色
+                hexPath.setAttribute("stroke", "#fff");
+                hexPath.setAttribute("stroke-width", "1");
+                
+                svgContainer.appendChild(hexPath);
+                
+                const currentDocLabel = document.createElement('div');
+                currentDocLabel.textContent = "当前文档 (六边形)";
+                
+                currentDocItem.appendChild(svgContainer);
+                currentDocItem.appendChild(currentDocLabel);
+                legend.appendChild(currentDocItem);
+                
+                // 添加社区标题
+                const communitiesTitle = document.createElement('div');
+                communitiesTitle.style.fontWeight = 'bold';
+                communitiesTitle.style.marginTop = '15px';
+                communitiesTitle.style.marginBottom = '8px';
+                communitiesTitle.textContent = '社区分组';
+                legend.appendChild(communitiesTitle);
+                
+                // 添加社区图例
+                communities.forEach(community => {
+                    const item = document.createElement('div');
+                    item.className = 'legend-item';
+                    
+                    const colorBox = document.createElement('div');
+                    colorBox.className = 'legend-color';
+                    colorBox.style.backgroundColor = colorScale(community);
+                    
+                    const label = document.createElement('div');
+                    label.textContent = `社区 ${community + 1}`;
+                    
+                    item.appendChild(colorBox);
+                    item.appendChild(label);
+                    legend.appendChild(item);
+                });
+            }
+            
+            // 隐藏加载提示
+            loading.style.display = 'none';
+        });
+    </script>
+</body>
+</html> 

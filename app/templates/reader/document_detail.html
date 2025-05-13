@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/search/">
     <link rel="icon" href="/static/search/favicon.png">
     <title>文献详情 | Document Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -376,6 +375,17 @@
                         </div>
                     </div>
                     
+                    <!-- 引用关系图部分 -->
+                    <div id="citation-network-section" class="citation-network-section mb-4">
+                        <h2 class="abstract-title">引用关系图</h2>
+                        <div class="iframe-container" style="position: relative; height:500px; border:1px solid #dee2e6; border-radius:8px; overflow:hidden;">
+                            <iframe id="citationNetworkFrame" src="{{ url_for('reader.citation_network', doc_id=work.id) }}" 
+                                    style="width:100%; height:100%; border:none;" 
+                                    title="引用关系图">
+                            </iframe>
+                        </div>
+                    </div>
+                    
                     <div id="references-section" class="references-section">
                         <h2 class="abstract-title">参考文献</h2>
                         <div id="references-list">
@@ -399,6 +409,9 @@
                             </li>
                             <li class="toc-item">
                                 <a href="#citations-section" class="toc-link">年度引用统计</a>
+                            </li>
+                            <li class="toc-item">
+                                <a href="#citation-network-section" class="toc-link">引用关系图</a>
                             </li>
                             <li class="toc-item">
                                 <a href="#references-section" class="toc-link">参考文献</a>
@@ -428,6 +441,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const domLoadedTime = new Date();
     console.log('[用户行为] DOM加载完成时间:', domLoadedTime.toISOString());
     console.log('[用户行为] 从脚本开始到DOM加载完成耗时:', domLoadedTime - scriptStartTime, 'ms');
+    
+    // 处理目录链接点击事件
+    document.querySelectorAll('.toc-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                // 平滑滚动到目标元素
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+                
+                // 更新活动状态
+                document.querySelectorAll('.toc-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+    
+    // 监听滚动事件，更新目录活动状态
+    const sections = document.querySelectorAll('div[id$="-section"]');
+    window.addEventListener('scroll', function() {
+        let currentSectionId = null;
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.pageYOffset >= sectionTop - 200 && 
+                window.pageYOffset < sectionTop + sectionHeight - 200) {
+                currentSectionId = section.id;
+            }
+        });
+        
+        if (currentSectionId) {
+            document.querySelectorAll('.toc-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
     
     // 从模板变量获取session_id和文档ID
     const sessionId = '{{ document_data.session_id }}';  // 从document_data中获取session_id
