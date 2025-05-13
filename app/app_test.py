@@ -11,6 +11,10 @@ import Database.config
 from sqlalchemy.sql import text
 import json
 from datetime import datetime
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 def createApp(debug=False):
     app = Flask(__name__,

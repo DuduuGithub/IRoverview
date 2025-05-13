@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">出错了！</h4>
+        <p>{{ message }}</p>
+        <hr>
+        <p class="mb-0">
+            <a href="javascript:history.back()" class="alert-link">
+                <i class="bi bi-arrow-left"></i> 返回上一页
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}

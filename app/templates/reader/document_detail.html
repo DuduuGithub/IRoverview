@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -460,117 +463,166 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-<<<<<<< HEAD
+// 记录脚本开始执行的时间
+const scriptStartTime = new Date();
+console.log('[用户行为] 脚本开始执行时间:', scriptStartTime.toISOString());
 console.log('[用户行为] 开始加载文档详情页');
 console.log('[用户行为] 当前URL:', window.location.href);
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('[用户行为] DOM加载完成');
+    const domLoadedTime = new Date();
+    console.log('[用户行为] DOM加载完成时间:', domLoadedTime.toISOString());
+    console.log('[用户行为] 从脚本开始到DOM加载完成耗时:', domLoadedTime - scriptStartTime, 'ms');
     
-    // 从URL获取session_id
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session_id');
-    const docId = {{ work.id }};
+    // 从模板变量获取session_id和文档ID
+    const sessionId = '{{ document_data.session_id }}';  // 从document_data中获取session_id
+    const docId = '{{ work.id }}';
+    
+    console.log('[用户行为] 参数初始化时间:', new Date().toISOString());
+    console.log('[用户行为] 参数检查:', {
+        sessionId: sessionId,
+        docId: docId,
+        workId: '{{ work.id }}',
+        documentData: {{ document_data|tojson }},
+        loadTimestamp: new Date().toISOString()
+    });
+    
+    if (!sessionId) {
+        console.warn('[用户行为] 警告：没有session_id');
+        return;  // 如果没有session_id，直接返回
+    }
+    if (!docId) {
+        console.error('[用户行为] 错误：无法获取文档ID');
+        return;
+    }
+    
     let startTime = Date.now();
-    let isRecording = true;  // 标记是否正在记录时间
+    let isRecording = true;
     
-    console.log(`[用户行为] 页面加载:
-        - 文档ID: ${docId}
-        - 会话ID: ${sessionId || '未提供'}
-        - 开始时间: ${new Date(startTime).toLocaleString()}
-        - URL: ${window.location.href}
-    `);
-    
-    // 加载引用网络
-    function loadCitationNetwork() {
-        fetch(`/reader/api/citation-network/${docId}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    console.error('加载引用网络失败:', data.error);
-                    return;
-                }
-                // 这里添加引用网络可视化的代码
-                // 可以使用D3.js或其他可视化库
+    // 记录点击
+    function recordClick() {
+        const clickTime = new Date();
+        console.log('[用户行为] 开始记录点击，时间:', clickTime.toISOString());
+        console.log('[用户行为] 准备记录点击:', {
+            sessionId: sessionId,
+            docId: docId,
+            url: '/search/api/basic/record_click',
+            timestamp: clickTime.toISOString()
+        });
+        
+        fetch('/search/api/basic/record_click', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                document_id: docId
             })
-            .catch(error => console.error('请求失败:', error));
+        })
+        .then(response => {
+            console.log('[用户行为] 点击记录响应状态:', response.status, '时间:', new Date().toISOString());
+            return response.json();
+        })
+        .then(data => {
+            console.log('[用户行为] 点击记录成功:', data, '时间:', new Date().toISOString());
+        })
+        .catch(error => {
+            console.error('[用户行为] 点击记录失败:', error, '时间:', new Date().toISOString());
+        });
     }
     
     // 记录停留时间
     function recordDwellTime() {
-        if (!isRecording) return;  // 如果已经记录过了，就不再记录
-        
-        if (!sessionId) {
-            console.warn('[用户行为] 没有有效的会话ID，无法记录停留时间');
+        const recordTime = new Date();
+        if (!isRecording || !sessionId) {
+            console.warn('[用户行为] 停留时间记录已完成或没有session_id, 时间:', recordTime.toISOString());
             return;
         }
         
         const endTime = Date.now();
         const dwellTime = Math.floor((endTime - startTime) / 1000);
         
-        console.log(`[用户行为] 计算停留时间:
-            - 文档ID: ${docId}
-            - 会话ID: ${sessionId}
-            - 开始时间: ${new Date(startTime).toLocaleString()}
-            - 结束时间: ${new Date(endTime).toLocaleString()}
-            - 停留时间: ${dwellTime}秒
-            - 当前URL: ${window.location.href}
-        `);
+        console.log('[用户行为] 准备记录停留时间:', {
+            sessionId: sessionId,
+            docId: docId,
+            dwellTime: dwellTime,
+            startTime: new Date(startTime).toLocaleString(),
+            endTime: new Date(endTime).toLocaleString(),
+            url: '/search/api/basic/record_dwell_time',
+            timestamp: recordTime.toISOString()
+        });
         
         if (dwellTime <= 0) {
-            console.warn('[用户行为] 停留时间过短，不记录');
+            console.warn('[用户行为] 停留时间过短，不记录, 时间:', recordTime.toISOString());
             return;
         }
         
-        // 使用 sendBeacon API 确保在页面关闭时也能发送请求
-        const data = new Blob([JSON.stringify({
-            session_id: sessionId,
-            document_id: docId,
-            dwell_time: dwellTime
-        })], { type: 'application/json' });
-        
-        const success = navigator.sendBeacon('/api/record-dwell-time', data);
-        
-        if (success) {
-            console.log(`[用户行为] 成功发送停留时间记录请求: ${dwellTime}秒`);
-            isRecording = false;  // 标记已记录
-        } else {
-            console.error('[用户行为] 发送停留时间记录请求失败');
-        }
+        fetch('/search/api/basic/record_dwell_time', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                session_id: sessionId,
+                document_id: docId,
+                dwell_time: dwellTime
+            })
+        })
+        .then(response => {
+            console.log('[用户行为] 停留时间记录响应状态:', response.status, '时间:', new Date().toISOString());
+            return response.json();
+        })
+        .then(data => {
+            console.log('[用户行为] 停留时间记录成功:', data, '时间:', new Date().toISOString());
+            isRecording = false;
+        })
+        .catch(error => {
+            console.error('[用户行为] 停留时间记录失败:', error, '时间:', new Date().toISOString());
+        });
     }
     
-    // 页面加载时初始化
-    loadCitationNetwork();
+    // 初始化时记录点击
+    console.log('[用户行为] 开始初始化点击记录, 时间:', new Date().toISOString());
+    recordClick();
     
     // 页面关闭时记录停留时间
     window.addEventListener('beforeunload', function(e) {
-        console.log('[用户行为] 页面即将关闭，记录停留时间');
+        const unloadTime = new Date();
+        console.log('[用户行为] 页面即将关闭，记录停留时间, 时间:', unloadTime.toISOString());
         recordDwellTime();
     });
     
     // 页面隐藏时记录停留时间
     document.addEventListener('visibilitychange', function() {
+        const visibilityTime = new Date();
         if (document.hidden) {
-            console.log('[用户行为] 页面隐藏，记录停留时间');
+            console.log('[用户行为] 页面隐藏，记录停留时间, 时间:', visibilityTime.toISOString());
             recordDwellTime();
         } else {
-            console.log('[用户行为] 页面重新可见，重置开始时间');
+            console.log('[用户行为] 页面重新可见，重置开始时间, 时间:', visibilityTime.toISOString());
             startTime = Date.now();
-            isRecording = true;  // 重新开始记录
+            isRecording = true;
         }
     });
     
     // 定期保存停留时间（每60秒）
     setInterval(function() {
         if (!document.hidden) {
-            console.log('[用户行为] 定期保存停留时间');
+            const intervalTime = new Date();
+            console.log('[用户行为] 定期保存停留时间, 时间:', intervalTime.toISOString());
             recordDwellTime();
-            startTime = Date.now();  // 重置开始时间
-            isRecording = true;  // 允许继续记录
+            startTime = Date.now();
+            isRecording = true;
         }
     }, 60000);
     
-    console.log('[用户行为] 事件监听器设置完成');
+    console.log('[用户行为] 事件监听器设置完成, 时间:', new Date().toISOString());
+});
+
+// 记录页面完全加载完成的时间
+window.addEventListener('load', function() {
+    console.log('[用户行为] 页面完全加载完成时间:', new Date().toISOString());
 });
 </script>
 
@@ -599,191 +651,3 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 </style>
 {% endblock %} 
-=======
-        // 获取文献ID
-        const pathParts = window.location.pathname.split('/');
-        let documentId = pathParts.pop();
-        // 处理可能的斜杠结尾
-        if (documentId === '') {
-            documentId = pathParts.pop();
-        }
-        console.log('提取的文档ID:', documentId);
-        
-        // 目录导航功能
-        document.querySelectorAll('.toc-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                    
-                    document.querySelectorAll('.toc-link').forEach(el => {
-                        el.classList.remove('active');
-                    });
-                    
-                    this.classList.add('active');
-                }
-            });
-        });
-        
-        // 复制到剪贴板功能
-        function copyToClipboard(elementId) {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            
-            const text = el.textContent;
-            
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text)
-                    .then(() => {
-                        alert('已复制到剪贴板');
-                    })
-                    .catch(err => {
-                        console.error('复制失败:', err);
-                    });
-            } else {
-                // 兼容旧版浏览器
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('已复制到剪贴板');
-            }
-        }
-        
-        // 页面加载后获取文献详情
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchDocumentDetails(documentId);
-        });
-        
-        // 获取文献详情
-        function fetchDocumentDetails(documentId) {
-            const apiUrl = `/search/api/document/${documentId}`;
-            console.log('请求API:', apiUrl);
-            
-            fetch(apiUrl)
-                .then(response => {
-                    console.log('API响应状态:', response.status);
-                    if (!response.ok) {
-                        throw new Error('文献信息获取失败，状态码: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('获取到的文档数据:', data);
-                    renderDocumentDetails(data);
-                })
-                .catch(error => {
-                    console.error('获取文献详情出错:', error);
-                    document.querySelector('.document-container').innerHTML = `
-                        <div class="alert alert-danger">
-                            <span class="text-zh">获取文献详情失败，请稍后重试</span>
-                            <p class="mt-2"><small>${error.message}</small></p>
-                        </div>
-                    `;
-                });
-        }
-        
-        // 渲染文献详情
-        function renderDocumentDetails(doc) {
-            // 更新标题
-            document.getElementById('document-title').textContent = doc.title;
-            
-            // 更新作者列表
-            const authorList = document.getElementById('author-list');
-            if (doc.authors && doc.authors.length > 0) {
-                authorList.innerHTML = doc.authors.map(author => 
-                    `<span class="author-item">${author}</span>`
-                ).join('');
-            } else {
-                authorList.innerHTML = '<span class="author-item">Unknown</span>';
-            }
-            
-            // 更新发表年份
-            document.getElementById('publication-year').textContent = doc.year || 'N/A';
-            
-            // 更新发表期刊/会议
-            document.getElementById('venue-name').textContent = doc.venue || 'N/A';
-            
-            // 更新引用次数
-            document.getElementById('citation-count').textContent = doc.cited_by_count || '0';
-            
-            // 更新摘要
-            document.getElementById('abstract-content').innerHTML = doc.abstract || 
-                '<p class="text-muted">暂无摘要</p>';
-            
-            // 更新关键词
-            const keywordList = document.getElementById('keyword-list');
-            if (doc.keywords && doc.keywords.length > 0) {
-                keywordList.innerHTML = doc.keywords.map(keyword => 
-                    `<span class="keyword-badge">${keyword}</span>`
-                ).join('');
-            } else {
-                keywordList.innerHTML = '<p class="text-muted">暂无关键词</p>';
-            }
-            
-            // 更新引用格式
-            const bibtexTemplate = `@article{${doc.id},
-title={${doc.title}},
-author={${doc.authors ? doc.authors.join(' and ') : 'Unknown'}},
-journal={${doc.venue || 'N/A'}},
-year={${doc.year || 'N/A'}},
-volume={${doc.volume || 'N/A'}},
-number={${doc.issue || 'N/A'}},
-pages={${doc.pages || 'N/A'}}
-}`;
-            document.getElementById('bibtex-citation').textContent = bibtexTemplate;
-            
-            const authorsAPA = doc.authors ? 
-                doc.authors.map((author, index) => {
-                    if (index === doc.authors.length - 1) {
-                        return `& ${author}`;
-                    } else {
-                        return author;
-                    }
-                }).join(', ') : 'Unknown';
-            
-            const apaTemplate = `${authorsAPA} (${doc.year || 'n.d.'}). ${doc.title}. ${doc.venue ? doc.venue + ',' : ''} ${doc.volume ? doc.volume + (doc.issue ? '(' + doc.issue + ')' : '') + ',' : ''} ${doc.pages || ''}.`;
-            document.getElementById('apa-citation').textContent = apaTemplate;
-            
-            // 更新参考文献
-            const referencesList = document.getElementById('references-list');
-            if (doc.references && doc.references.length > 0) {
-                referencesList.innerHTML = doc.references.map(ref => 
-                    `<div class="reference-item">
-                        <a href="/search/document/${ref.id}" class="reference-title">${ref.title}</a>
-                        <div class="reference-authors">${ref.authors || 'Unknown'}</div>
-                        <div class="reference-venue">${ref.venue || ''} ${ref.year ? '(' + ref.year + ')' : ''}</div>
-                    </div>`
-                ).join('');
-            } else {
-                referencesList.innerHTML = '<p class="text-muted">暂无参考文献</p>';
-            }
-            
-            // 更新相关文献
-            const relatedList = document.getElementById('related-list');
-            if (doc.related && doc.related.length > 0) {
-                relatedList.innerHTML = doc.related.map(rel => 
-                    `<div class="related-item">
-                        <div class="related-title">
-                            <a href="/search/document/${rel.id}">${rel.title}</a>
-                        </div>
-                        <div class="related-meta">
-                            <span>${rel.authors.join(', ')}</span>
-                            <span>${rel.year}</span>
-                            <span><i class="bi bi-diagram-3"></i> ${rel.cited_by_count || 0}</span>
-                        </div>
-                    </div>`
-                ).join('');
-            } else {
-                relatedList.innerHTML = '<p class="text-muted">暂无相关文献</p>';
-            }
-        }
-    </script>
-</body>
-</html> 
->>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2

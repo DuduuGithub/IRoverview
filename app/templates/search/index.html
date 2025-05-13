@@ -431,8 +431,8 @@
                             </button>
                         </div>
                     </form>
-                </div>
-                
+                        </div>
+                        
                 <!-- 高级检索 -->
                 <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
                     <form id="advancedSearchForm" action="results" method="get">
@@ -448,7 +448,7 @@
                                 <input type="text" class="form-control condition-input" placeholder="输入检索词">
                                 <div class="condition-remove">
                                     <i class="bi bi-x-circle"></i>
-                                </div>
+                        </div>
                             </div>
                         </div>
                         
@@ -475,8 +475,8 @@
                     <!-- 历史记录将由JavaScript动态加载 -->
                 </ul>
             </div>
-        </div>
-        
+                    </div>
+                    
         <!-- AI辅助侧边栏 -->
         <div class="ai-sidebar" id="aiSidebar">
             <div class="ai-resize-handle" id="aiResizeHandle"></div>
@@ -502,7 +502,7 @@
                 <button class="send-button" id="sendQuery">
                     <i class="bi bi-send"></i>
                 </button>
-            </div>
+        </div>
         </div>
     </div>
     
@@ -521,7 +521,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-<<<<<<< HEAD
         // 定义排序方式常量
         const SORT_BY_RELEVANCE = 'relevance';
         const SORT_BY_TIME_DESC = 'time_desc';
@@ -544,13 +543,12 @@
         // 记录点击
         function recordClick(documentId) {
             if (!currentSessionId) {
-                console.warn('没有有效的会话ID，无法记录点击');
+                console.warn('[用户行为] 没有有效的会话ID，无法记录点击');
                 return;
             }
             
             console.log(`[用户行为] 开始记录文档点击: document_id=${documentId}, session_id=${currentSessionId}`);
             
-            // 记录点击
             fetch('/api/basic/record_click', {
                 method: 'POST',
                 headers: {
@@ -571,218 +569,7 @@
             })
             .catch(error => console.error('[用户行为] 记录点击失败:', error));
         }
-        
-        // 基本检索函数
-        function performBasicSearch() {
-            const keyword = document.getElementById('basic-search-input').value.trim();
-            if (!keyword) return;
-            
-            currentPage = 1;
-            currentSort = document.getElementById('basic-sort-method').value;
-            currentSearchParams = {
-                keyword: keyword,
-                sort_method: currentSort,
-                search_type: 'basic'
-            };
-            
-            fetchResults();
-        }
-        
-        // 高级检索函数
-        function performAdvancedSearch() {
-            const title = document.getElementById('title-input').value.trim();
-            const author = document.getElementById('author-input').value.trim();
-            const keyword = document.getElementById('keyword-input').value.trim();
-            const institution = document.getElementById('institution-input').value.trim();
-            const dateFrom = document.getElementById('date-from-input').value;
-            const dateTo = document.getElementById('date-to-input').value;
-            
-            // 至少要有一个检索条件
-            if (!title && !author && !keyword && !institution && !dateFrom && !dateTo) {
-                alert('请至少输入一项检索条件');
-                return;
-            }
-            
-            currentPage = 1;
-            currentSort = document.getElementById('advanced-sort-method').value;
-            currentSearchParams = {
-                title: title,
-                author: author,
-                keyword: keyword,
-                institution: institution,
-                date_from: dateFrom,
-                date_to: dateTo,
-                sort_method: currentSort,
-                search_type: 'advanced'
-            };
-            
-            fetchResults();
-        }
-        
-        // AI检索函数
-        function performAiSearch() {
-            const nlQuery = document.getElementById('ai-search-input').value.trim();
-            if (!nlQuery) return;
-            
-            currentPage = 1;
-            currentSearchParams = {
-                query: nlQuery,
-                show_structured: document.getElementById('show-structured-query').checked,
-                search_type: 'ai'
-            };
-            
-            fetchResults();
-        }
-        
-        // 获取搜索结果
-        function fetchResults() {
-            // 显示加载状态
-            document.getElementById('search-results').innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">加载中...</span></div></div>';
-            
-            // 构建请求参数
-            const requestParams = {
-                ...currentSearchParams,
-                page: currentPage,
-                per_page: perPage
-            };
-            
-            // 确定请求URL
-            let requestUrl = '/search';
-            if (requestParams.search_type === 'advanced') {
-                requestUrl = '/api/basic/advanced_search';
-            } else if (requestParams.search_type === 'ai') {
-                requestUrl = '/api/basic/ai_search';
-            }
-            
-            // 发送搜索请求
-            fetch(requestUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestParams)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // 保存会话ID
-                if (data.session_id) {
-                    currentSessionId = data.session_id;
-                }
-                renderResults(data);
-            })
-            .catch(error => {
-                console.error('搜索出错:', error);
-                document.getElementById('search-results').innerHTML = '<div class="alert alert-danger">搜索出错，请稍后重试</div>';
-            });
-        }
-        
-        // 渲染搜索结果
-        function renderResults(data) {
-            const resultsContainer = document.getElementById('search-results');
-            
-            // 如果是AI搜索且显示结构化查询
-            if (currentSearchParams.search_type === 'ai' && currentSearchParams.show_structured && data.structured_query) {
-                let structuredQueryHtml = `
-                    <div class="alert alert-info mb-4">
-                        <strong>AI转换后的检索式：</strong> ${data.structured_query}
-                    </div>
-                `;
-                resultsContainer.innerHTML = structuredQueryHtml;
-            } else {
-                resultsContainer.innerHTML = '';
-            }
-            
-            if (!data.results || data.results.length === 0) {
-                let currentHtml = resultsContainer.innerHTML;
-                resultsContainer.innerHTML = currentHtml + '<div class="alert alert-warning">没有找到匹配的结果</div>';
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
-            
-            let resultsHtml = '';
-            data.results.forEach(result => {
-                resultsHtml += `
-                    <div class="result-item">
-                        <div class="result-title">
-                            <a href="${result.url}" 
-                               onclick="recordClick('${result.id}')"
-                               data-document-id="${result.id}">${result.title}</a>
-                        </div>
-                        <div class="result-authors">${result.authors}</div>
-                        <div class="result-meta">
-                            发表年份: ${result.year || '未知'} | 被引用次数: ${result.cited_by_count}
-                        </div>
-                        <div class="result-abstract">${result.abstract || '无摘要'}</div>
-                    </div>
-                `;
-            });
-            
-            let currentHtml = resultsContainer.innerHTML;
-            resultsContainer.innerHTML = currentHtml + '<div class="search-results-list">' + resultsHtml + '</div>';
-            
-            // 生成分页
-            renderPagination(data.page, Math.ceil(data.total / perPage));
-        }
-        
-        // 渲染分页控件
-        function renderPagination(currentPage, totalPages) {
-            const paginationElement = document.getElementById('pagination');
-            
-            if (totalPages <= 1) {
-                paginationElement.innerHTML = '';
-                return;
-            }
-            
-            let html = '';
-            
-            // 上一页按钮
-            html += `
-                <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${currentPage - 1}">上一页</a>
-                </li>
-            `;
-            
-            // 页码按钮
-            const maxPages = 5;
-            let startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
-            let endPage = Math.min(totalPages, startPage + maxPages - 1);
-            
-            if (endPage - startPage + 1 < maxPages) {
-                startPage = Math.max(1, endPage - maxPages + 1);
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                html += `
-                    <li class="page-item ${i === currentPage ? 'active' : ''}">
-                        <a class="page-link" href="#" data-page="${i}">${i}</a>
-                    </li>
-                `;
-            }
-            
-            // 下一页按钮
-            html += `
-                <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
-                    <a class="page-link" href="#" data-page="${currentPage + 1}">下一页</a>
-                </li>
-            `;
-            
-            paginationElement.innerHTML = html;
-            
-            // 添加分页事件监听
-            document.querySelectorAll('#pagination .page-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const page = parseInt(this.getAttribute('data-page'));
-                    if (page < 1 || page > totalPages || page === currentPage) return;
-                    currentPage = page;
-                    fetchResults();
-                });
-            });
-        }
-        
-        // 添加事件监听
-=======
->>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
+
         document.addEventListener('DOMContentLoaded', function() {
             // DOM元素引用
             const aiToggleBtn = document.getElementById('aiToggleBtn');
@@ -795,26 +582,25 @@
             const aiResizeHandle = document.getElementById('aiResizeHandle');
             const basicForm = document.getElementById('basicSearchForm');
             const advancedForm = document.getElementById('advancedSearchForm');
-            
+
             // 获取URL查询参数
             function getQueryParam(param) {
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(param);
             }
-            
+
             // 当前搜索模式（基本或高级）
             let currentSearchMode = 'basic';
-            
+
             // 切换标签页时更新搜索模式
             document.getElementById('basic-tab').addEventListener('click', function() {
                 currentSearchMode = 'basic';
             });
-            
+
             document.getElementById('advanced-tab').addEventListener('click', function() {
                 currentSearchMode = 'advanced';
             });
-            
-<<<<<<< HEAD
+
             // 为所有文档链接添加事件监听器
             document.addEventListener('click', function(e) {
                 const link = e.target.closest('a[data-document-id]');
@@ -824,7 +610,7 @@
                     recordClick(documentId);
                 }
             });
-=======
+
             // 跨页面保持搜索模式
             const savedMode = localStorage.getItem('searchMode');
             if (savedMode) {
@@ -834,7 +620,7 @@
                     document.getElementById('basic-tab').click();
                 }
             }
-            
+
             // 打开侧边栏
             function openSidebar() {
                 aiSidebar.classList.add('expanded');
@@ -843,13 +629,13 @@
                     aiQueryInput.focus();
                 }, 300);
             }
-            
+
             // 关闭侧边栏
             function closeSidebarFunc() {
                 aiSidebar.classList.remove('expanded');
                 mainContainer.classList.remove('sidebar-expanded');
             }
-            
+
             // 侧边栏调整大小
             let isResizing = false;
             let lastDownX = 0;
@@ -859,7 +645,7 @@
                 isResizing = true;
                 lastDownX = e.clientX;
                 document.body.style.cursor = 'ew-resize';
-                aiResizeHandle.style.backgroundColor = 'rgba(74, 107, 223, 0.3)'; // 当正在拖动时，给手柄一个颜色提示
+                aiResizeHandle.style.backgroundColor = 'rgba(74, 107, 223, 0.3)';
                 document.addEventListener('mousemove', handleMouseMove);
                 document.addEventListener('mouseup', stopResize);
                 e.preventDefault();
@@ -868,23 +654,15 @@
             // 调整大小时的处理函数
             function handleMouseMove(e) {
                 if (!isResizing) return;
-                
-                // 计算新宽度：窗口宽度减去鼠标水平位置
                 let newWidth = window.innerWidth - e.clientX;
-                
-                // 确保宽度在允许的范围内
                 if (newWidth < parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-min-width'))) {
                     newWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-min-width'));
                 }
-                
                 if (newWidth > parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-max-width'))) {
                     newWidth = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sidebar-max-width'));
                 }
-                
-                // 应用新宽度
                 document.documentElement.style.setProperty('--sidebar-width', newWidth + 'px');
                 mainContainer.style.marginRight = newWidth + 'px';
-                
                 e.preventDefault();
             }
 
@@ -896,31 +674,25 @@
                 document.removeEventListener('mousemove', handleMouseMove);
                 document.removeEventListener('mouseup', stopResize);
             }
-            
-            // 按钮事件监听
+
+            // AI聊天功能
             aiToggleBtn.addEventListener('click', openSidebar);
             closeSidebar.addEventListener('click', closeSidebarFunc);
-            
-            // AI聊天功能
             sendQueryBtn.addEventListener('click', sendQuery);
             aiQueryInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendQuery();
                 }
             });
-            
+
             // 发送查询到AI
             function sendQuery() {
                 const query = aiQueryInput.value.trim();
                 if (!query) return;
-                
-                // 添加用户消息
+
                 addMessage(query, 'user');
-                
-                // 清空输入框
                 aiQueryInput.value = '';
-                
-                // 添加加载指示器
+
                 const loadingMessageEl = document.createElement('div');
                 loadingMessageEl.className = 'message ai-message';
                 loadingMessageEl.innerHTML = `
@@ -931,15 +703,10 @@
                 `;
                 aiMessages.appendChild(loadingMessageEl);
                 aiMessages.scrollTop = aiMessages.scrollHeight;
-                
-                // 禁用发送按钮和输入框
+
                 sendQueryBtn.disabled = true;
                 aiQueryInput.disabled = true;
-                
-                // 获取当前搜索模式
-                const searchMode = currentSearchMode;
-                
-                // 发送请求到AI服务
+
                 fetch('/search/api/ai_search', {
                     method: 'POST',
                     headers: {
@@ -947,45 +714,40 @@
                     },
                     body: JSON.stringify({
                         query: query,
-                        search_mode: searchMode
+                        search_mode: currentSearchMode
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // 移除加载消息
                     aiMessages.removeChild(loadingMessageEl);
-                    
-                    // 添加AI响应
                     const formattedResponse = formatAIResponse(data);
                     addMessage(formattedResponse, 'ai');
                     
-                    // 启用发送按钮和输入框
+                    // 保存会话ID
+                    if (data.session_id) {
+                        currentSessionId = data.session_id;
+                        console.log('[用户行为] 获取到新的会话ID:', currentSessionId);
+                    }
+
                     sendQueryBtn.disabled = false;
                     aiQueryInput.disabled = false;
                     aiQueryInput.focus();
                 })
                 .catch(error => {
-                    // 移除加载消息
                     aiMessages.removeChild(loadingMessageEl);
-                    
-                    // 添加错误消息
                     addMessage('抱歉，服务器发生错误，请稍后再试。', 'ai');
-                    
-                    // 启用发送按钮和输入框
                     sendQueryBtn.disabled = false;
                     aiQueryInput.disabled = false;
                     aiQueryInput.focus();
-                    
                     console.error('Error:', error);
                 });
             }
-            
+
             // 添加消息到聊天界面
             function addMessage(content, sender) {
                 const messageEl = document.createElement('div');
                 messageEl.className = `message ${sender}-message`;
-                
-                // 如果是AI消息且包含检索式，则格式化显示
+
                 if (sender === 'ai' && typeof content === 'object') {
                     messageEl.innerHTML = `
                         <p class="message-content">
@@ -1006,11 +768,10 @@
                         </p>
                     `;
                 }
-                
+
                 aiMessages.appendChild(messageEl);
                 aiMessages.scrollTop = aiMessages.scrollHeight;
-                
-                // 为"应用检索式"按钮添加事件
+
                 if (sender === 'ai') {
                     const applyBtns = messageEl.querySelectorAll('.apply-query-btn');
                     applyBtns.forEach(btn => {
@@ -1021,64 +782,54 @@
                     });
                 }
             }
-            
+
             // 格式化AI响应
             function formatAIResponse(data) {
-                if (data.success && data.structured_query) {
+                if (data.status === 'success' && data.query) {
                     return {
-                        message: data.ai_response || '根据您的描述，我生成了以下检索式：',
-                        query: data.structured_query
+                        message: data.response || '根据您的描述，我生成了以下检索式：',
+                        query: data.query
                     };
                 } else {
-                    return data.ai_response || '抱歉，我无法生成适合的检索式。请尝试提供更详细的描述。';
+                    return data.response || '抱歉，我无法生成适合的检索式。请尝试提供更详细的描述。';
                 }
             }
-            
+
             // 应用检索式
             function applySearchQuery(query) {
-                // 获取当前活跃的搜索表单
-                let activeForm;
                 if (currentSearchMode === 'basic') {
-                    activeForm = basicForm;
-                    // 设置基本检索表单的查询值
                     document.getElementById('basicQuery').value = query;
-                    // 自动提交基本检索表单
-                    activeForm.submit();
+                    basicForm.submit();
                 } else {
-                    // 高级检索的逻辑会更复杂，这里简化处理
-                    // 可以根据需要扩展
                     document.querySelector('#advanced .condition-input').value = query;
                 }
             }
-            
+
             // 初始化
             function init() {
-                // 如果需要，从URL参数初始化搜索框
                 const queryParam = getQueryParam('query');
                 if (queryParam) {
                     document.getElementById('basicQuery').value = decodeURIComponent(queryParam);
                 }
-                
-                // 从本地存储加载搜索历史
+
                 loadSearchHistory();
-                
+
                 // 处理表单提交
                 basicForm.addEventListener('submit', function(e) {
                     const query = document.getElementById('basicQuery').value.trim();
                     if (!query) {
-                        e.preventDefault(); // 阻止表单提交
+                        e.preventDefault();
                         alert('请输入检索条件');
                         return false;
                     }
-                    
+
                     if (query) {
                         saveSearchHistory(query);
                         localStorage.setItem('searchMode', 'basic');
                     }
                 });
-                
+
                 advancedForm.addEventListener('submit', function(e) {
-                    // 构建高级搜索查询
                     const conditions = document.querySelectorAll('.advanced-condition-row');
                     let query = '';
                     conditions.forEach(function(condition, index) {
@@ -1089,22 +840,20 @@
                             query += `${field}:${input}`;
                         }
                     });
-                    
+
                     if (query) {
                         saveSearchHistory(query);
                         localStorage.setItem('searchMode', 'advanced');
                     }
                 });
-                
-                // 添加新条件行的按钮
+
                 document.getElementById('addCondition').addEventListener('click', function() {
                     addConditionRow();
                 });
-                
-                // 初始添加一个条件行
+
                 addConditionRow();
             }
-            
+
             // 添加高级检索条件行
             function addConditionRow() {
                 const conditionsContainer = document.getElementById('advancedConditions');
@@ -1122,60 +871,49 @@
                         <i class="bi bi-x-circle"></i>
                     </div>
                 `;
-                
-                // 添加删除事件
+
                 const removeBtn = newRow.querySelector('.condition-remove');
                 removeBtn.addEventListener('click', function() {
                     if (document.querySelectorAll('.advanced-condition-row').length > 1) {
                         conditionsContainer.removeChild(newRow);
                     }
                 });
-                
+
                 conditionsContainer.appendChild(newRow);
             }
-            
+
             // 保存搜索历史
             function saveSearchHistory(query) {
                 let history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-                
-                // 移除重复的查询
                 history = history.filter(item => item.query !== query);
-                
-                // 添加新查询到历史开头
                 history.unshift({
                     query: query,
                     time: new Date().toISOString()
                 });
-                
-                // 保持历史记录不超过10项
                 if (history.length > 10) {
                     history = history.slice(0, 10);
                 }
-                
                 localStorage.setItem('searchHistory', JSON.stringify(history));
                 loadSearchHistory();
             }
-            
+
             // 加载搜索历史
             function loadSearchHistory() {
                 const historyList = document.getElementById('searchHistory');
                 historyList.innerHTML = '';
-                
                 const history = JSON.parse(localStorage.getItem('searchHistory') || '[]');
-                
+
                 if (history.length === 0) {
                     historyList.innerHTML = '<li class="text-muted p-3">暂无检索历史</li>';
                     return;
                 }
-                
+
                 history.forEach(item => {
                     const li = document.createElement('li');
                     li.className = 'history-item';
-                    
-                    // 格式化时间
                     const date = new Date(item.time);
                     const formattedTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-                    
+
                     li.innerHTML = `
                         <div>
                             <div class="history-query">${item.query}</div>
@@ -1183,8 +921,7 @@
                         </div>
                         <button class="btn btn-sm btn-outline-primary history-apply-btn">应用</button>
                     `;
-                    
-                    // 添加应用历史查询事件
+
                     const applyBtn = li.querySelector('.history-apply-btn');
                     applyBtn.addEventListener('click', function() {
                         const query = item.query.trim();
@@ -1192,18 +929,16 @@
                             document.getElementById('basicQuery').value = query;
                             basicForm.submit();
                         } else {
-                            // 如果查询为空，显示一个提示或警告
                             alert('检索式不能为空');
                         }
                     });
-                    
+
                     historyList.appendChild(li);
                 });
             }
-            
+
             // 初始化页面
             init();
->>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         });
     </script>
 </body>

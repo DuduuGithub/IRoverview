@@ -18,6 +18,10 @@ reader_bp = Blueprint('reader', __name__,
 @reader_bp.route('/document/<doc_id>')
 def document_detail(doc_id):
     try:
+        # 获取session_id
+        session_id = request.args.get('session_id')
+        print(f"[INFO] 访问文档详情页: doc_id={doc_id}, session_id={session_id}")
+        
         work = Work.query.get(doc_id)
         if work:
             print(f"[INFO] 查到文档: {work.id} - {work.title}")
@@ -25,6 +29,7 @@ def document_detail(doc_id):
         else:
             print(f"[WARN] 没查到文档: {doc_id}")
             message = f"没有查到文档: {doc_id}"
+            
         # 获取作者
         authorships = WorkAuthorship.query.filter_by(work_id=doc_id).all()
         authors = []
@@ -33,10 +38,20 @@ def document_detail(doc_id):
                 author = Author.query.get(authorship.author_id)
                 if author:
                     authors.append(author.display_name)
+                    
+        # 构建文档数据
+        document_data = {
+            'id': work.id if work else None,
+            'title': work.title if work else None,
+            'authors': authors,
+            'session_id': session_id  # 添加session_id到文档数据中
+        }
+                    
         return render_template('reader/document_detail.html', 
-                              work=work,
-                              authors=authors,
-                              message=message)
+                             work=work,
+                             authors=authors,
+                             message=message,
+                             document_data=document_data)  # 传递document_data到模板
     except Exception as e:
         print(f"[ERROR] 查询文档失败: {e}")
         return jsonify({'error': str(e)}), 500

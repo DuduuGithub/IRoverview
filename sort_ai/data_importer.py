@@ -10,7 +10,7 @@ import uuid
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Database.config import db
-from Database.model import Document, SearchSession, SearchResult
+from Database.model import Document, SearchSession, SearchResult, Work, Author, WorkAuthorship, UserBehavior
 from app.utils import generate_search_query
 from flask import Flask
 
@@ -230,6 +230,142 @@ class YaleDataImporter:
             except Exception as e:
                 print(f"生成训练数据出错: {str(e)}")
 
+def import_works():
+    """导入文献数据"""
+    print("开始导入文献数据...")
+    
+    # 读取yale_dataset中的文献数据
+    dataset_path = os.path.join(os.path.dirname(__file__), 'yale_dataset')
+    works_imported = 0
+    
+    for filename in os.listdir(dataset_path):
+        if not filename.endswith('.json'):
+            continue
+            
+        with open(os.path.join(dataset_path, filename), 'r', encoding='utf-8') as f:
+            try:
+                data = json.load(f)
+                
+                # 检查文献是否已存在
+                existing_work = Work.query.filter_by(id=data['id']).first()
+                if existing_work:
+                    continue
+                
+                # 创建Work记录
+                work = Work(
+                    id=data['id'],
+                    title=data.get('title', ''),
+                    display_name=data.get('title', ''),
+                    publication_year=data.get('year'),
+                    cited_by_count=data.get('n_citation', 0),
+                    abstract_inverted_index=data.get('abstract', '')
+                )
+                db.session.add(work)
+                
+                # 创建Author记录
+                if 'authors' in data:
+                    for i, author_name in enumerate(data['authors']):
+                        author = Author.query.filter_by(display_name=author_name).first()
+                        if not author:
+                            author = Author(display_name=author_name)
+                            db.session.add(author)
+                            db.session.flush()  # 获取author.id
+                        
+                        # 创建WorkAuthorship记录
+                        authorship = WorkAuthorship(
+                            work_id=work.id,
+                            author_id=author.id,
+                            position=i + 1
+                        )
+                        db.session.add(authorship)
+                
+                works_imported += 1
+                if works_imported % 100 == 0:
+                    print(f"已导入 {works_imported} 篇文献...")
+                    db.session.commit()
+                
+            except Exception as e:
+                print(f"导入文献 {filename} 时出错: {str(e)}")
+                db.session.rollback()
+    
+    db.session.commit()
+    print(f"文献导入完成，共导入 {works_imported} 篇文献")
+    return works_imported
+
+def create_sample_search_records(num_sessions=5):
+    """创建示例搜索记录"""
+    print("开始创建示例搜索记录...")
+    
+    # 获取所有文献ID
+    work_ids = [w.id for w in Work.query.all()]
+    if not work_ids:
+        print("没有可用的文献数据")
+        return
+    
+    # 示例查询关键词
+    sample_queries = [
+        "machine learning applications",
+        "deep neural networks",
+        "natural language processing",
+        "computer vision techniques",
+        "artificial intelligence trends"
+    ]
+    
+    sessions_created = 0
+    for i in range(num_sessions):
+        try:
+            # 创建搜索会话
+            query_text = random.choice(sample_queries)
+            session_id = f"{int(datetime.utcnow().timestamp())}_{hash(query_text)}"
+            
+            session = SearchSession(
+                session_id=session_id,
+                search_time=datetime.utcnow(),
+                query_text=query_text,
+                total_results=random.randint(50, 200)
+            )
+            db.session.add(session)
+            db.session.flush()
+            
+            # 为每个会话创建10-20个搜索结果
+            num_results = random.randint(10, 20)
+            selected_works = random.sample(work_ids, num_results)
+            
+            for rank, work_id in enumerate(selected_works, 1):
+                # 创建搜索结果
+                result = SearchResult(
+                    session_id=session_id,
+                    entity_type='work',
+                    entity_id=work_id,
+                    rank=rank,
+                    relevance_score=random.uniform(0.5, 1.0),
+                    query_text=query_text,
+                    result_page=((rank - 1) // 10) + 1,
+                    result_position=((rank - 1) % 10) + 1
+                )
+                db.session.add(result)
+                
+                # 随机选择一些文档创建浏览记录（30%的概率）
+                if random.random() < 0.3:
+                    dwell_time = random.randint(300, 600)  # 5-10分钟
+                    behavior = UserBehavior(
+                        session_id=session_id,
+                        document_id=work_id,
+                        dwell_time=dwell_time,
+                        behavior_time=datetime.utcnow()
+                    )
+                    db.session.add(behavior)
+            
+            sessions_created += 1
+            print(f"已创建第 {sessions_created} 个搜索会话的记录")
+            db.session.commit()
+            
+        except Exception as e:
+            print(f"创建搜索记录时出错: {str(e)}")
+            db.session.rollback()
+    
+    print(f"示例搜索记录创建完成，共创建 {sessions_created} 个会话")
+
 def main():
     """
     主函数，执行完整的数据导入和处理流程
@@ -252,4 +388,11 @@ def main():
         print(f"数据处理出错: {str(e)}")
 
 if __name__ == '__main__':
-    main() 
+    # 导入文献数据
+    num_works = import_works()
+    
+    if num_works > 0:
+        # 创建示例搜索记录
+        create_sample_search_records(5)  # 创建5个搜索会话作为示例
+    else:
+        print("没有导入任何文献，跳过创建搜索记录") 

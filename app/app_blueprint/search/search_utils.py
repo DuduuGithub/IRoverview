@@ -3,24 +3,19 @@ import math
 import logging
 from Database.model import SearchSession, SearchResult, Work, UserBehavior
 from Database.config import db
-<<<<<<< HEAD
 from sqlalchemy import text
+
+from flask import request
+import uuid
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def record_search_session(query_text, total_results):
-=======
-from flask import request
-import uuid
-
-def record_search_session(query, total_results=0):
->>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
+def record_search_session(query_text, total_results=0):
     """
     记录一次搜索会话
     
-<<<<<<< HEAD
     Args:
         query_text: 检索式
         total_results: 搜索结果总数
@@ -51,44 +46,11 @@ def record_search_session(query, total_results=0):
         db.session.commit()
         
         logger.info(f"成功创建新会话: session_id={session_id}, query={query_text}")
-=======
-    参数:
-        query (str): 搜索查询
-        total_results (int): 搜索结果总数
-        
-    返回:
-        str: 会话ID
-    """
-    try:
-        # 生成唯一的会话ID
-        session_id = str(uuid.uuid4())
-        
-        # 创建会话记录
-        session = SearchSession(
-            session_id=session_id,
-            search_time=datetime.now(),  # 使用search_time而不是timestamp
-            keyword=query,  # 使用query作为keyword字段
-            search_type='keyword',  # 默认设置为keyword类型
-            user_id=None,  # 可以在用户系统中设置
-            total_results=total_results,
-            client_info={"ip_address": request.remote_addr} if request else None
-        )
-        
-        # 保存到数据库
-        db.session.add(session)
-        db.session.commit()
-        
-        # 返回会话ID
->>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         return session_id
         
     except Exception as e:
-<<<<<<< HEAD
         logger.error(f"创建搜索会话失败: {str(e)}", exc_info=True)
         db.session.rollback()
-=======
-        print(f"记录搜索会话出错: {e}")
->>>>>>> 59ca80dec5c161d8c0053d10189343fbab80cad2
         return None
 
 def record_search_results(session_id, results, page, per_page):
@@ -144,10 +106,21 @@ def record_search_results(session_id, results, page, per_page):
 
 def record_document_click(session_id, document_id):
     """记录文档点击（使用 UPSERT 避免并发冲突）"""
+    logger.info(f"开始记录文档点击: session_id={session_id}, document_id={document_id}")
+    
     if not session_id or not document_id:
         logger.warning(f"无效的会话ID或文档ID: session_id={session_id}, document_id={document_id}")
         return
+        
     try:
+        # 检查文档是否存在
+        work = Work.query.get(document_id)
+        if not work:
+            logger.warning(f"文档不存在: document_id={document_id}")
+            return
+            
+        logger.info(f"文档存在，准备记录点击: work_id={work.id}, title={work.title or work.display_name}")
+        
         # 使用原生SQL的UPSERT语法
         stmt = text("""
             INSERT INTO user_behaviors (session_id, document_id, dwell_time, behavior_time)
@@ -155,30 +128,64 @@ def record_document_click(session_id, document_id):
             ON DUPLICATE KEY UPDATE
                 behavior_time = :behavior_time
         """)
-        db.session.execute(stmt, {
-            'session_id': session_id,
-            'document_id': document_id,
-            'behavior_time': datetime.now()
-        })
-        db.session.commit()
-        logger.info(f"成功记录/更新点击: session_id={session_id}, document_id={document_id}")
+        
+        current_time = datetime.now()
+        logger.info(f"执行SQL语句，当前时间: {current_time}")
+        
+        try:
+            db.session.execute(stmt, {
+                'session_id': session_id,
+                'document_id': document_id,
+                'behavior_time': current_time
+            })
+            db.session.commit()
+            logger.info(f"成功记录/更新点击: session_id={session_id}, document_id={document_id}")
+        except Exception as sql_error:
+            logger.error(f"SQL执行失败: {str(sql_error)}", exc_info=True)
+            db.session.rollback()
+            return
+        
+        # 验证记录是否存在
+        behavior = UserBehavior.query.filter_by(
+            session_id=session_id,
+            document_id=document_id
+        ).first()
+        
+        if behavior:
+            logger.info(f"验证成功: 找到行为记录 id={behavior.id}, behavior_time={behavior.behavior_time}")
+        else:
+            logger.warning("验证失败: 未找到行为记录")
+            
     except Exception as e:
         logger.error(f"记录文档点击失败: session_id={session_id}, document_id={document_id}, 错误={str(e)}", exc_info=True)
         db.session.rollback()
 
 def record_dwell_time(session_id, document_id, dwell_time):
     """累加文档停留时间（使用 UPSERT 避免并发冲突）"""
+    logger.info(f"开始记录停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
+    
     try:
         if not session_id or not document_id:
-            logging.warning(f"无效的会话ID或文档ID: session_id={session_id}, document_id={document_id}")
+            logger.warning(f"无效的会话ID或文档ID: session_id={session_id}, document_id={document_id}")
             return False
+            
         if dwell_time <= 0:
-            logging.warning(f"无效的停留时间: {dwell_time}秒")
+            logger.warning(f"无效的停留时间: {dwell_time}秒")
             return False
+            
         if dwell_time > 1200:
             dwell_time = 1200
-            logging.info(f"停留时间超过20分钟，已限制为1200秒")
+            logger.info(f"停留时间超过20分钟，已限制为1200秒")
 
+        # 检查文档是否存在
+        work = Work.query.get(document_id)
+        if not work:
+            logger.warning(f"文档不存在: document_id={document_id}")
+            return False
+            
+        logger.info(f"文档存在，准备记录停留时间: work_id={work.id}, title={work.title or work.display_name}")
+        
+        current_time = datetime.now()
         # 使用原生SQL的UPSERT语法，累加dwell_time
         stmt = text("""
             INSERT INTO user_behaviors (session_id, document_id, dwell_time, behavior_time)
@@ -187,18 +194,38 @@ def record_dwell_time(session_id, document_id, dwell_time):
                 dwell_time = dwell_time + :dwell_time,
                 behavior_time = :behavior_time
         """)
-        db.session.execute(stmt, {
-            'session_id': session_id,
-            'document_id': document_id,
-            'dwell_time': dwell_time,
-            'behavior_time': datetime.now()
-        })
-        db.session.commit()
-        logging.info(f"成功记录/更新停留时间: session_id={session_id}, document_id={document_id}, dwell_time增加={dwell_time}秒")
+        
+        logger.info(f"执行SQL语句，当前时间: {current_time}")
+        
+        try:
+            db.session.execute(stmt, {
+                'session_id': session_id,
+                'document_id': document_id,
+                'dwell_time': dwell_time,
+                'behavior_time': current_time
+            })
+            db.session.commit()
+            logger.info(f"成功记录/更新停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
+        except Exception as sql_error:
+            logger.error(f"SQL执行失败: {str(sql_error)}", exc_info=True)
+            db.session.rollback()
+            return False
+        
+        # 验证记录是否存在
+        behavior = UserBehavior.query.filter_by(
+            session_id=session_id,
+            document_id=document_id
+        ).first()
+        
+        if behavior:
+            logger.info(f"验证成功: 找到行为记录 id={behavior.id}, dwell_time={behavior.dwell_time}, behavior_time={behavior.behavior_time}")
+        else:
+            logger.warning("验证失败: 未找到行为记录")
+            
         return True
     except Exception as e:
         db.session.rollback()
-        logging.error(f"记录停留时间失败: {str(e)}", exc_info=True)
+        logger.error(f"记录停留时间失败: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}, 错误={str(e)}", exc_info=True)
         return False
 
 def calculate_relevance_score(dwell_time, page_number, items_per_page=10):
