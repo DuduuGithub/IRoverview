@@ -13,9 +13,42 @@ import collections
 import json
 import bisect
 from datetime import datetime
-import jieba
+# import jieba  # 移除jieba导入
 import subprocess
-import jieba
+# 添加英文分词工具
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+
+# 初始化英文分词所需组件
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+# 创建词干提取器和停用词集
+stemmer = PorterStemmer()
+stop_words = set(stopwords.words('english'))
+
+# 英文分词和预处理函数
+def tokenize_english(text):
+    """英文文本分词与预处理"""
+    if not text:
+        return []
+    # 转为小写
+    text = text.lower()
+    # 只保留字母、数字和空格
+    text = re.sub(r'[^\w\s]', ' ', text)
+    # 分词
+    tokens = word_tokenize(text)
+    # 移除停用词、单个字符的词，并进行词干提取
+    tokens = [stemmer.stem(word) for word in tokens if word not in stop_words and len(word) > 1]
+    return tokens
 
 # 导入数据库模型和配置
 import os
@@ -153,10 +186,9 @@ def process_query_with_db(query_text, sort_method=SORT_BY_RELEVANCE):
     - 匹配的文档ID列表
 """
 def get_matching_docs_from_db(query):
-    # 对查询文本进行分词
+    # 对查询文本进行分词 - 使用英文分词
     print(f"正在搜索关键词: {query}")
-    query_terms = [term.lower().strip() for term in jieba.cut(query)]
-    query_terms = [re.sub(r'[^\w\s]', '', term) for term in query_terms if term.strip()]
+    query_terms = tokenize_english(query)
     
     print(f"分词结果: {query_terms}")
     
@@ -176,7 +208,7 @@ def get_matching_docs_from_db(query):
         # 通过 SQL 查询合并所有结果，减少数据库查询次数
         matches = []
         
-        # 在标题、显示名称和摘要中搜索
+        # 在标题、显示名称和摘要中搜索 - 使用词边界匹配
         title_matches = Work.query.filter(
             (Work.title.ilike(f'%{term}%')) |
             (Work.display_name.ilike(f'%{term}%')) |
@@ -417,7 +449,13 @@ def sort_db_results(result_ids, query_text, sort_method):
             score = 0
             text = (doc['title'] + ' ' + doc['abstract']).lower()
             for term in query_terms:
-                score += text.count(term.lower())
+                # 使用单词边界匹配以增加精确度
+                pattern = r'\b' + re.escape(term) + r'\b'
+                matches = len(re.findall(pattern, text))
+                score += matches * 2  # 精确匹配的得分更高
+                
+                # 还要检查部分匹配
+                score += text.count(term) * 0.5
             scored_docs.append((doc_id, score))
         
         # 按分数降序排序
@@ -441,7 +479,13 @@ def sort_db_results(result_ids, query_text, sort_method):
             relevance_score = 0
             text = (doc['title'] + ' ' + doc['abstract']).lower()
             for term in query_terms:
-                relevance_score += text.count(term.lower())
+                # 使用单词边界匹配
+                pattern = r'\b' + re.escape(term) + r'\b'
+                matches = len(re.findall(pattern, text))
+                relevance_score += matches * 2  # 精确匹配的得分更高
+                
+                # 还要检查部分匹配
+                relevance_score += text.count(term) * 0.5
             
             # 引用分数
             citation_score = doc['cited_by_count']
@@ -468,8 +512,8 @@ def extract_query_terms(query):
     # 移除布尔操作符
     cleaned_query = re.sub(r'\bAND\b|\bOR\b|\bNOT\b|\(|\)', ' ', query, flags=re.IGNORECASE)
     
-    # 使用jieba分词
-    return [term.lower().strip() for term in jieba.cut(cleaned_query) if term.strip()]
+    # 使用英文分词
+    return tokenize_english(cleaned_query)
 
 
 """
@@ -556,11 +600,8 @@ def process_boolean_query(query, dictionary, post_file, indexed_docIDs):
         if part in ['AND', 'OR', 'NOT', '(', ')']:
             tokens.append(part)
         else:
-            # 对非操作符部分进行分词
-            for term in jieba.cut(part):
-                term = term.lower().strip()
-                if term:  # 忽略空词项
-                    tokens.append(term)
+            # 对非操作符部分进行分词 - 使用英文分词
+            tokens.extend(tokenize_english(part))
     
     # 使用Shunting-yard算法转换为后缀表达式
     postfix = shunting_yard(tokens)
@@ -621,8 +662,8 @@ def evaluate_postfix(postfix, dictionary, post_file, indexed_docIDs):
     - 匹配的文档ID列表
 """
 def get_matching_docs(query, dictionary, post_file):
-    # 分词
-    terms = [term.lower().strip() for term in jieba.cut(query) if term.strip()]
+    # 分词 - 使用英文分词
+    terms = tokenize_english(query)
     
     # 如果没有有效词项，返回空列表
     if not terms:
@@ -641,6 +682,7 @@ def get_matching_docs(query, dictionary, post_file):
     
     return results
 
+# 以下是布尔操作函数，不需要修改
 """
 计算两个列表的逻辑与（交集）
 参数:

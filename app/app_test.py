@@ -65,11 +65,11 @@ def add_test_data():
     authors = [
         Author(id=f"A{i}", display_name=name, orcid=orcid)
         for i, (name, orcid) in enumerate([
-            ("张三", "0000-0001-1111-1111"),
-            ("李四", "0000-0002-2222-2222"),
-            ("王五", "0000-0003-3333-3333"),
-            ("赵六", "0000-0004-4444-4444"),
-            ("孙七", "0000-0005-5555-5555")
+            ("John Smith", "0000-0001-1111-1111"),
+            ("Sarah Johnson", "0000-0002-2222-2222"),
+            ("Michael Brown", "0000-0003-3333-3333"),
+            ("Emily Davis", "0000-0004-4444-4444"),
+            ("David Wilson", "0000-0005-5555-5555")
         ], 1)
     ]
     
@@ -83,11 +83,11 @@ def add_test_data():
     institutions = [
         Institution(id=f"I{i}", display_name=name, country_code=code)
         for i, (name, code) in enumerate([
-            ("北京大学", "CN"),
-            ("清华大学", "CN"),
-            ("浙江大学", "CN"),
-            ("复旦大学", "CN"),
-            ("南京大学", "CN")
+            ("Peking University", "CN"),
+            ("Stanford University", "US"),
+            ("University of Cambridge", "UK"),
+            ("Massachusetts Institute of Technology", "US"),
+            ("University of Tokyo", "JP")
         ], 1)
     ]
     
@@ -101,13 +101,13 @@ def add_test_data():
     concepts = [
         Concept(id=f"C{i}", display_name=name, level=level)
         for i, (name, level) in enumerate([
-            ("机器学习", 1),
-            ("深度学习", 2),
-            ("算法", 1),
-            ("数据结构", 2),
-            ("人工智能", 1),
-            ("自然语言处理", 2),
-            ("计算机视觉", 2)
+            ("Machine Learning", 1),
+            ("Deep Learning", 2),
+            ("Algorithm", 1),
+            ("Data Structure", 2),
+            ("Artificial Intelligence", 1),
+            ("Natural Language Processing", 2),
+            ("Computer Vision", 2)
         ], 1)
     ]
     
@@ -121,11 +121,11 @@ def add_test_data():
     topics = [
         Topic(id=f"T{i}", display_name=name)
         for i, name in enumerate([
-            "深度神经网络",
-            "图算法",
-            "优化算法",
-            "分布式系统",
-            "大数据分析"
+            "Deep Neural Networks",
+            "Graph Algorithms",
+            "Optimization Methods",
+            "Distributed Systems",
+            "Big Data Analytics"
         ], 1)
     ]
     
@@ -147,31 +147,31 @@ def add_test_data():
         )
         for i, (title, year, cited, abstract) in enumerate([
             (
-                "基于深度学习的图像识别算法研究", 
+                "Research on Image Recognition Algorithm Based on Deep Learning", 
                 2022, 
                 150, 
                 json.dumps({"deep": [1, 5], "learning": [2], "algorithm": [7, 15], "image": [3], "recognition": [4]})
             ),
             (
-                "自然语言处理中的优化算法综述", 
+                "Survey of Optimization Algorithms in Natural Language Processing", 
                 2021, 
                 98, 
                 json.dumps({"natural": [1], "language": [2], "processing": [3], "optimization": [5], "algorithm": [6], "survey": [8]})
             ),
             (
-                "分布式系统中的一致性算法分析", 
+                "Analysis of Consistency Algorithms in Distributed Systems", 
                 2023, 
                 75, 
                 json.dumps({"distributed": [1], "system": [2], "consistency": [4], "algorithm": [5], "analysis": [6]})
             ),
             (
-                "大数据环境下的高效排序算法", 
+                "Efficient Sorting Algorithms in Big Data Environment", 
                 2020, 
                 120, 
                 json.dumps({"big": [1], "data": [2], "efficient": [4], "sorting": [5], "algorithm": [6]})
             ),
             (
-                "机器学习在医疗诊断中的应用", 
+                "Applications of Machine Learning in Medical Diagnosis", 
                 2022, 
                 88, 
                 json.dumps({"machine": [1], "learning": [2], "medical": [4], "diagnosis": [5], "application": [7]})
@@ -260,14 +260,14 @@ def verify_test_data():
     
     print(f"数据库中有 {works_count} 篇论文, {authors_count} 个作者, {concepts_count} 个概念")
     
-    # 检查包含"算法"的论文
-    algorithm_works = Work.query.filter(Work.title.like('%算法%')).all()
-    print(f"包含'算法'的论文有 {len(algorithm_works)} 篇:")
+    # 检查包含"Algorithm"的论文
+    algorithm_works = Work.query.filter(Work.title.like('%Algorithm%')).all()
+    print(f"包含'Algorithm'的论文有 {len(algorithm_works)} 篇:")
     for work in algorithm_works:
         print(f"  - {work.title} (ID: {work.id})")
     
-    # 检查概念为"算法"的论文关联
-    algorithm_concept = Concept.query.filter_by(display_name="算法").first()
+    # 检查概念为"Algorithm"的论文关联
+    algorithm_concept = Concept.query.filter_by(display_name="Algorithm").first()
     if algorithm_concept:
         algo_works = db.session.query(Work).join(
             WorkConcept, Work.id == WorkConcept.work_id
@@ -275,7 +275,7 @@ def verify_test_data():
             WorkConcept.concept_id == algorithm_concept.id
         ).all()
         
-        print(f"概念为'算法'的论文有 {len(algo_works)} 篇:")
+        print(f"概念为'Algorithm'的论文有 {len(algo_works)} 篇:")
         for work in algo_works:
             print(f"  - {work.title} (ID: {work.id})")
 
