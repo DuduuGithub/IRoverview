@@ -309,7 +309,13 @@
             <!-- 主内容区 -->
             <div class="col-md-8">
                 <div class="document-container">
-                    <h1 id="document-title" class="document-title">Loading...</h1>
+                    <h1 id="document-title" class="document-title">
+                        {% if work and work.title %}
+                            {{ work.title }}
+                        {% else %}
+                            无标题文献
+                        {% endif %}
+                    </h1>
                     
                     <div class="document-meta">
                         <div id="author-list" class="author-list">
@@ -318,16 +324,34 @@
                         <div class="meta-info">
                             <span id="publication-date" class="meta-item">
                                 <i class="bi bi-calendar-event me-1"></i>
-                                <span id="publication-year"></span>
+                                <span id="publication-year">
+                                    {% if work and work.publication_year %}
+                                        {{ work.publication_year }}
+                                    {% else %}
+                                        未知年份
+                                    {% endif %}
+                                </span>
                             </span>
                             <span id="publication-venue" class="meta-item">
                                 <i class="bi bi-journal me-1"></i>
-                                <span id="venue-name"></span>
+                                <span id="venue-name">
+                                    {% if venue_name %}
+                                        {{ venue_name }}
+                                    {% else %}
+                                        未知来源
+                                    {% endif %}
+                                </span>
                             </span>
                             <span id="citation-info" class="meta-item">
                                 <i class="bi bi-diagram-3 me-1"></i>
                                 被引用
-                                <span id="citation-count" class="citation-count"></span>
+                                <span id="citation-count" class="citation-count">
+                                    {% if work and work.cited_by_count is defined %}
+                                        {{ work.cited_by_count }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </span>
                                 次
                             </span>
                         </div>
@@ -356,14 +380,24 @@
                     <div id="abstract-section" class="abstract-section">
                         <h2 class="abstract-title">摘要</h2>
                         <div id="abstract-content" class="abstract-content">
-                            <!-- 摘要内容将动态加载 -->
+                            {% if work and work.abstract_inverted_index %}
+                                {{ work.abstract_inverted_index }}
+                            {% else %}
+                                <p>暂无摘要</p>
+                            {% endif %}
                         </div>
                     </div>
                     
                     <div id="keywords-section" class="keywords-section">
                         <h2 class="abstract-title">关键词</h2>
                         <div id="keyword-list">
-                            <!-- 关键词列表将动态加载 -->
+                            {% if concept_names %}
+                                {% for concept in concept_names %}
+                                    <span class="keyword-badge">{{ concept }}</span>{% if not loop.last %}  {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <p>暂无关键词</p>
+                            {% endif %}
                         </div>
                     </div>
 

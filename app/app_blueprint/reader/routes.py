@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, jsonify
-from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat, WorkReferencedWork
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat, WorkReferencedWork, WorkLocation, Source, WorkConcept, Concept
 from Database.config import db
 from ..search.search_utils import (
     record_search_session,
@@ -38,13 +38,46 @@ def document_detail(doc_id):
                 author = Author.query.get(authorship.author_id)
                 if author:
                     authors.append(author.display_name)
+        
+        # 获取论文来源信息
+        venue_name = "未知来源"
+        work_location = WorkLocation.query.filter_by(work_id=doc_id).first()
+        if work_location and work_location.source_id:
+            source = Source.query.get(work_location.source_id)
+            if source and source.display_name:
+                venue_name = source.display_name
+                print(f"[INFO] 文档来源: {venue_name}")
+        else:
+            print(f"[INFO] 未找到文档来源信息")
+            
+        # 获取论文相关概念
+        work_concepts = WorkConcept.query.filter_by(work_id=doc_id).all()
+        concepts_data = []
+        for work_concept in work_concepts:
+            concept = Concept.query.get(work_concept.concept_id)
+            # 只保留level小于等于3的概念
+            if concept and (concept.level is None or concept.level <= 3):
+                concepts_data.append({
+                    'concept_id': concept.id,
+                    'name': concept.display_name,
+                    'score': work_concept.score
+                })
+        
+        # 按score从大到小排序
+        concepts_data.sort(key=lambda x: x['score'] if x['score'] is not None else 0, reverse=True)
+        
+        # 获取排序后的概念名称列表
+        concept_names = [item['name'] for item in concepts_data]
+        
+        print(f"[INFO] 文档相关概念(level<=3): {concept_names}")
                     
         # 构建文档数据
         document_data = {
             'id': work.id if work else None,
             'title': work.title if work else None,
             'authors': authors,
-            'session_id': session_id  # 添加session_id到文档数据中
+            'session_id': session_id,  # 添加session_id到文档数据中
+            'venue_name': venue_name   # 添加来源名称到文档数据中
         }
 
         # 获取年度引用统计数据
@@ -83,7 +116,9 @@ def document_detail(doc_id):
                              authors=authors,
                              message=message,
                              document_data=document_data,
-                             citation_data=citation_data)  # 传递document_data到模板
+                             citation_data=citation_data,
+                             venue_name=venue_name,
+                             concept_names=concept_names)  # 传递概念名称列表到模板
     except Exception as e:
         print(f"[ERROR] 查询文档失败: {e}")
         return jsonify({'error': str(e)}), 500

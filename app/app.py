@@ -43,7 +43,7 @@ def createApp(debug=False):
     
     # 注册蓝图
     app.register_blueprint(searcher_bp, url_prefix='/search')
-    app.register_blueprint(reader_bp)
+    app.register_blueprint(reader_bp, url_prefix='/reader')
     
     print(app.url_map)
     
@@ -58,5 +58,5 @@ def index():
 
 if __name__ == '__main__':
     # 初始化数据库
-    init_database()
+    # init_database()
     app.run(debug=True)  # 这里的debug只控制Flask的调试模式，不影响SQL输出
