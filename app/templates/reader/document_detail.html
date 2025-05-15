@@ -92,7 +92,7 @@
         .author-item {
             display: inline-block;
             margin-right: 1rem;
-            color: var(--primary-color);
+            color: #333;
             font-weight: 500;
         }
         
@@ -318,8 +318,17 @@
                     </h1>
                     
                     <div class="document-meta">
-                        <div id="author-list" class="author-list">
-                            <!-- 作者列表将动态加载 -->
+                        <div class="author-section" style="display: flex; align-items: baseline; margin-bottom: 0.75rem;">
+                            <h2 class="abstract-title" style="margin-bottom: 0; margin-right: 1rem; line-height: 1.6;">作者:</h2>
+                            <div id="author-list" class="author-list" style="display: inline; line-height: 1.6;">
+                                {% if authors %}
+                                    {% for author in authors %}
+                                        <span class="author-item">{{ author }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="author-item">未知作者</span>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="meta-info">
                             <span id="publication-date" class="meta-item">
@@ -355,26 +364,6 @@
                                 次
                             </span>
                         </div>
-                    </div>
-                    
-                    <div class="citation-section">
-                        <h3 class="citation-title">引用此文献</h3>
-                        <ul class="citation-formats">
-                            <li class="citation-item">
-                                <div class="d-flex justify-content-between">
-                                    <span>BibTeX</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')">复制</button>
-                                </div>
-                                <div id="bibtex-citation" class="citation-text"></div>
-                            </li>
-                            <li class="citation-item">
-                                <div class="d-flex justify-content-between">
-                                    <span>APA</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')">复制</button>
-                                </div>
-                                <div id="apa-citation" class="citation-text"></div>
-                            </li>
-                        </ul>
                     </div>
                     
                     <div id="abstract-section" class="abstract-section">
@@ -419,11 +408,57 @@
                             </iframe>
                         </div>
                     </div>
+
+                    <div class="citation-section">
+                        <h3 class="citation-title">引用此文献</h3>
+                        <ul class="citation-formats">
+                            <li class="citation-item">
+                                <div class="d-flex justify-content-between">
+                                    <span>APA</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')">复制</button>
+                                </div>
+                                <div id="apa-citation" class="citation-text"></div>
+                            </li>
+                            <li class="citation-item">
+                                <div class="d-flex justify-content-between">
+                                    <span>BibTeX</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')">复制</button>
+                                </div>
+                                <div id="bibtex-citation" class="citation-text"></div>
+                            </li>
+                        </ul>
+                    </div>
                     
                     <div id="references-section" class="references-section">
                         <h2 class="abstract-title">参考文献</h2>
                         <div id="references-list">
-                            <!-- 参考文献列表将动态加载 -->
+                            {% if referenced_works %}
+                                {% for ref in referenced_works %}
+                                    <div class="reference-item">
+                                        <div style="display: flex; align-items: baseline;">
+                                            <span style="color: #333; min-width: 1.5rem;">{{ loop.index }}.</span> 
+                                            <a href="{{ url_for('reader.document_detail', doc_id=ref.id) }}" class="reference-link" style="text-decoration: none; display: inline-block;">
+                                                {{ ref.title }}
+                                            </a>
+                                        </div>
+                                        <div class="reference-meta" style="margin-top: 0.5rem; font-size: 0.9rem; color: #555; margin-left: 1.5rem;">
+                                            {% if ref.authors %}
+                                                <span class="reference-authors">{{ ref.authors|join(', ') }}</span>
+                                            {% else %}
+                                                <span class="reference-authors">未知作者</span>
+                                            {% endif %}
+                                            
+                                            {% if ref.cited_by_count is defined and ref.cited_by_count %}
+                                                <span class="reference-citations" style="margin-left: 1rem;">
+                                                    <i class="bi bi-diagram-3 me-1"></i>被引用 {{ ref.cited_by_count }} 次
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>暂无参考文献信息</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

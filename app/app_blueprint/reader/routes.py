@@ -70,7 +70,55 @@ def document_detail(doc_id):
         concept_names = [item['name'] for item in concepts_data]
         
         print(f"[INFO] 文档相关概念(level<=3): {concept_names}")
-                    
+        
+        # 获取论文参考文献
+        referenced_works_ids = [item.referenced_work_id for item in WorkReferencedWork.query.filter_by(work_id=doc_id).all()]
+        referenced_works = []
+        
+        print(f"[INFO] 找到{len(referenced_works_ids)}篇参考文献")
+        
+        # 从Work表中获取参考文献的详细信息
+        for ref_id in referenced_works_ids:
+            ref_work = Work.query.get(ref_id)
+            if ref_work:
+                # 构建参考文献信息字典
+                ref_info = {
+                    'id': ref_work.id,
+                    'title': ref_work.title,
+                    'abstract': ref_work.abstract_inverted_index,
+                    'publication_year': ref_work.publication_year,
+                    'cited_by_count': ref_work.cited_by_count,
+                    'doi': ref_work.doi,
+                    'language': ref_work.language,
+                    'type': ref_work.type
+                }
+                
+                # 获取参考文献的作者
+                ref_authors = []
+                ref_authorships = WorkAuthorship.query.filter_by(work_id=ref_id).all()
+                for ref_authorship in ref_authorships:
+                    if ref_authorship.author_id:
+                        ref_author = Author.query.get(ref_authorship.author_id)
+                        if ref_author:
+                            ref_authors.append(ref_author.display_name)
+                
+                ref_info['authors'] = ref_authors
+                
+                # 获取参考文献的来源信息
+                ref_venue = "未知来源"
+                ref_location = WorkLocation.query.filter_by(work_id=ref_id).first()
+                if ref_location and ref_location.source_id:
+                    ref_source = Source.query.get(ref_location.source_id)
+                    if ref_source and ref_source.display_name:
+                        ref_venue = ref_source.display_name
+                
+                ref_info['venue'] = ref_venue
+                
+                # 添加到参考文献列表
+                referenced_works.append(ref_info)
+        
+        print(f"[INFO] 成功获取到{len(referenced_works)}篇参考文献的详细信息")
+        
         # 构建文档数据
         document_data = {
             'id': work.id if work else None,
@@ -118,7 +166,8 @@ def document_detail(doc_id):
                              document_data=document_data,
                              citation_data=citation_data,
                              venue_name=venue_name,
-                             concept_names=concept_names)  # 传递概念名称列表到模板
+                             concept_names=concept_names,
+                             referenced_works=referenced_works)  # 传递概念名称列表到模板
     except Exception as e:
         print(f"[ERROR] 查询文档失败: {e}")
         return jsonify({'error': str(e)}), 500
