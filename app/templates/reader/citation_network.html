@@ -224,10 +224,10 @@
                 index: index
             }));
             
-            // 调整links数据，确保指向方向为论文->参考文献
+            // 修正links数据，确保箭头指向从引用论文A指向被引用论文B
             const links = citations.map(citation => ({
-                source: citation.target,
-                target: citation.source,
+                source: citation.source,
+                target: citation.target,
                 value: 1
             }));
             

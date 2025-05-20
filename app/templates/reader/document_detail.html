@@ -236,7 +236,7 @@
             cursor: pointer;
             padding: 0;
             font-size: 0.875rem;
-            text-decoration: underline;
+            text-decoration: none;
         }
         
         .back-to-results {
@@ -392,7 +392,7 @@
 
                     <!-- 年度引用统计图部分 -->
                     <div id="citations-section" class="citations-section mb-4">
-                        <h2 class="abstract-title">年度引用统计</h2>
+                        <h2 class="abstract-title">年度引用统计图</h2>
                         <div class="chart-container" style="position: relative; height:400px;">
                             <canvas id="citationsChart"></canvas>
                         </div>
@@ -415,16 +415,20 @@
                             <li class="citation-item">
                                 <div class="d-flex justify-content-between">
                                     <span>APA</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')">复制</button>
+                                    <button class="copy-btn" onclick="copyToClipboard('apa-citation')"><i class="bi bi-clipboard"></i> 复制</button>
                                 </div>
-                                <div id="apa-citation" class="citation-text"></div>
+                                <div id="apa-citation" class="citation-text" style="font-size: 0.9rem; line-height: 1.6; padding: 0.5rem; color: #333; font-family: 'Times New Roman', Times, serif; text-align: left; position: relative;">
+                                    正在生成引用格式...
+                                </div>
                             </li>
                             <li class="citation-item">
                                 <div class="d-flex justify-content-between">
                                     <span>BibTeX</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')">复制</button>
+                                    <button class="copy-btn" onclick="copyToClipboard('bibtex-citation')"><i class="bi bi-clipboard"></i> 复制</button>
                                 </div>
-                                <div id="bibtex-citation" class="citation-text"></div>
+                                <div id="bibtex-citation" class="citation-text" style="font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.5; position: relative;">
+                                    正在生成引用格式...
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -477,7 +481,7 @@
                                 <a href="#keywords-section" class="toc-link">关键词</a>
                             </li>
                             <li class="toc-item">
-                                <a href="#citations-section" class="toc-link">年度引用统计</a>
+                                <a href="#citations-section" class="toc-link">年度引用统计图</a>
                             </li>
                             <li class="toc-item">
                                 <a href="#citation-network-section" class="toc-link">引用关系图</a>
@@ -506,6 +510,291 @@ console.log('[用户行为] 脚本开始执行时间:', scriptStartTime.toISOStr
 console.log('[用户行为] 开始加载文档详情页');
 console.log('[用户行为] 当前URL:', window.location.href);
 
+// 将标题转换为APA格式的sentence case
+function toSentenceCase(text) {
+    if (!text) return "";
+    
+    // 将整个字符串转换为小写
+    let result = text.toLowerCase();
+    
+    // 将第一个字母转换为大写
+    result = result.charAt(0).toUpperCase() + result.slice(1);
+    
+    // 处理常见专有名词（示例）
+    const properNouns = [
+        /\b(covid-19)\b/gi, /\b(ai)\b/gi, /\b(ml)\b/gi, 
+        /\b(usa)\b/gi, /\b(uk)\b/gi, /\b(eu)\b/gi,
+        /\b(internet)\b/gi, /\b(web)\b/gi, /\b(google)\b/gi, 
+        /\b(facebook)\b/gi, /\b(twitter)\b/gi, /\b(android)\b/gi, 
+        /\b(ios)\b/gi, /\b(windows)\b/gi, /\b(linux)\b/gi, 
+        /\b(macos)\b/gi, /\b(unix)\b/gi, /\b(python)\b/gi,
+        /\b(java)\b/gi, /\b(javascript)\b/gi, /\b(c\+\+)\b/gi
+    ];
+    
+    // 将冒号后面的第一个字母转为大写
+    result = result.replace(/:\s*([a-z])/g, function(match, p1) {
+        return ': ' + p1.toUpperCase();
+    });
+    
+    // 将专有名词转为正确的大小写
+    properNouns.forEach(function(regex) {
+        result = result.replace(regex, function(match) {
+            // 获取匹配的专有名词的正确大小写形式
+            switch(match.toLowerCase()) {
+                case 'covid-19': return 'COVID-19';
+                case 'ai': return 'AI';
+                case 'ml': return 'ML';
+                case 'usa': return 'USA';
+                case 'uk': return 'UK';
+                case 'eu': return 'EU';
+                case 'internet': return 'Internet';
+                case 'web': return 'Web';
+                case 'google': return 'Google';
+                case 'facebook': return 'Facebook';
+                case 'twitter': return 'Twitter';
+                case 'android': return 'Android';
+                case 'ios': return 'iOS';
+                case 'windows': return 'Windows';
+                case 'linux': return 'Linux';
+                case 'macos': return 'macOS';
+                case 'unix': return 'UNIX';
+                case 'python': return 'Python';
+                case 'java': return 'Java';
+                case 'javascript': return 'JavaScript';
+                case 'c++': return 'C++';
+                default: return match;
+            }
+        });
+    });
+    
+    return result;
+}
+
+// 格式化作者列表为APA格式
+function formatAuthors(authors) {
+    if (!authors || authors.length === 0) {
+        return "";
+    }
+    
+    let formatted = [];
+    for (let author of authors) {
+        // 按空格分割名字
+        const parts = author.trim().split(/\s+/);
+        if (parts.length >= 2) {
+            // 姓氏放在前面，名字缩写为首字母加点
+            const lastName = parts[parts.length - 1];
+            const initials = parts.slice(0, parts.length - 1).map(part => part[0] + ".").join(" ");
+            formatted.push(`${lastName}, ${initials}`);
+        } else {
+            formatted.push(author);
+        }
+    }
+    
+    // APA格式：前19个作者，然后省略号，然后最后一个作者
+    if (formatted.length === 1) {
+        return formatted[0];
+    } else if (formatted.length <= 20) {
+        return formatted.slice(0, -1).join(", ") + ", & " + formatted[formatted.length - 1];
+    } else {
+        return formatted.slice(0, 19).join(", ") + ", ... " + formatted[formatted.length - 1];
+    }
+}
+
+// 根据文献类型生成APA引用格式
+function generateApaCitation(docData) {
+    // 如果没有文献数据，返回空字符串
+    if (!docData) {
+        return "暂无引用信息";
+    }
+    
+    const type = docData.type || "article";
+    const authors = formatAuthors(docData.authors || []);
+    const year = docData.publication_year || "n.d."; // n.d. 表示 "no date"
+    const title = toSentenceCase(docData.title) || "[无标题]";
+    const container = docData.venue_name || "";
+    const publisher = docData.publisher || "";
+    const volume = docData.volume || "";
+    const issue = docData.issue || "";
+    const pages = docData.pages || "";
+    const doi = docData.doi || "";
+    
+    let citation = "";
+    
+    // 根据文献类型生成不同格式的引用
+    if (["article", "erratum", "letter", "editorial", "peer-review"].includes(type)) {
+        // 期刊文章：作者. (年份). 标题. 期刊名(斜体), 卷(期), 页码. DOI
+        citation = `${authors} (${year}). ${title}. <em>${container}</em>`;
+        if (volume) {
+            citation += `, ${volume}`;
+            if (issue) {
+                citation += `(${issue})`;
+            }
+        }
+        if (pages) {
+            citation += `, ${pages}`;
+        }
+        citation += ".";
+    } 
+    else if (type === "book") {
+        // 书籍：作者. (年份). 书名(斜体). 出版商.
+        citation = `${authors} (${year}). <em>${title}</em>. ${publisher}.`;
+    }
+    else if (type === "book-chapter") {
+        // 书籍章节：作者. (年份). 章节标题. In 编辑 (Ed.), 书名(斜体) (pp. 页码). 出版商.
+        citation = `${authors} (${year}). ${title}. In (Ed.), <em>${container}</em>`;
+        if (pages) {
+            citation += ` (pp. ${pages})`;
+        }
+        citation += `. ${publisher}.`;
+    }
+    else if (type === "report") {
+        // 报告：作者. (年份). 报告标题(斜体) (Report). 出版商.
+        citation = `${authors} (${year}). <em>${title}</em> (Report). ${publisher}.`;
+    }
+    else if (type === "dissertation") {
+        // 学位论文：作者. (年份). 标题(斜体) (Doctoral dissertation). 机构.
+        citation = `${authors} (${year}). <em>${title}</em> (Doctoral dissertation). ${publisher || "Unknown institution"}.`;
+    }
+    else if (type === "dataset") {
+        // 数据集：作者. (年份). 标题(斜体) [Data set]. 出版商.
+        citation = `${authors} (${year}). <em>${title}</em> [Data set]. ${publisher}.`;
+    }
+    else if (type === "reference-entry") {
+        // 参考条目：作者. (年份). 标题. In 参考工具名(斜体). 出版商.
+        citation = `${authors} (${year}). ${title}. In <em>${container}</em>. ${publisher}.`;
+    }
+    else if (type === "standard") {
+        // 标准：作者. (年份). 标题(斜体) (Standard). 出版商.
+        citation = `${authors} (${year}). <em>${title}</em> (Standard). ${publisher}.`;
+    }
+    else if (type === "grant") {
+        // 资助：作者. (年份). 标题(斜体) [Grant description]. 出版商.
+        citation = `${authors} (${year}). <em>${title}</em> [Grant description]. ${publisher}.`;
+    }
+    else if (type === "paratext") {
+        // 其他文本：作者. (年份). 标题(斜体). 出版商.
+        citation = `${authors} (${year}). <em>${title}</em>. ${publisher}.`;
+    }
+    else {
+        // 默认格式：作者. (年份). 标题(斜体). 出版商.
+        citation = `${authors} (${year}). <em>${title}</em>. ${publisher}.`;
+    }
+    
+    // 添加DOI（如果有）
+    if (doi) {
+        // 处理DOI：如果DOI已经包含完整URL则直接使用，否则构建标准URL
+        if (doi.startsWith('http')) {
+            citation += ` ${doi}`;
+        } else if (doi.startsWith('doi.org/') || doi.startsWith('https://doi.org/')) {
+            citation += ` https://${doi.replace('https://', '')}`;
+        } else {
+            // 保留完整的DOI路径，而不只是最后一部分
+            citation += ` https://doi.org/${doi}`;
+        }
+    }
+    
+    return citation;
+}
+
+// 为BibTeX标题中的专有名词添加保护性大括号
+function protectBibTeXTitle(title) {
+    if (!title) return "";
+    
+    // 定义需要保护的专有名词和缩写词列表
+    const properNouns = [
+        /\b(COVID-19)\b/g, /\b(AI)\b/g, /\b(ML)\b/g, 
+        /\b(USA)\b/g, /\b(UK)\b/g, /\b(EU)\b/g,
+        /\b(Internet)\b/g, /\b(Web)\b/g, /\b(Google)\b/g, 
+        /\b(Facebook)\b/g, /\b(Twitter)\b/g, /\b(Android)\b/g, 
+        /\b(iOS)\b/g, /\b(Windows)\b/g, /\b(Linux)\b/g, 
+        /\b(macOS)\b/g, /\b(UNIX)\b/g, /\b(Python)\b/g,
+        /\b(Java)\b/g, /\b(JavaScript)\b/g, /\b(C\+\+)\b/g
+    ];
+    
+    // 保护专有名词，添加大括号
+    properNouns.forEach(regex => {
+        title = title.replace(regex, '{$&}');
+    });
+    
+    return title;
+}
+
+// 生成BibTeX引用格式
+function generateBibTeX(docData) {
+    if (!docData) {
+        return "暂无BibTeX信息";
+    }
+    
+    const id = docData.id || "doc";
+    const authors = (docData.authors || []).join(" and ");
+    const year = docData.publication_year || "";
+    // 将标题转换为sentence case，并为专有名词添加保护性大括号
+    const title = protectBibTeXTitle(toSentenceCase(docData.title)) || "";
+    const journal = docData.venue_name || "";
+    const volume = docData.volume || "";
+    const issue = docData.issue || "";
+    const pages = docData.pages || "";
+    const doi = docData.doi || "";
+    const publisher = docData.publisher || "";
+    const type = docData.type || "article";
+    
+    let bibtex = "";
+    
+    if (["article", "erratum", "letter", "editorial", "peer-review"].includes(type)) {
+        bibtex = `@article{${id},
+  author = {${authors}},
+  year = {${year}},
+  title = {${title}},
+  journal = {${journal}}`;
+        
+        if (volume) bibtex += `,\n  volume = {${volume}}`;
+        if (issue) bibtex += `,\n  number = {${issue}}`;
+        if (pages) bibtex += `,\n  pages = {${pages}}`;
+        if (doi) bibtex += `,\n  doi = {${doi}}`;
+        
+        bibtex += "\n}";
+    } 
+    else if (type === "book") {
+        bibtex = `@book{${id},
+  author = {${authors}},
+  year = {${year}},
+  title = {${title}},
+  publisher = {${publisher}}`;
+        
+        if (doi) bibtex += `,\n  doi = {${doi}}`;
+        
+        bibtex += "\n}";
+    }
+    else if (type === "book-chapter") {
+        bibtex = `@incollection{${id},
+  author = {${authors}},
+  year = {${year}},
+  title = {${title}},
+  booktitle = {${journal}},
+  publisher = {${publisher}}`;
+        
+        if (pages) bibtex += `,\n  pages = {${pages}}`;
+        if (doi) bibtex += `,\n  doi = {${doi}}`;
+        
+        bibtex += "\n}";
+    }
+    else {
+        // 默认为 misc 类型
+        bibtex = `@misc{${id},
+  author = {${authors}},
+  year = {${year}},
+  title = {${title}}`;
+        
+        if (journal) bibtex += `,\n  howpublished = {${journal}}`;
+        if (publisher) bibtex += `,\n  publisher = {${publisher}}`;
+        if (doi) bibtex += `,\n  doi = {${doi}}`;
+        
+        bibtex += "\n}";
+    }
+    
+    return bibtex;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const domLoadedTime = new Date();
     console.log('[用户行为] DOM加载完成时间:', domLoadedTime.toISOString());
@@ -527,6 +816,74 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // 生成引用格式
+    const documentData = JSON.parse('{{ document_data|tojson|safe }}');
+    
+    // 生成APA格式引用
+    const apaCitation = generateApaCitation(documentData);
+    document.getElementById('apa-citation').innerHTML = apaCitation;
+    
+    // 生成BibTeX格式引用
+    const bibtexCitation = generateBibTeX(documentData);
+    document.getElementById('bibtex-citation').textContent = bibtexCitation;
+    
+    // 复制引用到剪贴板的函数
+    window.copyToClipboard = function(elementId) {
+        const element = document.getElementById(elementId);
+        
+        // 创建一个临时textarea元素
+        const textarea = document.createElement('textarea');
+        
+        // 如果内容包含HTML标签（如斜体），处理HTML
+        if (elementId === 'apa-citation') {
+            // 创建临时元素来解析HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = element.innerHTML;
+            
+            // 获取纯文本内容
+            let textContent = tempDiv.textContent || tempDiv.innerText;
+            
+            // 找到所有斜体元素并在其前后添加星号(*)
+            const italicElements = element.getElementsByTagName('em');
+            if (italicElements.length > 0) {
+                // 创建一个新的div用于处理带星号的文本
+                const processedDiv = document.createElement('div');
+                processedDiv.innerHTML = element.innerHTML;
+                
+                // 将所有<em>标签替换为带星号的文本
+                Array.from(processedDiv.getElementsByTagName('em')).forEach((emElement) => {
+                    const spanElement = document.createElement('span');
+                    spanElement.textContent = '*' + emElement.textContent + '*';
+                    emElement.parentNode.replaceChild(spanElement, emElement);
+                });
+                
+                // 使用处理后的文本
+                textContent = processedDiv.textContent || processedDiv.innerText;
+            }
+            
+            textarea.value = textContent;
+        } else {
+            textarea.value = element.textContent || element.innerText;
+        }
+        
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                // 显示成功提示
+                alert('已复制到剪贴板');
+            } else {
+                console.error('复制失败');
+            }
+        } catch (err) {
+            console.error('复制出错:', err);
+        }
+        
+        document.body.removeChild(textarea);
+    };
     
     // 监听滚动事件，更新目录活动状态
     const sections = document.querySelectorAll('div[id$="-section"]');
