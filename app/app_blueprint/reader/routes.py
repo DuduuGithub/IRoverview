@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify, redirect, url_for
-from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat, WorkReferencedWork, WorkLocation, Source, WorkConcept, Concept
+from Database.model import Work, Author, WorkAuthorship, SearchResult, YearlyStat, WorkReferencedWork, WorkLocation, Source, WorkConcept, Concept, WorkRelatedWork
 from Database.config import db
 from ..search.search_utils import (
     record_search_session,
@@ -122,6 +122,54 @@ def document_detail(doc_id):
         
         print(f"[INFO] 成功获取到{len(referenced_works)}篇参考文献的详细信息")
         
+        # 获取论文相关文献
+        related_works_ids = [item.related_work_id for item in WorkRelatedWork.query.filter_by(work_id=doc_id).all()]
+        related_works = []
+        
+        print(f"[INFO] 找到{len(related_works_ids)}篇相关文献")
+        
+        # 从Work表中获取相关文献的详细信息
+        for rel_id in related_works_ids:
+            rel_work = Work.query.get(rel_id)
+            if rel_work:
+                # 构建相关文献信息字典
+                rel_info = {
+                    'id': rel_work.id,
+                    'title': rel_work.title,
+                    'abstract': rel_work.abstract_inverted_index,
+                    'publication_year': rel_work.publication_year,
+                    'cited_by_count': rel_work.cited_by_count,
+                    'doi': rel_work.doi,
+                    'language': rel_work.language,
+                    'type': rel_work.type
+                }
+                
+                # 获取相关文献的作者
+                rel_authors = []
+                rel_authorships = WorkAuthorship.query.filter_by(work_id=rel_id).all()
+                for rel_authorship in rel_authorships:
+                    if rel_authorship.author_id:
+                        rel_author = Author.query.get(rel_authorship.author_id)
+                        if rel_author:
+                            rel_authors.append(rel_author.display_name)
+                
+                rel_info['authors'] = rel_authors
+                
+                # 获取相关文献的来源信息
+                rel_venue = "未知来源"
+                rel_location = WorkLocation.query.filter_by(work_id=rel_id).first()
+                if rel_location and rel_location.source_id:
+                    rel_source = Source.query.get(rel_location.source_id)
+                    if rel_source and rel_source.display_name:
+                        rel_venue = rel_source.display_name
+                
+                rel_info['venue'] = rel_venue
+                
+                # 添加到相关文献列表
+                related_works.append(rel_info)
+        
+        print(f"[INFO] 成功获取到{len(related_works)}篇相关文献的详细信息")
+        
         # 构建文档数据，包含用于生成引用格式的所有信息
         document_data = {
             'id': work.id if work else None,
@@ -178,7 +226,8 @@ def document_detail(doc_id):
                              citation_data=citation_data,
                              venue_name=venue_name,
                              concept_names=concept_names,
-                             referenced_works=referenced_works)
+                             referenced_works=referenced_works,
+                             related_works=related_works)
     except Exception as e:
         print(f"[ERROR] 查询文档失败: {e}")
         return jsonify({'error': str(e)}), 500

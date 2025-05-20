@@ -197,7 +197,7 @@
         }
         
         .citation-section {
-            background-color: var(--light-bg);
+            background-color: #f0f2f5;
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 2rem;
@@ -367,18 +367,20 @@
                     </div>
                     
                     <div id="abstract-section" class="abstract-section">
-                        <h2 class="abstract-title">摘要</h2>
-                        <div id="abstract-content" class="abstract-content">
-                            {% if work and work.abstract_inverted_index %}
-                                {{ work.abstract_inverted_index }}
-                            {% else %}
-                                <p>暂无摘要</p>
-                            {% endif %}
+                        <div class="citation-section">
+                            <h3 class="citation-title">摘要</h3>
+                            <div id="abstract-content" class="abstract-content">
+                                {% if work and work.abstract_inverted_index %}
+                                    {{ work.abstract_inverted_index }}
+                                {% else %}
+                                    <p>暂无摘要</p>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     
                     <div id="keywords-section" class="keywords-section">
-                        <h2 class="abstract-title">关键词</h2>
+                        <h3 class="citation-title">关键词</h3>
                         <div id="keyword-list">
                             {% if concept_names %}
                                 {% for concept in concept_names %}
@@ -392,7 +394,7 @@
 
                     <!-- 年度引用统计图部分 -->
                     <div id="citations-section" class="citations-section mb-4">
-                        <h2 class="abstract-title">年度引用统计图</h2>
+                        <h3 class="citation-title">年度引用统计图</h3>
                         <div class="chart-container" style="position: relative; height:400px;">
                             <canvas id="citationsChart"></canvas>
                         </div>
@@ -434,8 +436,8 @@
                     </div>
                     
                     <div id="references-section" class="references-section">
-                        <h2 class="abstract-title">参考文献</h2>
-                        <div id="references-list">
+                        <div id="references-list" class="citation-section">
+                            <h3 class="citation-title">参考文献</h3>
                             {% if referenced_works %}
                                 {% for ref in referenced_works %}
                                     <div class="reference-item">
@@ -465,6 +467,39 @@
                             {% endif %}
                         </div>
                     </div>
+
+                    <div id="related-works-section" class="references-section">
+                        <div id="related-works-list" class="citation-section">
+                            <h3 class="citation-title">相关文献</h3>
+                            {% if related_works %}
+                                {% for rel in related_works %}
+                                    <div class="reference-item">
+                                        <div style="display: flex; align-items: baseline;">
+                                            <span style="color: #333; min-width: 1.5rem;">{{ loop.index }}.</span> 
+                                            <a href="{{ url_for('reader.document_detail', doc_id=rel.id) }}" class="reference-link" style="text-decoration: none; display: inline-block;">
+                                                {{ rel.title }}
+                                            </a>
+                                        </div>
+                                        <div class="reference-meta" style="margin-top: 0.5rem; font-size: 0.9rem; color: #555; margin-left: 1.5rem;">
+                                            {% if rel.authors %}
+                                                <span class="reference-authors">{{ rel.authors|join(', ') }}</span>
+                                            {% else %}
+                                                <span class="reference-authors">未知作者</span>
+                                            {% endif %}
+                                            
+                                            {% if rel.cited_by_count is defined and rel.cited_by_count %}
+                                                <span class="reference-citations" style="margin-left: 1rem;">
+                                                    <i class="bi bi-diagram-3 me-1"></i>被引用 {{ rel.cited_by_count }} 次
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>暂无相关文献信息</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -489,14 +524,10 @@
                             <li class="toc-item">
                                 <a href="#references-section" class="toc-link">参考文献</a>
                             </li>
+                            <li class="toc-item">
+                                <a href="#related-works-section" class="toc-link">相关文献</a>
+                            </li>
                         </ul>
-                    </div>
-                    
-                    <div class="related-section">
-                        <h3 class="toc-title">相关文献</h3>
-                        <div id="related-list">
-                            <!-- 相关文献列表将动态加载 -->
-                        </div>
                     </div>
                 </div>
             </div>
