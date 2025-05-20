@@ -9,18 +9,53 @@ import math
 import io
 import collections
 import json
-import jieba
+# import jieba # 移除jieba导入
 import time
 import bisect
 from datetime import datetime
 import importlib
+
+# 添加英文分词工具
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+
+# 初始化英文分词所需组件
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+# 创建词干提取器和停用词集
+stemmer = PorterStemmer()
+stop_words = set(stopwords.words('english'))
+
+# 英文分词和预处理函数
+def tokenize_english(text):
+    """英文文本分词与预处理"""
+    if not text:
+        return []
+    # 转为小写
+    text = text.lower()
+    # 只保留字母、数字和空格
+    text = re.sub(r'[^\w\s]', ' ', text)
+    # 分词
+    tokens = word_tokenize(text)
+    # 移除停用词、单个字符的词，并进行词干提取
+    tokens = [stemmer.stem(word) for word in tokens if word not in stop_words and len(word) > 1]
+    return tokens
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../')))
 
 # 导入数据库模型和配置
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-from Database.model import Work, Author, Topic, Concept, Institution, Source, WorkAuthorship, WorkConcept, WorkTopic
+from Database.model import Work, Author, Topic, Concept, Institution, Source, WorkAuthorship, WorkConcept, WorkTopic, WorkLocation
 from Database.config import db
 
 # 导入排序模块
@@ -36,6 +71,17 @@ FIELD_AUTHOR = "author"    # 作者
 FIELD_KEYWORD = "keyword"  # 关键词
 FIELD_TIME = "time"        # 时间
 FIELD_CONTENT = "content"  # 普通内容
+
+# 新增字段
+FIELD_INSTITUTION = "institution"  # 机构
+FIELD_SOURCE = "source"            # 来源/期刊
+FIELD_COUNTRY = "country"          # 国家
+FIELD_LANGUAGE = "language"        # 语言 
+FIELD_TYPE = "type"                # 文献类型
+FIELD_CITED = "cited"              # 被引用次数
+FIELD_DOI = "doi"                  # DOI标识符
+FIELD_TOPIC = "topic"              # 学科主题
+FIELD_CONCEPT = "concept"          # 概念（区别于关键词）
 
 """
 执行高级搜索，支持从数据库获取数据
@@ -186,23 +232,46 @@ def parse_advanced_query(query):
     general_terms = []
     
     # 分离各部分查询
-    parts = re.findall(r'(\w+):"([^"]+)"|(\w+):(\S+)|(\([^)]+\))|(\S+)', query)
+    # 支持以下格式：
+    # 1. field:"value with spaces" - 带引号的字段值
+    # 2. field:value - 不带引号的字段值
+    # 3. field:[value1 TO value2] - 范围查询
+    # 4. field:>value, field:>=value, field:<value, field:<=value - 比较操作
+    parts = re.findall(r'(\w+):"([^"]+)"|(\w+):\[([^\]]+)\]|(\w+):([><]=?[^"\s]+)|(\w+):([^"\s\(\)]+)|(\([^)]+\))|(\S+)', query)
     
     for match in parts:
         if match[0] and match[1]:  # 形式如 field:"value with spaces"
             field, value = match[0].lower(), match[1]
             field_queries.setdefault(field, []).append(value)
-        elif match[2] and match[3]:  # 形式如 field:value
+        elif match[2] and match[3]:  # 形式如 field:[value1 TO value2]
             field, value = match[2].lower(), match[3]
+            # 将范围查询转换为具体格式
+            if "TO" in value:
+                value_range = value.split("TO")
+                if len(value_range) == 2:
+                    start_val = value_range[0].strip()
+                    end_val = value_range[1].strip()
+                    # 对于时间字段使用特殊处理
+                    if field == FIELD_TIME:
+                        field_queries.setdefault(field, []).append(f"{start_val}~{end_val}")
+                    else:
+                        # 对其他字段的范围查询分别添加大于等于和小于等于条件
+                        field_queries.setdefault(field, []).append(f">={start_val}")
+                        field_queries.setdefault(field, []).append(f"<={end_val}")
+        elif match[4] and match[5]:  # 形式如 field:>value 或 field:>=value
+            field, value = match[4].lower(), match[5]
             field_queries.setdefault(field, []).append(value)
-        elif match[4]:  # 括号表达式
-            general_terms.append(match[4])
-        elif match[5]:  # 普通词项
+        elif match[6] and match[7]:  # 形式如 field:value
+            field, value = match[6].lower(), match[7]
+            field_queries.setdefault(field, []).append(value)
+        elif match[8]:  # 括号表达式
+            general_terms.append(match[8])
+        elif match[9]:  # 普通词项
             # 处理布尔运算符
-            if match[5] in ["AND", "OR", "NOT"]:
-                general_terms.append(match[5])
+            if match[9].upper() in ["AND", "OR", "NOT"]:
+                general_terms.append(match[9].upper())  # 确保布尔运算符大写
             else:
-                general_terms.append(match[5])
+                general_terms.append(match[9])
     
     return {
         "field_queries": field_queries,
@@ -232,7 +301,7 @@ def process_advanced_query(parsed_query, dictionary, field_dictionary, post_file
             
             # 处理其他字段
             elif field in field_dictionary:
-                terms = list(jieba.cut(value))
+                terms = tokenize_english(value)
                 field_docs = []
                 
                 for term in terms:
@@ -341,7 +410,8 @@ def process_boolean_query(query, dictionary, post_file, indexed_docIDs):
         if part in operators:
             query_parts.append(part)
         else:
-            query_parts.extend(list(jieba.cut(part)))
+            # 使用英文分词
+            query_parts.extend(tokenize_english(part))
     
     # 过滤空字符串
     query_tokens = [token for token in query_parts if token.strip()]
@@ -387,9 +457,8 @@ def process_boolean_query(query, dictionary, post_file, indexed_docIDs):
 
 """获取包含查询词项的所有文档"""
 def get_matching_docs(query, dictionary, post_file):
-    # 分词
-    query_terms = [term.lower().strip() for term in jieba.cut(query)]
-    query_terms = [re.sub(r'[^\w\s]', '', term) for term in query_terms if term.strip()]
+    # 分词 - 使用英文分词
+    query_terms = tokenize_english(query)
     
     matched_docs = []
     
@@ -498,7 +567,7 @@ if __name__ == "__main__":
 
 """处理数据库高级查询"""
 def process_advanced_query_with_db(parsed_query, sort_method=SORT_BY_RELEVANCE):
-    # 动态导入布尔操作函数，避免循环导入
+    # 引入布尔操作函数
     from ..basicSearch.search import boolean_AND, boolean_OR
     
     field_queries = parsed_query["field_queries"]
@@ -517,18 +586,18 @@ def process_advanced_query_with_db(parsed_query, sort_method=SORT_BY_RELEVANCE):
         field_result = []
         
         for value in values:
-            # 特殊处理时间字段
+            # 【现有逻辑】时间字段处理
             if field == FIELD_TIME:
                 time_docs = process_time_query_with_db(value)
                 field_result = boolean_OR(field_result, time_docs)
             
-            # 处理作者字段
+            # 【现有逻辑】作者字段处理
             elif field == FIELD_AUTHOR:
                 # 查找匹配的作者
                 authors = Author.query.filter(Author.display_name.ilike(f'%{value}%')).all()
                 author_ids = [a.id for a in authors]
                 
-                # 查找这些作者的作品（添加明确的连接条件）
+                # 查找这些作者的作品
                 if author_ids:
                     works = db.session.query(Work.id).select_from(Work).join(
                         WorkAuthorship, Work.id == WorkAuthorship.work_id
@@ -538,7 +607,7 @@ def process_advanced_query_with_db(parsed_query, sort_method=SORT_BY_RELEVANCE):
                     author_docs = [w[0] for w in works]
                     field_result = boolean_OR(field_result, author_docs)
             
-            # 处理标题字段
+            # 【现有逻辑】标题字段处理
             elif field == FIELD_TITLE:
                 works = Work.query.filter(
                     (Work.title.ilike(f'%{value}%')) | (Work.display_name.ilike(f'%{value}%'))
@@ -546,17 +615,16 @@ def process_advanced_query_with_db(parsed_query, sort_method=SORT_BY_RELEVANCE):
                 title_docs = [w.id for w in works]
                 field_result = boolean_OR(field_result, title_docs)
             
-            # 处理关键词字段（对应概念和主题）
+            # 【现有逻辑】关键词字段处理
             elif field == FIELD_KEYWORD:
-                # 匹配概念
+                # 匹配概念和主题
                 concepts = Concept.query.filter(Concept.display_name.ilike(f'%{value}%')).all()
                 concept_ids = [c.id for c in concepts]
                 
-                # 匹配主题
                 topics = Topic.query.filter(Topic.display_name.ilike(f'%{value}%')).all()
                 topic_ids = [t.id for t in topics]
                 
-                # 查找这些概念和主题的相关作品（添加明确的连接条件）
+                # 查找相关作品
                 concept_works = []
                 if concept_ids:
                     concept_works = db.session.query(Work.id).select_from(Work).join(
@@ -575,17 +643,140 @@ def process_advanced_query_with_db(parsed_query, sort_method=SORT_BY_RELEVANCE):
                     ).all()
                     topic_works = [w[0] for w in topic_works]
                 
-                # 合并结果
                 keyword_docs = list(set(concept_works + topic_works))
                 field_result = boolean_OR(field_result, keyword_docs)
             
-            # 处理内容字段（在摘要中搜索）
+            # 【现有逻辑】内容字段处理
             elif field == FIELD_CONTENT:
-                # 这里简化处理，搜索作品的抽象索引和标题（实际上应该搜索全文，但可能不在数据库中）
                 works = Work.query.filter(Work.abstract_inverted_index.cast(db.String).ilike(f'%{value}%')).all()
                 content_docs = [w.id for w in works]
                 field_result = boolean_OR(field_result, content_docs)
-        
+                
+            # 【新增】机构字段处理
+            elif field == FIELD_INSTITUTION:
+                # 查找匹配的机构
+                institutions = Institution.query.filter(Institution.display_name.ilike(f'%{value}%')).all()
+                institution_ids = [i.id for i in institutions]
+                
+                # 查找这些机构的作品
+                if institution_ids:
+                    works = db.session.query(Work.id).select_from(Work).join(
+                        WorkAuthorship, Work.id == WorkAuthorship.work_id
+                    ).filter(
+                        WorkAuthorship.institution_id.in_(institution_ids)
+                    ).all()
+                    institution_docs = [w[0] for w in works]
+                    field_result = boolean_OR(field_result, institution_docs)
+            
+            # 【新增】来源字段处理
+            elif field == FIELD_SOURCE:
+                # 查找匹配的期刊/来源
+                sources = Source.query.filter(Source.display_name.ilike(f'%{value}%')).all()
+                source_ids = [s.id for s in sources]
+                
+                # 查找这些来源的作品
+                if source_ids:
+                    works = db.session.query(Work.id).select_from(Work).join(
+                        WorkLocation, Work.id == WorkLocation.work_id
+                    ).filter(
+                        WorkLocation.source_id.in_(source_ids)
+                    ).all()
+                    source_docs = [w[0] for w in works]
+                    field_result = boolean_OR(field_result, source_docs)
+            
+            # 【新增】文献类型字段处理
+            elif field == FIELD_TYPE:
+                works = Work.query.filter(Work.type.ilike(f'%{value}%')).all()
+                type_docs = [w.id for w in works]
+                field_result = boolean_OR(field_result, type_docs)
+            
+            # 【新增】语言字段处理
+            elif field == FIELD_LANGUAGE:
+                works = Work.query.filter(Work.language.ilike(f'%{value}%')).all()
+                language_docs = [w.id for w in works]
+                field_result = boolean_OR(field_result, language_docs)
+            
+            # 【新增】被引用次数字段处理
+            elif field == FIELD_CITED:
+                try:
+                    # 支持比较运算：>、>=、<、<=、=
+                    if value.startswith('>='): 
+                        cited_count = int(value[2:].strip())
+                        works = Work.query.filter(Work.cited_by_count >= cited_count).all()
+                    elif value.startswith('>'): 
+                        cited_count = int(value[1:].strip())
+                        works = Work.query.filter(Work.cited_by_count > cited_count).all()
+                    elif value.startswith('<='): 
+                        cited_count = int(value[2:].strip())
+                        works = Work.query.filter(Work.cited_by_count <= cited_count).all()
+                    elif value.startswith('<'): 
+                        cited_count = int(value[1:].strip())
+                        works = Work.query.filter(Work.cited_by_count < cited_count).all()
+                    else: 
+                        cited_count = int(value.strip())
+                        works = Work.query.filter(Work.cited_by_count == cited_count).all()
+                    
+                    cited_docs = [w.id for w in works]
+                    field_result = boolean_OR(field_result, cited_docs)
+                except ValueError:
+                    # 如果转换失败，忽略该条件
+                    pass
+            
+            # 【新增】DOI字段处理
+            elif field == FIELD_DOI:
+                works = Work.query.filter(Work.doi.ilike(f'%{value}%')).all()
+                doi_docs = [w.id for w in works]
+                field_result = boolean_OR(field_result, doi_docs)
+            
+            # 【新增】主题字段处理（区别于关键词）
+            elif field == FIELD_TOPIC:
+                topics = Topic.query.filter(Topic.display_name.ilike(f'%{value}%')).all()
+                topic_ids = [t.id for t in topics]
+                
+                topic_works = []
+                if topic_ids:
+                    topic_works = db.session.query(Work.id).select_from(Work).join(
+                        WorkTopic, Work.id == WorkTopic.work_id
+                    ).filter(
+                        WorkTopic.topic_id.in_(topic_ids)
+                    ).all()
+                    topic_works = [w[0] for w in topic_works]
+                
+                field_result = boolean_OR(field_result, topic_works)
+            
+            # 【新增】概念字段处理（专门针对概念）
+            elif field == FIELD_CONCEPT:
+                concepts = Concept.query.filter(Concept.display_name.ilike(f'%{value}%')).all()
+                concept_ids = [c.id for c in concepts]
+                
+                concept_works = []
+                if concept_ids:
+                    concept_works = db.session.query(Work.id).select_from(Work).join(
+                        WorkConcept, Work.id == WorkConcept.work_id
+                    ).filter(
+                        WorkConcept.concept_id.in_(concept_ids)
+                    ).all()
+                    concept_works = [w[0] for w in concept_works]
+                
+                field_result = boolean_OR(field_result, concept_works)
+            
+            # 【新增】国家字段处理
+            elif field == FIELD_COUNTRY:
+                # 查找匹配国家的机构
+                institutions = Institution.query.filter(Institution.country_code.ilike(f'%{value}%') | 
+                                                       Institution.country.ilike(f'%{value}%')).all()
+                institution_ids = [i.id for i in institutions]
+                
+                # 查找这些机构的作品
+                if institution_ids:
+                    works = db.session.query(Work.id).select_from(Work).join(
+                        WorkAuthorship, Work.id == WorkAuthorship.work_id
+                    ).filter(
+                        WorkAuthorship.institution_id.in_(institution_ids)
+                    ).all()
+                    country_docs = [w[0] for w in works]
+                    field_result = boolean_OR(field_result, country_docs)
+                    
         # 与当前结果取交集
         if field_result:
             result = boolean_AND(result, field_result)
@@ -606,20 +797,17 @@ def process_advanced_query_with_db(parsed_query, sort_method=SORT_BY_RELEVANCE):
             result = boolean_AND(result, general_result)
     
     # 对结果进行排序
-    if result and parsed_query["general_query"] and sort_method:  # 确保结果不为空且有通用查询部分
-        # 如果有通用查询部分，使用它进行排序
+    if result and sort_method:
         result = sort_db_results(result, parsed_query, sort_method)
     
     return result
 
 """按照排序方法对数据库查询结果进行排序"""
 def sort_db_results(result_ids, parsed_query, sort_method):
-    # 动态导入extract_query_terms函数，避免循环导入
-    from ..basicSearch.search import extract_query_terms
-    
     if not result_ids:
         return []
     
+    field_queries = parsed_query["field_queries"]
     query_text = parsed_query["general_query"]
     
     # 时间排序
@@ -631,9 +819,15 @@ def sort_db_results(result_ids, parsed_query, sort_method):
         works = Work.query.filter(Work.id.in_(result_ids)).order_by(Work.publication_year.asc()).all()
         return [w.id for w in works]
     
+    # 引用次数排序（新增）
+    elif sort_method == "citation_desc":
+        works = Work.query.filter(Work.id.in_(result_ids)).order_by(Work.cited_by_count.desc()).all()
+        return [w.id for w in works]
+    
     # 组合排序
-    elif sort_method == SORT_BY_COMBINED or "time" in parsed_query["field_queries"]:
+    elif sort_method == SORT_BY_COMBINED or "time" in field_queries:
         # 计算查询相关性得分
+        from ..basicSearch.search import extract_query_terms
         query_terms = extract_query_terms(query_text)
         scored_results = []
         
@@ -649,6 +843,12 @@ def sort_db_results(result_ids, parsed_query, sort_method):
                     time_bonus = 1 - (current_year - work.publication_year) * 0.2
                     score = score * 0.7 + time_bonus * 0.3  # 70%相关性 + 30%时间因素
                 
+                # 引用次数因素（如果查询包含引用次数）
+                if "cited" in field_queries:
+                    if work.cited_by_count:
+                        citation_weight = min(0.2, work.cited_by_count / 5000)
+                        score = score * 0.8 + citation_weight * 0.2
+                
                 scored_results.append((work_id, score))
         
         # 按得分降序排序
@@ -657,6 +857,7 @@ def sort_db_results(result_ids, parsed_query, sort_method):
     
     # 默认按相关性排序
     else:
+        from ..basicSearch.search import extract_query_terms
         query_terms = extract_query_terms(query_text)
         scored_results = []
         
@@ -677,23 +878,63 @@ def calculate_relevance_score(work, query_terms):
     # 标题匹配
     title_weight = 2.0
     for term in query_terms:
-        if work.title and term in work.title.lower():
-            score += title_weight
-        if work.display_name and term in work.display_name.lower():
-            score += title_weight * 0.8  # 展示名称稍微低一点权重
+        # 使用单词边界匹配，提高精确度
+        if work.title:
+            title_text = work.title.lower()
+            pattern = r'\b' + re.escape(term) + r'\b'
+            matches = len(re.findall(pattern, title_text))
+            score += matches * title_weight
+            
+            # 也考虑部分匹配
+            score += title_text.count(term) * (title_weight * 0.5)
+            
+        if work.display_name:
+            display_text = work.display_name.lower()
+            pattern = r'\b' + re.escape(term) + r'\b'
+            matches = len(re.findall(pattern, display_text))
+            score += matches * (title_weight * 0.8)  # 展示名称稍微低一点权重
+            
+            # 也考虑部分匹配
+            score += display_text.count(term) * (title_weight * 0.4)
     
-    # 摘要匹配
+    # 摘要匹配 - 尝试将倒排索引转换为文本进行匹配
     abstract_weight = 1.0
     if work.abstract_inverted_index:
-        abstract_text = json.dumps(work.abstract_inverted_index).lower()
+        try:
+            # 优先尝试从工具函数转换摘要
+            from ..searcher import convert_abstract_to_text
+            abstract_text = convert_abstract_to_text(work.abstract_inverted_index).lower()
+        except (ImportError, AttributeError):
+            # 回退到简单的JSON字符串处理
+            abstract_text = json.dumps(work.abstract_inverted_index).lower()
+            
         for term in query_terms:
-            if term in abstract_text:
-                score += abstract_weight
+            # 使用单词边界匹配，提高精确度
+            pattern = r'\b' + re.escape(term) + r'\b'
+            matches = len(re.findall(pattern, abstract_text))
+            score += matches * abstract_weight
+            
+            # 也考虑部分匹配，但权重较低
+            score += abstract_text.count(term) * (abstract_weight * 0.3)
     
     # 引用数加权
     if work.cited_by_count:
         citation_bonus = min(0.5, work.cited_by_count / 1000)  # 最多加0.5分
         score += citation_bonus
+    
+    # 【新增】时效性加权（新文章得分更高）
+    current_year = datetime.now().year
+    if work.publication_year:
+        # 最近5年的文章有额外得分
+        years_diff = current_year - work.publication_year
+        if years_diff <= 5:
+            recency_bonus = 0.2 * (1 - years_diff / 5)  # 0.2 ~ 0
+            score += recency_bonus
+    
+    # 【新增】考虑文献类型权重
+    if work.type:
+        if work.type.lower() in ['review', 'survey']:  # 综述类文献权重更高
+            score += 0.2
     
     return score
 
@@ -714,6 +955,46 @@ def process_time_query_with_db(time_query):
                 (Work.publication_year <= end_date.year)
             ).all()
             
+            matching_docs = [w.id for w in works]
+        except:
+            pass
+    
+    # 处理大于等于某年的情况，如 >=2020
+    elif ">=" in time_query:
+        year_str = time_query.replace(">=", "").strip()
+        try:
+            year = int(year_str)
+            works = Work.query.filter(Work.publication_year >= year).all()
+            matching_docs = [w.id for w in works]
+        except:
+            pass
+    
+    # 处理大于某年的情况，如 >2020
+    elif ">" in time_query:
+        year_str = time_query.replace(">", "").strip()
+        try:
+            year = int(year_str)
+            works = Work.query.filter(Work.publication_year > year).all()
+            matching_docs = [w.id for w in works]
+        except:
+            pass
+    
+    # 处理小于等于某年的情况，如 <=2020
+    elif "<=" in time_query:
+        year_str = time_query.replace("<=", "").strip()
+        try:
+            year = int(year_str)
+            works = Work.query.filter(Work.publication_year <= year).all()
+            matching_docs = [w.id for w in works]
+        except:
+            pass
+    
+    # 处理小于某年的情况，如 <2020
+    elif "<" in time_query:
+        year_str = time_query.replace("<", "").strip()
+        try:
+            year = int(year_str)
+            works = Work.query.filter(Work.publication_year < year).all()
             matching_docs = [w.id for w in works]
         except:
             pass

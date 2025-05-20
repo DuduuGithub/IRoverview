@@ -18,6 +18,10 @@ import sys
 import os
 import logging
 from datetime import datetime
+import math
+import nltk
+from nltk.corpus import stopwords
+import json
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
@@ -55,7 +59,8 @@ def highlight_text(text, keywords):
     result = text
     for keyword in keywords:
         if keyword and len(keyword.strip()) > 0:
-            pattern = re.compile(f'({re.escape(keyword.strip())})', re.IGNORECASE)
+            # 使用单词边界匹配，确保匹配完整单词而非子字符串
+            pattern = re.compile(r'\b({0})\b'.format(re.escape(keyword.strip())), re.IGNORECASE)
             result = pattern.sub(r'<span class="highlight">\1</span>', result)
     
     return result
@@ -77,8 +82,19 @@ def extract_keywords_for_highlight(query):
         extracted = re.findall(r'\b\w+\b', query)
         return [k for k in extracted if k.upper() not in ['AND', 'OR', 'NOT']]
     else:
-        # 基本查询，只需分割空格
-        return [k.strip() for k in query.split() if k.strip()]
+        # 英文查询，使用单词边界分割
+        # 确保NLTK资源已下载
+        try:
+            nltk.data.find('corpora/stopwords')
+        except LookupError:
+            nltk.download('stopwords')
+        
+        # 获取英文停用词
+        stop_words = set(stopwords.words('english'))
+        
+        # 分割单词并过滤停用词
+        words = re.findall(r'\b\w+\b', query.lower())
+        return [word for word in words if word not in stop_words and len(word) > 1]
 
 """
 对结果进行分页处理
@@ -93,6 +109,42 @@ def paginate_results(result_ids, page, per_page):
     start = (page - 1) * per_page
     end = start + per_page
     return result_ids[start:end] if start < len(result_ids) else []
+
+"""
+将倒排索引格式的摘要转换为可读文本
+参数:
+    - inverted_index: 倒排索引格式的摘要（JSON字符串或字典）
+返回:
+    - 可读的摘要文本
+"""
+def convert_abstract_to_text(inverted_index):
+    if not inverted_index:
+        return ""
+    
+    # 如果是字符串，尝试解析为JSON
+    if isinstance(inverted_index, str):
+        try:
+            inverted_index = json.loads(inverted_index)
+        except:
+            return inverted_index  # 如果解析失败，直接返回原文本
+    
+    # 如果不是字典，无法处理
+    if not isinstance(inverted_index, dict):
+        return str(inverted_index)
+    
+    # 创建一个词-位置的映射
+    word_positions = {}
+    
+    # 遍历倒排索引，为每个单词创建位置列表
+    for word, positions in inverted_index.items():
+        for pos in positions:
+            word_positions[pos] = word
+    
+    # 按位置排序单词，重建文本
+    sorted_positions = sorted(word_positions.keys())
+    reconstructed_text = " ".join(word_positions[pos] for pos in sorted_positions)
+    
+    return reconstructed_text
 
 """
 获取作品详情信息
@@ -121,6 +173,9 @@ def get_work_details(work_ids, keywords=None):
                     if author:
                         authors.append(author.display_name)
             
+            # 将倒排索引转换为可读文本
+            abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
+            
             # 构建结果对象
             result = {
                 'id': work.openalex or work.id,  # 使用 openalex ID 或原始 ID
@@ -128,7 +183,7 @@ def get_work_details(work_ids, keywords=None):
                 'authors': ', '.join(authors) if authors else '未知作者',
                 'year': work.publication_year,
                 'cited_by_count': work.cited_by_count or 0,
-                'abstract': work.abstract_inverted_index or ''
+                'abstract': highlight_text(abstract_text, keywords)
             }
             works.append(result)
     
@@ -210,6 +265,9 @@ def document_page(doc_id):
 
         # 构建文档详细信息，确保所有引用的属性都存在
         try:
+            # 将倒排索引摘要转换为可读文本
+            abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
+            
             document_data = {
                 'id': work.id,
                 'title': work.title or work.display_name or 'Untitled',
@@ -217,7 +275,7 @@ def document_page(doc_id):
                 'year': work.publication_year or 0,
                 'venue': venue_name,
                 'doi': work.doi or '',
-                'abstract': work.abstract_inverted_index or '',
+                'abstract': abstract_text,
                 'cited_by_count': work.cited_by_count or 0,
                 'citations': work.cited_by_count or 0,
                 'keywords': concepts + topics,
@@ -233,12 +291,8 @@ def document_page(doc_id):
             # 简单示例：获取同一作者的其他文章
             if authors:
                 try:
-                    # 提取作者ID列表
-                    author_ids = []
-                    for auth in authors:
-                        if isinstance(auth, dict) and 'id' in auth:
-                            author_ids.append(auth['id'])
-                    
+                    # 查询作者ID
+                    author_ids = [a.id for a in Author.query.filter(Author.display_name.in_(authors)).all()]
                     if author_ids:
                         other_works = WorkAuthorship.query.filter(
                             WorkAuthorship.author_id.in_(author_ids),
@@ -400,6 +454,9 @@ def api_search():
                 # 计算分页的起始位置
                 start = (page - 1) * per_page
                 
+                # 将倒排索引摘要转换为可读文本
+                abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
+                
                 # 创建结果对象
                 result = {
                     'id': work.id,  # 使用原始ID
@@ -407,7 +464,7 @@ def api_search():
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
                     'cited_by_count': work.cited_by_count or 0,
-                    'abstract': highlight_text(work.abstract_inverted_index or '', keywords),
+                    'abstract': highlight_text(abstract_text, keywords),
                     'rank': start + i + 1,
                     'page': page,
                     'position': i + 1,
@@ -454,327 +511,78 @@ def api_search():
 @searcher_bp.route('/api/basic/advanced_search', methods=['POST'])
 @searcher_bp.route('/api/advanced_search', methods=['POST'])
 def api_advanced_search():
+    """高级搜索API接口"""
     try:
         # 获取请求数据
         data = request.get_json()
-        title = data.get('title', '')
-        author = data.get('author', '')
-        keyword = data.get('keyword', '')
-        institution = data.get('institution', '')
-        date_from = data.get('date_from', '')
-        date_to = data.get('date_to', '')
-        year_ranges = data.get('year_ranges', [])  # 获取多选年份范围
-        sort_method = data.get('sort_method', SORT_BY_RELEVANCE)
-        page = data.get('page', 1)
-        per_page = data.get('per_page', 10)
-        count_only = data.get('count_only', False)  # 新增参数，仅用于统计
         
-        # 构建高级搜索查询
-        query_parts = []
-        keywords_for_highlight = []
-        
-        # 添加各个字段的查询条件
-        if title:
-            query_parts.append(f'title:"{title}"')
-            keywords_for_highlight.append(title)
-        if author:
-            query_parts.append(f'author:"{author}"')
-            keywords_for_highlight.append(author)
-        if keyword:
-            query_parts.append(f'keyword:"{keyword}"')
-            keywords_for_highlight.append(keyword)
-        if institution:
-            query_parts.append(f'institution:"{institution}"')
-            keywords_for_highlight.append(institution)
-        
-        # 添加时间范围
-        if date_from or date_to:
-            date_from = date_from or '1900-01-01'
-            date_to = date_to or '2099-12-31'
-            query_parts.append(f'time:"{date_from}~{date_to}"')
-        
-        # 组合查询 - 如果query_parts为空，返回所有结果
-        advanced_query = ' AND '.join(query_parts) if query_parts else '*'
-        
-        print(f"高级搜索查询: {advanced_query}")  # 添加日志
-        
-        # 空查询检查 (修改为返回所有结果而不是空结果)
-        if advanced_query == '*':
-            # 获取所有文档ID
-            works = Work.query.all()
-            work_ids = [work.id for work in works]
-            total = len(work_ids)
-            
-            # 根据排序方法排序
-            if sort_method == SORT_BY_TIME_DESC:
-                works = Work.query.order_by(Work.publication_year.desc()).all()
-                work_ids = [work.id for work in works]
-            elif sort_method == SORT_BY_TIME_ASC:
-                works = Work.query.order_by(Work.publication_year.asc()).all()
-                work_ids = [work.id for work in works]
-            
-            # 应用日期筛选或年份范围筛选
-            if date_from or date_to or year_ranges:
-                from datetime import datetime
-                
-                try:
-                    # 解析日期范围
-                    if date_from:
-                        from_date = datetime.strptime(date_from, '%Y-%m-%d')
-                        from_year = from_date.year
-                    else:
-                        from_year = 1900
-                    
-                    if date_to:
-                        to_date = datetime.strptime(date_to, '%Y-%m-%d')
-                        to_year = to_date.year
-                    else:
-                        to_year = 2100
-                    
-                    # 处理多个年份范围筛选
-                    year_filter_active = False
-                    if year_ranges and len(year_ranges) > 0:
-                        year_filter_active = True
-                        # 生成所有可接受的年份列表
-                        acceptable_years = set()
-                        for year_range in year_ranges:
-                            try:
-                                start_year, end_year = map(int, year_range.split('-'))
-                                for y in range(start_year, end_year + 1):
-                                    acceptable_years.add(y)
-                            except:
-                                print(f"解析年份范围出错: {year_range}")
-                    
-                    # 筛选结果
-                    filtered_ids = []
-                    for doc_id in work_ids:
-                        work = Work.query.get(doc_id)
-                        if work and work.publication_year:
-                            year = work.publication_year
-                            # 如果使用多选年份范围，检查年份是否在可接受范围内
-                            if year_filter_active:
-                                if year in acceptable_years:
-                                    filtered_ids.append(doc_id)
-                            # 否则使用通用日期范围
-                            elif from_year <= year <= to_year:
-                                filtered_ids.append(doc_id)
-                    
-                    work_ids = filtered_ids
-                    total = len(work_ids)
-                except Exception as date_error:
-                    print(f"日期筛选出错: {date_error}")
-                    # 出错时不应用筛选
-            
-            # 如果只需要统计，返回所有结果的基本信息（不分页）
-            if count_only:
-                all_works = []
-                for doc_id in work_ids:
-                    work = Work.query.get(doc_id)
-                    if work:
-                        all_works.append({
-                            'id': work.id,
-                            'year': work.publication_year or 0
-                        })
-                
-                return jsonify({
-                    'results': all_works,
-                    'total': total,
-                    'count_only': True
-                })
-            
-            # 分页处理
-            paginated_ids = paginate_results(work_ids, page, per_page)
-            
-            # 获取搜索结果详情
-            works = get_work_details(paginated_ids, keywords_for_highlight)
-            
+        if not data:
             return jsonify({
-                'results': works,
-                'total': total,
-                'page': page,
-                'per_page': per_page,
-                'query': 'all documents'
-            })
+                'status': 'error',
+                'message': '请求数据无效'
+            }), 400
         
-        # 执行高级搜索
-        try:
-            work_ids = advanced_search(query_text=advanced_query, use_db=True, sort_method=sort_method)
-            total = len(work_ids)
-        except Exception as search_error:
-            print(f"高级搜索执行出错: {search_error}")
-            # 尝试将每个查询部分单独执行，然后取交集
-            result_sets = []
-            for part in query_parts:
-                try:
-                    part_results = advanced_search(query_text=part, use_db=True, sort_method=sort_method)
-                    result_sets.append(set(part_results))
-                except Exception as e:
-                    print(f"查询部分 '{part}' 执行出错: {e}")
-            
-            # 如果有结果集，取交集
-            if result_sets:
-                final_set = result_sets[0]
-                for s in result_sets[1:]:
-                    final_set = final_set.intersection(s)
-                work_ids = list(final_set)
-                total = len(work_ids)
-            else:
-                # 如果所有查询都失败，返回空结果
-                return jsonify({
-                    'results': [],
-                    'total': 0,
-                    'page': page,
-                    'per_page': per_page,
-                    'query': advanced_query,
-                    'error': str(search_error)
-                })
+        # 提取查询文本和排序方法
+        query_text = data.get('query', '')
+        sort_method = data.get('sort_by', SORT_BY_RELEVANCE)
+        page = int(data.get('page', 1))
+        per_page = int(data.get('per_page', 10))
         
-        # 应用日期筛选或年份范围筛选（如果高级搜索结果没有应用）
-        if date_from or date_to or year_ranges:
-            from datetime import datetime
-            
-            try:
-                # 解析日期范围
-                if date_from:
-                    from_date = datetime.strptime(date_from, '%Y-%m-%d')
-                    from_year = from_date.year
-                else:
-                    from_year = 1900
-                
-                if date_to:
-                    to_date = datetime.strptime(date_to, '%Y-%m-%d')
-                    to_year = to_date.year
-                else:
-                    to_year = 2100
-                
-                # 处理多个年份范围筛选
-                year_filter_active = False
-                if year_ranges and len(year_ranges) > 0:
-                    year_filter_active = True
-                    # 生成所有可接受的年份列表
-                    acceptable_years = set()
-                    for year_range in year_ranges:
-                        try:
-                            start_year, end_year = map(int, year_range.split('-'))
-                            for y in range(start_year, end_year + 1):
-                                acceptable_years.add(y)
-                        except:
-                            print(f"解析年份范围出错: {year_range}")
-                
-                # 筛选结果
-                filtered_ids = []
-                for doc_id in work_ids:
-                    work = Work.query.get(doc_id)
-                    if work and work.publication_year:
-                        year = work.publication_year
-                        # 如果使用多选年份范围，检查年份是否在可接受范围内
-                        if year_filter_active:
-                            if year in acceptable_years:
-                                filtered_ids.append(doc_id)
-                        # 否则使用通用日期范围
-                        elif from_year <= year <= to_year:
-                            filtered_ids.append(doc_id)
-                
-                work_ids = filtered_ids
-                total = len(work_ids)
-            except Exception as date_error:
-                print(f"日期筛选出错: {date_error}")
-                # 出错时不应用筛选
+        if not query_text:
+            return jsonify({
+                'status': 'error',
+                'message': '查询文本不能为空'
+            }), 400
         
         # 记录搜索会话
-        session_id = record_search_session(advanced_query, total)
-        if not session_id:
-            logger.error("记录搜索会话失败")
-            return jsonify({'error': '记录搜索会话失败'}), 500
+        session_id = record_search_session(query_text)
         
-        # 如果只需要统计，返回所有结果的基本信息（不分页）
-        if count_only:
-            all_works = []
-            for doc_id in work_ids:
-                work = Work.query.get(doc_id)
-                if work:
-                    all_works.append({
-                        'id': work.id,
-                        'year': work.publication_year or 0
-                    })
-            
+        # 执行高级检索
+        from .proSearch.search import search as advanced_search
+        result_ids = advanced_search(query_text=query_text, sort_method=sort_method, use_db=True)
+        
+        if not result_ids:
             return jsonify({
-                'results': all_works,
-                'total': total,
-                'count_only': True
+                'status': 'success',
+                'message': f'未找到任何相关结果: {query_text}',
+                'session_id': session_id,
+                'results': [],
+                'total': 0,
+                'page': page,
+                'per_page': per_page,
+                'pages': 0
             })
         
-        # 获取搜索结果
-        works = []
-        raw_results = []  # 用于记录原始搜索结果
-        for i, work_id in enumerate(paginated_ids):
-            work = Work.query.get(work_id)
-            if work:
-                # 获取作者
-                authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
-                authors = []
-                for authorship in authorships:
-                    if authorship.author_id:
-                        author = Author.query.get(authorship.author_id)
-                        if author:
-                            authors.append(author.display_name)
-                
-                # 计算分页的起始位置
-                start = (page - 1) * per_page
-                
-                # 创建结果对象
-                result = {
-                    'id': work.id,  # 使用原始ID
-                    'title': highlight_text(work.title or work.display_name or '', keywords_for_highlight),
-                    'authors': ', '.join(authors) if authors else '未知作者',
-                    'year': work.publication_year,
-                    'cited_by_count': work.cited_by_count or 0,
-                    'abstract': highlight_text(work.abstract_inverted_index or '', keywords_for_highlight),
-                    'rank': start + i + 1,
-                    'page': page,
-                    'position': i + 1,
-                    'url': f'/reader/document/{work.id}?session_id={session_id}'
-                }
-                works.append(result)
-                
-                # 创建原始结果对象用于记录
-                raw_result = {
-                    'id': work.id,
-                    'relevance_score': 0.0,  # 初始相关性得分
-                    'query_text': advanced_query
-                }
-                raw_results.append(raw_result)
+        # 提取关键词用于高亮显示
+        keywords = extract_keywords_for_highlight(query_text)
+        
+        # 分页处理
+        paginated_ids = paginate_results(result_ids, page, per_page)
+        
+        # 获取详细信息
+        results = get_work_details(paginated_ids, keywords)
         
         # 记录搜索结果
-        if session_id and raw_results:
-            try:
-                record_search_results(
-                    session_id=session_id,
-                    results=raw_results,
-                    page=page,
-                    per_page=per_page
-                )
-            except Exception as e:
-                logger.error(f"记录搜索结果失败: {str(e)}", exc_info=True)
-        # 分页处理
-        paginated_ids = paginate_results(work_ids, page, per_page)
+        record_search_results(session_id, results, page, per_page)
         
-        # 获取搜索结果详情
-        works = get_work_details(paginated_ids, keywords_for_highlight)
-        
+        # 返回结果
         return jsonify({
-            'results': works,
-            'total': total,
+            'status': 'success',
+            'message': f'找到 {len(result_ids)} 条相关结果',
+            'session_id': session_id,
+            'results': results,
+            'total': len(result_ids),
             'page': page,
             'per_page': per_page,
-            'session_id': session_id
+            'pages': math.ceil(len(result_ids) / per_page)
         })
         
     except Exception as e:
         logger.error(f"高级搜索出错: {str(e)}", exc_info=True)
-        return jsonify({'error': str(e)}), 500
-
-
+        return jsonify({
+            'status': 'error',
+            'message': f'搜索处理出错: {str(e)}'
+        }), 500
 
 @searcher_bp.route('/api/basic/record_click', methods=['POST'])
 def record_click():
@@ -864,6 +672,7 @@ def get_session_history(session_id):
     except Exception as e:
         print(f"获取搜索历史失败: {str(e)}")
         return jsonify({'error': '获取搜索历史失败'}), 500
+
 """
 AI搜索API
 处理POST请求，使用AI技术将自然语言查询转换为结构化查询，并返回结果
@@ -1236,6 +1045,9 @@ def api_document_detail(doc_id):
 
         # 构建文档详细信息，确保所有引用的属性都存在
         try:
+            # 将倒排索引摘要转换为可读文本
+            abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
+            
             document_data = {
                 'id': work.id,
                 'title': work.title or work.display_name or 'Untitled',
@@ -1243,7 +1055,7 @@ def api_document_detail(doc_id):
                 'year': work.publication_year or 0,
                 'venue': venue_name,
                 'doi': work.doi or '',
-                'abstract': work.abstract_inverted_index or '',
+                'abstract': abstract_text,
                 'cited_by_count': work.cited_by_count or 0,
                 'citations': work.cited_by_count or 0,
                 'keywords': concepts + topics,

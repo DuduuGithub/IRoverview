@@ -11,7 +11,41 @@ import os
 import collections
 import timeit
 import json
-import jieba
+# import jieba  # 移除jieba导入
+
+# 添加英文分词工具
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+
+# 初始化英文分词所需组件
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+# 创建词干提取器和停用词集
+stemmer = PorterStemmer()
+stop_words = set(stopwords.words('english'))
+
+# 英文分词和预处理函数
+def tokenize_english(text):
+    """英文文本分词与预处理"""
+    if not text:
+        return []
+    # 转为小写
+    text = text.lower()
+    # 只保留字母、数字和空格
+    text = re.sub(r'[^\w\s]', ' ', text)
+    # 分词
+    tokens = word_tokenize(text)
+    # 移除停用词、单个字符的词，并进行词干提取
+    tokens = [stemmer.stem(word) for word in tokens if word not in stop_words and len(word) > 1]
+    return tokens
 
 # 配置参数
 BYTE_SIZE = 4               # 文档ID使用整型存储，占用4字节
@@ -26,16 +60,27 @@ IGNORE_SINGLES = True       # 是否忽略单字符词项
 返回:
     - 停用词集合
 """
-def load_stopwords(stopwords_file="IRoverview/stopwords_cn.txt"):
-    stopwords = set()
-    
-    with open(stopwords_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            word = line.strip()
-            if word:
-                stopwords.add(word)
-    print(f"成功从{stopwords_file}加载{len(stopwords)}个停用词")
-    return stopwords
+def load_stopwords(stopwords_file=None):
+    """加载英文停用词"""
+    # 使用NLTK的英文停用词列表
+    try:
+        nltk_stopwords = set(stopwords.words('english'))
+        print(f"成功加载NLTK的{len(nltk_stopwords)}个英文停用词")
+        return nltk_stopwords
+    except:
+        # 如果NLTK停用词加载失败，尝试从文件加载
+        if stopwords_file:
+            stopwords = set()
+            with open(stopwords_file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    word = line.strip()
+                    if word:
+                        stopwords.add(word)
+            print(f"成功从{stopwords_file}加载{len(stopwords)}个停用词")
+            return stopwords
+        else:
+            print("警告：无法加载停用词")
+            return set()
 
 """
 构建倒排索引，从document_dir读取文档，生成词典文件和倒排文件
@@ -71,27 +116,10 @@ def build_index(document_dir, dictionary_file, postings_file):
         # 读取文档内容
         with codecs.open(os.path.join(document_dir, str(docID)), 'r', encoding='utf-8') as doc_file:
             content = doc_file.read()
-            tokens = list(jieba.cut(content))  # 使用jieba分词
+            tokens = tokenize_english(content)  # 使用英文分词
             
             # 处理每个词项
-            for token in tokens:
-                term = token.lower().strip()  # 转为小写并去除空白
-                
-                # 应用过滤条件
-                if not term:  # 跳过空字符串
-                    continue
-                if IGNORE_STOPWORDS and term in stopwords:  # 跳过停用词
-                    continue
-                if IGNORE_NUMBERS and is_number(term):  # 跳过数字
-                    continue
-                if IGNORE_SINGLES and len(term) <= 1:  # 跳过单字符词项
-                    continue
-                
-                # 移除标点符号
-                term = re.sub(r'[^\w\s]', '', term)
-                if not term:  # 再次检查是否为空
-                    continue
-                    
+            for term in tokens:
                 # 更新词典和词频
                 if term not in dictionary:
                     dictionary[term] = set()

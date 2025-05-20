@@ -8,7 +8,41 @@ import os
 import requests
 import time
 from urllib.parse import quote
-import jieba
+
+# 添加英文分词工具
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+
+# 初始化英文分词所需组件
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+# 创建词干提取器和停用词集
+stemmer = PorterStemmer()
+stop_words = set(stopwords.words('english'))
+
+# 英文分词和预处理函数
+def tokenize_english(text):
+    """英文文本分词与预处理"""
+    if not text:
+        return []
+    # 转为小写
+    text = text.lower()
+    # 只保留字母、数字和空格
+    text = re.sub(r'[^\w\s]', ' ', text)
+    # 分词
+    tokens = word_tokenize(text)
+    # 移除停用词、单个字符的词，并进行词干提取
+    tokens = [stemmer.stem(word) for word in tokens if word not in stop_words and len(word) > 1]
+    return tokens
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../../')))
@@ -83,45 +117,51 @@ def convert_to_structured_query(nl_query, search_mode='basic'):
             "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
         }
         
-        # 创建统一的Prompt，关注用户意图而非UI模式
-        prompt = f"""作为一个学术文献检索系统的智能助手，你需要分析用户的自然语言查询，
-提取关键信息，并将其转换为适当的检索式。
+        # 修改为英文提示
+        prompt = f"""As an intelligent assistant for an academic literature search system,
+analyze the user's natural language query in English,
+extract key information, and convert it into an appropriate search expression.
 
-请先分析用户意图，识别以下要素：
-1. 核心主题或关键词
-2. 作者信息
-3. 发表年份或时间范围
-4. 标题中包含的特定词语
-5. 机构信息
-6. 逻辑关系（AND, OR, NOT）
+Please analyze the user's intent, identifying:
+1. Core topics or keywords
+2. Author information
+3. Publication year or time range
+4. Specific terms in titles
+5. Institution information
+6. Abstract content - identify terms that might appear in paper abstracts
+7. Logical relationships (AND, OR, NOT)
 
-请遵循以下规则生成检索式：
-1. 当前模式是：{search_mode}
-2. 在基本模式下：
-   - 生成简单的布尔表达式，如 "深度学习 AND 图像识别"
-   - 将时间、作者等过滤条件单独记录，而不包含在检索式中
+Please follow these rules to generate the search expression:
+1. Current mode is: {search_mode}
+2. In basic mode:
+   - Generate simple boolean expressions, like "deep learning AND image recognition"
+   - Record time, author, and other filters separately without including them in the expression
+   - Consider potential abstract content when generating the expression
    
-3. 在高级模式下：
-   - 使用字段限定语法，如 "title:\"深度学习\" AND author:\"李明\""
-   - 对时间范围使用 year:[起始年 TO 终止年] 语法
+3. In advanced mode:
+   - Use field-limited syntax, like "title:\\"deep learning\\" AND author:\\"John Smith\\""
+   - Use year:[start TO end] syntax for time ranges
+   - Include abstract search with abstract:"term" syntax when appropriate
 
-你的回复必须是一个JSON格式，包含以下字段：
+Your response must be in JSON format, including these fields:
 {{
-  "query": "检索式字符串",
+  "query": "search expression string",
   "has_time_filter": true/false,
-  "time_range": [起始年,终止年],
+  "time_range": [start_year,end_year],
   "has_author_filter": true/false,
-  "authors": ["作者1", "作者2"],
+  "authors": ["author1", "author2"],
   "has_institution_filter": true/false,
-  "institutions": ["机构1", "机构2"]
+  "institutions": ["institution1", "institution2"],
+  "has_abstract_filter": true/false,
+  "abstract_terms": ["term1", "term2"]
 }}
 
-对于基本模式，将所有过滤器信息记录在各自字段中，但"query"字段只包含简单的布尔表达式
-对于高级模式，可以在"query"字段中使用完整的字段限定语法
+For basic mode, record all filter information in their respective fields, but the "query" field should only include a simple boolean expression.
+For advanced mode, you can use full field-limited syntax in the "query" field.
 
-自然语言查询: {nl_query}
-搜索模式: {search_mode}
-检索式:"""
+Natural language query: {nl_query}
+Search mode: {search_mode}
+Search expression:"""
         
         data = {
             "model": "deepseek-chat",
@@ -157,6 +197,8 @@ def convert_to_structured_query(nl_query, search_mode='basic'):
                 authors = response_json.get("authors", [])
                 has_institution_filter = response_json.get("has_institution_filter", False)
                 institutions = response_json.get("institutions", [])
+                has_abstract_filter = response_json.get("has_abstract_filter", False)
+                abstract_terms = response_json.get("abstract_terms", [])
                 
                 # 保存完整的意图分析结果，便于后续处理
                 # 可以考虑将这些信息存储在某个地方，以便后端检索使用
