@@ -105,7 +105,7 @@ def record_search_results(session_id, results, page, per_page):
         db.session.rollback()
 
 def record_document_click(session_id, document_id):
-    """记录文档点击（使用 UPSERT 避免并发冲突）"""
+    """记录文档点击"""
     logger.info(f"开始记录文档点击: session_id={session_id}, document_id={document_id}")
     
     if not session_id or not document_id:
@@ -121,47 +121,46 @@ def record_document_click(session_id, document_id):
             
         logger.info(f"文档存在，准备记录点击: work_id={work.id}, title={work.title or work.display_name}")
         
-        # 使用原生SQL的UPSERT语法
-        stmt = text("""
-            INSERT INTO user_behaviors (session_id, document_id, dwell_time, behavior_time)
-            VALUES (:session_id, :document_id, 0, :behavior_time)
-            ON DUPLICATE KEY UPDATE
-                behavior_time = :behavior_time
-        """)
-        
-        current_time = datetime.now()
-        logger.info(f"执行SQL语句，当前时间: {current_time}")
-        
-        try:
-            db.session.execute(stmt, {
-                'session_id': session_id,
-                'document_id': document_id,
-                'behavior_time': current_time
-            })
-            db.session.commit()
-            logger.info(f"成功记录/更新点击: session_id={session_id}, document_id={document_id}")
-        except Exception as sql_error:
-            logger.error(f"SQL执行失败: {str(sql_error)}", exc_info=True)
-            db.session.rollback()
-            return
-        
-        # 验证记录是否存在
+        # 查找现有记录
         behavior = UserBehavior.query.filter_by(
             session_id=session_id,
             document_id=document_id
         ).first()
         
+        current_time = datetime.now()
+        
         if behavior:
-            logger.info(f"验证成功: 找到行为记录 id={behavior.id}, behavior_time={behavior.behavior_time}")
+            # 更新现有记录
+            behavior.behavior_time = current_time
         else:
-            logger.warning("验证失败: 未找到行为记录")
+            # 创建新记录
+            behavior = UserBehavior(
+                session_id=session_id,
+                document_id=document_id,
+                dwell_time=0,
+                behavior_time=current_time
+            )
+            db.session.add(behavior)
+        
+        # 更新搜索结果的点击状态
+        search_result = SearchResult.query.filter_by(
+            session_id=session_id,
+            entity_id=document_id
+        ).first()
+        
+        if search_result:
+            search_result.is_clicked = True
+            search_result.click_time = current_time
+        
+        db.session.commit()
+        logger.info(f"成功记录点击: session_id={session_id}, document_id={document_id}")
             
     except Exception as e:
         logger.error(f"记录文档点击失败: session_id={session_id}, document_id={document_id}, 错误={str(e)}", exc_info=True)
         db.session.rollback()
 
 def record_dwell_time(session_id, document_id, dwell_time):
-    """累加文档停留时间（使用 UPSERT 避免并发冲突）"""
+    """记录文档停留时间"""
     logger.info(f"开始记录停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
     
     try:
@@ -185,47 +184,44 @@ def record_dwell_time(session_id, document_id, dwell_time):
             
         logger.info(f"文档存在，准备记录停留时间: work_id={work.id}, title={work.title or work.display_name}")
         
-        current_time = datetime.now()
-        # 使用原生SQL的UPSERT语法，累加dwell_time
-        stmt = text("""
-            INSERT INTO user_behaviors (session_id, document_id, dwell_time, behavior_time)
-            VALUES (:session_id, :document_id, :dwell_time, :behavior_time)
-            ON DUPLICATE KEY UPDATE
-                dwell_time = dwell_time + :dwell_time,
-                behavior_time = :behavior_time
-        """)
-        
-        logger.info(f"执行SQL语句，当前时间: {current_time}")
-        
-        try:
-            db.session.execute(stmt, {
-                'session_id': session_id,
-                'document_id': document_id,
-                'dwell_time': dwell_time,
-                'behavior_time': current_time
-            })
-            db.session.commit()
-            logger.info(f"成功记录/更新停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
-        except Exception as sql_error:
-            logger.error(f"SQL执行失败: {str(sql_error)}", exc_info=True)
-            db.session.rollback()
-            return False
-        
-        # 验证记录是否存在
+        # 查找现有记录
         behavior = UserBehavior.query.filter_by(
             session_id=session_id,
             document_id=document_id
         ).first()
         
+        current_time = datetime.now()
+        
         if behavior:
-            logger.info(f"验证成功: 找到行为记录 id={behavior.id}, dwell_time={behavior.dwell_time}, behavior_time={behavior.behavior_time}")
+            # 更新现有记录
+            behavior.dwell_time += dwell_time
+            behavior.behavior_time = current_time
         else:
-            logger.warning("验证失败: 未找到行为记录")
-            
+            # 创建新记录
+            behavior = UserBehavior(
+                session_id=session_id,
+                document_id=document_id,
+                dwell_time=dwell_time,
+                behavior_time=current_time
+            )
+            db.session.add(behavior)
+        
+        # 更新搜索结果的停留时间
+        search_result = SearchResult.query.filter_by(
+            session_id=session_id,
+            entity_id=document_id
+        ).first()
+        
+        if search_result:
+            search_result.dwell_time = behavior.dwell_time
+        
+        db.session.commit()
+        logger.info(f"成功记录停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
         return True
+            
     except Exception as e:
+        logger.error(f"记录停留时间失败: session_id={session_id}, document_id={document_id}, 错误={str(e)}", exc_info=True)
         db.session.rollback()
-        logger.error(f"记录停留时间失败: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}, 错误={str(e)}", exc_info=True)
         return False
 
 def calculate_relevance_score(dwell_time, page_number, items_per_page=10):

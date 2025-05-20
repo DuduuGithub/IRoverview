@@ -3,6 +3,9 @@ import torch.nn as nn
 from transformers import BertModel, BertTokenizer
 from typing import Dict, List, Tuple, Union
 from dataclasses import dataclass
+import logging
+
+logger = logging.getLogger(__name__)
 
 @dataclass
 class SearchTerm:
@@ -236,115 +239,270 @@ class LogicalOperatorFusion(nn.Module):
         
         return final_vector
 
+class SearchExpressionEncoder(nn.Module):
+    """检索式编码器"""
+    def __init__(self, bert_model):
+        super().__init__()
+        self.bert = bert_model
+        self.hidden_size = self.bert.config.hidden_size
+        
+        # 逻辑运算符的嵌入层
+        self.operator_embeddings = nn.Embedding(4, self.hidden_size)  # [AND, OR, NOT, *]
+        
+        # 逻辑组合层
+        self.logic_combine = nn.Sequential(
+            nn.Linear(self.hidden_size * 2, self.hidden_size),
+            nn.LayerNorm(self.hidden_size),
+            nn.ReLU(),
+            nn.Dropout(0.1)
+        )
+        
+    def encode_term(self, term_text, operator=None):
+        """编码单个检索词项"""
+        # 获取BERT编码
+        term_encoding = self.bert(term_text).last_hidden_state.mean(dim=1)  # [batch_size, hidden_size]
+        
+        if operator is not None:
+            # 获取运算符嵌入
+            op_embedding = self.operator_embeddings(operator)  # [batch_size, hidden_size]
+            # 组合词项和运算符
+            return self.logic_combine(torch.cat([term_encoding, op_embedding], dim=-1))
+        
+        return term_encoding
+    
+    def combine_terms(self, term1, term2, operator):
+        """组合两个词项"""
+        op_embedding = self.operator_embeddings(operator)
+        combined = self.logic_combine(torch.cat([term1, term2], dim=-1))
+        return combined * op_embedding  # 使用运算符调制组合结果
+
 class IRRankingModel(nn.Module):
-    def __init__(self, doc_feature_dim=768):
-        super(IRRankingModel, self).__init__()
+    """改进的语义排序模型"""
+    def __init__(self, bert_path="D:/bert/bert-base-uncased"):
+        super().__init__()
         
-        # 检索词编码器
-        self.query_encoder = BertModel.from_pretrained("D:/bert/bert-base-chinese")
+        # 检查CUDA是否可用并强制使用
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        if self.device.type == 'cuda':
+            logger.info(f"使用GPU设备: {torch.cuda.get_device_name(0)}")
+        else:
+            logger.warning("警告：CUDA不可用，将使用CPU进行训练（这会显著降低训练速度）")
+            logger.warning("请检查：")
+            logger.warning("1. 是否安装了CUDA和cuDNN")
+            logger.warning("2. 是否安装了GPU版本的PyTorch")
+            logger.warning("3. 环境变量是否正确设置")
         
-        # 文档编码器（与检索词共享参数）
-        self.doc_encoder = self.query_encoder
+        logger.info(f"IRRankingModel 初始化于设备: {self.device}")
         
-        # 检索式解析器
-        self.search_parser = SearchExpression()
+        # 确保BERT模型加载到正确的设备上
+        try:
+            self.bert = BertModel.from_pretrained(bert_path)
+            self.bert = self.bert.to(self.device)
+            logger.info(f"BERT模型已加载到: {self.device}")
+        except Exception as e:
+            logger.error(f"加载BERT模型时出错: {str(e)}")
+            raise
+            
+        self.tokenizer = BertTokenizer.from_pretrained(bert_path)
+        self.hidden_size = self.bert.config.hidden_size
         
-        # 逻辑运算符融合层
-        self.logical_fusion = LogicalOperatorFusion(doc_feature_dim)
+        # 检索式编码器
+        self.expression_encoder = SearchExpressionEncoder(self.bert)
         
-        # 文档特征权重（可学习）
-        self.title_weight = nn.Parameter(torch.tensor(0.6))
-        self.abstract_weight = nn.Parameter(torch.tensor(0.4))
+        # 文档编码器（共享BERT）
+        self.doc_encoder = self.bert
         
         # 相关性计算层
-        self.relevance_layer = nn.Sequential(
-            nn.Linear(doc_feature_dim * 2, 256),
+        self.relevance_calculator = nn.Sequential(
+            nn.Linear(self.hidden_size * 2, self.hidden_size),
+            nn.LayerNorm(self.hidden_size),
             nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Linear(256, 64),
-            nn.ReLU(),
-            nn.Dropout(0.2),
-            nn.Linear(64, 1)
+            nn.Dropout(0.1),
+            nn.Linear(self.hidden_size, 1)
         )
-    
-    def encode_query_fields(self, query_fields: Dict) -> torch.Tensor:
-        """
-        编码检索式中的所有字段
-        query_fields: {
-            'field_name': {
-                'contents': [content1, content2, ...],
-                'indices': [idx1, idx2, ...]
-            }
-        }
-        """
-        field_vectors = []
-        field_indices = []
         
-        # 按字段分别编码
-        for field_name, field_data in query_fields.items():
-            for content in field_data['contents']:
-                # 对每个内容进行编码
-                encoded = self.query_encoder(
-                    **self.tokenizer(content, return_tensors='pt', padding=True)
+        # 将所有模块移动到指定设备
+        self.expression_encoder = self.expression_encoder.to(self.device)
+        self.relevance_calculator = self.relevance_calculator.to(self.device)
+        self = self.to(self.device)
+        
+        logger.info(f"所有模型组件已初始化完成并移动到: {self.device}")
+        
+        # 打印CUDA内存使用情况（如果使用GPU）
+        if self.device.type == 'cuda':
+            logger.info(f"当前GPU内存使用: {torch.cuda.memory_allocated()/1024**2:.1f}MB")
+            logger.info(f"GPU内存缓存: {torch.cuda.memory_reserved()/1024**2:.1f}MB")
+    
+    def encode_text(self, text):
+        """编码文本"""
+        inputs = self.tokenizer(
+            text,
+            padding=True,
+            truncation=True,
+            max_length=512,
+            return_tensors="pt"
+        ).to(self.device)  # 将输入移动到GPU
+        
+        with torch.no_grad():
+            outputs = self.bert(**inputs)
+            # 使用[CLS]token的输出作为文本表示
+            text_embedding = outputs.last_hidden_state[:, 0, :]
+        
+        return text_embedding
+    
+    def encode_search_expression(self, expression):
+        """编码检索式
+        expression: 包含检索词和逻辑关系的结构化数据或纯文本查询
+        """
+        terms = []
+        operators = []
+        
+        def process_expression(expr):
+            if isinstance(expr, str):  # 处理纯文本查询
+                # 分词处理
+                words = expr.strip().split()
+                if not words:
+                    logger.warning(f"查询文本为空: {expr}")
+                    return
+                
+                # 对每个词进行编码
+                for word in words:
+                    if len(word) > 1:  # 忽略单字符词
+                        term_encoding = self.encode_text([word])
+                        terms.append(term_encoding)
+                        operators.append(0)  # 默认使用AND
+            
+            elif isinstance(expr, SearchTerm):
+                if not expr.content.strip():
+                    logger.warning(f"SearchTerm内容为空: {expr}")
+                    return
+                
+                term_encoding = self.encode_text([expr.content])
+                terms.append(term_encoding)
+                if expr.operation == 'not_match':
+                    operators.append(2)  # NOT
+                else:
+                    operators.append(0)  # AND
+            
+            elif isinstance(expr, LogicalGroup):
+                for i, term in enumerate(expr.terms):
+                    process_expression(term)
+                    if i < len(expr.terms) - 1 and terms:  # 只在有terms时添加操作符
+                        operators.append(0 if expr.operation == 'and' else 1)
+        
+        try:
+            # 处理输入
+            if isinstance(expression, str):
+                process_expression(expression)
+            else:
+                process_expression(expression)
+            
+            # 检查是否有有效的词项
+            if not terms:
+                logger.warning("没有找到有效的查询词项，尝试整体编码查询")
+                # 尝试整体编码查询文本
+                if isinstance(expression, str) and expression.strip():
+                    return self.encode_text([expression.strip()])
+                elif isinstance(expression, SearchTerm) and expression.content.strip():
+                    return self.encode_text([expression.content.strip()])
+                else:
+                    logger.error("无法处理空查询")
+                    return torch.zeros(1, self.hidden_size).to(self.device)
+            
+            # 组合所有词项
+            combined_encoding = terms[0]
+            for i in range(1, len(terms)):
+                combined_encoding = self.expression_encoder.combine_terms(
+                    combined_encoding, terms[i], 
+                    torch.tensor([operators[i-1]]).to(self.device)
                 )
-                field_vectors.append(encoded.last_hidden_state[:, 0, :])
-                field_indices.extend(field_data['indices'])
-        
-        # 按原始索引重排序
-        field_vectors = torch.stack(field_vectors)
-        sorted_indices = torch.argsort(torch.tensor(field_indices))
-        field_vectors = field_vectors[sorted_indices]
-        
-        return field_vectors
+            
+            return combined_encoding
+            
+        except Exception as e:
+            logger.error(f"编码检索式时出错: {str(e)}")
+            # 返回一个空的编码向量
+            return torch.zeros(1, self.hidden_size).to(self.device)
     
-    def encode_document(self, title_vectors, abstract_vectors):
+    def forward(self, query_expr, doc_text):
         """
-        简化的文档编码：直接加权组合
-        title_vectors: [batch_size, hidden_size]
-        abstract_vectors: [batch_size, hidden_size]
-        return: [batch_size, hidden_size]
+        计算检索式和文档的相关性分数
+        query_expr: 查询表达式（可以是字符串或结构化查询）
+        doc_text: 文档文本
         """
-        # 使用可学习的权重组合标题和摘要
-        doc_vector = (self.title_weight * title_vectors + 
-                     self.abstract_weight * abstract_vectors)
-        return doc_vector
+        # 编码检索式
+        if isinstance(query_expr, (str, list)):
+            # 如果是字符串或字符串列表，直接编码
+            query_encoding = self.encode_text(query_expr if isinstance(query_expr, list) else [query_expr])
+        else:
+            # 如果是结构化查询，使用encode_search_expression
+            query_encoding = self.encode_search_expression(query_expr)
+        
+        # 编码文档
+        if isinstance(doc_text, (str, list)):
+            doc_encoding = self.encode_text(doc_text if isinstance(doc_text, list) else [doc_text])
+        else:
+            logger.warning(f"Unexpected doc_text type: {type(doc_text)}")
+            doc_encoding = self.encode_text([str(doc_text)])
+        
+        # 计算相关性分数
+        concat_features = torch.cat([query_encoding, doc_encoding], dim=-1)
+        relevance_score = self.relevance_calculator(concat_features)
+        
+        return relevance_score.squeeze(-1)
     
-    def compute_relevance(self, query_vector, doc_vector):
+    def get_document_scores(self, query_expr: str, doc_texts: list) -> torch.Tensor:
         """
-        计算查询向量和文档向量的相关性
-        query_vector: [batch_size, hidden_size]
-        doc_vector: [batch_size, hidden_size]
+        批量计算多个文档的相关性分数
         """
-        # 拼接查询向量和文档向量
-        interaction = torch.cat([query_vector, doc_vector], dim=-1)
-        # 计算相关性得分
-        relevance_score = self.relevance_layer(interaction)
-        return relevance_score
+        # 编码检索式（只需计算一次）
+        query_encoding = self.encode_search_expression(query_expr)
+        
+        # 批量编码文档
+        doc_encodings = []
+        batch_size = 32  # 可以根据GPU内存调整
+        
+        for i in range(0, len(doc_texts), batch_size):
+            batch_texts = doc_texts[i:i + batch_size]
+            batch_encodings = self.encode_text(batch_texts)
+            doc_encodings.append(batch_encodings)
+        
+        doc_encodings = torch.cat(doc_encodings, dim=0)
+        
+        # 计算相关性分数
+        scores = []
+        for doc_encoding in doc_encodings:
+            concat_features = torch.cat([
+                query_encoding.expand(1, -1),
+                doc_encoding.unsqueeze(0)
+            ], dim=-1)
+            score = self.relevance_calculator(concat_features)
+            scores.append(score)
+        
+        return torch.cat(scores, dim=0).squeeze(-1)
+
+class RelevanceScore(nn.Module):
+    """相关性分数计算，考虑点击顺序和停留时间"""
+    def __init__(self):
+        super().__init__()
+        self.time_weight = nn.Parameter(torch.tensor([0.5]))  # 可学习的时间权重
     
-    def forward(self, search_expression: LogicalGroup, title_vectors, abstract_vectors):
+    def forward(self, click_positions, dwell_times):
         """
-        前向传播
-        search_expression: 检索式
-        title_vectors: [batch_size, hidden_size]
-        abstract_vectors: [batch_size, hidden_size]
-        return: [batch_size, 1]
+        计算综合相关性分数
+        click_positions: 点击位置 [batch_size]
+        dwell_times: 停留时间（秒）[batch_size]
         """
-        # 1. 解析检索式
-        parsed = self.search_parser.parse(search_expression)
+        # 将点击位置转换为分数（越早点击分数越高）
+        position_scores = 1.0 / (click_positions + 1)
         
-        # 2. 编码所有检索字段
-        query_vectors = self.encode_query_fields(parsed['query_fields'])  # [batch_size, num_fields, hidden_size]
+        # 将停留时间归一化（使用sigmoid函数将时间映射到0-1区间）
+        time_scores = torch.sigmoid(dwell_times / 300.0)  # 300秒作为参考时间
         
-        # 3. 进行逻辑运算，得到最终的查询向量
-        query_vector = self.logical_fusion(query_vectors, parsed['logical_ops'])  # [batch_size, hidden_size]
+        # 组合两种分数
+        combined_scores = (1 - self.time_weight) * position_scores + self.time_weight * time_scores
         
-        # 4. 编码文档
-        doc_vector = self.encode_document(title_vectors, abstract_vectors)  # [batch_size, hidden_size]
-        
-        # 5. 计算相关性得分
-        score = self.compute_relevance(query_vector, doc_vector)  # [batch_size, 1]
-        
-        return score
+        return combined_scores
 
 # 使用示例：
 """

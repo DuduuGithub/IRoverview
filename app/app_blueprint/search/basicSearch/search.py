@@ -186,7 +186,7 @@ def process_query_with_db(query_text, sort_method=SORT_BY_RELEVANCE):
     - 匹配的文档ID列表
 """
 def get_matching_docs_from_db(query):
-    # 对查询文本进行分词 - 使用英文分词
+    """从数据库获取匹配的文档ID列表"""
     print(f"正在搜索关键词: {query}")
     query_terms = tokenize_english(query)
     
@@ -196,72 +196,27 @@ def get_matching_docs_from_db(query):
     if not query_terms:
         query_terms = [query.lower().strip()]
     
-    results = []
-
-    # 对每个词项进行查询
+    # 从数据库中搜索匹配的文档
+    matching_docs = set()
     for term in query_terms:
-        if not term:
-            continue
-            
-        print(f"搜索词项: {term}")
-        
-        # 通过 SQL 查询合并所有结果，减少数据库查询次数
-        matches = []
-        
-        # 在标题、显示名称和摘要中搜索 - 使用词边界匹配
+        # 在标题中搜索
         title_matches = Work.query.filter(
-            (Work.title.ilike(f'%{term}%')) |
-            (Work.display_name.ilike(f'%{term}%')) |
-            (Work.abstract_inverted_index.cast(db.String).ilike(f'%{term}%'))
+            Work.title.ilike(f'%{term}%')
         ).all()
-        matches.extend([w.id for w in title_matches])
-        print(f"标题/显示名称/摘要匹配数: {len(title_matches)}")
-
-        # 在作者中搜索
-        author_matches = db.session.query(Work.id).join(
-            WorkAuthorship, Work.id == WorkAuthorship.work_id
-        ).join(
-            Author, Author.id == WorkAuthorship.author_id
-        ).filter(
-            Author.display_name.ilike(f'%{term}%')
+        
+        # 在摘要中搜索
+        abstract_matches = Work.query.filter(
+            Work.abstract_inverted_index.ilike(f'%{term}%')
         ).all()
-        matches.extend([m[0] for m in author_matches])
-        print(f"作者匹配数: {len(author_matches)}")
-
-        # 在概念中搜索
-        concept_matches = db.session.query(Work.id).join(
-            WorkConcept, Work.id == WorkConcept.work_id
-        ).join(
-            Concept, Concept.id == WorkConcept.concept_id
-        ).filter(
-            Concept.display_name.ilike(f'%{term}%')
-        ).all()
-        matches.extend([m[0] for m in concept_matches])
-        print(f"概念匹配数: {len(concept_matches)}")
-
-        # 在主题中搜索
-        topic_matches = db.session.query(Work.id).join(
-            WorkTopic, Work.id == WorkTopic.work_id
-        ).join(
-            Topic, Topic.id == WorkTopic.topic_id
-        ).filter(
-            Topic.display_name.ilike(f'%{term}%')
-        ).all()
-        matches.extend([m[0] for m in topic_matches])
-        print(f"主题匹配数: {len(topic_matches)}")
-
-        # 合并结果并去重
-        term_results = list(set(matches))
-        print(f"词项'{term}'的匹配结果数: {len(term_results)}")
-
-        # 与之前的结果进行OR操作
-        if not results:
-            results = term_results
-        else:
-            results = list(set(results + term_results))
+        
+        # 合并结果
+        for work in title_matches + abstract_matches:
+            matching_docs.add(work.id)
     
-    print(f"总匹配结果数: {len(results)}")
-    return results
+    # 转换为列表并排序
+    result = sorted(list(matching_docs))
+    print(f"找到匹配文档数: {len(result)}")
+    return result
 
 
 """
