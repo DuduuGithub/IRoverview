@@ -276,6 +276,73 @@ class SearchExpressionEncoder(nn.Module):
         combined = self.logic_combine(torch.cat([term1, term2], dim=-1))
         return combined * op_embedding  # 使用运算符调制组合结果
 
+class CrossAttention(nn.Module):
+    def __init__(self, hidden_size):
+        super().__init__()
+        self.query_proj = nn.Linear(hidden_size, hidden_size)
+        self.key_proj = nn.Linear(hidden_size, hidden_size)
+        self.value_proj = nn.Linear(hidden_size, hidden_size)
+        self.attention = nn.MultiheadAttention(hidden_size, num_heads=8, batch_first=True)
+        self.norm = nn.LayerNorm(hidden_size)
+        self.dropout = nn.Dropout(0.1)
+        
+    def forward(self, query, doc):
+        # 确保输入形状正确 [batch_size, seq_len, hidden_size]
+        if len(query.shape) == 2:
+            query = query.unsqueeze(1)  # [batch_size, 1, hidden_size]
+        if len(doc.shape) == 2:
+            doc = doc.unsqueeze(1)  # [batch_size, 1, hidden_size]
+            
+        # 交叉注意力，让查询和文档之间进行更深入的交互
+        query = self.query_proj(query)
+        key = self.key_proj(doc)
+        value = self.value_proj(doc)
+        attn_output, _ = self.attention(query, key, value)
+        return self.dropout(self.norm(attn_output + query)).squeeze(1)  # [batch_size, hidden_size]
+
+class MultiViewMatching(nn.Module):
+    def __init__(self, hidden_size):
+        super().__init__()
+        self.exact_matching = nn.Linear(hidden_size, hidden_size)
+        self.semantic_matching = nn.Linear(hidden_size * 3, hidden_size)
+        self.combine = nn.Sequential(
+            nn.Linear(hidden_size * 2, hidden_size),
+            nn.ReLU(),
+            nn.Dropout(0.1),
+            nn.Linear(hidden_size, 1)
+        )
+        
+    def forward(self, query_vec, doc_vec):
+        # 精确匹配
+        exact_match = self.exact_matching(query_vec * doc_vec)
+        # 语义匹配
+        semantic_match = self.semantic_matching(
+            torch.cat([query_vec, doc_vec, query_vec * doc_vec], dim=-1)
+        )
+        # 组合不同视角的匹配结果
+        combined = torch.cat([exact_match, semantic_match], dim=-1)
+        return self.combine(combined)
+
+class HierarchicalEncoder(nn.Module):
+    def __init__(self, hidden_size):
+        super().__init__()
+        # 修改GRU的隐藏层大小，确保输出维度正确
+        self.word_level = nn.GRU(hidden_size, hidden_size//2, bidirectional=True, batch_first=True)
+        self.sent_level = nn.GRU(hidden_size, hidden_size//2, bidirectional=True, batch_first=True)
+        self.pooling = nn.AdaptiveAvgPool1d(1)
+        # 添加最终的投影层，确保输出维度为hidden_size
+        self.final_proj = nn.Linear(hidden_size, hidden_size)
+        
+    def forward(self, x):
+        # 词级别编码
+        word_hidden, _ = self.word_level(x)  # [batch_size, seq_len, hidden_size]
+        # 句子级别编码
+        sent_hidden, _ = self.sent_level(word_hidden)  # [batch_size, seq_len, hidden_size]
+        # 池化得到最终表示
+        pooled = self.pooling(sent_hidden.transpose(1, 2)).squeeze(-1)  # [batch_size, hidden_size]
+        # 投影到正确的维度
+        return self.final_proj(pooled)  # [batch_size, hidden_size]
+
 class IRRankingModel(nn.Module):
     """改进的语义排序模型"""
     def __init__(self, bert_path="D:/bert/bert-base-uncased"):
@@ -312,8 +379,21 @@ class IRRankingModel(nn.Module):
         # 文档编码器（共享BERT）
         self.doc_encoder = self.bert
         
-        # 相关性计算层
+        # 新增：层次化编码器
+        self.hierarchical_encoder = HierarchicalEncoder(self.hidden_size)
+        
+        # 新增：交叉注意力层
+        self.cross_attention = CrossAttention(self.hidden_size)
+        
+        # 新增：多视角匹配层
+        self.multi_view_matching = MultiViewMatching(self.hidden_size)
+        
+        # 相关性计算层（更复杂的结构）
         self.relevance_calculator = nn.Sequential(
+            nn.Linear(self.hidden_size * 3, self.hidden_size * 2),
+            nn.LayerNorm(self.hidden_size * 2),
+            nn.ReLU(),
+            nn.Dropout(0.2),
             nn.Linear(self.hidden_size * 2, self.hidden_size),
             nn.LayerNorm(self.hidden_size),
             nn.ReLU(),
@@ -323,6 +403,9 @@ class IRRankingModel(nn.Module):
         
         # 将所有模块移动到指定设备
         self.expression_encoder = self.expression_encoder.to(self.device)
+        self.hierarchical_encoder = self.hierarchical_encoder.to(self.device)
+        self.cross_attention = self.cross_attention.to(self.device)
+        self.multi_view_matching = self.multi_view_matching.to(self.device)
         self.relevance_calculator = self.relevance_calculator.to(self.device)
         self = self.to(self.device)
         
@@ -334,19 +417,21 @@ class IRRankingModel(nn.Module):
             logger.info(f"GPU内存缓存: {torch.cuda.memory_reserved()/1024**2:.1f}MB")
     
     def encode_text(self, text):
-        """编码文本"""
+        """编码文本，使用层次化编码"""
         inputs = self.tokenizer(
             text,
             padding=True,
             truncation=True,
             max_length=512,
             return_tensors="pt"
-        ).to(self.device)  # 将输入移动到GPU
+        ).to(self.device)
         
         with torch.no_grad():
             outputs = self.bert(**inputs)
-            # 使用[CLS]token的输出作为文本表示
-            text_embedding = outputs.last_hidden_state[:, 0, :]
+            # 获取序列表示
+            sequence_output = outputs.last_hidden_state
+            # 使用层次化编码器进一步处理
+            text_embedding = self.hierarchical_encoder(sequence_output)
         
         return text_embedding
     
@@ -426,16 +511,12 @@ class IRRankingModel(nn.Module):
     
     def forward(self, query_expr, doc_text):
         """
-        计算检索式和文档的相关性分数
-        query_expr: 查询表达式（可以是字符串或结构化查询）
-        doc_text: 文档文本
+        计算检索式和文档的相关性分数，使用增强的匹配机制
         """
         # 编码检索式
         if isinstance(query_expr, (str, list)):
-            # 如果是字符串或字符串列表，直接编码
             query_encoding = self.encode_text(query_expr if isinstance(query_expr, list) else [query_expr])
         else:
-            # 如果是结构化查询，使用encode_search_expression
             query_encoding = self.encode_search_expression(query_expr)
         
         # 编码文档
@@ -445,8 +526,20 @@ class IRRankingModel(nn.Module):
             logger.warning(f"Unexpected doc_text type: {type(doc_text)}")
             doc_encoding = self.encode_text([str(doc_text)])
         
-        # 计算相关性分数
-        concat_features = torch.cat([query_encoding, doc_encoding], dim=-1)
+        # 1. 交叉注意力交互
+        cross_features = self.cross_attention(query_encoding, doc_encoding)
+        
+        # 2. 多视角匹配
+        matching_score = self.multi_view_matching(query_encoding, doc_encoding)
+        
+        # 3. 组合所有特征
+        concat_features = torch.cat([
+            query_encoding,
+            doc_encoding,
+            cross_features
+        ], dim=-1)
+        
+        # 4. 计算最终相关性分数
         relevance_score = self.relevance_calculator(concat_features)
         
         return relevance_score.squeeze(-1)

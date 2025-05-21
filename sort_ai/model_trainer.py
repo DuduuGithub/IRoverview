@@ -105,7 +105,14 @@ class ModelTrainer:
         # 将模型移动到GPU（如果可用）
         self.model = self.model.to(self.device)
         self.criterion = nn.MarginRankingLoss(margin=0.5)
-        self.optimizer = optim.Adam(self.model.parameters(), lr=2e-5)
+        
+        # 降低初始学习率
+        self.initial_lr = 1e-5
+        self.optimizer = optim.Adam(self.model.parameters(), lr=self.initial_lr)
+        
+        # 添加学习率调度器
+        self.num_warmup_steps = 0  # 会在train方法中设置
+        self.num_training_steps = 0  # 会在train方法中设置
         
         # 确保模型保存目录存在（使用相对路径）
         self.sort_ai_dir = os.path.dirname(os.path.abspath(__file__))
@@ -171,13 +178,20 @@ class ModelTrainer:
                 if not unclicked_docs:
                     continue
                 
+                def process_doc_text(doc):
+                    """处理文档文本，确保类型安全"""
+                    title = str(doc['title']) if pd.notna(doc['title']) else ''
+                    abstract = str(doc['abstract_inverted_index']) if pd.notna(doc['abstract_inverted_index']) else ''
+                    # 移除可能的特殊字符，只保留基本的标点和字母数字
+                    title = ''.join(c for c in title if c.isalnum() or c.isspace() or c in '.,!?-')
+                    abstract = ''.join(c for c in abstract if c.isalnum() or c.isspace() or c in '.,!?-')
+                    return f"{title} {abstract}".strip()
+                
                 # 将所有正样本和负样本添加到会话中
                 sessions.append({
-                    'query': session_row['query_text'],
-                    'pos_docs': [doc['title'] + ' ' + (str(doc['abstract_inverted_index']) if pd.notna(doc['abstract_inverted_index']) else '') 
-                                for doc, _ in clicked_docs],
-                    'neg_docs': [doc['title'] + ' ' + (str(doc['abstract_inverted_index']) if pd.notna(doc['abstract_inverted_index']) else '') 
-                                for doc, _ in unclicked_docs],
+                    'query': str(session_row['query_text']).strip(),
+                    'pos_docs': [process_doc_text(doc) for doc, _ in clicked_docs],
+                    'neg_docs': [process_doc_text(doc) for doc, _ in unclicked_docs],
                     'session_id': session_id,
                     'pos_doc_ids': [doc_id for _, doc_id in clicked_docs],
                     'neg_doc_ids': [doc_id for _, doc_id in unclicked_docs]
@@ -227,11 +241,24 @@ class ModelTrainer:
             'neg_doc_ids': neg_doc_ids_list
         }
 
-    def train(self, train_sessions, val_sessions, epochs=3, batch_size=16):
+    def get_scheduler(self, num_warmup_steps, num_training_steps):
+        """获取学习率调度器"""
+        from transformers import get_scheduler
+        
+        scheduler = get_scheduler(
+            name="linear",  # 线性预热后线性衰减
+            optimizer=self.optimizer,
+            num_warmup_steps=num_warmup_steps,
+            num_training_steps=num_training_steps
+        )
+        return scheduler
+
+    def train(self, train_sessions, val_sessions, epochs=30, batch_size=32):
         """训练模型"""
         logger.info("开始训练模型...")
         logger.info(f"训练集大小: {len(train_sessions)}, 验证集大小: {len(val_sessions)}")
         logger.info(f"批次大小: {batch_size}, 训练轮数: {epochs}")
+        logger.info(f"初始学习率: {self.initial_lr}")
         
         train_dataset = SearchSessionDataset(train_sessions)
         train_loader = DataLoader(
@@ -243,10 +270,31 @@ class ModelTrainer:
             pin_memory=True if self.device.type == 'cuda' else False
         )
         
+        # 设置学习率调度器参数
+        num_update_steps_per_epoch = len(train_loader)
+        self.num_training_steps = num_update_steps_per_epoch * epochs
+        self.num_warmup_steps = self.num_training_steps // 10  # 预热步数为总步数的10%
+        
+        # 创建学习率调度器
+        scheduler = self.get_scheduler(
+            num_warmup_steps=self.num_warmup_steps,
+            num_training_steps=self.num_training_steps
+        )
+        
+        logger.info(f"总训练步数: {self.num_training_steps}")
+        logger.info(f"预热步数: {self.num_warmup_steps}")
+        
         total_steps = len(train_loader)
         best_val_metrics = None
         best_model_state = None
         best_epoch = -1
+        
+        # 用于记录训练历史
+        history = {
+            'train_loss': [],
+            'val_metrics': [],
+            'learning_rates': []
+        }
         
         for epoch in range(epochs):
             logger.info(f"\nEpoch {epoch + 1}/{epochs}")
@@ -303,8 +351,14 @@ class ModelTrainer:
                 if len(batch['query']) > 0:
                     batch_loss = batch_loss / len(batch['query'])
                     batch_loss.backward()
-                    self.optimizer.step()
                     
+                    # 梯度裁剪，防止梯度爆炸
+                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+                    
+                    self.optimizer.step()
+                    scheduler.step()  # 更新学习率
+                    
+                    current_lr = scheduler.get_last_lr()[0]
                     total_loss += batch_loss.item()
                     batch_count += 1
                     
@@ -312,14 +366,22 @@ class ModelTrainer:
                     avg_loss = total_loss / batch_count
                     pbar.set_postfix({
                         'loss': f'{batch_loss.item():.4f}',
-                        'avg_loss': f'{avg_loss:.4f}'
+                        'avg_loss': f'{avg_loss:.4f}',
+                        'lr': f'{current_lr:.2e}'
                     })
+                    
+                    # 记录历史
+                    history['learning_rates'].append(current_lr)
             
             # 关闭进度条
             pbar.close()
             
             avg_train_loss = total_loss / len(train_loader)
-            logger.info(f"\nEpoch {epoch + 1} 训练完成 - 平均损失: {avg_train_loss:.4f}")
+            history['train_loss'].append(avg_train_loss)
+            
+            logger.info(f"\nEpoch {epoch + 1} 训练完成")
+            logger.info(f"平均损失: {avg_train_loss:.4f}")
+            logger.info(f"当前学习率: {scheduler.get_last_lr()[0]:.2e}")
             
             # 保存当前epoch的模型
             model_path = os.path.join(self.models_dir, f'model_epoch_{epoch + 1}.pth')
