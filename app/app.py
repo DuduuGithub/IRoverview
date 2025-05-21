@@ -31,12 +31,11 @@ def createApp(debug=False):
                static_folder='static',
                static_url_path='/static')
                
-    
     # 加载配置
     app.config.from_object(Database.config)
     
-    # 只在调试模式下显示SQL语句
-    app.config['SQLALCHEMY_ECHO'] = debug
+    # 禁用SQL语句输出
+    app.config['SQLALCHEMY_ECHO'] = False
     
     # 初始化数据库
     db.init_app(app)
@@ -44,8 +43,6 @@ def createApp(debug=False):
     # 注册蓝图
     app.register_blueprint(searcher_bp, url_prefix='/search')
     app.register_blueprint(reader_bp, url_prefix='/reader')
-    
-    print(app.url_map)
     
     return app
 

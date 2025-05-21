@@ -1,0 +1,92 @@
+session_id,query_text,search_time,total_results
+1747694056_-5424819078624776801,"(""reduce visual tokens"") AND (""vision transformers"") AND (""right from the beginning"")",2025-05-20T06:34:17,0
+1747694057_6486173393282189481,"(""learn to represent an image"") AND (""arbitary numbers of tokens"")",2025-05-20T06:34:18,0
+1747694058_-2472336301082807886,"(papers) AND (""construct convolutional networks"") AND (""equivariant with respect to non-compact/non-abelian Lie groups"")",2025-05-20T06:34:19,0
+1747694060_5597702289808231059,"(papers) AND (""study whether you can identify"") AND (""LLM has been instructed to hide some information"")",2025-05-20T06:34:20,0
+1747694061_-5557816978301368567,"(papers) AND (""world model"") AND (""planning"") AND (""ensure that decisions meet constraints"")",2025-05-20T06:34:22,0
+1747694062_-4266607013151326353,"(datasets and benchmarks) AND (""measuring LLM graph reasoning abilities"")",2025-05-20T06:34:23,0
+1747694063_3251513336057314245,"(""sequential learning guarantees"") AND (""configuring a linear system solver"") AND (""distributional assumption"") AND (""systems' target vectors"")",2025-05-20T06:34:24,0
+1747694065_-5982871584585310296,"(""find the solution"") AND (""Bilevel optimization"") AND (""lower-level problem is nonconvex"")",2025-05-20T06:34:26,0
+1747694066_-6959795149287883022,"(""find a dataset"") AND (""LLM-based evaluation may not be reliable enough"")",2025-05-20T06:34:27,0
+1747694068_4143526439405674397,"(""research paper"") AND (""structured pruning techniques"") AND (""scale down language models"") AND (""original model"" AND ""billions of parameters"")",2025-05-20T06:34:28,0
+1747694069_-9160054275099386788,"(""Local SGD"") AND (""decaying learning rate"") AND (""distributed training"") AND (paper) AND (""setting the synchronization period"") AND (""optimize test accuracy"")",2025-05-20T06:34:30,0
+1747694071_-3647540840428880229,"(video diffusion models) AND (paper) AND (""decomposing video instruction"") AND (""sub instructions of different time"")",2025-05-20T06:34:32,0
+1747694073_2022707122102067677,"(paper) AND (""illustrating that pre-trained transformers from LLMs"") AND (""encode visual information"") AND (""wide range of scenarios"")",2025-05-20T06:34:33,0
+1747694075_4340236216465072408,"(paper) AND (""mixed machine learning and solver based approach"") AND (""code translation"")",2025-05-20T06:34:35,0
+1747694076_5289075695828006421,"(paper) AND (""Bayesian optimization"") AND (""modular continual learning"")",2025-05-20T06:34:36,0
+1747694077_-5324801230489523641,"(paper) AND (""general data selection method"") AND (""based on information theory"")",2025-05-20T06:34:37,0
+1747694078_-3105258994423203305,"(""parameter-efficient fine-tuning method"") AND (""adjusting the number of optimized parameters to any value"") AND (""irrespective of the model's architecture"") AND (""choice of the adapter"")",2025-05-20T06:34:39,0
+1747694080_5215656158082889651,"(""single GNN model"" AND ""inductively generalize to any knowledge graph"") OR (""generalize knowledge graph reasoning"" AND ""graphs with new entities and relations"") OR (""foundation model for knowledge graphs"" AND ""does not learn embeddings for each node and relation type"")",2025-05-20T06:34:41,0
+1747694084_6649289350089771965,"(""theory paper"") AND (""tuning momentum does not boost performance"") AND (""training a neural network"")",2025-05-20T06:34:45,0
+1747694085_-1551700568892447848,"(""existing dataset of images with alt-text"") AND (""includes the text the image was originally posted with"")",2025-05-20T06:34:46,0
+1747694087_-3953508249768700860,"(""generalizable NeRF paper"") AND (""disentangles texture and shape"")",2025-05-20T06:34:48,0
+1747694088_-3784545285818403050,"(paper) AND (""applies off-shelf GPT-2 model"") AND (""D4RL tasks"") AND (""PEFT techniques"")",2025-05-20T06:34:48,0
+1747694089_-3457876072592641350,"(paper) AND (""improves adversarial training"") AND (""forming semantic aware label"") AND (""without extra pre-train time or data"")",2025-05-20T06:34:50,0
+1747694091_-2687371392214160626,"(paper) AND (""parameterize neural networks as proximal operators"")",2025-05-20T06:34:52,0
+1747694093_3226096502325131139,"(paper) AND (""previously proposed to control a risk"") AND (""prediction sets"") AND (""conformal prediction"")",2025-05-20T06:34:53,0
+1747694094_-3284655778952072912,"(paper) AND (""seamlessly integrates the multigrid structure"") AND (""operator learning"") AND (""solving partial differential equations"")",2025-05-20T06:34:54,0
+1747694095_3672926148620456251,"(paper) AND (""theoretically explains why in-context reinforcement learning works"")",2025-05-20T06:34:56,0
+1747694097_-374259020158289817,"(paper) AND (""Lipschitz continuity"") AND (""learning a dynamics model"")",2025-05-20T06:34:57,0
+1747694098_6659198014145877463,"(paper) AND (""improve MLE"") AND (""auto-regressive language modeling"") AND (""optimal transport"")",2025-05-20T06:34:58,0
+1747694099_871760790921347454,"(paper) AND (""probabilsitic formulation of retrosynthesis"")",2025-05-20T06:35:00,0
+1747694100_8414775466675760774,"(""evaluation benchmarks"") AND (""LLM privacy"") AND (""inference time"") AND (""model input"") AND (""NOT training data"")",2025-05-20T06:35:00,0
+1747694101_3521590743757628597,"(""key advantages"") AND (""coupling neural SDEs with neural CDEs"") AND (""treatment effect estimation"") AND (""over existing baselines"")",2025-05-20T06:35:02,0
+1747694103_-6858183750241171073,"(paper) AND (""data being collected in bundles"") AND (""reinforcement learning"")",2025-05-20T06:35:03,0
+1747694104_7482681755426600209,"(""first paper"") AND (""theoretically studies training neural networks"") AND (""small initialization"")",2025-05-20T06:35:04,0
+1747694105_6525063567615188503,"(""first paper"") AND (""generalized linear model"") AND (""analyze multi-neural spike train data"")",2025-05-20T06:35:06,0
+1747694107_3370357999982212139,"(""molecular representation learning paper"") AND (""introduced a benchmark"") AND (""thermodynamically-accessible conformer ensembles"")",2025-05-20T06:35:08,0
+1747694109_-6669343800002100710,"(""open-source dataset"") AND (""combined knowledge retrieval"") AND (""constraint satisfaction queries"")",2025-05-20T06:35:09,0
+1747694110_-874250626291509743,"(paper) AND (""sensitive data issue"") AND (""prompting large language model APIs"")",2025-05-20T06:35:11,0
+1747694111_1658333572344121018,"(paper) AND (""evaluated the ability of visual few-shot learning models"") AND (""do in-context learning"")",2025-05-20T06:35:12,0
+1747694113_-5136085295943886400,"(paper) AND (""first adapted ControlNet"") AND (""generate continuous videos"") AND (""training-free manner"")",2025-05-20T06:35:13,0
+1747694114_-2618099533324002012,"(paper) AND (""first associate the modeling frequency"") AND (""input human skeletons"") AND (""NeRF framework"")",2025-05-20T06:35:15,0
+1747694116_-4325933199401620198,"(paper) AND (""first extends rotary positional encoding"") AND (""camera-geometry encoding"") AND (""multi-view transformers"")",2025-05-20T06:35:16,0
+1747694118_9040440224318758053,"(paper) AND (""first proposed a robust perceptual similarity metric"") AND (""certificates"")",2025-05-20T06:35:18,0
+1747694119_7552018201984182628,"(paper) AND (""first proposes that simply reversing the output"") AND (""significantly enhance the sample efficiency"") AND (""arithmetic capability"") AND (""decoder-only Transformer model"")",2025-05-20T06:35:19,0
+1747694121_-5544645151461133136,"(paper) AND (""first showed that you can score the code explanations"") AND (""pass@k metric"")",2025-05-20T06:35:21,0
+1747694122_7910460645094375242,"(paper) AND (""first used the technique of prompt engineering"") AND (""generate adversarial prompts"") AND (""fool LLMs"") AND (""wrong predictions"") AND (""prompt-based learning"")",2025-05-20T06:35:23,0
+1747694124_-6966711860027062490,"(paper) AND (""first uses decoupled workers"") AND (""distributed RL system"")",2025-05-20T06:35:25,0
+1747694126_955566266136787344,"(paper) AND (""investigated the effect of the relative position"") AND (""most pertinent retrieved code snippets"") AND (""repository-level code completion performance"")",2025-05-20T06:35:26,0
+1747694128_8907507204439848637,"(paper) AND (""the first to prove finetuned LLM can be a reliable judge"")",2025-05-20T06:35:28,0
+1747694129_-4133270779659969095,"(paper) AND (""mitigates language model sampling errors"") AND (""softmax bottleneck"")",2025-05-20T06:35:29,0
+1747694130_-7746644519788290057,"(paper) AND (""mitigates the vocabulary size limitation"") AND (""pretraining multilingual masked language models"") AND (""contrastive loss"")",2025-05-20T06:35:31,0
+1747694132_7756995483496283242,"(paper) AND (""proposes breaking down programming problems"") AND (""predicting the objects"")",2025-05-20T06:35:32,0
+1747694133_4944795975829650552,"(paper) AND (""showed first that one can build a fully differentiable mixture of experts layer"") AND (""no increase in time complexity"")",2025-05-20T06:35:33,0
+1747694135_-2082296089849223557,"(paper) AND (""shows that RLAIF can fully replace RLHF"") AND (""align language models from scratch"")",2025-05-20T06:35:35,0
+1747694136_-2468001271732625689,"(research) AND (""first proposed a new kind of cascaded diffusion"") AND (""Markov process"")",2025-05-20T06:35:37,0
+1747694138_4226995113680652752,"(work) AND (""first uses LLM to code robotic simulation tasks"") AND (""show sim-to-real benefits"") AND (""policy pre-training in simulation"")",2025-05-20T06:35:38,0
+1747694140_2077105680472357916,"(work) AND (""proposes a model to learn a latent regular cell complex from data"")",2025-05-20T06:35:41,0
+1747694142_-1551163733805317915,"(work) AND (""proposes to combine video foundation models with vision language models"") AND (""effective high dimensional robot planning"")",2025-05-20T06:35:43,0
+1747694144_-2863641503564590677,"(backdoor paper) AND (""first used the CLIP"") AND (""suppress benign features"") AND (""enhance poisoning features"") AND (""design triggers"")",2025-05-20T06:35:45,0
+1747694146_-435936259134371220,"(foundation model paper) AND (""first proposed a time series model"") AND (""proposed financial time series and text data"")",2025-05-20T06:35:47,0
+1747694148_-2146153715516159857,"(""one of the first papers"") AND (""highlight and resolve the distribution shift"") AND (""RLHF"")",2025-05-20T06:35:49,0
+1747694149_-3777454915169317879,"(machine learning paper) AND (""proposed certified robustness"") AND (""malware detection domain"")",2025-05-20T06:35:50,0
+1747694151_-8182791611655145991,"(""multimodal large language model"") AND (""represents visual data as the discrete tokens like text"") AND (""training with the unified next-token prediction objective"")",2025-05-20T06:35:51,0
+1747694154_-7339235703658265189,"(neural theorem proving paper) AND (""first attempted to prove theorems"") AND (""block-by-block manner"")",2025-05-20T06:35:54,0
+1747694155_5168745250902646256,"(paper) AND (""considers both weights and activations"") AND (""pruning large language models"")",2025-05-20T06:35:56,0
+1747694156_-4100443619975140422,"(paper) AND (""quantitative results demonstrating"") AND (""taking VQ tokens as inputs is inferior to pixel images"") AND (""dense recognition tasks"")",2025-05-20T06:35:57,0
+1747694158_-5851429673362346974,"(paper) AND (""examined the scalability of instruction-tuning"") AND (""Mixture of Expert models"")",2025-05-20T06:35:59,0
+1747694160_-7323490884692933496,"(paper) AND (""first applied the chain of thought concepts"") AND (""3D localization problem"")",2025-05-20T06:36:00,0
+1747694161_-8613171541718878697,"(paper) AND (""first derived online occupany estimation technique"") AND (""sqrt(T) bound"") AND (""reinforcement learning"") AND (""adversarial linear MDP"")",2025-05-20T06:36:02,0
+1747694163_-2299641886593069822,"(paper) AND (""first found that REINFORCE works better than actor critic algorithms like PPO"") AND (""RL finetuning"") AND (""pretrained chemistry language models"")",2025-05-20T06:36:04,0
+1747694166_-1749407041758400164,"(paper) AND (""first found that when transformers are trained to in-context learn function classes"") AND (""might exhibit generalization followed by memorization"")",2025-05-20T06:36:06,0
+1747694168_7591089409460526149,"(paper) AND (""first investigates the knowledge preferences of LLMs"") AND (""conflicts between the context and the parametric memory"")",2025-05-20T06:36:08,0
+1747694169_6222709006769957008,"(paper) AND (""first proposes a unified framework"") AND (""black-box and white-box detection of AI-written text"") AND (""explanations"")",2025-05-20T06:36:10,0
+1747694171_-2224270323198709960,"(paper) AND (""first proved that wide-enough transformer architectures trained with gradient methods on enough data"") AND (""learn to solve relational reasoning tasks"")",2025-05-20T06:36:12,0
+1747694174_5877958769025139589,"(paper) AND (""first showed that task-specific knowledge embedded in parameters can be extracted from one LLM"") AND (""transferred to another via parameter-efficient fine-tuning"")",2025-05-20T06:36:14,0
+1747694177_7450186332602616332,"(paper) AND (""first studied differential privacy"") AND (""in-context learning"") AND (""prevent prompt leakage attacks"")",2025-05-20T06:36:17,0
+1747694178_3515181384643249360,"(paper) AND (""first study POMDP"") AND (""enhanced feedback on observations"")",2025-05-20T06:36:19,0
+1747694179_-7490377357758578091,"(paper) AND (""first tried to fine-tune LLMs"") AND (""chain-of-thoughts and program-of-thoughts"") AND (""math reasoning"")",2025-05-20T06:36:20,0
+1747694181_6050997750762971796,"(paper) AND (""first used language models to emulate tool executions"") AND (""studying the risks of language model agents"")",2025-05-20T06:36:22,0
+1747694183_-4002784321745252931,"(paper) AND (""formally defines the problem of model selection"") AND (""llm agent"") AND (""multi-modal reasoning"")",2025-05-20T06:36:24,0
+1747694185_1832085860524719694,"(paper) AND (""found that using common character encodings and ciphers"") AND (""can bypass the safety guardrails of large models"")",2025-05-20T06:36:25,0
+1747694186_8057426766044288343,"(paper) AND (""human motion generation"") AND (""control the spatial location of any joints"") AND (""dense or sparse 3D points"")",2025-05-20T06:36:27,0
+1747694188_8924025824125953016,"(paper) AND (""the first to model the helpfulness and harmlessness alignment of LLMs"") AND (""Constrained MDP problem"")",2025-05-20T06:36:29,0
+1747694189_4893440634699239597,"(paper) AND (""proposes an alignment framework"") AND (""steers language models to preferences of individual groups"") AND (""few-shot manner"") AND (""augmenting the LLM with a transformer module"")",2025-05-20T06:36:30,0
+1747694192_-8600511787899314077,"(paper) AND (""proposes to integrate black-box LLMs"") AND (""pool of smaller but specialized language models"")",2025-05-20T06:36:32,0
+1747694194_-6104261672189963431,"(paper) AND (""studies how difficult is a policy learning problem under non-additive rewards"") AND (""theoretical lower bounds"") AND (""potential strategy to solve it empirically"")",2025-05-20T06:36:34,0
+1747694196_7333419214783513613,"(paper) AND (""trains on linear regression"") AND (""hypothesize how fine-tuning affects language models"")",2025-05-20T06:36:37,0
+1747694198_6676578876656610843,"(paper) AND (""uses the latent diffusion model for the first time"") AND (""offline reinforcement learning problems"") AND (""sequential modeling framework"")",2025-05-20T06:36:38,0
+1747694200_1158107256310257762,"(paper) AND (""utilized MMD flows with Riesz kernels"") AND (""solve Bayesian inverse problems"")",2025-05-20T06:36:41,0
+1747694201_283040484000546594,"(paper) AND (""generalization bounds"") AND (""self supervised learning models"" AND CLIP)",2025-05-20T06:36:42,0
+1747694203_1825527171707205896,"(paper) AND (""systematically examed the input mismatch"") AND (""training and sampling"") AND (""diffusion models"")",2025-05-20T06:36:43,0
