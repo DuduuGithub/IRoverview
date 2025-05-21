@@ -83,7 +83,7 @@ class DataImporter:
                     logger.info(f"类型: {type(first_row[col])}")
                 
                 # 取前400条记录
-                df = df.head(400)
+                df = df.head(600)
                 total_rows = len(df)
                 logger.info(f"\n将处理前 {total_rows} 条记录")
                 
@@ -262,7 +262,7 @@ class DataImporter:
                 
                 # 提交剩余的引用关系
                 if refs_added > 0:
-                db.session.commit()
+                    db.session.commit()
                 
                 # 统计最终结果
                 works_count = Work.query.count()
@@ -503,9 +503,9 @@ class DataImporter:
                 logger.info(f"- 清除的搜索结果数: {results_before}")
                 logger.info(f"- 清除的用户行为数: {behaviors_before}")
             
-        except Exception as e:
+            except Exception as e:
                     logger.error(f"清除搜索记录时出错: {str(e)}")
-            db.session.rollback()
+                    db.session.rollback()
                     raise
 
 def main():
@@ -552,7 +552,7 @@ def main():
                 logger.info("数据库已重置")
                 
                 # 导入文献
-        importer.import_corpus()
+                importer.import_corpus()
                 logger.info("文献导入完成！")
         
         # 生成搜索会话
