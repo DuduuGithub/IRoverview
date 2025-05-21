@@ -15,7 +15,7 @@
             --secondary-color: #f5f5f5;
             --text-color: #333;
             --border-color: #ddd;
-            --sidebar-width: 380px;
+            --sidebar-width: 320px;
             --sidebar-min-width: 280px;
             --sidebar-max-width: 500px;
             --transition-time: 0.3s;
@@ -30,13 +30,14 @@
         
         .container {
             max-width: 1200px;
+            margin: 0 auto;
         }
         
         /* 主容器样式 */
         .main-container {
             display: flex;
             position: relative;
-            margin-top: 2rem;
+            margin-top: 0.5rem;
             margin-bottom: 2rem;
             min-height: calc(100vh - 200px);
             transition: margin-right var(--transition-time) ease;
@@ -55,6 +56,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 2rem;
             transition: width var(--transition-time) ease;
+            width:100%
         }
         
         /* AI侧边栏样式 */
@@ -109,8 +111,8 @@
         /* AI辅助按钮样式 */
         .ai-toggle-btn {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            bottom: 6rem;
+            right: 6rem;
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -198,26 +200,39 @@
             align-items: center;
         }
         
-        /* 搜索框样式 */
+        /* 搜索框容器样式 */
         .search-box {
             position: relative;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .search-input {
-            padding-right: 50px;
+            flex: 1;
+            padding: 0.75rem 1rem;
             border-radius: 30px;
+            border: 1px solid var(--border-color);
         }
         
         .search-btn {
-            position: absolute;
-            right: 5px;
-            top: 5px;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            position: static;
+            border-radius: 30px;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #1f3c6e;
+            transform: translateY(-1px);
         }
         
         /* Tab样式 */
@@ -231,11 +246,19 @@
             color: var(--text-color);
             font-weight: 500;
             padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: var(--text-color);
+            background-color: rgba(0, 0, 0, 0.05);
         }
         
         .nav-tabs .nav-link.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+            color: white;
+            background-color: #366686fb;
+            border-bottom: none;
         }
         
         /* 高级检索样式 */
@@ -244,31 +267,122 @@
             gap: 10px;
             margin-bottom: 1rem;
             align-items: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .condition-remove {
+            width: 12%;
+            min-width: 80px;
+            display: flex;
+            justify-content: flex-end;
+            color: #dc3545;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .condition-remove i {
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .condition-remove:hover {
+            color: #bb2d3b;
+            transform: scale(1.1);
+        }
+        
+        .condition-remove:hover i {
+            transform: rotate(90deg);
+        }
+        
+        .condition-remove:active {
+            transform: scale(0.95);
+        }
+        
+        .condition-logic {
+            width: 12%;
+            min-width: 80px;
         }
         
         .condition-field {
-            width: 25%;
+            width: 20%;
+            min-width: 120px;
         }
         
         .condition-input {
             flex-grow: 1;
+            max-width: 400px;
         }
         
-        .condition-remove {
-            cursor: pointer;
-            color: #dc3545;
-            font-size: 1.2rem;
+        .add-condition-container {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1rem;
+            padding-left: 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         .add-condition-btn {
-            display: flex;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 3px;
+            color: #6c757d;
+            border-color: #dee2e6;
+            background-color: #f8f9fa;
+            transition: all 0.2s ease;
+        }
+        
+        .add-condition-btn:hover {
+            color: #495057;
+            background-color: #e9ecef;
+            border-color: #ced4da;
+            transform: translateY(-1px);
+        }
+        
+        .add-condition-btn:active {
+            transform: translateY(0);
+        }
+        
+        .search-submit-btn {
+            margin: 0;
+            padding: 0.5rem 2rem;
+            font-size: 1rem;
+            background-color: var(--primary-color);
+            border: none;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            font-weight: 500;
+            min-width: 120px;
+        }
+        
+        .search-submit-btn:hover {
+            background-color: #3a5bc7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-submit-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        
+        .condition-input {
+            flex-grow: 1;
+            max-width: calc(100% - 24% - 20% - 12% - 20px); /* 减去其他元素的宽度和间距 */
         }
         
         /* 检索历史样式 */
         .search-history {
             margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .search-history-title {
@@ -276,6 +390,8 @@
             font-weight: 500;
             margin-bottom: 1rem;
             color: var(--text-color);
+            text-align: left;
+            padding-left: 1rem;
         }
         
         .history-list {
@@ -376,33 +492,152 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* 头部导航样式 */
+        .header {
+            background-color: #366686fb;
+            padding: 1.5rem 0 1rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            color: white;
+            text-align: center;
+            margin: 0;
+            font-size: 3rem;
+            padding-top: 0.5rem;
+        }
+
+        .header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .header .nav {
+            margin-top: 0.5rem;
+        }
+
+        .header .nav-link {
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .header .nav-link:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .header .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: none;
+        }
+
+        .header .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header .nav-link.active::after {
+            width: 0;
+        }
+
+        /* 检索式检索样式 */
+        .query-search-form textarea {
+            font-family: monospace;
+            line-height: 1.5;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .query-search-form textarea:focus {
+            background-color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(74, 107, 223, 0.25);
+        }
+
+        .query-help-panel {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            height: 100%;
+            border: 1px solid var(--border-color);
+        }
+
+        .query-help-panel .help-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .query-help-panel .help-content {
+            font-size: 0.95rem;
+        }
+
+        .query-help-panel .help-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+        .query-help-panel .help-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .query-help-panel .help-list li:before {
+            content: "•";
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .query-help-panel {
+                margin-top: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- 头部导航 -->
     <header class="header">
         <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="h4 mb-0">
-                        <a href="index.html" class="text-decoration-none">
-                            文献检索系统
-                        </a>
-                    </h1>
-                </div>
-                <div class="d-flex align-items-center">
-                    <nav class="me-3">
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="index.html">
-                                    检索
-                                </a>
-            </li>
-        </ul>
-                    </nav>
-                </div>
+            <h1>
+                <a href="index.html">
+                    文献检索系统
+                </a>
+            </h1>
+            <div class="d-flex justify-content-center">
+                <nav>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="index.html">
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-                        </div>
+        </div>
     </header>
 
     <div class="container main-container">
@@ -419,6 +654,11 @@
                         高级检索
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="query-tab" data-bs-toggle="tab" data-bs-target="#query" type="button" role="tab" aria-controls="query" aria-selected="false">
+                        检索式检索
+                    </button>
+                </li>
             </ul>
             <div class="tab-content" id="searchTabsContent">
                 <!-- 基本检索 -->
@@ -431,14 +671,22 @@
                             </button>
                         </div>
                     </form>
-                        </div>
-                        
+                </div>
+                
                 <!-- 高级检索 -->
                 <div class="tab-pane fade" id="advanced" role="tabpanel" aria-labelledby="advanced-tab">
-                    <form id="advancedSearchForm" action="results" method="get">
+                    <form id="advancedSearchForm" action="results" method="get" class="advanced-search-form">
                         <div id="advancedConditions">
                             <!-- 默认的条件行 -->
                             <div class="advanced-condition-row">
+                                <div class="condition-remove">
+                                    <i class="bi bi-x-circle"></i>
+                                </div>
+                                <select class="form-select condition-logic">
+                                    <option value="AND">AND</option>
+                                    <option value="OR">OR</option>
+                                    <option value="NOT">NOT</option>
+                                </select>
                                 <select class="form-select condition-field">
                                     <option value="title">标题</option>
                                     <option value="author">作者</option>
@@ -457,23 +705,66 @@
                                     <option value="content">内容</option>
                                 </select>
                                 <input type="text" class="form-control condition-input" placeholder="输入检索词">
-                                <div class="condition-remove">
-                                    <i class="bi bi-x-circle"></i>
-                        </div>
                             </div>
                         </div>
                         
-                        <button type="button" id="addCondition" class="btn btn-outline-secondary add-condition-btn">
-                            <i class="bi bi-plus-circle"></i>
-                            添加条件
-                        </button>
-                        
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-primary">
-                                搜索
+                        <div class="add-condition-container">
+                            <button type="button" id="addCondition" class="btn btn-outline-secondary add-condition-btn">
+                                <i class="bi bi-plus-circle"></i>
+                                添加条件
+                            </button>
+                            <button type="submit" class="btn btn-primary search-submit-btn">
+                                检索
                             </button>
                         </div>
                     </form>
+                </div>
+
+                <!-- 检索式检索 -->
+                <div class="tab-pane fade" id="query" role="tabpanel" aria-labelledby="query-tab">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <form id="querySearchForm" action="results" method="get" class="query-search-form">
+                                <div class="search-box mb-3">
+                                    <textarea id="queryInput" name="query" class="form-control search-input" 
+                                        placeholder="请输入检索式，例如：人工智能 AND (机器学习 OR 深度学习) AND 2020-2023" 
+                                        rows="6" style="resize: none; border-radius: 8px;"></textarea>
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary search-submit-btn">
+                                        执行检索
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="query-help-panel">
+                                <h5 class="help-title">检索式语法说明</h5>
+                                <div class="help-content">
+                                    <ul class="help-list">
+                                        <li>
+                                            <strong>AND</strong>：同时包含多个词
+                                        </li>
+                                        <li>
+                                            <strong>OR</strong>：包含任意一个词
+                                        </li>
+                                        <li>
+                                            <strong>NOT</strong>：不包含某个词
+                                        </li>
+                                        <li>
+                                            <strong>( )</strong>：组合多个条件
+                                        </li>
+                                        <li>
+                                            <strong>*</strong>：通配符，匹配任意字符
+                                        </li>
+                                        <li>
+                                            <strong>年份范围</strong>：使用连字符
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -486,8 +777,8 @@
                     <!-- 历史记录将由JavaScript动态加载 -->
                 </ul>
             </div>
-                    </div>
-                    
+        </div>
+        
         <!-- AI辅助侧边栏 -->
         <div class="ai-sidebar" id="aiSidebar">
             <div class="ai-resize-handle" id="aiResizeHandle"></div>
@@ -513,7 +804,7 @@
                 <button class="send-button" id="sendQuery">
                     <i class="bi bi-send"></i>
                 </button>
-        </div>
+            </div>
         </div>
     </div>
     
@@ -600,7 +891,7 @@
                 return urlParams.get(param);
             }
 
-            // 当前搜索模式（基本或高级）
+            // 当前搜索模式（基本、高级或检索式）
             let currentSearchMode = 'basic';
 
             // 切换标签页时更新搜索模式
@@ -610,6 +901,10 @@
 
             document.getElementById('advanced-tab').addEventListener('click', function() {
                 currentSearchMode = 'advanced';
+            });
+
+            document.getElementById('query-tab').addEventListener('click', function() {
+                currentSearchMode = 'query';
             });
 
             // 为所有文档链接添加事件监听器
@@ -627,6 +922,8 @@
             if (savedMode) {
                 if (savedMode === 'advanced') {
                     document.getElementById('advanced-tab').click();
+                } else if (savedMode === 'query') {
+                    document.getElementById('query-tab').click();
                 } else {
                     document.getElementById('basic-tab').click();
                 }
@@ -841,20 +1138,28 @@
                 });
 
                 advancedForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
                     const conditions = document.querySelectorAll('.advanced-condition-row');
                     let query = '';
+                    
                     conditions.forEach(function(condition, index) {
+                        const logic = condition.querySelector('.condition-logic').value;
                         const field = condition.querySelector('.condition-field').value;
                         const input = condition.querySelector('.condition-input').value.trim();
+                        
                         if (input) {
-                            if (index > 0) query += ' AND ';
+                            if (index > 0) {
+                                query += ` ${logic} `;
+                            }
                             query += `${field}:${input}`;
                         }
                     });
 
                     if (query) {
                         saveSearchHistory(query);
-                        localStorage.setItem('searchMode', 'advanced');
+                        window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
+                    } else {
+                        alert('请至少输入一个检索条件');
                     }
                 });
 
@@ -862,7 +1167,20 @@
                     addConditionRow();
                 });
 
-                addConditionRow();
+                // 处理检索式检索表单提交
+                document.getElementById('querySearchForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const query = document.getElementById('queryInput').value.trim();
+                    
+                    if (!query) {
+                        alert('请输入检索式');
+                        return false;
+                    }
+
+                    saveSearchHistory(query);
+                    localStorage.setItem('searchMode', 'query');
+                    window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
+                });
             }
 
             // 添加高级检索条件行
@@ -871,12 +1189,20 @@
                 const newRow = document.createElement('div');
                 newRow.className = 'advanced-condition-row';
                 newRow.innerHTML = `
+                    <div class="condition-remove">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                    <select class="form-select condition-logic">
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                        <option value="NOT">NOT</option>
+                    </select>
                     <select class="form-select condition-field">
                         <option value="title">标题</option>
                         <option value="author">作者</option>
                         <option value="keyword">关键词</option>
+                        <option value="abstract">摘要</option>
                         <option value="institution">机构</option>
-                        <!-- 新增字段选项 -->
                         <option value="source">来源/期刊</option>
                         <option value="country">国家</option>
                         <option value="language">语言</option>
@@ -889,9 +1215,6 @@
                         <option value="content">内容</option>
                     </select>
                     <input type="text" class="form-control condition-input" placeholder="输入检索词">
-                    <div class="condition-remove">
-                        <i class="bi bi-x-circle"></i>
-                    </div>
                 `;
 
                 const removeBtn = newRow.querySelector('.condition-remove');
