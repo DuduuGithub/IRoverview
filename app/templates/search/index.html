@@ -623,20 +623,20 @@
     <header class="header">
         <div class="container">
             <h1>
-                <a href="index.html">
+                <a href="index">
                     文献检索系统
                 </a>
             </h1>
-            <div class="d-flex justify-content-center">
+            <!-- <div class="d-flex justify-content-center">
                 <nav>
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link active" href="index.html">
+                            <a class="nav-link active" href="index">
                             </a>
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> -->
         </div>
     </header>
 
@@ -1151,7 +1151,7 @@
                             if (index > 0) {
                                 query += ` ${logic} `;
                             }
-                            query += `${field}:${input}`;
+                            query += `${field}:(${input})`;
                         }
                     });
 
