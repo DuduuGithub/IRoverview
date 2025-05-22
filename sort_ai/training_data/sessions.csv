@@ -1,104 +1,301 @@
 session_id,query_text,search_time,total_results
-1747843399_-7309233067592364125,"(study) AND (""few-shot relation extraction challenges"") AND (""global and local attributes"") AND (""external descriptions of relations"")",2025-05-22T00:03:20,0
-1747843400_-8160024110012252545,"(research) AND (""contrastive learning"") AND (""improving logical reasoning over text"")",2025-05-22T00:03:20,0
-1747843400_-6390784019312333701,"(studies) AND (""popularity bias"") AND (""news recommendation engines"") AND (""distinguish between user interests and popularity"")",2025-05-22T00:03:20,0
-1747843400_1293126600911947612,"(dataset) AND (""question-answering frameworks"") AND (""temporal knowledge graphs"") AND (""broad coverage"")",2025-05-22T00:03:21,0
-1747843400_6079880834712699100,"(study) AND (""improved training methods"") AND (""dense passage retrieval"") AND (""open-domain question answering systems"")",2025-05-22T00:03:21,0
-1747843401_6782725850287689193,"(research) AND (""language models"" AND ""creole languages"") AND (""Nigerian Pidgin"") AND (""linguistic relationship with English"")",2025-05-22T00:03:21,0
-1747843401_-6357499557289596336,"(research) AND (""challenges faced by neural networks"") AND (""discerning causation from correlation"")",2025-05-22T00:03:21,0
-1747843401_-205692780068345994,"(""dense retrieval models"") AND (""open-domain question answering"") AND (""hard negative mining techniques"")",2025-05-22T00:03:21,0
-1747843401_1781088677570775289,"(methods) AND (""tailoring news suggestions"") AND (""user's preferences"") AND (""current popularity of news stories"")",2025-05-22T00:03:22,0
-1747843401_-2773686842663193766,"(research) AND (""news recommendation engines"") AND (""individual user preferences"") AND (""time-sensitive popularity of news content"")",2025-05-22T00:03:22,0
-1747843402_2165572607165231418,"(paper) AND (""explores using only an encoder-only masked language model"") AND (""open-ended long text generation"" AND ""story generation"")",2025-05-22T00:03:22,0
-1747843402_1969932826729049697,"(paper) AND (""adversarial training"") AND (""frame level"") AND (""audio-visual representation learning"")",2025-05-22T00:03:23,0
-1747843402_-6424271655520735335,"(""reduce visual tokens"") AND (""vision transformers"") AND (""right from the beginning"")",2025-05-22T00:03:23,0
-1747843403_6094413228231732911,"(""learn to represent an image"") AND (""arbitary numbers of tokens"")",2025-05-22T00:03:23,0
-1747843403_4589541551063288863,"(papers) AND (""construct convolutional networks"") AND (""equivariant with respect to non-compact/non-abelian Lie groups"")",2025-05-22T00:03:23,0
-1747843403_4615719481247357294,"(papers) AND (""study whether you can identify"") AND (""LLM has been instructed to hide some information"")",2025-05-22T00:03:24,0
-1747843403_2974151970953922652,"(papers) AND (""world model"") AND (""planning"") AND (""ensure that decisions meet constraints"")",2025-05-22T00:03:24,0
-1747843404_-308164014174723072,"(datasets and benchmarks) AND (""measuring LLM graph reasoning abilities"")",2025-05-22T00:03:24,0
-1747843404_3766358912090149559,"(""sequential learning guarantees"") AND (""configuring a linear system solver"") AND (""distributional assumption"") AND (""systems' target vectors"")",2025-05-22T00:03:24,0
-1747843404_7030074213407618217,"(""find the solution"") AND (""Bilevel optimization"") AND (""lower-level problem is nonconvex"")",2025-05-22T00:03:25,0
-1747843404_3419504046689361200,"(""find a dataset"") AND (""LLM-based evaluation may not be reliable enough"")",2025-05-22T00:03:25,0
-1747843405_-7102198453466241556,"(""research paper"") AND (""structured pruning techniques"") AND (""scale down language models"") AND (""original model"" AND ""billions of parameters"")",2025-05-22T00:03:25,0
-1747843405_3584544114487004532,"(""Local SGD"") AND (""decaying learning rate"") AND (""distributed training"") AND (paper) AND (""setting the synchronization period"") AND (""optimize test accuracy"")",2025-05-22T00:03:26,0
-1747843405_-4893943680354308358,"(video diffusion models) AND (paper) AND (""decomposing video instruction"") AND (""sub instructions of different time"")",2025-05-22T00:03:26,0
-1747843406_7070363813012020661,"(paper) AND (""illustrating that pre-trained transformers from LLMs"") AND (""encode visual information"") AND (""wide range of scenarios"")",2025-05-22T00:03:26,0
-1747843406_-885280075784800886,"(paper) AND (""mixed machine learning and solver based approach"") AND (""code translation"")",2025-05-22T00:03:26,0
-1747843406_929557278196940886,"(paper) AND (""Bayesian optimization"") AND (""modular continual learning"")",2025-05-22T00:03:27,0
-1747843407_2443514504378668588,"(paper) AND (""general data selection method"") AND (""based on information theory"")",2025-05-22T00:03:27,0
-1747843407_7364631548291799090,"(""parameter-efficient fine-tuning method"") AND (""adjusting the number of optimized parameters to any value"") AND (""irrespective of the model's architecture"") AND (""choice of the adapter"")",2025-05-22T00:03:28,0
-1747843407_-7190078949370348838,"(""single GNN model"" AND ""inductively generalize to any knowledge graph"") OR (""generalize knowledge graph reasoning"" AND ""graphs with new entities and relations"") OR (""foundation model for knowledge graphs"" AND ""does not learn embeddings for each node and relation type"")",2025-05-22T00:03:28,0
-1747843408_-5515168182690183455,"(""theory paper"") AND (""tuning momentum does not boost performance"") AND (""training a neural network"")",2025-05-22T00:03:29,0
-1747843408_-1920877304043017400,"(""existing dataset of images with alt-text"") AND (""includes the text the image was originally posted with"")",2025-05-22T00:03:29,0
-1747843409_-2435864574431778005,"(""generalizable NeRF paper"") AND (""disentangles texture and shape"")",2025-05-22T00:03:29,0
-1747843409_-4431749025305081773,"(paper) AND (""applies off-shelf GPT-2 model"") AND (""D4RL tasks"") AND (""PEFT techniques"")",2025-05-22T00:03:30,0
-1747843409_-3477687612668869067,"(paper) AND (""improves adversarial training"") AND (""forming semantic aware label"") AND (""without extra pre-train time or data"")",2025-05-22T00:03:30,0
-1747843410_-8537958766692708037,"(paper) AND (""parameterize neural networks as proximal operators"")",2025-05-22T00:03:30,0
-1747843410_-2777275386718420658,"(paper) AND (""previously proposed to control a risk"") AND (""prediction sets"") AND (""conformal prediction"")",2025-05-22T00:03:31,0
-1747843411_-4412386003401660932,"(paper) AND (""seamlessly integrates the multigrid structure"") AND (""operator learning"") AND (""solving partial differential equations"")",2025-05-22T00:03:31,0
-1747843411_-3228290447787000321,"(paper) AND (""theoretically explains why in-context reinforcement learning works"")",2025-05-22T00:03:31,0
-1747843411_6458527212475757548,"(paper) AND (""Lipschitz continuity"") AND (""learning a dynamics model"")",2025-05-22T00:03:32,0
-1747843412_7972832272219650495,"(paper) AND (""improve MLE"") AND (""auto-regressive language modeling"") AND (""optimal transport"")",2025-05-22T00:03:32,0
-1747843412_-6759313564195772547,"(paper) AND (""probabilsitic formulation of retrosynthesis"")",2025-05-22T00:03:32,0
-1747843412_-8832225024029547221,"(""evaluation benchmarks"") AND (""LLM privacy"") AND (""inference time"") AND (""model input"") AND (""NOT training data"")",2025-05-22T00:03:33,0
-1747843412_-3265553915253777086,"(""key advantages"") AND (""coupling neural SDEs with neural CDEs"") AND (""treatment effect estimation"") AND (""over existing baselines"")",2025-05-22T00:03:33,0
-1747843413_-1243516432476324607,"(paper) AND (""data being collected in bundles"") AND (""reinforcement learning"")",2025-05-22T00:03:33,0
-1747843413_7510098537654181257,"(""first paper"") AND (""theoretically studies training neural networks"") AND (""small initialization"")",2025-05-22T00:03:33,0
-1747843413_809559388986468214,"(""first paper"") AND (""generalized linear model"") AND (""analyze multi-neural spike train data"")",2025-05-22T00:03:34,0
-1747843414_5279432009779756882,"(""molecular representation learning paper"") AND (""introduced a benchmark"") AND (""thermodynamically-accessible conformer ensembles"")",2025-05-22T00:03:34,0
-1747843414_-1095909373775476050,"(""open-source dataset"") AND (""combined knowledge retrieval"") AND (""constraint satisfaction queries"")",2025-05-22T00:03:35,0
-1747843414_1684072259758133504,"(paper) AND (""sensitive data issue"") AND (""prompting large language model APIs"")",2025-05-22T00:03:35,0
-1747843415_-3772788637772724706,"(paper) AND (""evaluated the ability of visual few-shot learning models"") AND (""do in-context learning"")",2025-05-22T00:03:35,0
-1747843415_3483578496023634913,"(paper) AND (""first adapted ControlNet"") AND (""generate continuous videos"") AND (""training-free manner"")",2025-05-22T00:03:36,0
-1747843416_-7296388493690721137,"(paper) AND (""first associate the modeling frequency"") AND (""input human skeletons"") AND (""NeRF framework"")",2025-05-22T00:03:36,0
-1747843416_-5053501639351716984,"(paper) AND (""first extends rotary positional encoding"") AND (""camera-geometry encoding"") AND (""multi-view transformers"")",2025-05-22T00:03:36,0
-1747843416_-7681122731113516442,"(paper) AND (""first proposed a robust perceptual similarity metric"") AND (""certificates"")",2025-05-22T00:03:37,0
-1747843416_-5624326827444554115,"(paper) AND (""first proposes that simply reversing the output"") AND (""significantly enhance the sample efficiency"") AND (""arithmetic capability"") AND (""decoder-only Transformer model"")",2025-05-22T00:03:37,0
-1747843417_643895204615088130,"(paper) AND (""first showed that you can score the code explanations"") AND (""pass@k metric"")",2025-05-22T00:03:37,0
-1747843417_-7302043085730642174,"(paper) AND (""first used the technique of prompt engineering"") AND (""generate adversarial prompts"") AND (""fool LLMs"") AND (""wrong predictions"") AND (""prompt-based learning"")",2025-05-22T00:03:37,0
-1747843417_4538967217088806682,"(paper) AND (""first uses decoupled workers"") AND (""distributed RL system"")",2025-05-22T00:03:38,0
-1747843417_-2193556524743665995,"(paper) AND (""investigated the effect of the relative position"") AND (""most pertinent retrieved code snippets"") AND (""repository-level code completion performance"")",2025-05-22T00:03:38,0
-1747843418_-8412960019133333935,"(paper) AND (""the first to prove finetuned LLM can be a reliable judge"")",2025-05-22T00:03:38,0
-1747843418_-7328319804911326698,"(paper) AND (""mitigates language model sampling errors"") AND (""softmax bottleneck"")",2025-05-22T00:03:39,0
-1747843419_1807716113363636404,"(paper) AND (""mitigates the vocabulary size limitation"") AND (""pretraining multilingual masked language models"") AND (""contrastive loss"")",2025-05-22T00:03:39,0
-1747843419_-6099990082165642671,"(paper) AND (""proposes breaking down programming problems"") AND (""predicting the objects"")",2025-05-22T00:03:39,0
-1747843419_-7215056052801844577,"(paper) AND (""showed first that one can build a fully differentiable mixture of experts layer"") AND (""no increase in time complexity"")",2025-05-22T00:03:40,0
-1747843419_5870848468733831662,"(paper) AND (""shows that RLAIF can fully replace RLHF"") AND (""align language models from scratch"")",2025-05-22T00:03:40,0
-1747843420_-6222270307340168269,"(research) AND (""first proposed a new kind of cascaded diffusion"") AND (""Markov process"")",2025-05-22T00:03:40,0
-1747843420_5328929732630212483,"(work) AND (""first uses LLM to code robotic simulation tasks"") AND (""show sim-to-real benefits"") AND (""policy pre-training in simulation"")",2025-05-22T00:03:41,0
-1747843421_5179872015784366909,"(work) AND (""proposes a model to learn a latent regular cell complex from data"")",2025-05-22T00:03:41,0
-1747843421_-8159383665914240924,"(work) AND (""proposes to combine video foundation models with vision language models"") AND (""effective high dimensional robot planning"")",2025-05-22T00:03:42,0
-1747843422_-7253870122695064407,"(backdoor paper) AND (""first used the CLIP"") AND (""suppress benign features"") AND (""enhance poisoning features"") AND (""design triggers"")",2025-05-22T00:03:42,0
-1747843422_6933812578185145548,"(foundation model paper) AND (""first proposed a time series model"") AND (""proposed financial time series and text data"")",2025-05-22T00:03:43,0
-1747843423_-5560629313549208455,"(""one of the first papers"") AND (""highlight and resolve the distribution shift"") AND (""RLHF"")",2025-05-22T00:03:43,0
-1747843423_-9001062530815113776,"(machine learning paper) AND (""proposed certified robustness"") AND (""malware detection domain"")",2025-05-22T00:03:43,0
-1747843423_-2750918832803145867,"(""multimodal large language model"") AND (""represents visual data as the discrete tokens like text"") AND (""training with the unified next-token prediction objective"")",2025-05-22T00:03:44,0
-1747843424_2750244015295719301,"(neural theorem proving paper) AND (""first attempted to prove theorems"") AND (""block-by-block manner"")",2025-05-22T00:03:44,0
-1747843424_-5351202826845116274,"(paper) AND (""considers both weights and activations"") AND (""pruning large language models"")",2025-05-22T00:03:45,0
-1747843424_4652623250430814251,"(paper) AND (""quantitative results demonstrating"") AND (""taking VQ tokens as inputs is inferior to pixel images"") AND (""dense recognition tasks"")",2025-05-22T00:03:45,0
-1747843425_-7623062755298046197,"(paper) AND (""examined the scalability of instruction-tuning"") AND (""Mixture of Expert models"")",2025-05-22T00:03:45,0
-1747843425_8649571890234665177,"(paper) AND (""first applied the chain of thought concepts"") AND (""3D localization problem"")",2025-05-22T00:03:46,0
-1747843425_4776035889576659678,"(paper) AND (""first derived online occupany estimation technique"") AND (""sqrt(T) bound"") AND (""reinforcement learning"") AND (""adversarial linear MDP"")",2025-05-22T00:03:46,0
-1747843426_-4467212894653686359,"(paper) AND (""first found that REINFORCE works better than actor critic algorithms like PPO"") AND (""RL finetuning"") AND (""pretrained chemistry language models"")",2025-05-22T00:03:46,0
-1747843426_-4133670006137837828,"(paper) AND (""first found that when transformers are trained to in-context learn function classes"") AND (""might exhibit generalization followed by memorization"")",2025-05-22T00:03:47,0
-1747843427_-8829971344926534609,"(paper) AND (""first investigates the knowledge preferences of LLMs"") AND (""conflicts between the context and the parametric memory"")",2025-05-22T00:03:47,0
-1747843427_-810082911134580147,"(paper) AND (""first proposes a unified framework"") AND (""black-box and white-box detection of AI-written text"") AND (""explanations"")",2025-05-22T00:03:47,0
-1747843427_-1854658254133149107,"(paper) AND (""first proved that wide-enough transformer architectures trained with gradient methods on enough data"") AND (""learn to solve relational reasoning tasks"")",2025-05-22T00:03:47,0
-1747843428_5527108607207229500,"(paper) AND (""first showed that task-specific knowledge embedded in parameters can be extracted from one LLM"") AND (""transferred to another via parameter-efficient fine-tuning"")",2025-05-22T00:03:48,0
-1747843428_5589532470148853978,"(paper) AND (""first studied differential privacy"") AND (""in-context learning"") AND (""prevent prompt leakage attacks"")",2025-05-22T00:03:49,0
-1747843428_-7463951876970715804,"(paper) AND (""first study POMDP"") AND (""enhanced feedback on observations"")",2025-05-22T00:03:49,0
-1747843429_2468169509515209994,"(paper) AND (""first tried to fine-tune LLMs"") AND (""chain-of-thoughts and program-of-thoughts"") AND (""math reasoning"")",2025-05-22T00:03:49,0
-1747843429_-6699812157075939254,"(paper) AND (""first used language models to emulate tool executions"") AND (""studying the risks of language model agents"")",2025-05-22T00:03:49,0
-1747843429_4752711101752307753,"(paper) AND (""formally defines the problem of model selection"") AND (""llm agent"") AND (""multi-modal reasoning"")",2025-05-22T00:03:50,0
-1747843430_4698866157589625492,"(paper) AND (""found that using common character encodings and ciphers"") AND (""can bypass the safety guardrails of large models"")",2025-05-22T00:03:50,0
-1747843430_5225748920273056387,"(paper) AND (""human motion generation"") AND (""control the spatial location of any joints"") AND (""dense or sparse 3D points"")",2025-05-22T00:03:50,0
-1747843430_6208366700572064447,"(paper) AND (""the first to model the helpfulness and harmlessness alignment of LLMs"") AND (""Constrained MDP problem"")",2025-05-22T00:03:51,0
-1747843430_-4183330409611920352,"(paper) AND (""proposes an alignment framework"") AND (""steers language models to preferences of individual groups"") AND (""few-shot manner"") AND (""augmenting the LLM with a transformer module"")",2025-05-22T00:03:51,0
-1747843431_-7359121092182912018,"(paper) AND (""proposes to integrate black-box LLMs"") AND (""pool of smaller but specialized language models"")",2025-05-22T00:03:51,0
-1747843431_3500788962899236244,"(paper) AND (""studies how difficult is a policy learning problem under non-additive rewards"") AND (""theoretical lower bounds"") AND (""potential strategy to solve it empirically"")",2025-05-22T00:03:52,0
-1747843432_-2222643737850390631,"(paper) AND (""trains on linear regression"") AND (""hypothesize how fine-tuning affects language models"")",2025-05-22T00:03:52,0
-1747843432_-3356230185010152975,"(paper) AND (""uses the latent diffusion model for the first time"") AND (""offline reinforcement learning problems"") AND (""sequential modeling framework"")",2025-05-22T00:03:53,0
-1747843433_-6525266504306936978,"(paper) AND (""utilized MMD flows with Riesz kernels"") AND (""solve Bayesian inverse problems"")",2025-05-22T00:03:53,0
-1747843433_-7447635198371813197,"(paper) AND (""generalization bounds"") AND (""self supervised learning models"" AND CLIP)",2025-05-22T00:03:53,0
-1747843433_1789714317223312116,"(paper) AND (""systematically examed the input mismatch"") AND (""training and sampling"") AND (""diffusion models"")",2025-05-22T00:03:54,0
+search_010572a8522d47c38aa2ea6b8f3fe9cc,"(recent work) OR (competitions) AND (""counteract clickbait"") AND (spoiling OR ""revealing key information upfront"")",2025-05-22T21:57:01,12
+search_012a8503f160481082925ae0fb3dc28a,"(research) AND (""evaluation of consistency"") AND (""generated summaries"")",2025-05-22T21:57:17,12
+search_0218f2405a2d4361bd3269fccc72dbcc,"(research) AND (""hierarchical structures within transformers"") AND (""enhance task-oriented dialogue systems"")",2025-05-22T21:58:00,12
+search_02fba6e9155d4d0e9c1d6521ed4b655a,"(study) AND (""cross project code summarization evaluation"") AND (""time-segmented eval methodology"")",2025-05-22T21:57:24,12
+search_036d89a85c9f41d6b608e7b07479f34a,"(research) AND (""use of past dialogues"") AND (""enhancing query expansion"") AND (""conversational search systems"")",2025-05-22T21:58:01,7
+search_03db093f07f14affb45ef84ff1dd7e65,"(research) AND (""large language models"" AND GPT-3) AND (""coreference resolution"") AND (""few-shot learning"")",2025-05-22T21:57:34,0
+search_04410e0d1d3144d98d2969516e2e5733,"(dataset) AND (""legally or ethically contentious content"") AND (""labels for acceptable and non-acceptable questions"")",2025-05-22T21:57:19,1
+search_04d722cdef9844a7b13d6a6400384116,"(research) AND (""large datasets"") AND (""sentence simplification"") AND (""Wikipedia sourced"")",2025-05-22T21:57:03,6
+search_0568758a002e4149990ebee4100fc777,"(paper) AND (relation extraction) AND (""syntax dependency structures"") AND (""tree LSTM model"")",2025-05-22T21:57:00,12
+search_05caf1c5d58a431a88759a2b91db7a83,"(studies) AND (""example-based approaches"") AND (""predict user intent"") AND (""few-shot learning"")",2025-05-22T21:57:20,12
+search_05f06f0662d84cc0a17ccdb352136e5b,"(study) AND (""incorporating a fact memory component"") AND (""neural networks"") AND (""improve language modeling"") AND (""without retraining"") AND (""without fine-tuning"")",2025-05-22T21:57:30,3
+search_06937eca22ce442ebce25c4b4d282cef,"(study) AND (""integrating model quantization"") AND (""knowledge distillation"")",2025-05-22T21:57:29,12
+search_0941ee92977c4bf399a7432c3747acda,"(research) AND (""improving named entity recognition"") AND (""retrieval of external contexts"")",2025-05-22T21:57:14,12
+search_094290522c4c4521aa354e4674949895,(research) AND (transforming multi-hop questions) AND (single-hop sub-questions) AND (single-hop answer models),2025-05-22T21:56:51,12
+search_0c06a5ab6e704e2ea075f90759c23e5e,"(research) AND (""binarizing non-binary subtrees"") AND (""discourse parsing"")",2025-05-22T21:57:13,5
+search_0dd48d0ca58741198e2b4e98d9343a45,"(study) AND (""zero-shot extraction"") AND (""persona characteristics"") AND (""conversational dialogues"")",2025-05-22T21:58:04,0
+search_104c471c3fd743bfac1847d75448ed4f,"(studies) AND (""popularity bias"") AND (""news recommendation engines"") AND (""distinguish between user interests and popularity"")",2025-05-22T21:57:43,0
+search_10663d094bd94eb7878f49bb02d6e7ae,"(research) AND (""enhancing zero-shot question answering"") AND (""prompts from language models"") AND (""integrated with knowledge graph data"")",2025-05-22T21:57:58,12
+search_1151191a54d8462dbe5ff75b4640b646,"(research) AND (""efficacy of recurrent networks"") AND (""language modeling"") AND (""CCG supertagging"") AND (LSTM architectures) AND (""model comparisons"")",2025-05-22T21:57:06,0
+search_11ada884000f40418a8db7c3f568b600,"(study) AND (""difficulties in creating shared multilingual vocabularies"") AND (""over segmentation"") AND (""low-resource languages"")",2025-05-22T21:57:26,0
+search_1285b05ed95c43b58caff9911273228b,"(""dense retrieval models"") AND (""open-domain question answering"") AND (""hard negative mining techniques"")",2025-05-22T21:58:12,12
+search_150e81b4b9b8433b99108b1d5c08611c,"(research) AND (""pinpointing sentence components"") AND (""hateful expressions"") AND (""sentence-level standardization"") AND (""content moderation"")",2025-05-22T21:57:51,0
+search_1550906343d641bc9973303a872e0a57,"(research) AND (""graph-based methods"") AND (""predicting connections in knowledge graphs"") AND (""n-ary relational facts"")",2025-05-22T21:57:59,12
+search_16681b5d13524decb884e9350a4a47fc,"(paper) AND (""writing assistant"") AND (""autocomplete capabilities"") AND (""conditioned on user intent"")",2025-05-22T21:57:24,0
+search_17306edb120742efb9ed37977e9ba02e,"(paper) AND (""self-supervised contrastive learning"") AND (""sentence embeddings"") AND (""sampling in-batch negatives"")",2025-05-22T21:57:21,12
+search_1747bf98a6cb4ab2887cc16c47d63f67,"(research) AND (""insertion-based decoding methods"") AND (""semantic parsing"") AND (""language modeling"") AND (""alternatives to cross-entropy"") AND (""Kullback–Leibler divergence"")",2025-05-22T21:57:05,0
+search_1acf0a491bc04185a33b4f41dc98bbf5,"(studies) AND (""fine-tuning pre-trained language models"") AND (""weakly supervised learning"") AND (""contrastive regularization"" OR ""self-training"")",2025-05-22T21:57:43,12
+search_1b66053763d04354a61d015984a202bb,"(papers) AND (datasets) AND (""shared tasks"") AND (""fact verification"") AND (""evidence from Wikipedia"")",2025-05-22T21:57:13,0
+search_1cb6eba6ca344fe4a5a643a84eecda74,"(studies) AND (""optimally select demonstrations"") AND (""few-shot in-context learning"")",2025-05-22T21:57:44,12
+search_1eeee8c2e3b542b9a2e0255c90c94ed3,"(research papers) AND (""efficacy of multilingual text-to-text transformers"") AND (""various languages"") AND (""less represented in pretraining corpora"")",2025-05-22T21:58:07,12
+search_1f0fa7712f994184a1a9e417db35f8a5,"(argument mining) AND (""dependency parsers"") AND (""argumentativeness of texts"") AND (""dialogue systems"")",2025-05-22T21:57:07,1
+search_1f4fb13e22ef46cca47256cc07fcfb14,"(research) AND (""interpret how bi-directional RNNs"") AND (""Named Entity Recognition tasks"")",2025-05-22T21:58:03,12
+search_2108188542cc414aa4087739a1cc0acd,"(research) AND (""mitigate overfitting"") AND (""weakly-supervised settings"") AND (""adversarial framework"") AND (""labeling function as a hyperparameter"")",2025-05-22T21:58:04,0
+search_21ac08b1debc4396ab0608623ca7e9eb,"(research) AND (""merging speech and text modalities"") AND (""unified representation space"") AND (""encoder-decoder models"") AND (""processing spoken language"")",2025-05-22T21:57:39,3
+search_221d8f7e448b445ab4720718208b9f3f,"(dialogue summarization dataset) AND (""broadcast interviews"") AND (TV OR radio)",2025-05-22T21:57:22,1
+search_2359e53f686d4504a4045d790f9c7fbb,"(research article) AND (""generative methods for extracting information"") AND (""generation of surface forms"") AND (""labeling of entities"") AND (""classification of entity types"")",2025-05-22T21:57:45,9
+search_24798be7bf4a47b7b6af800cf8dba213,(recent datasets) AND (stance detection) AND (tweets) AND (specific individuals OR specific events) AND (2020 OR 2021 OR 2022 OR 2023 OR 2024 OR 2025),2025-05-22T21:56:57,2
+search_2510e30052ad4fccbe9f559c661f3437,"(article) AND (""spatial information in documents"") AND (""multi-modal LMs"") AND (""spatially-aware attention mechanism"")",2025-05-22T21:57:49,0
+search_270d3d3c2f8d4ba987d2d269c2e157c0,"(research) AND (""mitigate intersectional biases"") AND (""Transformer-based models"")",2025-05-22T21:57:34,12
+search_2968342fd73c490e87239c9e743c5f44,"(large corpus) AND (""annotated social media posts"") AND (""variety of health conditions"")",2025-05-22T21:57:15,12
+search_2a343ff95bb24038b77dc8e4ab013d28,"(research) AND (""graph attention techniques"") AND (""integrating multiple modalities"") AND (""identifying emotions"")",2025-05-22T21:57:58,2
+search_2b26d8e51f9843bcbb8654ef8c218799,"(studies) AND (""statistical machine translation methodologies"" AND GIZA++) AND (""alignment process"" AND ""words and grammar rules"") AND (""semantic parsing"") AND (""generation of meaning representations"")",2025-05-22T21:57:11,0
+search_2dd0585aff2b4028a3e4b50d91194833,"(research) AND (""training BERT-based classifiers"") AND (""Wikipedia data"") AND (""zero-shot text classification"") AND (""open domains"")",2025-05-22T21:58:01,12
+search_2defccf86c924fd4996e4ed2a5253cee,"(research articles) AND (""contrastive learning methods"") AND (""improve sentence embedding efficacy"") AND (""natural language processing"")",2025-05-22T21:57:32,12
+search_2e5e0c5d7fb848538c46343e66b71dfb,"(research paper) AND (""customer service conversation dataset"") AND (""forecasting customer intentions"") AND (""limitations imposed by agent protocols"")",2025-05-22T21:58:14,5
+search_2f51951537f54f94b02e7234d161fde5,"(study) AND (""feedback-driven decoding"") AND (""producing mathematical proofs"") AND (""language models"")",2025-05-22T21:57:32,6
+search_3035ef8d43374a8c890854aa12544e75,"(research) AND (contrastive learning) AND (fine-tuning sentence representations) AND (""in-batch negatives"" AND ""similar to the positive examples"")",2025-05-22T21:56:53,0
+search_31db38be01af42b4bbcd53af8bc9b927,"(prior works) AND (""exposure bias"") AND (""hallucinations"") AND (""neural machine translation models"")",2025-05-22T21:57:13,0
+search_3231f9ceefd243449de978757701d415,"(research) AND (""enhancement of neural passage retrieval"") AND (""dual encoders"") AND (""generation of synthetic questions"")",2025-05-22T21:57:41,9
+search_358bde14cca34fee96f93732d95eaea4,"(triplet-formatted structured dataset) AND (""training table-to-text generation models"")",2025-05-22T21:57:49,12
+search_39c9929274454f4bb62b202cacb43004,"(interdisciplinary research) AND (""creative natural language generation"") AND (evaluation)",2025-05-22T21:57:16,12
+search_3b5cee64e174491eba009388c7fddeea,"(research) AND (""combinatorial optimization techniques"") AND (""unsupervised entity matching"")",2025-05-22T21:57:57,9
+search_3ca2a4af2b6b48aca7f792b4a82fb4a6,"(research) AND (""fine-tuning generative language models"") AND (""parameter efficiency"") AND (""reduce computational demands"")",2025-05-22T21:57:40,12
+search_3da21d15bf724647a15966667de467c0,(work) AND (diagnostic tools) AND (detect depression) AND (online posts) AND (temporal artifacts) AND (topical artifacts),2025-05-22T21:56:52,0
+search_3e02e2fc09694b1a81d14d6d5623ef91,(studies) AND (impact of data augmentation) AND ((feature cutoff) OR (token cutoff) OR (span cutoff) OR (dropout)) AND (contrastive learning) AND (sentence representations),2025-05-22T21:56:53,7
+search_4098bdf7bdbc406c9da52b74cbf67ad1,"(recent publications) AND (""neural network methods"" AND ""transformer architectures"") AND (""creating novel readability metrics"")",2025-05-22T21:58:06,12
+search_40e1a07e81054dbdb2846ae0c7f34e74,"(research) AND (""clustering-based efficient attention mechanism"") AND (""Transformer models"")",2025-05-22T21:57:57,12
+search_4184a9ab57d246ec8d61447bb20b00bf,"(research) AND (""how many evidence sentences"") AND (""document-level RE"")",2025-05-22T21:58:00,10
+search_419f1373fa5640b2951b8b65c9a6d074,"(studies) AND (""open information extraction systems"") AND (""lexical constraints"") AND (""syntactic constraints"") AND (coherent extraction) AND (informative extraction)",2025-05-22T21:56:58,0
+search_42b871ed39784cc287481c3a0fb71326,"(study) AND (""multi-modal pre-training techniques"") AND (""improve comprehension of documents"") AND (""high visual content"")",2025-05-22T21:57:48,12
+search_4446ceee9e9c460589f36ae00ef93342,"(works) AND (""learning embeddings"") AND (""inputted to every transformer layer"") AND (""language model"")",2025-05-22T21:58:12,12
+search_445ed9d5617a4d2086aa27c4af8b3edf,"(studies) AND (""factuality in abstractive summarization"") AND (""detect hallucinated content"")",2025-05-22T21:57:18,6
+search_45700eec33334f6e8ce4415e1e2506ad,"(study) AND (""pre-trained multilingual text-to-text transformer"") AND (""text summarization tasks"")",2025-05-22T21:57:25,12
+search_45cdf62247a749c5b55a772d8a2cb0fa,"(research) AND (""training soft prompts"") AND (""identifying fixed prompts"") AND (""prompt tuning"")",2025-05-22T21:57:56,12
+search_48909231f1eb49118603d6b96bcc8500,"(discourse treebank) AND (""Chinese newswire articles"") AND (""large enough for splits"")",2025-05-22T21:57:15,2
+search_498f4cf9d96c4d2b845abb6cab6f0f63,"(research) AND (""performance decline"") AND (""various language models"" AND BLOOM) AND (""4-bit integer columnar weight-only quantization"")",2025-05-22T21:57:34,0
+search_49f727b6873444f2ac0319308f3bed92,(literature) AND (training neural networks) AND (translate text passages) AND (related questions),2025-05-22T21:56:56,5
+search_4ad2c3c75ebc4a73b58d2307ed5a461d,"(soft-constrained methods) AND (""terminology translation"") AND (""neural machine translation"") AND (""hard-constrained decoding methods"") AND (""degrade translation quality"") OR (""increase complexity"")",2025-05-22T21:57:11,12
+search_4b972f7fe2794a18b40db934bc4185cb,"(study) AND (""improvement of knowledge representation learning"") AND (""global context"") AND (""graph attention networks"")",2025-05-22T21:57:31,6
+search_4bcd082783f9424bb76fa37fa11fc867,"(research) AND (""binary classification systems"") AND (""sentences within a context require clarification"") AND (WikiHowToImprove dataset)",2025-05-22T21:56:58,8
+search_4c89a768afbf4c9cb79999192d802238,"(dataset) AND (""diverse, intricate natural language queries"") AND (""multi-step reasoning"") AND (""comparing attributes"") AND (""performing set operations"") AND (""answering questions from a knowledge base"") AND (""without entity linking"")",2025-05-22T21:57:44,8
+search_4ccc13ae403d47a4942650de5dc0ff4d,"(comparative analysis OR review) AND (""pretrained transformer architectures"") AND (BERT) AND (""text ranking applications"")",2025-05-22T21:57:49,9
+search_4da7fe0b4d144b969cef01034bd661be,"(multilingual datasets) AND (""intended sarcasm detection"") AND (English AND Arabic)",2025-05-22T21:57:17,0
+search_4ed9c18f90d9406981d3753389c04de9,"(state-of-the-art techniques) AND (""language representation models"") AND (""understand context"" AND ""preceding text"" AND ""succeeding text"") AND (Transformer architecture) AND (""pre-trained on"")",2025-05-22T21:57:01,12
+search_4f9ed627aeff4180b9d4ce706a99aa01,"(research) AND (""pre-trained encoder-decoder architecture"") AND (""comprehending and generating code"") AND (""enhancing automated code repair systems"")",2025-05-22T21:57:55,2
+search_4febc0fb7f56416a9532012ab4f2b2df,"(research) AND (""bi-encoder text matching"") AND (""knowledge distillation methods"")",2025-05-22T21:57:23,12
+search_502ad00b1c7148b4a562e88f55e90170,"(research papers) AND (""applying knowledge distillation"") AND (""information retrieval"") AND (""in-batch negatives"")",2025-05-22T21:57:32,6
+search_503a0db8c65944189f0113b929a6253c,"(distillation process) AND (""language models"") AND (""attention mechanism alignment"") AND (""teacher-student model architecture"")",2025-05-22T21:57:05,12
+search_50a3958e207749e58f7788442254b558,"(dataset) AND (""toxic sentence pairs"") AND (""non-toxic paraphrased counterparts"") AND (""studying text detoxification"")",2025-05-22T21:58:11,12
+search_5160f16b04f7433894ce6fefdd9337e2,"(paper) AND (""challenges of compositional generalization"") AND (""semantic parsing"") AND (""unseen local structures"") AND (""program outputs"")",2025-05-22T21:57:12,4
+search_527ccdbdb878441ea9de1207c88e1442,"(work) AND (""multimodal models"") AND (""contrastive learning approaches"")",2025-05-22T21:58:03,12
+search_52e6419f3cfe45bd8c725d3e5b6272d0,"(paper) AND (""annotating events in text"") AND (""degrees of factuality"") AND (certain OR probable OR underspecified)",2025-05-22T21:57:16,3
+search_52fcab25b0a049339c2de667887e472e,"(study) AND (""improvement of Chinese sequence labeling"") AND (BERT) AND (""lexical data"") AND (""character-to-word bilinear attention"")",2025-05-22T21:57:27,2
+search_532b286c301b434abf53294dfb33e019,"(study) AND (""cohesive pre-training method"") AND (""code representation learning"") AND (""different modalities"")",2025-05-22T21:57:46,12
+search_5473597748ef44d2b3321cf0f34c5473,"(study) AND (""using prompts to fine-tune language models"") AND (""alternative viewpoint"") AND (""standard optimization and regularization"")",2025-05-22T21:57:47,2
+search_54ba86a5a63949fcbe159cea3727d881,"(latest advancements) AND (""predicting suicidal tendencies"") AND (""innovative feature extraction methods"")",2025-05-22T21:58:19,7
+search_5502c82fe9d344539b1b052d4d6983ea,"(research papers) AND (""collected feedback from real users"") AND (""using LLMs for scientific writing"")",2025-05-22T21:58:07,12
+search_578fd63f0a0c46d4ad951d124d4b4831,"(research) AND (""specialized language model"") AND (""detect mental health issues"") AND (""social media platforms"")",2025-05-22T21:58:16,7
+search_58deefdc6f22477c875ea6aff93a915f,"(papers) AND (""conversational search"") AND (""retrieval"") AND (""conversational response ranking"")",2025-05-22T21:57:50,4
+search_5c767f2d8a1e4a90ad7ecc621187a172,"(benchmark) AND (""assess language models' social biases"") AND (""question answering frameworks"") AND (""diverse categories of social bias"") AND (""instances of ambiguity and its resolution"")",2025-05-22T21:58:13,0
+search_5ca001716464470ea445e26856f1e163,"(research) AND (""data augmentation"") AND (""improving logical reasoning over text"")",2025-05-22T21:57:39,12
+search_5cb33175c5dd4144ba14301a05e986df,"(study) AND (""mitigating bias"") AND (""natural language understanding"") AND (""example reweighting"")",2025-05-22T21:57:26,2
+search_5d1eea8f608c44b899065123b963dc24,"(research) AND (LLM) AND (""generate better prompts"") OR (""generate better templates"") AND (""task input/output"")",2025-05-22T21:57:22,12
+search_5dcd7bce6a9c4c1aa7584fa9a9d2b0be,"(study) AND (""incorporation of human intervention"") AND (""generating adversarial examples"") AND (""attack conversational agents"") AND (""improving classifier efficacy"")",2025-05-22T21:57:48,2
+search_5de6335e180c4375ba796b1bc8ae6f51,"(research) AND (""language learning models"" AND ChatGPT) AND (""creating reading comprehension tasks"") AND (""educational software"")",2025-05-22T21:57:33,1
+search_60fa2f9ed3d44333a639c78161835d03,"(conversational QA dataset) AND (""human questioner"" AND ""no access to evidence passage"") AND (""real-world information-seeking"")",2025-05-22T21:56:54,11
+search_634d7dad9af546c7b069e97ce2b1d305,"(research papers) AND (""models for representing sentences"") AND (""under-resourced languages"" AND (Slovenian OR Romanian))",2025-05-22T21:58:06,0
+search_63b685f1d78e469c99c707529481d4fd,"(research papers) AND (""creation of datasets through model-generated data"") AND (""annotators to identify hallucinations"") AND (""developing diagnostic evaluation datasets"")",2025-05-22T21:58:09,12
+search_63d4c2a16f784236b41fe81e4e285d5b,(papers) AND (propose) AND (contextualized calibration) AND (probability of answers) AND (language models),2025-05-22T21:56:50,4
+search_63ed19877f8a4a7fbfb912d6d0205b53,"(research) AND (""difficulties in employing weakly labeled datasets"") AND (""named entity recognition"") AND (""mitigate data noise"")",2025-05-22T21:57:54,12
+search_640f70e6c9544d68ab06b948452a9013,"(research) AND (""independently sampled dropout masks"") AND (""generate positive pairs"") AND (""contrastive learning"") AND (""sentence embeddings"")",2025-05-22T21:57:55,2
+search_65750b60e1c2479a9c95b3774bc7b8c7,"(papers) AND (""transformer language models"") AND (""generation of argumentative text conclusions"") AND (novelty) AND (validity)",2025-05-22T21:57:18,0
+search_66eadd8356184bcab7524e50fbd4aacd,"(research) AND (""effect of example sequencing"") AND (""machine learning model efficacy"") AND (""few-shot learning"")",2025-05-22T21:57:36,12
+search_673394253d9e449d96f7c4ce6f7d7229,"(research) AND (""metric for assessing Text-to-Image synthesis"") AND (""semantic congruence"") AND (""visual quality"")",2025-05-22T21:57:38,5
+search_6aa5d6452eb24ebdaf6e9f51ba73caca,"(research) AND (""improving retrieval-based conversational systems"") AND (""masked language modeling"") AND (""relevance classification objectives"")",2025-05-22T21:58:01,12
+search_6c1bbd0bd77548f38a90fbc6fe4817c4,(study) AND (predict reader's native language) AND (eye movement patterns) AND (reading English texts),2025-05-22T21:56:58,2
+search_6c464aa67f794b04b3263556afdcd7d4,"(studies) AND (""sentiment analysis"") AND (""text-to-graph conversion models"") AND (""contextual embeddings"")",2025-05-22T21:57:20,3
+search_6c9a779d697b48c3b5e0ac06d5c102ec,"(research) AND (""randomly removing words from sentences"") AND (""data augmentation strategy"") AND (""mitigate overfitting"") AND (""NLP models"")",2025-05-22T21:57:41,0
+search_707a9b86ec5e4f13bfb5ed511c2d522e,"(information) AND (""self-attentive parsers"") AND (""few-shot learning"") AND (""official code"") AND (hyperparameters)",2025-05-22T21:57:16,0
+search_74c2b64510194bdc98658ecb3e222164,"(approaches) AND (""lower the computational demands"") AND (""basic attention mechanisms"") AND (""transformers"") AND (study) AND (""memory-saving technique"") AND (""selective key-value pairing"") AND (""each query"")",2025-05-22T21:58:18,0
+search_754b647b82e943099b05533eef6b9362,"(research) AND (""creating counterfactual examples"") AND (""enhance question-answering systems"") AND (""T5 model augmented with retrieval"")",2025-05-22T21:57:40,11
+search_755612ad87a34851a3df041efc54969c,"(study) AND (""transformer models"") AND (""feed-forward neural networks"") AND (""encode factual information"")",2025-05-22T21:57:45,12
+search_76855b748d7246b9a8e82208641a56f1,"(study) AND (""improved training methods"") AND (""dense passage retrieval"") AND (""open-domain question answering systems"")",2025-05-22T21:57:47,9
+search_7915357afcba4accbc18ed23292fde9e,"(study) AND (""knowledge transfer"") AND (""structured databases"") AND (""unstructured data sources"") AND (""improving sophisticated question-answering systems"")",2025-05-22T21:57:30,3
+search_7bb5ffcc2789494aba619dee530e5d31,"(research) AND (""dictionary definitions"" AND ""word embedding models"") AND (""multiple languages"") AND (comparison)",2025-05-22T21:57:57,0
+search_7c75e9e260894c4abf4df19eb0da9f4c,"(studies) AND (""advancements in dependency parsing"") AND (""graph-to-graph transformers"") AND (""iterative refinement processes"")",2025-05-22T21:57:06,0
+search_7e525f9211af4f49b3eb40dceca50d85,"(research) AND (""order of in-context examples"") AND (""efficacy of in-context learning"") AND (""language models"")",2025-05-22T21:57:52,12
+search_7ef2651a6193430886e3b80f8bef2020,"(study) AND (""employing prefix vectors"") AND (""conditional natural language generation"")",2025-05-22T21:57:27,10
+search_7f83e3ec8fb245a2a0018807cd231636,"(studies) AND (baseline) AND (""supervised constituency parsers"") AND (""few-shot learning"") AND (""pre-training"") AND (""data augmentation"") AND (""parser performance improvement"")",2025-05-22T21:56:59,4
+search_80fc976419ca4b6091d4dd53bebff58c,"(studies) AND (""hierarchical modeling of user interests"") AND (""tailoring news recommendation systems"")",2025-05-22T21:57:42,12
+search_816cf778da9e480d85bbe94b647d202e,"(research) AND (""prompt tuning efficacy"") AND (""language model training"") AND (""scaling"")",2025-05-22T21:57:51,6
+search_817d2a7ac9a7431ca302fc25aa54e804,"(approaches) AND (""limitations of beam search"") AND (""neural machine translation"") AND (""full target context"")",2025-05-22T21:57:09,12
+search_81873533973d49c2a6bf354e97e97ffd,"(study) AND (""evaluates cross-encoder BERT rankers"")",2025-05-22T21:57:45,12
+search_831a1d8f5497478f826c466a4726541c,"(research papers) AND (radiology report summarization) AND (""graph neural networks"") AND (""biomedical entity extraction"")",2025-05-22T21:57:20,5
+search_83dc8accfd6448ffa9f786c317e52f0d,"(recent developments) AND (""evaluating the flow"" OR ""'streaming degree'"") AND (""simultaneous machine translation"") AND (metric)",2025-05-22T21:57:12,9
+search_84063249e05c418ba63b9fd833426273,"(paper) AND (""fine-tuning mBERT"") AND (""enhance word-level alignment"") AND (""multilingual setting"")",2025-05-22T21:58:15,12
+search_86a5c04359f549408a89cec7fcbddf1f,"(research) AND (""Transformer decoders"") AND (""extract interactive shared representations"") AND (CNN networks) AND (""clinical notes"")",2025-05-22T21:58:16,0
+search_8844569debfc4926a22211c0bdad6560,"(efficient transformer architectures) AND (""language embeddings"") AND (XLM-R) AND (""multilingual representation learning"")",2025-05-22T21:57:03,2
+search_88fa0859c70f4cef952d48c22825cd8d,(studies) AND ((question answering) OR (passage retrieval)) AND (mitigating clickbait headlines),2025-05-22T21:56:51,3
+search_89737880efe640ee92c46bac78e5e848,"(study) AND (""initializes embeddings"") AND (""multilingual transformer"") AND (""subwords common"") AND (""original vocabulary"") AND (""original embeddings"")",2025-05-22T21:57:27,0
+search_8becdd231a9d49598776a528796001dc,"(research) AND (""efficient finetuning methods"") AND (""trains very very few parameters"") AND (""language models"")",2025-05-22T21:57:58,12
+search_8c051832432d4bbc8cd3640ba8509e66,"(study) AND (""representing entities in knowledge graphs"") AND (""intricate geometric shapes"") AND (""probabilistic analysis"") AND (""uncertainty modeling"")",2025-05-22T21:57:30,0
+search_8c7e5f60faf14315b2cc032e7ed778e8,"(research) AND (""influence of cognitive biases"") AND (""human interpretation of AI-generated explanations"") AND (""explainable natural language processing"")",2025-05-22T21:57:41,12
+search_8cec4b6a41664ab6ab73e357a776d516,"(research) AND (""enhance question answering systems"") AND (""domain adaptation"") AND (""synthetic data generation"")",2025-05-22T21:57:03,12
+search_8d1314974e46476698c02f83d0b755c0,"(study) AND (""subset with clean, annotated datasets"") AND (""improve denoising methods"")",2025-05-22T21:57:29,12
+search_8d218c3709054252ae8554a290e241b1,"(corpus) AND (""French encyclopedia documents"" AND ""semantic annotations"") AND (""question/answer triplets"" AND ""FrameNet semantic analysis"")",2025-05-22T21:56:55,0
+search_8d7eb777d3f744c987129aae8bdd4222,(studies) AND (post-hoc techniques) AND (hallucination detection) AND ((token-level) OR (sentence-level)) AND (neural sequence generation),2025-05-22T21:56:50,0
+search_8ddf06a07d9b400b84d9348ce0ae727f,"(research papers) AND (""dedicated pre-training architecture"") AND (""improve dense retrieval system efficacy"")",2025-05-22T21:58:08,12
+search_8efddb0ccf674241933af7a87dfd8d6c,"(research papers) AND (""create conversational agents"") AND (""inner states represented by a knowledge graph"") AND (""continually updated"") AND (""based on the agent’s environment"")",2025-05-22T21:58:10,7
+search_8f19c26bacea4e77b793825860c9fc10,"(work) AND (""text classification"") AND (BERT) AND (GNN) AND (""label hierarchy"")",2025-05-22T21:58:18,0
+search_8f5ddaca04ac466780eb8bec53139550,"(""SQL-to-text"") AND (""improve text-to-SQL parsing"") AND (""data augmentation techniques"")",2025-05-22T21:58:12,12
+search_9070b7125314472bb6dc24bd5a290c1a,"(study) AND (""improving multi-label text classification"") AND (""label distribution"") AND (""loss function"")",2025-05-22T21:57:26,7
+search_9101c8b7bbf343468f63e0d1da890c08,"(study) AND (""high-parameter efficeint fine-tuning"") AND (""trains the bias terms"")",2025-05-22T21:57:49,12
+search_91088695f2ff4b5f913dc6ee560ded2f,"(studies) AND (""question answering systems"") AND (""queries that cannot be directly recalled"") AND (""training data"")",2025-05-22T21:57:21,3
+search_91f622fee51049d785b7e25af7ff9153,"(research) AND (""relaxed l0 regularization"") AND (""structured pruning"") AND (""downsize language models"") AND (""transformer architectures"")",2025-05-22T21:57:34,0
+search_92752d7253aa4abd910dd73263bcbbb5,"(research) AND (""topic conditioning"" AND ""transformer language models"") AND (""frame conditioning"" AND ""transformer language models"") AND (""argument claims"")",2025-05-22T21:57:01,2
+search_92f0d34767564b4083268afc819c38da,"(research) AND (""other off-the-shelf summarization techniques"") AND (""improve neural abstractive summarization"")",2025-05-22T21:58:03,12
+search_93a0dd8f4fff41cb8f1c0c4cb9c192d2,"(research) AND (""undetectable backdoor attacks"") AND (""NLP models"")",2025-05-22T21:58:01,7
+search_94040b260669452a85b08fc65d0ddee8,"(research) AND (""optimized continuous prompts"") AND (""discrete prompts"") AND (""relational tasks"")",2025-05-22T21:57:36,11
+search_9482466db7b648a5aad018308f622e7f,"(study) AND (""incorporating external commonsense knowledge"") AND (""conversational agents"") AND (""interpret user emotions"") AND (""refine their response formulation"")",2025-05-22T21:57:24,0
+search_948b98f1779a47f4a5e789544eef247a,"(research) AND (""structured pruning techniques"") AND (""small and precise models"") AND (""natural language processing"")",2025-05-22T21:57:53,4
+search_94ae342c946e4260aa6a72a594f71567,"(research papers) AND (""Transformer-based architectures"") AND (""completing knowledge graphs"")",2025-05-22T21:57:33,12
+search_94b4d3a425e34e3993b6585264d49453,"(research) AND (""annotator's individual attributes"") AND (gender OR ethnicity OR ""political views"") AND (""judgment of content deemed offensive"")",2025-05-22T21:57:35,1
+search_94cb80c532f143509e814a8b99e7fb08,"(research) AND (""multiple input sources"") AND (""clinical text processing"") AND (""recurrent modules"") AND (""single source of information"")",2025-05-22T21:57:22,5
+search_962ab8779aef40758a6a0c644294573c,(large-scale multilingual Amazon customer review data),2025-05-22T21:56:59,12
+search_973deaf6d3c149d3a7aaa548d0239f7b,"(dataset annotated) AND (""patronizing language"") AND (""condescending language"") AND (""computational linguistics research"")",2025-05-22T21:57:17,12
+search_97e44a093fe0495898e4eec4d9879339,"(researching metrics) AND (""human-interaction"" AND ""computer-assisted translation tools"") AND (""keystroke ratio"") AND (""mouse action ratio"") AND (""user effort"") OR (""user engagement"")",2025-05-22T21:57:06,12
+search_97ee12e1881e43bf89f7fa78ca39a129,"(research) AND (""transparency and open-access"") AND (""training data of LLMs"") AND (""importance with case studies"") AND (""existing data"")",2025-05-22T21:58:17,0
+search_986a63f182d94086870279e10cb2db15,"(research) AND (""trains language models"") AND (""mental health-related social media data"") AND (""identifying mental health issues"")",2025-05-22T21:58:02,12
+search_9894594c517a46fdbde40521d328d579,(literature) AND (evaluates context-aware machine translation) AND (discourse phenomena) AND (deixis) AND (lexical cohesion),2025-05-22T21:56:57,0
+search_991ee5dd2cc941888dc4a6b7061f6489,"(techniques OR tools) AND (""machine learning"") AND (""matching and grounding annotated data"") AND (""existing knowledge base"") AND (""sentence embedding-based cosine similarity"") OR (""clustering algorithms"")",2025-05-22T21:57:11,12
+search_996ff4b6fbcf4708967d89beae67b965,(resources) AND (translating Tunisian Arabic) AND (manually translated comments) AND (native speakers) AND (data augmentation) AND (segmentation at stop words level),2025-05-22T21:56:49,2
+search_999e93e7f58e414099ba3addb53e8b45,"(scholarly articles) AND (""enhancement of dense retrieval"") AND (""student models"") AND (""prediction distributions from teacher models"")",2025-05-22T21:58:18,5
+search_99d0db865473490698d5f5898857d204,(paper) AND (NLI model) AND (sentence-level relation extraction) AND (hypothesis generation) AND (verification) AND (entity-type constraints),2025-05-22T21:56:54,0
+search_99e925b3d78147f59e0c66af9db31e57,"(study) AND (""compression method"") AND (""merges product quantization"") AND (""integer quantization"") AND (""token-level retrieval"")",2025-05-22T21:57:46,2
+search_9b08fae38d254d29b43d0b55f76fa927,"(study) AND (""mean pooling"" AND ""outperforms CLS"") AND (""semantic similarity tasks"") AND (""pretrained transformer models"") AND (""sentence embeddings"")",2025-05-22T21:57:14,0
+search_9c0301f437674c468476dba882cd8a92,"(research papers) AND (""automatically choosing in-context examples"")",2025-05-22T21:58:10,12
+search_9c35ef9923444c15b39f81c4302843eb,"(research) AND (""neural language models' forecasts"") AND (""human linguistic processing"") AND (""syntactic surprisal"")",2025-05-22T21:58:00,4
+search_9d4ccb19ba464e40b6e71acce0c4ba90,"(study) AND (""enhancing token alignment"") AND (""speech processing"") AND (""inverse document frequency"")",2025-05-22T21:57:28,0
+search_9f8678d3e6df48ba82ebcdfe67cae50d,"(research) AND (""starting language models with weights"") AND (""pretrained nondiffusion models"") AND (""convergence behavior"") AND (""diffusion losses"")",2025-05-22T21:57:54,2
+search_9fcc1cb9a2ad4cb5b04a7f0c5e7e1db3,"(research) AND (""generative modeling approaches"") AND (""event extraction"") AND (""large pre-trained language models"") AND (""reduce complexity of template engineering"")",2025-05-22T21:57:39,7
+search_9ff04a6197134dca9dd0e1e1a9983530,(paper) AND (transformer-based sentence embeddings),2025-05-22T21:56:52,12
+search_a024653cb6d5487f883213052a096b17,"(papers) AND (""address the background-shift problem"") AND (""named entity recognition"") AND (""identifying non-entity type tokens"") AND (""knowledge distillation from an old model"")",2025-05-22T21:58:05,10
+search_a03f698fd2ec45799951d409c88826e2,"(articles) AND (""computational humor"") AND (repetition) OR (""language models"" AND GPT-2) AND (""humor recognition"")",2025-05-22T21:57:02,3
+search_a05aa68e139a49468dbf4049baf4bbc6,"(research) AND (""cross-attention mechanisms"") AND (""improve the interplay"") AND (""token and syntax data"") AND (""automated program repair systems"")",2025-05-22T21:57:59,3
+search_a0db8b61f78b44658dd7ad3f014f5af8,"(simultaneous machine translation) AND (tool OR technique) AND (""ground-truth alignments"") AND (""training models"" AND ""incremental translation"")",2025-05-22T21:57:08,6
+search_a17fe2cc8bc24f8682a4ce15fcc13aa8,"(research) AND (""multimodal annotation system"") AND (""analyzing dialogues"") AND (""video content"")",2025-05-22T21:57:51,2
+search_a1ee0605cc8d48aaae0ebe37aa0af034,"(papers) AND (""training video-language models"") AND (""contrastive approaches"") AND (""evaluation on temporal localization tasks"")",2025-05-22T21:57:19,12
+search_a20fcab447564b2ba37c7c6cd705d8e5,"(study) AND (""language models"" AND ""not robust"") AND (""surface form editing"") AND (""testing commonsense knowledge"")",2025-05-22T21:57:26,12
+search_a260c31458d24b3da34a9cc1cb80a4e2,"(datasets) AND (""benchmark LLM performance"") AND (""conversational continuity"") AND (""recall"") AND (""long multi-session conversations"")",2025-05-22T21:57:50,1
+search_a27414a5982e406e98fd6bff1709341b,"(studies) AND (""emotion-classification"") AND (""group dialogues"")",2025-05-22T21:58:03,4
+search_a4192c93a9c440efa96ca28fa8d67e30,"(research) AND (""multiple models"") AND (""learn the preferences of individual annotators"") AND (""ensembles these models"") AND (""majority-vote preference scores"") AND (""uncertainty measure"")",2025-05-22T21:58:04,0
+search_a4657b8201ac4d038a3add4e0cb5a079,"(research) AND (""multihead attention networks"") AND (""discern word interrelations"") AND (""news content"") AND (""detecting political perspectives"")",2025-05-22T21:57:35,0
+search_a52d3248e87648c19a61b1caa7b2ae67,"(research) AND (""loss of spatial information"") AND (""effectiveness of global features"") AND (""visual tasks"")",2025-05-22T21:57:37,12
+search_a68224fcf10b428688e4273a68d36e76,"(research) AND (""aspect-based sentiment analysis"") AND (""different languages"") AND (""code-switching of aspect terms"")",2025-05-22T21:57:58,12
+search_aa5469da09894b28b0a686ba2a4a8a27,"(research) AND (""matching word senses"") AND (embeddings) AND (""without external lexical resources"")",2025-05-22T21:57:14,3
+search_ab13b113df6542668b90dd2578543a21,"(research) AND (""prompt tuning using soft embeddings"") AND (""pretrained language models"") AND (""downstream applications"") AND (""minimal finetuning"")",2025-05-22T21:57:52,0
+search_ab80a291dff843a2a57d71b25fc822c3,"(study) AND (""enhancing prompt engineering techniques"") AND (""generative models"") AND (""meta-learning strategies"")",2025-05-22T21:57:28,12
+search_ac0a0d87466d4d7bb53f369aa514e926,"(study) AND (""contrastive learning"") AND (""unimodal representation learning"") AND (""sentence embeddings"")",2025-05-22T21:57:46,10
+search_ad8198a75da4485b8d9c83f99356e4fd,"(research) AND (""decoding strategies"" AND ""top-k"") AND (""hallucinatory in generated text"")",2025-05-22T21:57:35,2
+search_adf6f039eb534e4eade035cc86b7a810,(studies) AND (combine) AND (convolutional neural network) AND (recurrent neural network) AND (feature extraction) AND (relation extraction),2025-05-22T21:56:51,0
+search_ae7c97c6b10248599c83ed0e2a47ca3d,"(study) AND (""variational autoencoders"") AND (""standardize open knowledge graphs"")",2025-05-22T21:57:25,5
+search_b000fcc4e4034dd2b9b8dccc323ce28a,(studies) AND (evaluating text generation models) AND (dimensions) AND ((T5) OR (FLAN-T5)) AND ((summary-level) OR (turn-level)),2025-05-22T21:56:52,0
+search_b00e9952f48a4f43a526f700006e8473,"(""adatp named entity recognition systems"") AND (""learn new entities"") AND (""knowledge distillation"") AND (""synthetic data augmentation"") AND (""two-stage training approach"")",2025-05-22T21:58:13,12
+search_b026ccf7ff0945619e8f9f4ba2397fc8,(studies) OR (tasks) AND (detecting patronizing language) AND (detecting condescending language) AND (vulnerable communities),2025-05-22T21:56:53,12
+search_b045fefa85d146d99485fe27f170d0ff,"(research) AND (""improvement of Recurrent Neural Network Transducers"") AND (""integration of cross-attention mechanisms"") AND (""simultaneous translation"")",2025-05-22T21:57:56,4
+search_b0573e225c674adf89869dfa9b213602,"(study) AND (""few-shot relation extraction challenges"") AND (""global and local attributes"") AND (""external descriptions of relations"")",2025-05-22T21:57:25,2
+search_b1b619c3718f44419112d639d8022626,"(research) AND (""syntactic configurations"") AND (""aspect-level sentiment analysis"") AND (""pretrained model"" AND RoBERTa)",2025-05-22T21:57:36,0
+search_b1e2a8d8a68849499b5b85d5e8858f18,"(research) AND (""improves knowledge base generation"") AND (""non-differentiable evaluation metrics"" AND (BLEU OR METEOR OR ""chrF++""))",2025-05-22T21:57:38,0
+search_b25f9702dbe34ff6970e8392912ce435,"(study) AND (""employing graph neural networks"") AND (""replies"") AND (""multi-party conversational contexts"")",2025-05-22T21:57:27,0
+search_b2f6663f217a44a483af2c1162e16a77,"(good datasets) AND (""conversational question answering"")",2025-05-22T21:57:10,12
+search_b4e2a396da344ccb8143c851426e2418,"(advancements) AND (""language models"" AND ""without tokenization"") AND (""encoding at the character level"") AND (""benefits compared to subword tokenization"")",2025-05-22T21:58:11,7
+search_b5417741ab054fc4867842b5897491d6,"(literature) AND (dependency-based models) AND (relation extraction) AND (dependency parsing) AND (""non-local syntactic relations"")",2025-05-22T21:56:55,6
+search_b85999ec752b47ef9b10523e4747b648,"(research) AND (""prompt tuning"") AND (""improve generalizability"") AND (""pre-trained models"") AND (""avoiding catastrophic forgetting"")",2025-05-22T21:57:33,0
+search_b9930321526143f983e94513e08340f9,"(study) AND (""graph-based modeling of interactivity"") AND (""various modalities"") AND (""non-aligned multimodal sequential datasets"")",2025-05-22T21:57:28,12
+search_ba41aa274f6e42e2b5ce810869753ac7,"(detailed discussion) AND (""automating the assessment of clarifications"") AND (""instructional text"") AND (""grading clarifications"") AND (""ranking them on a scale"")",2025-05-22T21:57:15,0
+search_baccd175106b4a9d84c18a05c64a9a89,"(study) AND (""trainable prompts"") AND (""enhance parameter optimization"") AND (""machine learning models"")",2025-05-22T21:57:31,5
+search_bb096034b61a4a2992bb0f2ff8b83327,"(understanding perplexity) AND (""identifying misinformation"") OR (""fact-checking"")",2025-05-22T21:57:03,12
+search_bb262fdab89145ff9da12f4310166c85,"(multi-hop question answering) AND (paper) AND (""per-hop retrieval evaluation"") AND (""treats each hop independently"")",2025-05-22T21:58:12,12
+search_bc88e54663aa40b3b11652edf26e59e9,"(studies) AND (""incorporating external commonsense knowledge"") AND (""conversational models"") AND (""enhance emotional support"")",2025-05-22T21:57:21,2
+search_be2008dc1ab44602be7f033a139ee5b3,"(studies) AND (""creation of memory management systems"") AND (AI) AND (""improve sustained conversational capabilities"") AND (""contextual retention over extended periods"")",2025-05-22T21:58:11,0
+search_bed54454acf64c249ebafad3e737bab1,"(work) AND (""open information extraction"") AND (""beyond verbs"") AND (nouns OR adjectives)",2025-05-22T21:57:18,0
+search_c1345833aca941168518ae75d0705bf7,"(machine translation) AND (""encoder/decoder layers"") AND (""attention heads"") AND (hyperparameters) AND (""neural network model"")",2025-05-22T21:57:07,0
+search_c13d1abcb35b42feb2350bfe4a33542d,"(studies) AND (""dialectal variations"") AND (""normalized text"") AND (""non-Latin scripts"") AND (Arabic OR Japanese)",2025-05-22T21:56:59,0
+search_c26ae7004b974964aa95fb6e7a5f68c6,"(research) AND (""embedding multi-bit data"") AND (""watermarks"") AND (""improve resilience to text corruption"") AND (""safeguarding keywords and syntactic elements"")",2025-05-22T21:58:17,0
+search_c3b14a3088b04c5ca1c14ce616e64b8b,"(recent advancements) AND (""parsing complex multi-hop questions"") AND (""sequence of simpler query steps"") AND (""improved question answering"")",2025-05-22T21:57:10,12
+search_c3d7108d90cb47038dd67e9640c9db67,"(corpus) AND (""CCG annotations"") AND (""natural language processing"") AND (supertagging)",2025-05-22T21:57:14,0
+search_c3ef486cea37474eba33b43b3fd766da,"(research papers) AND (""critically analyzed the performance speed"") AND (""non-autoregressive translation models"") AND (""autoregressive models"")",2025-05-22T21:58:07,12
+search_c5d59021204a4be19f4b6f115d383e38,"(paper) AND (""large structured knowledge base"") AND (wikipedia) AND (""entity linking"") AND (""ranking tasks"")",2025-05-22T21:57:22,2
+search_c608b06421c7435894deb1e2c9e7f1a5,"(research) AND (""challenges faced by pre-trained language models"") AND (""learning inferential commonsense knowledge"") AND (""sparse context"")",2025-05-22T21:57:36,12
+search_c83273b49abd49acb79cdea069b36e6f,"(study) AND (""contrastive learning"") AND (""enhances sentence-level embeddings"") AND (""natural language processing"")",2025-05-22T21:57:29,12
+search_c842bf03235a4ef599a78a8dc64039c4,(foundational paper) AND (scalable framework) AND (generating English sentences) AND (controllable semantic attributes) AND (controllable syntactic attributes) AND (augmenting datasets) AND (NLP tasks),2025-05-22T21:56:54,9
+search_c8d2eaa3b2b348ca860afc063ebd8d80,"(research papers) AND (""using language models for providing evidence"") AND (""fact-checking systems"") AND (""risks propagating biases"")",2025-05-22T21:58:08,12
+search_c8fa32512fa94ac89bcdec02ffb0f980,"(natural language processing) AND (""model's prediction entropy"") AND (""copying existing text"" VS ""generating novel content"")",2025-05-22T21:57:08,12
+search_c91dfb2040a0469da321494b82c234fb,"(research) AND (""drawbacks of dense retrieval systems"") AND (""large-scale indices"")",2025-05-22T21:57:56,12
+search_c98c384914544bd28db6e570cae27c3a,"(study) AND (""implementation of sparsity"") AND (""attention mechanisms"") AND (""extremely lengthy documents"")",2025-05-22T21:57:31,0
+search_c9978c9fb8144441ae5cd67aaafdbde4,"(research) AND (""identifying excess and insufficient translations"") AND (""evaluating machine translation"") AND (""resolving label discrepancies"") AND (""omitted content"")",2025-05-22T21:57:37,0
+search_ca1cd814959c4664bb1fcf559540c29a,"(literature) AND (""enhanced semantic parsing methods"") AND (""high-quality meaning representations"") AND (""knowledge-constrained decoding"") AND (""specific grammar rules"")",2025-05-22T21:56:56,4
+search_cc864066043a467c91c8b243d10722b6,"(research) AND (""coreference resolution"") AND (""dialogue summarization quality"")",2025-05-22T21:57:51,2
+search_ccd92c19c81c460f83fc467c708120df,"(dataset) AND (""question-answering frameworks"") AND (""temporal knowledge graphs"") AND (""broad coverage"")",2025-05-22T21:57:44,3
+search_cd84f7a5b6f74d2eaa9d95566fff5989,"(literature) AND (dataset) AND (emotions) AND (anger OR anticipation OR fear OR joy OR sadness) AND (""Facebook posts"" AND ""multiple languages"")",2025-05-22T21:56:56,0
+search_cd8a83a4ad884943be718f53cf3bfc6a,"(research papers) AND (""summarizing arbitrary length documents"") AND (""without truncating the input"") AND (""memory networks"")",2025-05-22T21:58:10,6
+search_d08978e894744e05a2b63442a10eaf1f,"(research) AND (""Word Mover's Distance"" AND sentences) AND (limitations of bag-of-words) AND (word order) AND (text similarity)",2025-05-22T21:56:55,4
+search_d0acff983fbb4fcd9069c165d61b6530,"(research) AND (""dual-phase method"") AND (""sentence paraphrasing"")",2025-05-22T21:57:37,9
+search_d1a509eea37749c0bb204c718304fe86,"(research) AND (""specialized architecture"") AND (""pre-trained language models"") AND (""enhance text-to-SQL tasks"")",2025-05-22T21:57:53,12
+search_d37c14f4dec5411b9e47686fe9292618,"(research) AND (""generating synthetic labels"") AND (""vast text collection"") AND (""pre-train models"") AND (""few-shot learning applications"")",2025-05-22T21:57:55,12
+search_d3dba2b4bc3a4717b7a4104007f515fc,"(discourse parsing literature) AND (""parser performance"") AND (""original Parseval procedure"") AND (""micro-averaged F1 scores"")",2025-05-22T21:57:06,4
+search_d3e7c54d343e4eba8e2b50189e6a70b5,"(research) AND (""language models"" AND ""creole languages"") AND (""Nigerian Pidgin"") AND (""linguistic relationship with English"")",2025-05-22T21:57:52,0
+search_d507559deded435caa8098abe4f96423,"(research) AND (""strangers exchange information"") AND (""discussions"") AND (""kinds of information shared"") AND (""first encounters"")",2025-05-22T21:57:52,0
+search_d54fe2d5919f4e54b18f3b145f9a7ad3,"(studies) AND (""novel methods for capturing data"") AND (sarcasm detection) AND (""social media platforms"" AND Twitter)",2025-05-22T21:57:00,2
+search_d5806c9d97d94b6cab4596dcc71554f8,"(study) AND (""guiding abstractive summarization"") AND (""assessing sentence informativeness"")",2025-05-22T21:57:29,8
+search_d610fb3de8184ac19e8fd4fcc6f70c99,"(research) AND (""few-shot slot tagging"") AND (""micro-F1 scores"") AND (""different test episodes"")",2025-05-22T21:57:23,0
+search_d85b0fd8c975427ea9410b6bff2af87d,"(study) AND (""text generation from tabular data"") AND (""titles, column headings, and cell content"") AND (""numerical reasoning"")",2025-05-22T21:57:31,0
+search_d86f06433d404b4c90946409eb6d8274,"(research) AND (""conventional data augmentation methods"") AND (""removing words"" OR ""truncating sequences"") AND (""contrastive learning"") AND (""NLP applications"")",2025-05-22T21:57:38,10
+search_d93ef006c52341c0b6c79c99ea586d07,"(research) AND (""annotating user comments"") AND (""claim verifiability"")",2025-05-22T21:57:13,2
+search_dab6709a58f3429294a4a4baaaf940f9,(publications) AND (evaluation metrics) AND (semantic role labeling) AND (precision) AND (evaluation scripts) AND (SemEval),2025-05-22T21:56:51,0
+search_dc56b1eaf34f44db922b119a1ddd3685,"(recent studies) AND (""prompt fine-tuning"") AND (""semi-supervised learning"") AND (""natural language understanding"")",2025-05-22T21:56:57,12
+search_dcf335ba58ed409da3d78958a4dc8199,"(studies) AND (""debiasing language models"") AND (""automatically"") AND (""prompting"")",2025-05-22T21:57:21,2
+search_dcfcb1c8e6fa4780a5ff7fc25f09cd7e,"(research) AND (""language models"" AND ""extended contextual information"") AND (""book dataset"" AND ""Project Gutenberg"")",2025-05-22T21:57:50,0
+search_df0077efa4a64900a4d718f6a1addee7,"(dataset) AND (""open-domain targeted sentiment analysis"") AND (""user reviews"") AND (Yelp OR Amazon)",2025-05-22T21:58:14,1
+search_df544f41cc934f6a84fe4162da1d5fe5,"(research) AND (""challenges faced by neural networks"") AND (""discerning causation from correlation"")",2025-05-22T21:57:53,3
+search_df786b7f421b4820bfb34b264a92fdd6,"(innovative approaches) AND (""data annotation"") AND (""Amazon Mechanical Turk"") AND (""maximizing document coverage"") AND (""trade-off"" AND ""full annotation"" AND ""broader document coverage"")",2025-05-22T21:57:04,0
+search_e003c6769e3241e8a4273421b2b783c0,"(Named Entity Recognition) AND (""multiple languages"") AND (""retrieving related knowledge"") AND (""ambiguous named entities"")",2025-05-22T21:57:07,12
+search_e054d9ff34c64fb8a88f0929f21a5c10,"(research) AND (""online community dataset"") AND (""machine learning models"") AND (""hate speech identification"")",2025-05-22T21:57:56,10
+search_e09b6bf7729544e3af5f932dbc19a343,"(guidelines) AND (""standard practices"") AND (""probing machine learning models"") AND (""discern what information"") AND (""without training on a new task"")",2025-05-22T21:57:16,0
+search_e0fd6d429e0f46e9add6698975b1c511,(tools) OR (studies) AND (morphological analyzer) AND (multiple Arabic dialects),2025-05-22T21:56:50,12
+search_e2422c2e30564a17a5719b6559e28a42,"(research) AND (""multilingual language models"") AND (""understand plural/singular verb agreement"") AND (""multiple languages"")",2025-05-22T21:58:02,12
+search_e2e26e7e934445c6a97f0f7c84a00367,"(research) AND (""automatic evaluation metrics"") AND (""summarization tasks"") AND (""disagree with each other"")",2025-05-22T21:57:17,1
+search_e40c30ac09de4eec9520c0b4ba779f39,"(theoretical basis) AND (""nuclear norm"" AND ""weight matrix"") AND (""measure of complexity"") AND (""linear models"" AND ""probing tasks"")",2025-05-22T21:57:02,0
+search_e5d7d528d7f34ae8a348da09d438fef2,"(research) AND (""in-depth examination of the shortcomings"") AND (""pretraining evaluation measures"" AND BERTScore) AND (""alignment with human evaluative assessments"")",2025-05-22T21:58:02,0
+search_e5eb4ea4b62f4685806b8fd2732e3cbd,"(paper) AND (""constituency parsing performance"") AND (""partition strategy"" AND ""content embedding"") AND (""positional embedding"" AND ""self-attention"") AND (""label attention layers"")",2025-05-22T21:57:04,2
+search_e6d19705a861451cbe8a33e6a139406a,"(research) AND (""contrastive learning"") AND (""improving logical reasoning over text"")",2025-05-22T21:57:39,12
+search_e739ffdbb144433e8fb7081a0e638467,"(paper) AND (""typical configurations"") AND (""fine-tuning"") AND (""deep bidirectional transformers"" AND (BERT OR RoBERTa)) AND (""language understanding tasks"")",2025-05-22T21:57:18,0
+search_e7c6486943a7484e800d028457bf2981,"(work) AND (""improves integrated gradients"") AND (""leveraging interpolation strategies"") AND (""improve gradient accuracies"")",2025-05-22T21:58:05,12
+search_e81916375547409db6cad4b5499909a0,"(morphological embedding algorithms) AND (""word2vec model"") AND (""character n-grams"")",2025-05-22T21:57:05,12
+search_e89b6f825cd0413b95ba44bd1845b8c4,"(specialized question answering dataset) AND (""intricate tables"") AND (""certain sectors"" AND ""airline industry"")",2025-05-22T21:58:15,0
+search_e952e7327fcc4f7d8121d219342ed920,"(new metrics) AND (""assess the factual alignment"") AND (""machine-generated summaries"") AND (""original source texts"")",2025-05-22T21:58:05,12
+search_ea59798cace044349fe8436726c02914,"(key papers) AND (""attention mechanisms"") AND (""bidirectional recurrent neural networks"") AND (""relation classification"")",2025-05-22T21:57:10,12
+search_ec0979786dea4020b1d8c461a1e10b55,"(approaches) AND (""generating sports news reports"") AND (""event data"") AND (models) AND (""Finnish language NLP"")",2025-05-22T21:57:09,12
+search_ec1d3b3540ef4e3783bca00b8b363dbf,"(research papers) AND (""human capacity to distinguish"") AND (""AI-generated text"") AND (""human-authored text"")",2025-05-22T21:58:09,12
+search_ec96c67682324a6a9d72eb0c2fc36547,"(scholarly articles) AND (""refining language models"") AND (""exclusive modification of bias parameters"") AND (""linear components"")",2025-05-22T21:57:42,2
+search_ed2f74389e1f498b8c50d6b75f531cfc,"(study) AND (""data-augmentation"") AND (""biomedical named-entity recognition"") AND (""replacing entities"") AND (""semantically similar sentences"")",2025-05-22T21:57:24,2
+search_ee728a52dde14f31aefdbd6045156461,"(studies) AND (""analyzing and constructing models"") AND (""discourse organization"") AND (""multi-turn conversations"") AND (""multi-party conversations"") AND (""separating dialogues"")",2025-05-22T21:57:43,0
+search_eea3295b65b64052ab547576c41dc1fb,"(contemporary research paper) AND (""natural language watermarking quality"") AND (""algorithmic methods"")",2025-05-22T21:57:23,12
+search_ef993a78e2f34584bc741f8e67471bfd,"(reinforcement learning models) AND (""multi-hop reasoning"") AND (""erroneously correlating outcome"") AND (""irrelevant actions"" OR ""coincidental actions"")",2025-05-22T21:57:09,0
+search_f0e1455b89274d4f81500e71f3e80b31,"(multilingual corpus) AND (reviews) AND (DVDs OR music OR books) AND (""cross-language sentiment classification"")",2025-05-22T21:57:15,2
+search_f0f73ca4239c41999ca8174a41d15b0a,"(articles) AND (""role of late interaction"") AND (""dense retrieval systems"") AND (""performance of information retrieval"")",2025-05-22T21:57:32,2
+search_f1bd57c59c1840fea5810ec1c1d83b18,"(research efforts) AND (""gather dialogue data via crowdworkers"") AND (""enhance conversational information retrieval systems"")",2025-05-22T21:58:06,12
+search_f1fc9614c8284527ba20bee9a4dee618,"(comprehensive dataset) AND (""influential in fact verification research"")",2025-05-22T21:57:04,12
+search_f38318a40bbe469d858a049e3b2b648d,"(dataset) AND (""question-answer pairs"") AND (""psychological counseling"") AND (""available for research"")",2025-05-22T21:58:14,1
+search_f4d0004660444f2d92216741c44ccb42,(research papers) AND (compress) AND (large-scale language models) AND (task-agnostic knowledge distillation),2025-05-22T21:56:49,11
+search_f5d32f67f3324a63bf6fb3075f2ed91e,"(studies) AND (""data-poisoning strategies"") AND (""very few poisoned training examples"")",2025-05-22T21:58:19,12
+search_f6b03463edae4f72b5619cb222e6070d,"(study) AND (""data annotation paradigms"") AND (""assuage concerns in lack of annotator expertise"") AND (""using crowdsourcing"")",2025-05-22T21:57:46,12
+search_f722f033d81e461f87700ef3e989b09d,"(study) AND (""large language models"") AND (""generating ideas pertinent to scientific concepts"") AND (""scientific writing ideation stage"")",2025-05-22T21:58:15,5
+search_f7d29292a8774f52a0edd3e8e3ede06b,"(corpora) AND (""frequently used"") AND (""benchmark English readability assessment tools"")",2025-05-22T21:57:17,12
+search_f8381e7f6c2845c08fd7a61216ed9cd7,"(recent papers) AND (expert models AND anti-expert models) AND (""text generation"") AND (""mitigate toxic output"")",2025-05-22T21:57:19,12
+search_fa961ec281a74fc398cbb2883e4ae76f,"(study) AND (""beta distribution"") AND (""sample span sizes"") AND (""unsupervised learning frameworks"") AND (""text representation"")",2025-05-22T21:57:47,4
+search_fb97cbcec42646a4bf8a323483d1eebe,"(scholarly articles) AND (""scaling laws"") AND (""parameter-efficient prompt tuning techniques"") AND (""fine-tuning language models"")",2025-05-22T21:58:18,0
+search_fbaac5d943c7479696beeec2c0b31116,"(research papers) AND (""improve BERT's efficiency"") AND (""long-text tasks"") AND (""early exiting"" OR ""self-distillation strategies"")",2025-05-22T21:58:08,12
+search_fbee2d929e5d470c8aa3a9494c9271ac,"(research) AND (""sequence-to-sequence pre-training"") AND (""natural language tasks"") AND (""denoising process"")",2025-05-22T21:57:02,12
+search_fc1984ffe6ec4220ae950cba3d494ba5,"(research) AND (""detecting common errors"") AND (""additions and omissions"") AND (""machine translation"")",2025-05-22T21:57:50,0
+search_fc4ffce8afbc4ac9b7a8391ce97c76de,"(research) AND (""prompt tuning"") AND (""domain transfer"")",2025-05-22T21:57:51,9
+search_fc51ed4f9a8b49f1b2916cbfae662944,"(research) AND (""enhancing the RoBERTa model"") AND (""event extraction"") AND (""Bi-LSTM"") AND (""CRF layer"")",2025-05-22T21:57:42,3
+search_fc73d56d772144c2b6b828cf4d16aecf,"(comprehensive dataset) AND (""summarizing broad-spectrum conversational dialogues"")",2025-05-22T21:58:14,12
+search_fc9ba48192d344b190efe45cc45450f9,"(research) AND (""expanding keyword collections"") AND (""embedding similarity"") AND (""weakly-supervised document categorization"")",2025-05-22T21:57:59,0
+search_fcc573833995431190b6f834627af750,"(reference) AND (""classifiers for suicide risk detection"") AND (""low-resource language"") AND (""explicit suicide-related terminology"")",2025-05-22T21:56:59,2
+search_fdd1450ed8ad4c6ca8dd78af196c0ea2,"(datasets) AND (""SQL annotations"" AND WikiTQ)",2025-05-22T21:56:59,0
+search_fe94671fbe3146cb8213ca01b35255c2,"(research) AND (""multilingual pre-trained models"") AND (""identical sets of neural units"") AND (""encode morphosyntactic features"") AND (""various languages"")",2025-05-22T21:58:16,12
+search_ff3dc2bc423444deab94886152e48d81,"(research) AND (""disambiguating word senses"") AND (""infrequent scenarios"") AND (""zero-shot scenarios"")",2025-05-22T21:57:23,3
+search_ffaee0975dd04eed8977350b8616bf41,"(research) AND (""autoencoder architectures"") AND (""generate e-commerce product descriptions"") AND (""integrating product titles, features, and supplementary descriptions"")",2025-05-22T21:57:42,0

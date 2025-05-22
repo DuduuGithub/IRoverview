@@ -3,7 +3,7 @@ import sys
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, DataLoader, TensorDataset
 import numpy as np
 from datetime import datetime
 import logging
@@ -13,9 +13,13 @@ from sklearn.model_selection import train_test_split
 import random
 import time
 from tqdm import tqdm
+from sklearn.metrics import accuracy_score
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from torch.optim import AdamW
 
 # 添加项目根目录到Python路径
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(project_root)
 
 from sort_ai.model import IRRankingModel
 
@@ -37,15 +41,17 @@ if torch.cuda.is_available():
 
 # 设置随机种子以确保可重复性
 def set_seed(seed=42):
-    """设置所有随机种子以确保可重复性"""
+    """设置随机种子以确保可重复性"""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
-        # 确保CUDA的确定性
-        torch.backends.cudnn.deterministic = True
-        torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+# 设置设备
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 class SearchSessionDataset(Dataset):
     """搜索会话数据集"""
@@ -57,252 +63,246 @@ class SearchSessionDataset(Dataset):
         Args:
             sessions: 会话数据列表，每个会话包含查询和点击信息
         """
+        if not sessions:
+            raise ValueError("Sessions list cannot be empty")
         self.sessions = sessions
+        
+        # 验证数据格式
+        required_fields = {'query', 'pos_docs', 'neg_docs', 'session_id', 'pos_doc_ids', 'neg_doc_ids'}
+        for session in sessions:
+            missing_fields = required_fields - set(session.keys())
+            if missing_fields:
+                raise ValueError(f"Session missing required fields: {missing_fields}")
+            
+            # 确保文档列表非空
+            if not session['pos_docs'] or not session['neg_docs']:
+                raise ValueError(f"Session {session['session_id']} has empty document lists")
+            
+            # 确保ID列表与文档列表长度匹配
+            if len(session['pos_docs']) != len(session['pos_doc_ids']):
+                raise ValueError(f"Mismatch between pos_docs and pos_doc_ids lengths in session {session['session_id']}")
+            if len(session['neg_docs']) != len(session['neg_doc_ids']):
+                raise ValueError(f"Mismatch between neg_docs and neg_doc_ids lengths in session {session['session_id']}")
         
     def __len__(self):
         return len(self.sessions)
         
     def __getitem__(self, idx):
-        session = self.sessions[idx]
-        
-        # 将结构化查询转换为字符串表示
-        query = session['query']
-        
-        return {
-            'query': query,
-            'pos_docs': session['pos_docs'],  # 现在是多个正样本的列表
-            'neg_docs': session['neg_docs'],
-            'session_id': session['session_id'],
-            'pos_doc_ids': session['pos_doc_ids'],  # 现在是多个正样本ID的列表
-            'neg_doc_ids': session['neg_doc_ids']
-        }
+        try:
+            session = self.sessions[idx]
+            
+            # 确保查询是字符串类型
+            query = str(session['query'])
+            
+            # 确保文档列表是字符串列表
+            pos_docs = [str(doc) for doc in session['pos_docs']]
+            neg_docs = [str(doc) for doc in session['neg_docs']]
+            
+            # 确保ID列表是字符串列表
+            pos_doc_ids = [str(id) for id in session['pos_doc_ids']]
+            neg_doc_ids = [str(id) for id in session['neg_doc_ids']]
+            
+            return {
+                'query': query,
+                'pos_docs': pos_docs,
+                'neg_docs': neg_docs,
+                'session_id': str(session['session_id']),
+                'pos_doc_ids': pos_doc_ids,
+                'neg_doc_ids': neg_doc_ids
+            }
+        except Exception as e:
+            logger.error(f"Error processing session at index {idx}: {str(e)}")
+            raise
 
 class ModelTrainer:
-    """模型训练器"""
+    """模型训练器类"""
     
-    def __init__(self, bert_path=None):
-        """
-        初始化训练器
+    def __init__(self, model_path='bert/bert-base-uncased'):
+        """初始化模型训练器
         
         Args:
-            bert_path: BERT模型路径，如果为None则使用默认的本地bert_uncased路径
+            model_path: 本地bert模型路径（相对于sort_ai目录）
         """
-        # 在初始化时设置一次随机种子，确保整个训练过程的可重复性
-        set_seed()
-        
-        # 检查是否可以使用CUDA
+        # 获取当前文件所在目录的路径
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        self.model_path = os.path.join(current_dir, model_path)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        
+        try:
+            logger.info(f"从本地路径加载模型: {self.model_path}")
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+            self.model = AutoModelForSequenceClassification.from_pretrained(
+                self.model_path,
+                num_labels=2  # 二分类：相关或不相关
+            )
+            self.model = self.model.to(self.device)
+            logger.info(f"成功加载模型")
+        except Exception as e:
+            logger.error(f"加载模型时出错: {str(e)}")
+            raise
+        
         logger.info(f"使用设备: {self.device}")
-        
-        # 如果没有指定bert_path，使用本地bert_uncased路径
-        if bert_path is None:
-            # 获取sort_ai目录的路径
-            sort_ai_dir = os.path.dirname(os.path.abspath(__file__))
-            bert_path = os.path.join(sort_ai_dir, 'bert', 'bert-base-uncased')
-            logger.info(f"使用本地BERT模型: {bert_path}")
-        
-        self.model = IRRankingModel(bert_path=bert_path)
-        # 将模型移动到GPU（如果可用）
-        self.model = self.model.to(self.device)
-        self.criterion = nn.MarginRankingLoss(margin=0.5)
-        
-        # 降低初始学习率
-        self.initial_lr = 1e-5
-        self.optimizer = optim.Adam(self.model.parameters(), lr=self.initial_lr)
-        
-        # 添加学习率调度器
-        self.num_warmup_steps = 0  # 会在train方法中设置
-        self.num_training_steps = 0  # 会在train方法中设置
-        
-        # 确保模型保存目录存在（使用相对路径）
-        self.sort_ai_dir = os.path.dirname(os.path.abspath(__file__))
-        self.models_dir = os.path.join(self.sort_ai_dir, 'models')
-        os.makedirs(self.models_dir, exist_ok=True)
-        
-        # 添加训练状态跟踪
-        self.start_epoch = 0
-        self.best_metrics = None
-        self.training_history = {
-            'train_loss': [],
-            'val_metrics': [],
-            'learning_rates': []
-        }
-        
-        # 早停相关参数
-        self.early_stopping = {
-            'best_mrr': 0.0,
-            'patience': 3,  # 3个epoch没有改善就停止
-            'counter': 0,
-            'min_delta': 0.001  # MRR至少要改善0.001才算有进步
-        }
+        logger.info(f"使用模型路径: {self.model_path}")
+    
+    def save_model(self, output_dir='models'):
+        """保存模型到指定目录"""
+        os.makedirs(output_dir, exist_ok=True)
+        self.model.save_pretrained(output_dir)
+        self.tokenizer.save_pretrained(output_dir)
+        logger.info(f"模型已保存到: {output_dir}")
+    
+    def load_model(self, model_dir='models'):
+        """从指定目录加载模型"""
+        if not os.path.exists(model_dir):
+            logger.error(f"模型目录不存在: {model_dir}")
+            return False
+            
+        try:
+            self.model = AutoModelForSequenceClassification.from_pretrained(model_dir)
+            self.tokenizer = AutoTokenizer.from_pretrained(model_dir)
+            self.model = self.model.to(self.device)
+            logger.info(f"模型已从 {model_dir} 加载")
+            return True
+        except Exception as e:
+            logger.error(f"加载模型时出错: {str(e)}")
+            return False
 
-    def prepare_training_data(self, data_dir='training_data'):
+    def prepare_training_data(self):
         """准备训练数据"""
         logger.info("开始准备训练数据...")
         
-        # 获取sort_ai目录的路径
-        sort_ai_dir = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(sort_ai_dir, data_dir)
-        
-        # 检查数据目录是否存在
-        if not os.path.exists(data_dir):
-            logger.error(f"训练数据目录 {data_dir} 不存在！")
-            return [], []
-        
         try:
-            # 显示数据文件的完整路径
-            sessions_file = os.path.join(data_dir, 'sessions.csv')
-            documents_file = os.path.join(data_dir, 'documents.csv')
-            behaviors_file = os.path.join(data_dir, 'behaviors.csv')
-            results_file = os.path.join(data_dir, 'search_results.csv')
+            # 获取数据文件的路径
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            data_dir = os.path.join(current_dir, 'training_data')
             
-            logger.info("\n数据来源位置:")
-            logger.info(f"- 会话数据: {sessions_file}")
-            logger.info(f"- 文档数据: {documents_file}")
-            logger.info(f"- 用户行为: {behaviors_file}")
-            logger.info(f"- 搜索结果: {results_file}")
+            # 读取数据文件
+            rerank_sessions = pd.read_csv(os.path.join(data_dir, 'rerank_sessions.csv'))
+            search_results = pd.read_csv(os.path.join(data_dir, 'search_results.csv'))
+            documents = pd.read_csv(os.path.join(data_dir, 'documents.csv'))
+            behaviors = pd.read_csv(os.path.join(data_dir, 'behaviors.csv'))
             
-            # 读取所有数据文件
-            sessions_df = pd.read_csv(sessions_file)
-            documents_df = pd.read_csv(documents_file)
-            behaviors_df = pd.read_csv(behaviors_file)
-            results_df = pd.read_csv(results_file)
+            logger.info(f"读取到 {len(rerank_sessions)} 条重排序会话")
+            logger.info(f"读取到 {len(search_results)} 条搜索结果")
+            logger.info(f"读取到 {len(documents)} 条文档")
+            logger.info(f"读取到 {len(behaviors)} 条行为记录")
             
-            logger.info("\n数据文件大小:")
-            logger.info(f"- 会话数据: {len(sessions_df)} 条记录")
-            logger.info(f"- 文档数据: {len(documents_df)} 条记录")
-            logger.info(f"- 用户行为: {len(behaviors_df)} 条记录")
-            logger.info(f"- 搜索结果: {len(results_df)} 条记录")
-            
-            # 准备训练样本
-            sessions = []
-            
-            # 对每个会话处理
-            for _, session_row in sessions_df.iterrows():
-                session_id = session_row['session_id']
-                
-                # 获取该会话的用户行为
-                session_behaviors = behaviors_df[behaviors_df['session_id'] == session_id]
-                
-                if len(session_behaviors) == 0:
-                    continue
-                
-                # 获取点击的文档（正样本）
-                clicked_docs = []
-                for _, behavior in session_behaviors.iterrows():
-                    if behavior['dwell_time'] > 30:  # 停留时间超过30秒视为正样本
-                        doc = documents_df[documents_df['work_id'] == behavior['document_id']]
-                        if not doc.empty:
-                            clicked_docs.append((doc.iloc[0], behavior['document_id']))
-                
-                if not clicked_docs:
-                    continue
-                
-                # 获取未点击的文档（负样本）
-                session_results = results_df[results_df['session_id'] == session_id]
-                unclicked_docs = []
-                
-                for _, result in session_results.iterrows():
-                    if result['entity_id'] not in [doc_id for _, doc_id in clicked_docs]:
-                        doc = documents_df[documents_df['work_id'] == result['entity_id']]
-                        if not doc.empty:
-                            unclicked_docs.append((doc.iloc[0], result['entity_id']))
-                
-                if not unclicked_docs:
-                    continue
-                
-                def process_doc_text(doc):
-                    """处理文档文本，确保类型安全并保留更多语义信息"""
-                    # 处理标题
-                    title = str(doc['title']) if pd.notna(doc['title']) else ''
-                    title = title.strip()
-                    
-                    # 处理摘要
-                    abstract = str(doc['abstract_inverted_index']) if pd.notna(doc['abstract_inverted_index']) else ''
-                    abstract = abstract.strip()
-                    
-                    # 保留更多标点符号和特殊字符，只移除可能影响模型的字符
-                    def clean_text(text):
-                        # 保留所有字母、数字、基本标点和常用符号
-                        return ''.join(c for c in text if c.isalnum() or c.isspace() or c in '.,!?-()[]{}:;"\'')
-                    
-                    title = clean_text(title)
-                    abstract = clean_text(abstract)
-                    
-                    # 使用特殊标记分隔标题和摘要，帮助模型区分不同部分
-                    return f"[TITLE] {title} [ABSTRACT] {abstract}".strip()
-                
-                # 将所有正样本和负样本添加到会话中
-                sessions.append({
-                    'query': str(session_row['query_text']).strip(),
-                    'pos_docs': [process_doc_text(doc) for doc, _ in clicked_docs],
-                    'neg_docs': [process_doc_text(doc) for doc, _ in unclicked_docs],
-                    'session_id': session_id,
-                    'pos_doc_ids': [doc_id for _, doc_id in clicked_docs],
-                    'neg_doc_ids': [doc_id for _, doc_id in unclicked_docs]
-                })
-                
-                # 减少日志输出频率
-                if len(sessions) % 10 == 0:
-                    logger.info(f"已处理 {len(sessions)} 个会话")
-                    # 输出最后一个会话的详细信息
-                    last_session = sessions[-1]
-                    logger.info("\n最近处理的会话示例:")
-                    logger.info(f"- 会话ID: {last_session['session_id']}")
-                    logger.info(f"- 查询文本: {last_session['query']}")
-                    logger.info(f"- 正样本数量: {len(last_session['pos_docs'])}")
-                    logger.info(f"- 负样本数量: {len(last_session['neg_docs'])}")
-                    if len(last_session['pos_docs']) > 0:
-                        logger.info(f"- 正样本示例: {last_session['pos_docs'][0][:100]}...")
-            
-            logger.info(f"\n数据准备完成，共生成 {len(sessions)} 个训练样本")
-            
-            if not sessions:
-                logger.error("没有找到任何有效的训练样本！")
-                return [], []
-            
-            # 使用固定的随机种子划分数据
-            train_sessions, val_sessions = train_test_split(
-                sessions, test_size=0.2, random_state=42
+            # 将搜索结果与文档信息合并
+            search_results = search_results.merge(
+                documents[['id', 'title', 'abstract_inverted_index']],
+                left_on='entity_id',
+                right_on='id',
+                how='inner'
             )
             
-            # 计算数据集的详细统计信息
-            train_stats = {
-                'total_sessions': len(train_sessions),
-                'total_pos_docs': sum(len(s['pos_docs']) for s in train_sessions),
-                'total_neg_docs': sum(len(s['neg_docs']) for s in train_sessions),
-                'avg_pos_per_session': sum(len(s['pos_docs']) for s in train_sessions) / len(train_sessions),
-                'avg_neg_per_session': sum(len(s['neg_docs']) for s in train_sessions) / len(train_sessions)
-            }
+            # 将搜索结果与重排序会话合并，使用正确的列名
+            data = search_results.merge(
+                rerank_sessions[['search_session_id', 'rerank_query']],
+                left_on='session_id',
+                right_on='search_session_id',
+                how='inner'
+            )
             
-            val_stats = {
-                'total_sessions': len(val_sessions),
-                'total_pos_docs': sum(len(s['pos_docs']) for s in val_sessions),
-                'total_neg_docs': sum(len(s['neg_docs']) for s in val_sessions),
-                'avg_pos_per_session': sum(len(s['pos_docs']) for s in val_sessions) / len(val_sessions),
-                'avg_neg_per_session': sum(len(s['neg_docs']) for s in val_sessions) / len(val_sessions)
-            }
+            # 创建训练数据
+            training_data = []
             
-            logger.info("\n训练集统计:")
-            logger.info(f"- 会话数量: {train_stats['total_sessions']}")
-            logger.info(f"- 总正样本数: {train_stats['total_pos_docs']}")
-            logger.info(f"- 总负样本数: {train_stats['total_neg_docs']}")
-            logger.info(f"- 平均每会话正样本数: {train_stats['avg_pos_per_session']:.2f}")
-            logger.info(f"- 平均每会话负样本数: {train_stats['avg_neg_per_session']:.2f}")
+            # 按会话分组处理
+            for session_id, group in data.groupby('session_id'):
+                query = str(group['rerank_query'].iloc[0])
+                
+                # 获取该会话中在behaviors中有记录的文档ID及其停留时间
+                session_behaviors = behaviors[behaviors['session_id'] == session_id]
+                # 创建文档ID到停留时间的映射，确保停留时间是数值类型
+                doc_dwell_times = {
+                    doc_id: float(dwell_time) if pd.notnull(dwell_time) else 0.0 
+                    for doc_id, dwell_time in zip(session_behaviors['document_id'], session_behaviors['dwell_time'])
+                }
+                positive_doc_ids = set(doc_dwell_times.keys())
+                
+                # 计算该会话中正样本的平均停留时间，用于归一化
+                dwell_times = [t for t in doc_dwell_times.values() if t > 0]
+                if dwell_times:
+                    mean_dwell_time = np.mean(dwell_times)
+                    std_dwell_time = np.std(dwell_times) if len(dwell_times) > 1 else 1.0
+                else:
+                    mean_dwell_time = 0.0
+                    std_dwell_time = 1.0
+                
+                # 获取该会话的所有文档
+                session_docs = group[['entity_id', 'title', 'abstract_inverted_index']].drop_duplicates()
+                
+                # 为每个文档创建训练数据
+                for _, doc in session_docs.iterrows():
+                    is_positive = doc['entity_id'] in positive_doc_ids
+                    
+                    # 获取文档的停留时间，如果没有则为0
+                    dwell_time = doc_dwell_times.get(doc['entity_id'], 0.0)
+                    
+                    # 计算归一化的停留时间分数（如果是正样本）
+                    if is_positive and mean_dwell_time > 0:
+                        # 使用z-score归一化，并将结果映射到[0.5, 1]范围
+                        z_score = (dwell_time - mean_dwell_time) / (std_dwell_time + 1e-6)
+                        normalized_score = 0.5 + 0.5 * (1 / (1 + np.exp(-z_score)))
+                    else:
+                        normalized_score = 0.0
+                    
+                    # 确保文本字段是字符串类型
+                    title = str(doc['title']) if pd.notnull(doc['title']) else ""
+                    abstract = str(doc['abstract_inverted_index']) if pd.notnull(doc['abstract_inverted_index']) else ""
+                    
+                    training_data.append({
+                        'query': query,
+                        'doc_text': title + " [SEP] " + abstract,
+                        'label': normalized_score
+                    })
             
-            logger.info("\n验证集统计:")
-            logger.info(f"- 会话数量: {val_stats['total_sessions']}")
-            logger.info(f"- 总正样本数: {val_stats['total_pos_docs']}")
-            logger.info(f"- 总负样本数: {val_stats['total_neg_docs']}")
-            logger.info(f"- 平均每会话正样本数: {val_stats['avg_pos_per_session']:.2f}")
-            logger.info(f"- 平均每会话负样本数: {val_stats['avg_neg_per_session']:.2f}")
+            # 转换为DataFrame
+            train_df = pd.DataFrame(training_data)
             
-            return train_sessions, val_sessions
+            if len(train_df) == 0:
+                logger.error("没有生成任何训练数据")
+                return pd.DataFrame(), pd.DataFrame()
+            
+            # 打乱数据
+            train_df = train_df.sample(frac=1, random_state=42)
+            
+            # 分割训练集和验证集
+            train_size = int(0.8 * len(train_df))
+            train_data = train_df[:train_size]
+            val_data = train_df[train_size:]
+            
+            logger.info(f"准备完成！训练集大小: {len(train_data)}, 验证集大小: {len(val_data)}")
+            logger.info(f"正样本比例: {(train_df['label'] > 0).mean():.2%}")
+            logger.info(f"平均标签值: {train_df['label'].mean():.4f}")
+            
+            return train_data, val_data
             
         except Exception as e:
             logger.error(f"准备训练数据时出错: {str(e)}")
-            return [], []
-    
+            logger.exception("详细错误信息：")  # 添加详细的错误堆栈信息
+            return pd.DataFrame(), pd.DataFrame()
+
+    def _process_doc_text(self, doc):
+        """处理文档文本，确保类型安全并保留更多语义信息"""
+        # 处理标题
+        title = str(doc['title']) if 'title' in doc else ''
+        title = title.strip()
+        
+        # 处理摘要
+        abstract = str(doc['abstract']) if 'abstract' in doc else ''
+        abstract = abstract.strip()
+        
+        # 保留更多标点符号和特殊字符，只移除可能影响模型的字符
+        def clean_text(text):
+            # 保留所有字母、数字、基本标点和常用符号
+            return ''.join(c for c in text if c.isalnum() or c.isspace() or c in '.,!?-()[]{}:;"\'')
+        
+        title = clean_text(title)
+        abstract = clean_text(abstract)
+        
+        # 使用特殊标记分隔标题和摘要，帮助模型区分不同部分
+        return f"[TITLE] {title} [ABSTRACT] {abstract}".strip()
+
     def collate_fn(self, batch):
         """自定义的批处理函数，处理不同长度的样本"""
         # 将所有样本的查询和会话ID收集到列表中
@@ -355,175 +355,115 @@ class ModelTrainer:
                 return True
             return False
 
-    def train(self, train_sessions, val_sessions, epochs=30, batch_size=8, resume_training=False):
-        """训练模型"""
+    def train(self, train_sessions, val_sessions, num_epochs=10, batch_size=32):
+        """Train the model using the prepared training data."""
         logger.info("开始训练模型...")
-        logger.info(f"训练集大小: {len(train_sessions)}, 验证集大小: {len(val_sessions)}")
-        logger.info(f"批次大小: {batch_size}, 训练轮数: {epochs}")
-        logger.info(f"初始学习率: {self.initial_lr}")
-        logger.info("\n早停设置:")
-        logger.info(f"- 耐心值: {self.early_stopping['patience']} epochs")
-        logger.info(f"- 最小改善阈值: {self.early_stopping['min_delta']}")
         
-        # 如果继续训练，尝试加载最新的检查点
-        if resume_training:
-            if self._load_best_model():
-                logger.info("已加载最佳模型继续训练")
+        # 准备训练数据
+        train_texts = [session['query'] + " [SEP] " + session['doc_text'] for session in train_sessions]
+        train_labels = torch.tensor([session['label'] for session in train_sessions])
         
-        train_dataset = SearchSessionDataset(train_sessions)
-        train_loader = DataLoader(
-            train_dataset,
-            batch_size=batch_size,
-            shuffle=True,
-            collate_fn=self.collate_fn,
-            num_workers=4 if self.device.type == 'cuda' else 0,
-            pin_memory=True if self.device.type == 'cuda' else False
+        # 准备验证数据
+        val_texts = [session['query'] + " [SEP] " + session['doc_text'] for session in val_sessions]
+        val_labels = torch.tensor([session['label'] for session in val_sessions])
+        
+        # 将文本转换为模型输入格式
+        train_encodings = self.tokenizer(train_texts, padding=True, truncation=True, max_length=512, return_tensors="pt")
+        val_encodings = self.tokenizer(val_texts, padding=True, truncation=True, max_length=512, return_tensors="pt")
+        
+        # 创建数据集
+        train_dataset = TensorDataset(
+            train_encodings['input_ids'],
+            train_encodings['attention_mask'],
+            train_labels
         )
+        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
         
-        # 设置学习率调度器参数
-        num_update_steps_per_epoch = len(train_loader)
-        self.num_training_steps = num_update_steps_per_epoch * epochs
-        self.num_warmup_steps = self.num_training_steps // 10
-        
-        # 创建学习率调度器
-        scheduler = self.get_scheduler(
-            num_warmup_steps=self.num_warmup_steps,
-            num_training_steps=self.num_training_steps
+        val_dataset = TensorDataset(
+            val_encodings['input_ids'],
+            val_encodings['attention_mask'],
+            val_labels
         )
+        val_loader = DataLoader(val_dataset, batch_size=batch_size)
         
-        # 如果继续训练，恢复调度器状态
-        if resume_training and self.start_epoch > 0:
-            for _ in range(self.start_epoch * num_update_steps_per_epoch):
-                scheduler.step()
+        # 设置优化器
+        optimizer = AdamW(self.model.parameters(), lr=2e-5)
         
-        logger.info(f"总训练步数: {self.num_training_steps}")
-        logger.info(f"预热步数: {self.num_warmup_steps}")
-        
-        for epoch in range(self.start_epoch, epochs):
-            logger.info(f"\nEpoch {epoch + 1}/{epochs}")
-            logger.info("-" * 50)
-            
+        # 训练循环
+        best_val_loss = float('inf')
+        for epoch in range(num_epochs):
             # 训练阶段
             self.model.train()
-            total_loss = 0
-            batch_count = 0
+            total_train_loss = 0
             
-            # 使用tqdm创建进度条
-            pbar = tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs}', 
-                       ncols=100, unit='batch')
-            
-            for batch_idx, batch in enumerate(pbar):
-                self.optimizer.zero_grad()
+            # 使用tqdm显示进度条
+            train_iterator = tqdm(train_loader, desc=f"Epoch {epoch+1}/{num_epochs}")
+            for batch in train_iterator:
+                input_ids, attention_mask, labels = [b.to(self.device) for b in batch]
                 
-                batch_loss = 0
-                batch_size = len(batch['query'])
+                # 清零梯度
+                optimizer.zero_grad()
                 
-                # 对每个查询处理
-                for i in range(batch_size):
-                    query = batch['query'][i]
-                    pos_docs = batch['pos_docs'][i]
-                    neg_docs = batch['neg_docs'][i]
-                    
-                    # 计算所有正样本的得分
-                    pos_scores = []
-                    for pos_doc in pos_docs:
-                        score = self.model(query, pos_doc)
-                        pos_scores.append(score.view(-1))
-                    
-                    # 计算所有负样本的得分
-                    neg_scores = []
-                    for neg_doc in neg_docs:
-                        score = self.model(query, neg_doc)
-                        neg_scores.append(score.view(-1))
-                    
-                    if not pos_scores or not neg_scores:
-                        continue
-                    
-                    # 将所有得分转换为张量
-                    pos_scores = torch.stack(pos_scores).to(self.device)
-                    neg_scores = torch.stack(neg_scores).to(self.device)
-                    
-                    # 计算每个正样本与所有负样本之间的损失
-                    for pos_score in pos_scores:
-                        for neg_score in neg_scores:
-                            target = torch.ones_like(pos_score).to(self.device)
-                            loss = self.criterion(pos_score.expand_as(neg_score), 
-                                               neg_score,
-                                               target)
-                            batch_loss += loss
+                # 前向传播
+                outputs = self.model(
+                    input_ids=input_ids,
+                    attention_mask=attention_mask,
+                    labels=labels.float()  # 确保标签是浮点数类型
+                )
                 
-                # 平均批次损失
-                if batch_size > 0:
-                    batch_loss = batch_loss / (batch_size * len(pos_scores) * len(neg_scores))
-                    batch_loss.backward()
+                loss = outputs.loss
+                total_train_loss += loss.item()
+                
+                # 反向传播
+                loss.backward()
+                optimizer.step()
+                
+                # 更新进度条
+                train_iterator.set_postfix({'loss': f'{loss.item():.4f}'})
+            
+            avg_train_loss = total_train_loss / len(train_loader)
+            
+            # 验证阶段
+            self.model.eval()
+            total_val_loss = 0
+            val_preds = []
+            val_true = []
+            
+            with torch.no_grad():
+                for batch in val_loader:
+                    input_ids, attention_mask, labels = [b.to(self.device) for b in batch]
                     
-                    # 梯度裁剪，防止梯度爆炸
-                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+                    outputs = self.model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask,
+                        labels=labels.float()
+                    )
                     
-                    self.optimizer.step()
-                    scheduler.step()
+                    loss = outputs.loss
+                    total_val_loss += loss.item()
                     
-                    current_lr = scheduler.get_last_lr()[0]
-                    total_loss += batch_loss.item()
-                    batch_count += 1
-                    
-                    # 更新进度条描述
-                    avg_loss = total_loss / batch_count
-                    pbar.set_postfix({
-                        'loss': f'{batch_loss.item():.4f}',
-                        'avg_loss': f'{avg_loss:.4f}',
-                        'lr': f'{current_lr:.2e}'
-                    })
-                    
-                    # 记录历史
-                    self.training_history['learning_rates'].append(current_lr)
+                    logits = outputs.logits
+                    preds = torch.sigmoid(logits).squeeze()  # 使用sigmoid获取概率值
+                    val_preds.extend(preds.cpu().numpy())
+                    val_true.extend(labels.cpu().numpy())
             
-            # 关闭进度条
-            pbar.close()
+            avg_val_loss = total_val_loss / len(val_loader)
             
-            avg_train_loss = total_loss / len(train_loader)
-            self.training_history['train_loss'].append(avg_train_loss)
+            # 计算MSE（因为我们在处理回归问题）
+            val_mse = np.mean((np.array(val_true) - np.array(val_preds)) ** 2)
             
-            # 在验证集上评估
-            val_metrics = self.evaluate(val_sessions, is_validation=True)
-            self.training_history['val_metrics'].append(val_metrics)
+            logger.info(f'Epoch {epoch+1}:')
+            logger.info(f'Average training loss: {avg_train_loss:.4f}')
+            logger.info(f'Average validation loss: {avg_val_loss:.4f}')
+            logger.info(f'Validation MSE: {val_mse:.4f}')
             
-            # 检查是否是最佳模型
-            is_best = (self.best_metrics is None or val_metrics['mrr'] > self.best_metrics['mrr'])
-            if is_best:
-                self.best_metrics = val_metrics
-                # 只在性能提升时保存模型
-                logger.info(f"\n√ 发现更好的模型！保存检查点...")
-                logger.info(f"- 当前MRR: {val_metrics['mrr']:.4f}")
-                logger.info(f"- 准确率: {val_metrics['accuracy']:.2f}%")
-                self._save_checkpoint(epoch + 1, {
-                    'epoch': epoch + 1,
-                    'model_state_dict': self.model.state_dict(),
-                    'optimizer_state_dict': self.optimizer.state_dict(),
-                    'scheduler_state_dict': scheduler.state_dict(),
-                    'loss': avg_train_loss,
-                    'training_history': self.training_history,
-                    'best_metrics': self.best_metrics,
-                    'early_stopping': self.early_stopping
-                })
+            # 保存最佳模型
+            if avg_val_loss < best_val_loss:
+                best_val_loss = avg_val_loss
+                self.save_model()
+                logger.info("保存了新的最佳模型")
             
-            # 显示当前训练状态
-            logger.info(f"\nEpoch {epoch + 1} 训练状态:")
-            logger.info(f"- 训练损失: {avg_train_loss:.4f}")
-            logger.info(f"- 验证MRR: {val_metrics['mrr']:.4f}")
-            logger.info(f"- 验证准确率: {val_metrics['accuracy']:.2f}%")
-            logger.info(f"- 当前学习率: {scheduler.get_last_lr()[0]:.2e}")
-            
-            # 检查是否需要早停
-            if self._check_early_stopping(val_metrics['mrr']):
-                logger.info(f"\n触发早停！在过去 {self.early_stopping['patience']} 个epoch中没有显著改善")
-                logger.info(f"最佳MRR: {self.early_stopping['best_mrr']:.4f}")
-                break
-            
-            # 显示早停状态
-            logger.info("\n早停状态:")
-            logger.info(f"- 当前最佳MRR: {self.early_stopping['best_mrr']:.4f}")
-            logger.info(f"- 未改善计数: {self.early_stopping['counter']}/{self.early_stopping['patience']}")
+            logger.info("-" * 60)
 
     def _save_checkpoint(self, epoch, state):
         """保存检查点
@@ -598,6 +538,8 @@ class ModelTrainer:
         logger.info("\n开始评估模型重排序效果...")
         
         self.model.eval()
+        device = next(self.model.parameters()).device  # 获取模型所在设备
+        
         total_loss = 0
         total_correct = 0
         total_samples = 0
@@ -605,281 +547,184 @@ class ModelTrainer:
         reciprocal_ranks = []
         recall_at_k = {1: 0, 3: 0, 5: 0, 10: 0}  # 计算不同K值的召回率
         
-        with torch.no_grad():
-            for session in test_sessions:
-                # 计算所有正样本的得分
-                pos_scores = []
-                for pos_doc in session['pos_docs']:
-                    score = self.model(session['query'], pos_doc)
-                    pos_scores.append(score.view(-1).to(self.device))  # 移动到GPU
-                
-                # 计算所有负样本的得分
-                neg_scores = []
-                for neg_doc in session['neg_docs']:
-                    score = self.model(session['query'], neg_doc)
-                    neg_scores.append(score.view(-1).to(self.device))  # 移动到GPU
-                
-                if not pos_scores or not neg_scores:
-                    continue
-                
-                # 将所有得分合并并转换为张量
-                pos_scores_tensor = torch.cat(pos_scores)  # 使用cat而不是stack
-                neg_scores_tensor = torch.cat(neg_scores)  # 使用cat而不是stack
-                all_scores = torch.cat([pos_scores_tensor, neg_scores_tensor])
-                
-                # 计算排名
-                sorted_indices = torch.argsort(all_scores, descending=True)
-                num_pos = len(pos_scores)
-                
-                # 找到所有正样本的排名
-                pos_ranks = []
-                for i in range(num_pos):
-                    # 找到当前正样本在排序后的位置
-                    rank_indices = torch.where(sorted_indices == i)[0]
-                    if len(rank_indices) == 0:
-                        print(f"警告：无法找到正样本 {i} 的排名")
+        try:
+            with torch.no_grad():
+                for session in test_sessions:
+                    try:
+                        # 将查询移动到正确的设备
+                        query = session['query']
+                        
+                        # 计算所有正样本的得分
+                        pos_scores = []
+                        for pos_doc in session['pos_docs']:
+                            try:
+                                score = self.model(query, pos_doc)
+                                pos_scores.append(score.view(-1).to(device))
+                            except Exception as e:
+                                logger.warning(f"处理正样本时出错: {str(e)}")
+                                continue
+                        
+                        # 计算所有负样本的得分
+                        neg_scores = []
+                        for neg_doc in session['neg_docs']:
+                            try:
+                                score = self.model(query, neg_doc)
+                                neg_scores.append(score.view(-1).to(device))
+                            except Exception as e:
+                                logger.warning(f"处理负样本时出错: {str(e)}")
+                                continue
+                        
+                        if not pos_scores or not neg_scores:
+                            logger.warning(f"会话 {session['session_id']} 没有有效的样本对")
+                            continue
+                        
+                        # 将所有得分合并并转换为张量
+                        try:
+                            pos_scores_tensor = torch.cat(pos_scores)
+                            neg_scores_tensor = torch.cat(neg_scores)
+                            all_scores = torch.cat([pos_scores_tensor, neg_scores_tensor])
+                            
+                            # 计算排名
+                            sorted_indices = torch.argsort(all_scores, descending=True)
+                            num_pos = len(pos_scores)
+                            
+                            # 找到所有正样本的排名
+                            pos_ranks = []
+                            for i in range(num_pos):
+                                # 找到当前正样本在排序后的位置
+                                rank_indices = torch.where(sorted_indices == i)[0]
+                                if len(rank_indices) == 0:
+                                    logger.warning(f"无法找到正样本 {i} 的排名")
+                                    continue
+                                rank = rank_indices[0].item() + 1
+                                pos_ranks.append(rank)
+                                all_ranks.append(rank)
+                                reciprocal_ranks.append(1.0 / rank)
+                            
+                            if not pos_ranks:
+                                logger.warning(f"会话 {session['session_id']} 没有有效的排名")
+                                continue
+                            
+                            # 计算最佳排名（用于准确率计算）
+                            best_rank = min(pos_ranks)
+                            if best_rank == 1:
+                                total_correct += 1
+                            
+                            # 计算不同K值的召回率
+                            for k in recall_at_k.keys():
+                                if k <= len(sorted_indices):
+                                    top_k_indices = set(sorted_indices[:k].tolist())
+                                    pos_in_top_k = sum(1 for i in range(num_pos) if i in top_k_indices)
+                                    recall_at_k[k] += pos_in_top_k / num_pos
+                            
+                            # 如果是验证阶段，计算损失
+                            if is_validation:
+                                validation_loss = 0
+                                num_pairs = 0
+                                for pos_score in pos_scores:
+                                    for neg_score in neg_scores:
+                                        target = torch.ones_like(pos_score).to(device)
+                                        loss = self.criterion(pos_score, neg_score, target)
+                                        if torch.isfinite(loss):
+                                            validation_loss += loss.item()
+                                            num_pairs += 1
+                                
+                                if num_pairs > 0:
+                                    validation_loss /= num_pairs
+                                    total_loss += validation_loss
+                            
+                            total_samples += 1
+                            
+                        except Exception as e:
+                            logger.error(f"计算评估指标时出错: {str(e)}")
+                            continue
+                            
+                    except Exception as e:
+                        logger.error(f"处理会话时出错: {str(e)}")
                         continue
-                    rank = rank_indices[0].item() + 1
-                    pos_ranks.append(rank)
-                    all_ranks.append(rank)
-                    reciprocal_ranks.append(1.0 / rank)
-                
-                if not pos_ranks:
-                    print("警告：该会话没有有效的排名")
-                    continue
-                
-                # 计算最佳排名（用于准确率计算）
-                best_rank = min(pos_ranks)
-                if best_rank == 1:
-                    total_correct += 1
-                
-                # 计算不同K值的召回率
-                for k in recall_at_k.keys():
-                    top_k_indices = set(sorted_indices[:k].tolist())
-                    pos_in_top_k = sum(1 for i in range(num_pos) if i in top_k_indices)
-                    recall_at_k[k] += pos_in_top_k / num_pos
-                
-                # 如果是验证阶段，计算损失
-                if is_validation:
-                    # 计算所有正负样本对的平均损失
-                    validation_loss = 0
-                    num_pairs = 0
-                    for pos_score in pos_scores:
-                        for neg_score in neg_scores:
-                            target = torch.ones_like(pos_score).to(self.device)  # 移动到GPU
-                            loss = self.criterion(pos_score, neg_score, target)
-                            validation_loss += loss.item()
-                            num_pairs += 1
-                    
-                    if num_pairs > 0:
-                        validation_loss /= num_pairs
-                        total_loss += validation_loss
-                
-                total_samples += 1
-        
-        if total_samples == 0:
-            logger.warning("没有有效的测试样本！")
-            return {
-                'loss': float('inf') if is_validation else 0,
-                'accuracy': 0,
-                'mean_rank': 0,
-                'mrr': 0,
-                'recall_at_k': {k: 0 for k in recall_at_k.keys()}
-            }
-        
-        # 计算评估指标
-        accuracy = (total_correct / total_samples) * 100
-        mean_rank = sum(all_ranks) / len(all_ranks) if all_ranks else 0
-        mrr = sum(reciprocal_ranks) / len(reciprocal_ranks) if reciprocal_ranks else 0
-        
-        # 计算平均召回率
-        for k in recall_at_k.keys():
-            recall_at_k[k] = (recall_at_k[k] / total_samples) * 100
-        
-        # 输出评估结果
-        logger.info(f"评估结果:")
-        logger.info(f"- 准确率 (排名第一): {accuracy:.2f}%")
-        logger.info(f"- 平均排名: {mean_rank:.2f}")
-        logger.info(f"- MRR (Mean Reciprocal Rank): {mrr:.4f}")
-        for k, recall in recall_at_k.items():
-            logger.info(f"- 召回率@{k}: {recall:.2f}%")
-        
-        if is_validation:
-            avg_loss = total_loss / total_samples
-            return {
-                'loss': avg_loss,
-                'accuracy': accuracy,
-                'mean_rank': mean_rank,
-                'mrr': mrr,
-                'recall_at_k': recall_at_k
-            }
-        else:
-            return {
-                'accuracy': accuracy,
-                'mean_rank': mean_rank,
-                'mrr': mrr,
-                'recall_at_k': recall_at_k
-            }
-
-    def load_model(self, model_path):
-        """加载已训练的模型"""
-        logger.info(f"从 {model_path} 加载模型...")
-        try:
-            # 尝试加载模型
-            state_dict = torch.load(model_path)
             
-            # 检查是否是新格式（包含model_state_dict）
-            if isinstance(state_dict, dict) and 'model_state_dict' in state_dict:
-                # 新格式：包含模型和优化器状态
-                self.model.load_state_dict(state_dict['model_state_dict'])
-                self.optimizer.load_state_dict(state_dict['optimizer_state_dict'])
+            if total_samples == 0:
+                logger.warning("没有有效的测试样本！")
+                return {
+                    'loss': float('inf') if is_validation else 0,
+                    'accuracy': 0,
+                    'mean_rank': 0,
+                    'mrr': 0,
+                    'recall_at_k': {k: 0 for k in recall_at_k.keys()}
+                }
+            
+            # 计算评估指标
+            accuracy = (total_correct / total_samples) * 100
+            mean_rank = sum(all_ranks) / len(all_ranks) if all_ranks else 0
+            mrr = sum(reciprocal_ranks) / len(reciprocal_ranks) if reciprocal_ranks else 0
+            
+            # 计算平均召回率
+            for k in recall_at_k.keys():
+                recall_at_k[k] = (recall_at_k[k] / total_samples) * 100
+            
+            # 输出评估结果
+            logger.info(f"评估结果 (总样本数: {total_samples}):")
+            logger.info(f"- 准确率 (排名第一): {accuracy:.2f}%")
+            logger.info(f"- 平均排名: {mean_rank:.2f}")
+            logger.info(f"- MRR (Mean Reciprocal Rank): {mrr:.4f}")
+            for k, recall in recall_at_k.items():
+                logger.info(f"- 召回率@{k}: {recall:.2f}%")
+            
+            if is_validation:
+                avg_loss = total_loss / total_samples if total_samples > 0 else float('inf')
+                return {
+                    'loss': avg_loss,
+                    'accuracy': accuracy,
+                    'mean_rank': mean_rank,
+                    'mrr': mrr,
+                    'recall_at_k': recall_at_k
+                }
             else:
-                # 旧格式：直接是模型状态字典
-                self.model.load_state_dict(state_dict)
-            
-            logger.info("模型加载成功")
-            return True
+                return {
+                    'accuracy': accuracy,
+                    'mean_rank': mean_rank,
+                    'mrr': mrr,
+                    'recall_at_k': recall_at_k
+                }
+                
         except Exception as e:
-            logger.error(f"加载模型失败: {str(e)}")
-            return False
-
-    def save_model(self, model_path):
-        """保存当前模型"""
-        logger.info(f"保存模型到 {model_path}...")
-        try:
-            # 保存为新格式
-            torch.save({
-                'model_state_dict': self.model.state_dict(),
-                'optimizer_state_dict': self.optimizer.state_dict()
-            }, model_path)
-            logger.info("模型保存成功")
-            return True
-        except Exception as e:
-            logger.error(f"保存模型失败: {str(e)}")
-            return False
+            logger.error(f"评估过程出错: {str(e)}")
+            raise
 
 def main():
     """主函数"""
     try:
-        # 设置随机种子
-        set_seed()
+        logger.info("开始运行模型训练程序...")
         
-        # 创建训练器（使用默认的相对路径）
-        trainer = ModelTrainer()
+        # 创建模型训练器，使用本地bert模型路径
+        trainer = ModelTrainer(model_path='bert/bert-base-uncased')
         
-        # 让用户选择操作模式
-        print("\n请选择操作模式：")
-        print("1. 训练模型")
-        print("2. 评估模型")
-        print("3. 训练并评估模型")
-        choice = input("请输入选项（1/2/3）: ").strip()
+        # 准备训练数据
+        logger.info("准备训练数据...")
+        train_df, val_df = trainer.prepare_training_data()
         
-        # 准备数据（所有模式都需要）
-        train_sessions, val_sessions = trainer.prepare_training_data()
-        if not train_sessions or not val_sessions:
-            logger.error("准备数据失败")
+        if train_df.empty or val_df.empty:
+            logger.error("训练数据为空，请检查数据准备过程")
             return
+            
+        logger.info(f"训练集大小: {len(train_df)}, 验证集大小: {len(val_df)}")
         
-        if choice == '1':
-            # 仅训练模式
-            logger.info("\n开始训练模式...")
-            trainer.train(train_sessions, val_sessions)
-            logger.info("训练完成！")
-            
-        elif choice == '2':
-            # 仅评估模式
-            logger.info("\n开始评估模式...")
-            
-            # 让用户选择要评估的模型
-            models_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models')
-            if not os.path.exists(models_dir):
-                logger.error("没有找到已训练的模型！")
-                return
-                
-            model_files = [f for f in os.listdir(models_dir) if f.endswith('.pth')]
-            if not model_files:
-                logger.error("没有找到已训练的模型文件！")
-                return
-                
-            print("\n可用的模型文件：")
-            for i, model_file in enumerate(model_files, 1):
-                print(f"{i}. {model_file}")
-            
-            model_choice = input("\n请选择要评估的模型编号: ").strip()
-            try:
-                model_idx = int(model_choice) - 1
-                model_path = os.path.join(models_dir, model_files[model_idx])
-            except (ValueError, IndexError):
-                logger.error("无效的选择！")
-                return
-            
-            # 加载选定的模型
-            if not trainer.load_model(model_path):
-                logger.error("无法加载模型，请确保模型文件完整")
-                return
-            
-            # 评估原始排序和重排序效果
-            original_accuracy = trainer.evaluate_original_ranking(val_sessions)
-            rerank_metrics = trainer.evaluate(val_sessions)
-            
-            # 显示评估结果
-            logger.info("\n评估结果对比:")
-            logger.info("原始检索排序:")
-            logger.info(f"- 准确率: {original_accuracy:.2f}%")
-            
-            logger.info("\n模型重排序:")
-            logger.info(f"- 准确率 (排名第一): {rerank_metrics['accuracy']:.2f}%")
-            logger.info(f"- 平均排名: {rerank_metrics['mean_rank']:.2f}")
-            logger.info(f"- MRR: {rerank_metrics['mrr']:.4f}")
-            for k, recall in rerank_metrics['recall_at_k'].items():
-                logger.info(f"- 召回率@{k}: {recall:.2f}%")
-            
-            # 计算相对变化
-            accuracy_change = rerank_metrics['accuracy'] - original_accuracy
-            logger.info("\n效果变化:")
-            logger.info(f"准确率变化: {accuracy_change:+.2f}% ({accuracy_change/original_accuracy*100:+.2f}% 相对变化)")
-            
-        elif choice == '3':
-            # 训练并评估模式
-            logger.info("\n开始训练并评估模式...")
-            
-            # 先完成训练
-            trainer.train(train_sessions, val_sessions)
-            logger.info("训练完成！")
-            
-            # 评估最后一个epoch的模型
-            latest_model = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', f'model_epoch_3.pth')
-            if not trainer.load_model(latest_model):
-                logger.error("无法加载最新训练的模型")
-                return
-            
-            # 评估原始排序和重排序效果
-            original_accuracy = trainer.evaluate_original_ranking(val_sessions)
-            rerank_metrics = trainer.evaluate(val_sessions)
-            
-            # 显示评估结果
-            logger.info("\n评估结果对比:")
-            logger.info("原始检索排序:")
-            logger.info(f"- 准确率: {original_accuracy:.2f}%")
-            
-            logger.info("\n模型重排序:")
-            logger.info(f"- 准确率 (排名第一): {rerank_metrics['accuracy']:.2f}%")
-            logger.info(f"- 平均排名: {rerank_metrics['mean_rank']:.2f}")
-            logger.info(f"- MRR: {rerank_metrics['mrr']:.4f}")
-            for k, recall in rerank_metrics['recall_at_k'].items():
-                logger.info(f"- 召回率@{k}: {recall:.2f}%")
-            
-            # 计算相对变化
-            accuracy_change = rerank_metrics['accuracy'] - original_accuracy
-            logger.info("\n效果变化:")
-            logger.info(f"准确率变化: {accuracy_change:+.2f}% ({accuracy_change/original_accuracy*100:+.2f}% 相对变化)")
+        # 将 DataFrame 转换为字典列表
+        train_sessions = train_df.to_dict('records')
+        val_sessions = val_df.to_dict('records')
         
-        else:
-            logger.error("无效的选项！请输入1、2或3")
-            return
+        # 开始训练
+        trainer.train(
+            train_sessions=train_sessions,
+            val_sessions=val_sessions,
+            num_epochs=10,
+            batch_size=32
+        )
+        
+        logger.info("训练完成！")
         
     except Exception as e:
-        logger.error(f"执行过程出错: {str(e)}")
+        logger.error(f"程序运行出错: {str(e)}")
         raise
 
 if __name__ == '__main__':
