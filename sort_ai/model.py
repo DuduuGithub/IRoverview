@@ -279,26 +279,50 @@ class SearchExpressionEncoder(nn.Module):
 class CrossAttention(nn.Module):
     def __init__(self, hidden_size):
         super().__init__()
-        self.query_proj = nn.Linear(hidden_size, hidden_size)
-        self.key_proj = nn.Linear(hidden_size, hidden_size)
-        self.value_proj = nn.Linear(hidden_size, hidden_size)
-        self.attention = nn.MultiheadAttention(hidden_size, num_heads=8, batch_first=True)
-        self.norm = nn.LayerNorm(hidden_size)
+        # 多头注意力层
+        self.self_attention_q = nn.MultiheadAttention(hidden_size, num_heads=8, batch_first=True)
+        self.self_attention_d = nn.MultiheadAttention(hidden_size, num_heads=8, batch_first=True)
+        self.cross_attention = nn.MultiheadAttention(hidden_size, num_heads=8, batch_first=True)
+        
+        # 前馈网络
+        self.feed_forward = nn.Sequential(
+            nn.Linear(hidden_size, hidden_size * 4),
+            nn.ReLU(),
+            nn.Dropout(0.1),
+            nn.Linear(hidden_size * 4, hidden_size)
+        )
+        
+        # 层归一化
+        self.norm1_q = nn.LayerNorm(hidden_size)
+        self.norm1_d = nn.LayerNorm(hidden_size)
+        self.norm2 = nn.LayerNorm(hidden_size)
+        self.norm3 = nn.LayerNorm(hidden_size)
+        
         self.dropout = nn.Dropout(0.1)
         
     def forward(self, query, doc):
         # 确保输入形状正确 [batch_size, seq_len, hidden_size]
         if len(query.shape) == 2:
-            query = query.unsqueeze(1)  # [batch_size, 1, hidden_size]
+            query = query.unsqueeze(1)
         if len(doc.shape) == 2:
-            doc = doc.unsqueeze(1)  # [batch_size, 1, hidden_size]
+            doc = doc.unsqueeze(1)
             
-        # 交叉注意力，让查询和文档之间进行更深入的交互
-        query = self.query_proj(query)
-        key = self.key_proj(doc)
-        value = self.value_proj(doc)
-        attn_output, _ = self.attention(query, key, value)
-        return self.dropout(self.norm(attn_output + query)).squeeze(1)  # [batch_size, hidden_size]
+        # 自注意力处理查询和文档
+        q_self, _ = self.self_attention_q(query, query, query)
+        d_self, _ = self.self_attention_d(doc, doc, doc)
+        
+        query = self.norm1_q(query + q_self)
+        doc = self.norm1_d(doc + d_self)
+        
+        # 交叉注意力
+        cross_attn, _ = self.cross_attention(query, doc, doc)
+        cross_out = self.norm2(query + cross_attn)
+        
+        # 前馈网络
+        ff_out = self.feed_forward(cross_out)
+        final_out = self.norm3(cross_out + ff_out)
+        
+        return final_out.squeeze(1)  # [batch_size, hidden_size]
 
 class MultiViewMatching(nn.Module):
     def __init__(self, hidden_size):
@@ -326,22 +350,46 @@ class MultiViewMatching(nn.Module):
 class HierarchicalEncoder(nn.Module):
     def __init__(self, hidden_size):
         super().__init__()
-        # 修改GRU的隐藏层大小，确保输出维度正确
-        self.word_level = nn.GRU(hidden_size, hidden_size//2, bidirectional=True, batch_first=True)
-        self.sent_level = nn.GRU(hidden_size, hidden_size//2, bidirectional=True, batch_first=True)
-        self.pooling = nn.AdaptiveAvgPool1d(1)
-        # 添加最终的投影层，确保输出维度为hidden_size
-        self.final_proj = nn.Linear(hidden_size, hidden_size)
+        # 使用全维度的GRU以保留更多信息
+        self.word_level = nn.GRU(hidden_size, hidden_size, bidirectional=True, batch_first=True)
+        self.sent_level = nn.GRU(hidden_size * 2, hidden_size, bidirectional=True, batch_first=True)
+        
+        # 添加注意力层来加强层次间的信息交互
+        self.word_attention = nn.MultiheadAttention(hidden_size * 2, num_heads=8, batch_first=True)
+        self.sent_attention = nn.MultiheadAttention(hidden_size * 2, num_heads=8, batch_first=True)
+        
+        # 添加层归一化
+        self.word_norm = nn.LayerNorm(hidden_size * 2)
+        self.sent_norm = nn.LayerNorm(hidden_size * 2)
+        
+        # 最终投影层，将维度调整为hidden_size
+        self.final_proj = nn.Sequential(
+            nn.Linear(hidden_size * 2, hidden_size),
+            nn.LayerNorm(hidden_size),
+            nn.ReLU(),
+            nn.Dropout(0.1)
+        )
         
     def forward(self, x):
         # 词级别编码
-        word_hidden, _ = self.word_level(x)  # [batch_size, seq_len, hidden_size]
+        word_hidden, _ = self.word_level(x)  # [batch_size, seq_len, hidden_size*2]
+        
+        # 词级别注意力
+        word_attn, _ = self.word_attention(word_hidden, word_hidden, word_hidden)
+        word_hidden = self.word_norm(word_hidden + word_attn)
+        
         # 句子级别编码
-        sent_hidden, _ = self.sent_level(word_hidden)  # [batch_size, seq_len, hidden_size]
-        # 池化得到最终表示
-        pooled = self.pooling(sent_hidden.transpose(1, 2)).squeeze(-1)  # [batch_size, hidden_size]
-        # 投影到正确的维度
-        return self.final_proj(pooled)  # [batch_size, hidden_size]
+        sent_hidden, _ = self.sent_level(word_hidden)  # [batch_size, seq_len, hidden_size*2]
+        
+        # 句子级别注意力
+        sent_attn, _ = self.sent_attention(sent_hidden, sent_hidden, sent_hidden)
+        sent_hidden = self.sent_norm(sent_hidden + sent_attn)
+        
+        # 全局池化
+        global_repr = sent_hidden.mean(dim=1)  # [batch_size, hidden_size*2]
+        
+        # 投影到目标维度
+        return self.final_proj(global_repr)  # [batch_size, hidden_size]
 
 class IRRankingModel(nn.Module):
     """改进的语义排序模型"""

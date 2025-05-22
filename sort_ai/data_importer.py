@@ -262,7 +262,7 @@ class DataImporter:
                 
                 # 提交剩余的引用关系
                 if refs_added > 0:
-                db.session.commit()
+                    db.session.commit()
                 
                 # 统计最终结果
                 works_count = Work.query.count()
@@ -503,9 +503,9 @@ class DataImporter:
                 logger.info(f"- 清除的搜索结果数: {results_before}")
                 logger.info(f"- 清除的用户行为数: {behaviors_before}")
             
-        except Exception as e:
+            except Exception as e:
                     logger.error(f"清除搜索记录时出错: {str(e)}")
-            db.session.rollback()
+                    db.session.rollback()
                     raise
 
 def main():
@@ -541,7 +541,7 @@ def main():
                     return
                     
                 # 生成搜索会话
-                importer.generate_search_sessions(num_sessions=50)
+                importer.generate_search_sessions(num_sessions=250)
                 logger.info("搜索会话生成完成！")
                 
             elif choice == '3':
@@ -552,11 +552,11 @@ def main():
                 logger.info("数据库已重置")
                 
                 # 导入文献
-        importer.import_corpus()
+                importer.import_corpus()
                 logger.info("文献导入完成！")
         
         # 生成搜索会话
-                importer.generate_search_sessions(num_sessions=50)
+                importer.generate_search_sessions(num_sessions=250)
                 logger.info("搜索会话生成完成！")
         
             elif choice == '4':
