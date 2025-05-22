@@ -355,7 +355,7 @@ class ModelTrainer:
                 return True
             return False
 
-    def train(self, train_sessions, val_sessions, epochs=30, batch_size=32, resume_training=False):
+    def train(self, train_sessions, val_sessions, epochs=30, batch_size=8, resume_training=False):
         """训练模型"""
         logger.info("开始训练模型...")
         logger.info(f"训练集大小: {len(train_sessions)}, 验证集大小: {len(val_sessions)}")
