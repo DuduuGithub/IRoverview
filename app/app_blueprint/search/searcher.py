@@ -212,129 +212,6 @@ def results_page():
     """搜索结果页面"""
     return render_template('search/results.html')
 
-@searcher_bp.route('/document/<doc_id>')
-def document_page(doc_id):
-    """文献详情页面"""
-    try:
-        # 从数据库获取文档详情
-        from Database.model import Work, Author, WorkAuthorship, Concept, Topic, WorkConcept, WorkTopic, WorkLocation, Source
-        
-        work = Work.query.get(doc_id)
-        if work is None:
-            return render_template('search/error.html', message=f"找不到ID为{doc_id}的文档")
-        
-        # 获取作者信息
-        authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
-        authors = []
-        for authorship in authorships:
-            if authorship.author_id:
-                author = Author.query.get(authorship.author_id)
-                if author:
-                    authors.append({
-                        'id': author.id,
-                        'name': author.display_name,
-                        'position': authorship.author_position
-                    })
-        
-        # 获取关键词、主题等
-        concepts = []
-        concept_records = WorkConcept.query.filter_by(work_id=doc_id).all()
-        for record in concept_records:
-            concept = Concept.query.get(record.concept_id)
-            if concept:
-                concepts.append(concept.display_name)
-                
-        topics = []
-        topic_records = WorkTopic.query.filter_by(work_id=doc_id).all()
-        for record in topic_records:
-            topic = Topic.query.get(record.topic_id)
-            if topic:
-                topics.append(topic.display_name)
-        
-        # 获取期刊/出版物信息
-        venue_name = '未知期刊'
-        try:
-            # 使用WorkLocation关联表获取source_id
-            work_location = WorkLocation.query.filter_by(work_id=doc_id, location_type='primary').first()
-            if work_location and work_location.source_id:
-                source = Source.query.get(work_location.source_id)
-                if source:
-                    venue_name = source.display_name or source.publisher or '未知期刊'
-        except Exception as venue_error:
-            print(f"获取期刊信息出错: {venue_error}")
-
-        # 构建文档详细信息，确保所有引用的属性都存在
-        try:
-            # 将倒排索引摘要转换为可读文本
-            abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
-            
-            document_data = {
-                'id': work.id,
-                'title': work.title or work.display_name or 'Untitled',
-                'authors': authors,
-                'year': work.publication_year or 0,
-                'venue': venue_name,
-                'doi': work.doi or '',
-                'abstract': abstract_text,
-                'cited_by_count': work.cited_by_count or 0,
-                'citations': work.cited_by_count or 0,
-                'keywords': concepts + topics,
-                'volume': work.volume or '',
-                'issue': work.issue or '',
-                'pages': f"{work.first_page or ''}-{work.last_page or ''}" if (work.first_page or work.last_page) else '',
-                'references': [],
-                'related': []
-            }
-            
-            # 获取相关文档（这里简化，实际应根据需求实现更复杂的相关性计算）
-            related_docs = []
-            # 简单示例：获取同一作者的其他文章
-            if authors:
-                try:
-                    # 查询作者ID
-                    author_ids = [a.id for a in Author.query.filter(Author.display_name.in_(authors)).all()]
-                    if author_ids:
-                        other_works = WorkAuthorship.query.filter(
-                            WorkAuthorship.author_id.in_(author_ids),
-                            WorkAuthorship.work_id != doc_id
-                        ).limit(5).all()
-                        
-                        for authorship in other_works:
-                            other_work = Work.query.get(authorship.work_id)
-                            if other_work:
-                                other_authors = []
-                                other_authorships = WorkAuthorship.query.filter_by(work_id=other_work.id).all()
-                                for other_authorship in other_authorships:
-                                    if other_authorship.author_id:
-                                        author = Author.query.get(other_authorship.author_id)
-                                        if author and author.display_name:
-                                            other_authors.append(author.display_name)
-                                
-                                related_docs.append({
-                                    'id': other_work.id,
-                                    'title': other_work.title or other_work.display_name or 'Untitled',
-                                    'authors': other_authors,
-                                    'year': other_work.publication_year or 0,
-                                    'cited_by_count': other_work.cited_by_count or 0
-                                })
-                except Exception as related_error:
-                    print(f"获取相关文档出错: {related_error}")
-            
-            document_data['related'] = related_docs
-            
-            return render_template(
-                'reader/document_detail.html',
-                work=work,
-                authors=authors,
-                document_data=document_data
-            )
-        except Exception as format_error:
-            print(f"格式化文档数据出错: {format_error}")
-            return render_template('search/error.html', message="处理文档数据时出错")
-        
-    except Exception as e:
-        return render_template('search/error.html', message=str(e))
-
 """
 基本搜索API
 处理POST请求，执行基本搜索并返回分页结果
@@ -508,7 +385,6 @@ def api_search():
 高级搜索API
 处理POST请求，执行高级搜索并返回分页结果
 """
-@searcher_bp.route('/api/basic/advanced_search', methods=['POST'])
 @searcher_bp.route('/api/advanced_search', methods=['POST'])
 def api_advanced_search():
     """高级搜索API接口"""

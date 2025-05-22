@@ -98,7 +98,7 @@ class ModelTrainer:
         if bert_path is None:
             # 获取sort_ai目录的路径
             sort_ai_dir = os.path.dirname(os.path.abspath(__file__))
-            bert_path = os.path.join(sort_ai_dir, 'bert', 'bert-base-uncased')
+            bert_path = os.path.join(sort_ai_dir, 'bert', 'D:/郭如璇的文件/A##Visual Studio Code/bert-base-uncased')
             logger.info(f"使用本地BERT模型: {bert_path}")
         
         self.model = IRRankingModel(bert_path=bert_path)
@@ -261,13 +261,16 @@ class ModelTrainer:
         logger.info(f"初始学习率: {self.initial_lr}")
         
         train_dataset = SearchSessionDataset(train_sessions)
+        generator = torch.Generator(device=self.device)
+
         train_loader = DataLoader(
             train_dataset,
             batch_size=batch_size,
             shuffle=True,
             collate_fn=self.collate_fn,
             num_workers=4 if self.device.type == 'cuda' else 0,
-            pin_memory=True if self.device.type == 'cuda' else False
+            pin_memory=True if self.device.type == 'cuda' else False,
+            generator=generator
         )
         
         # 设置学习率调度器参数
