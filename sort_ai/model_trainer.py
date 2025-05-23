@@ -14,7 +14,7 @@ import random
 import time
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, get_linear_schedule_with_warmup
 from torch.optim import AdamW
 
 # 添加项目根目录到Python路径
@@ -133,10 +133,29 @@ class ModelTrainer:
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
             self.model = AutoModelForSequenceClassification.from_pretrained(
                 self.model_path,
-                num_labels=2  # 二分类：相关或不相关
+                num_labels=1,  # 回归问题，使用单个输出
+                problem_type="regression",
+                hidden_dropout_prob=0.2,  # 添加dropout
+                attention_probs_dropout_prob=0.1  # 添加attention dropout
             )
+            
+            # 冻结BERT底层参数
+            for param in self.model.bert.embeddings.parameters():
+                param.requires_grad = False
+            for layer in self.model.bert.encoder.layer[:8]:  # 冻结前8层
+                for param in layer.parameters():
+                    param.requires_grad = False
+                    
             self.model = self.model.to(self.device)
             logger.info(f"成功加载模型")
+            
+            # 打印模型参数统计
+            total_params = sum(p.numel() for p in self.model.parameters())
+            trainable_params = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
+            logger.info(f"模型总参数量: {total_params:,}")
+            logger.info(f"可训练参数量: {trainable_params:,}")
+            logger.info(f"参数冻结比例: {(total_params-trainable_params)/total_params:.2%}")
+            
         except Exception as e:
             logger.error(f"加载模型时出错: {str(e)}")
             raise
@@ -167,6 +186,34 @@ class ModelTrainer:
             logger.error(f"加载模型时出错: {str(e)}")
             return False
 
+    def calculate_relevance_score(self, dwell_time, is_clicked, session_mean_dwell, session_std_dwell):
+        """计算文档的相关度分数
+        
+        Args:
+            dwell_time: 停留时间
+            is_clicked: 是否被点击
+            session_mean_dwell: 会话平均停留时间
+            session_std_dwell: 会话停留时间标准差
+            
+        Returns:
+            float: 相关度分数 [0, 1]
+        """
+        if not is_clicked:
+            return 0.0
+            
+        # 基础分数：根据是否点击
+        base_score = 0.3 if is_clicked else 0.0
+        
+        # 停留时间分数
+        if dwell_time > 0 and session_mean_dwell > 0:
+            # 使用z-score归一化
+            z_score = (dwell_time - session_mean_dwell) / (session_std_dwell + 1e-6)
+            # 将z-score映射到[0, 0.7]范围，加上基础分数
+            dwell_score = 0.7 * (1 / (1 + np.exp(-z_score)))
+            return base_score + dwell_score
+        
+        return base_score
+
     def prepare_training_data(self):
         """准备训练数据"""
         logger.info("开始准备训练数据...")
@@ -195,7 +242,7 @@ class ModelTrainer:
                 how='inner'
             )
             
-            # 将搜索结果与重排序会话合并，使用正确的列名
+            # 将搜索结果与重排序会话合并
             data = search_results.merge(
                 rerank_sessions[['search_session_id', 'rerank_query']],
                 left_on='session_id',
@@ -210,41 +257,38 @@ class ModelTrainer:
             for session_id, group in data.groupby('session_id'):
                 query = str(group['rerank_query'].iloc[0])
                 
-                # 获取该会话中在behaviors中有记录的文档ID及其停留时间
+                # 获取该会话中的行为数据
                 session_behaviors = behaviors[behaviors['session_id'] == session_id]
-                # 创建文档ID到停留时间的映射，确保停留时间是数值类型
-                doc_dwell_times = {
-                    doc_id: float(dwell_time) if pd.notnull(dwell_time) else 0.0 
+                
+                # 创建文档ID到行为数据的映射
+                doc_behaviors = {
+                    doc_id: {
+                        'dwell_time': float(dwell_time) if pd.notnull(dwell_time) else 0.0,
+                        'is_clicked': True
+                    }
                     for doc_id, dwell_time in zip(session_behaviors['document_id'], session_behaviors['dwell_time'])
                 }
-                positive_doc_ids = set(doc_dwell_times.keys())
                 
-                # 计算该会话中正样本的平均停留时间，用于归一化
-                dwell_times = [t for t in doc_dwell_times.values() if t > 0]
-                if dwell_times:
-                    mean_dwell_time = np.mean(dwell_times)
-                    std_dwell_time = np.std(dwell_times) if len(dwell_times) > 1 else 1.0
-                else:
-                    mean_dwell_time = 0.0
-                    std_dwell_time = 1.0
+                # 计算会话级别的统计信息
+                dwell_times = [b['dwell_time'] for b in doc_behaviors.values() if b['dwell_time'] > 0]
+                session_mean_dwell = np.mean(dwell_times) if dwell_times else 0.0
+                session_std_dwell = np.std(dwell_times) if len(dwell_times) > 1 else 1.0
                 
                 # 获取该会话的所有文档
                 session_docs = group[['entity_id', 'title', 'abstract_inverted_index']].drop_duplicates()
                 
                 # 为每个文档创建训练数据
                 for _, doc in session_docs.iterrows():
-                    is_positive = doc['entity_id'] in positive_doc_ids
+                    # 获取文档的行为数据
+                    behavior = doc_behaviors.get(doc['entity_id'], {'dwell_time': 0.0, 'is_clicked': False})
                     
-                    # 获取文档的停留时间，如果没有则为0
-                    dwell_time = doc_dwell_times.get(doc['entity_id'], 0.0)
-                    
-                    # 计算归一化的停留时间分数（如果是正样本）
-                    if is_positive and mean_dwell_time > 0:
-                        # 使用z-score归一化，并将结果映射到[0.5, 1]范围
-                        z_score = (dwell_time - mean_dwell_time) / (std_dwell_time + 1e-6)
-                        normalized_score = 0.5 + 0.5 * (1 / (1 + np.exp(-z_score)))
-                    else:
-                        normalized_score = 0.0
+                    # 计算相关度分数
+                    relevance_score = self.calculate_relevance_score(
+                        dwell_time=behavior['dwell_time'],
+                        is_clicked=behavior['is_clicked'],
+                        session_mean_dwell=session_mean_dwell,
+                        session_std_dwell=session_std_dwell
+                    )
                     
                     # 确保文本字段是字符串类型
                     title = str(doc['title']) if pd.notnull(doc['title']) else ""
@@ -253,7 +297,7 @@ class ModelTrainer:
                     training_data.append({
                         'query': query,
                         'doc_text': title + " [SEP] " + abstract,
-                        'label': normalized_score
+                        'label': relevance_score
                     })
             
             # 转换为DataFrame
@@ -271,15 +315,25 @@ class ModelTrainer:
             train_data = train_df[:train_size]
             val_data = train_df[train_size:]
             
+            # 输出相关度分数的分布信息
+            relevance_stats = train_df['label'].describe()
+            logger.info("\n相关度分数统计:")
+            logger.info(f"总样本数: {len(train_df)}")
+            logger.info(f"平均分数: {relevance_stats['mean']:.4f}")
+            logger.info(f"标准差: {relevance_stats['std']:.4f}")
+            logger.info(f"最小值: {relevance_stats['min']:.4f}")
+            logger.info(f"25%分位: {relevance_stats['25%']:.4f}")
+            logger.info(f"中位数: {relevance_stats['50%']:.4f}")
+            logger.info(f"75%分位: {relevance_stats['75%']:.4f}")
+            logger.info(f"最大值: {relevance_stats['max']:.4f}")
+            
             logger.info(f"准备完成！训练集大小: {len(train_data)}, 验证集大小: {len(val_data)}")
-            logger.info(f"正样本比例: {(train_df['label'] > 0).mean():.2%}")
-            logger.info(f"平均标签值: {train_df['label'].mean():.4f}")
             
             return train_data, val_data
             
         except Exception as e:
             logger.error(f"准备训练数据时出错: {str(e)}")
-            logger.exception("详细错误信息：")  # 添加详细的错误堆栈信息
+            logger.exception("详细错误信息：")
             return pd.DataFrame(), pd.DataFrame()
 
     def _process_doc_text(self, doc):
@@ -355,21 +409,90 @@ class ModelTrainer:
                 return True
             return False
 
-    def train(self, train_sessions, val_sessions, num_epochs=10, batch_size=32):
+    def calculate_precision_at_k(self, predictions, labels, k):
+        """计算P@K指标
+        
+        Args:
+            predictions: 预测分数列表
+            labels: 真实标签列表
+            k: 取前k个结果计算准确率
+            
+        Returns:
+            float: P@K值
+        """
+        if len(predictions) < k:
+            return 0.0
+            
+        # 获取预测分数最高的k个位置的索引
+        top_k_indices = np.argsort(predictions)[-k:]
+        # 获取这k个位置的真实标签
+        top_k_relevant = labels[top_k_indices]
+        # 计算准确率（相关文档数量/k）
+        return np.sum(top_k_relevant) / k
+
+    def calculate_ndcg_at_k(self, predictions, labels, k):
+        """计算NDCG@K
+        
+        Args:
+            predictions: 预测分数列表
+            labels: 真实标签列表（相关度分数）
+            k: 取前k个结果计算NDCG
+            
+        Returns:
+            float: NDCG@K值
+        """
+        if len(predictions) < k:
+            return 0.0
+            
+        # 获取预测分数最高的k个位置的索引
+        top_k_indices = np.argsort(predictions)[-k:][::-1]  # 降序排列
+        
+        # 计算DCG
+        dcg = 0
+        for i, idx in enumerate(top_k_indices):
+            rel = labels[idx]
+            dcg += (2 ** rel - 1) / np.log2(i + 2)  # i+2 是因为log2从1开始
+            
+        # 计算IDCG（理想DCG）
+        ideal_labels = np.sort(labels)[::-1]  # 降序排列
+        idcg = 0
+        for i in range(min(k, len(ideal_labels))):
+            rel = ideal_labels[i]
+            idcg += (2 ** rel - 1) / np.log2(i + 2)
+            
+        # 避免除零
+        if idcg == 0:
+            return 0.0
+            
+        return dcg / idcg
+
+    def train(self, train_sessions, val_sessions, num_epochs=10, batch_size=32, patience=3, min_delta=1e-4):
         """Train the model using the prepared training data."""
         logger.info("开始训练模型...")
         
         # 准备训练数据
         train_texts = [session['query'] + " [SEP] " + session['doc_text'] for session in train_sessions]
-        train_labels = torch.tensor([session['label'] for session in train_sessions])
+        train_labels = torch.tensor([session['label'] for session in train_sessions], dtype=torch.float)
         
         # 准备验证数据
         val_texts = [session['query'] + " [SEP] " + session['doc_text'] for session in val_sessions]
-        val_labels = torch.tensor([session['label'] for session in val_sessions])
+        val_labels = torch.tensor([session['label'] for session in val_sessions], dtype=torch.float)
         
         # 将文本转换为模型输入格式
-        train_encodings = self.tokenizer(train_texts, padding=True, truncation=True, max_length=512, return_tensors="pt")
-        val_encodings = self.tokenizer(val_texts, padding=True, truncation=True, max_length=512, return_tensors="pt")
+        train_encodings = self.tokenizer(
+            train_texts, 
+            padding=True, 
+            truncation=True, 
+            max_length=512, 
+            return_tensors="pt"
+        )
+        val_encodings = self.tokenizer(
+            val_texts, 
+            padding=True, 
+            truncation=True, 
+            max_length=512, 
+            return_tensors="pt"
+        )
         
         # 创建数据集
         train_dataset = TensorDataset(
@@ -377,20 +500,62 @@ class ModelTrainer:
             train_encodings['attention_mask'],
             train_labels
         )
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+        train_loader = DataLoader(
+            train_dataset, 
+            batch_size=batch_size, 
+            shuffle=True,
+            num_workers=2  # 使用多进程加载数据
+        )
         
         val_dataset = TensorDataset(
             val_encodings['input_ids'],
             val_encodings['attention_mask'],
             val_labels
         )
-        val_loader = DataLoader(val_dataset, batch_size=batch_size)
+        val_loader = DataLoader(
+            val_dataset, 
+            batch_size=batch_size,
+            num_workers=2
+        )
         
-        # 设置优化器
-        optimizer = AdamW(self.model.parameters(), lr=2e-5)
+        # 设置优化器和学习率调度器
+        optimizer = AdamW(
+            [
+                {"params": self.model.bert.encoder.layer[8:].parameters(), "lr": 2e-5},
+                {"params": self.model.bert.pooler.parameters(), "lr": 3e-5},
+                {"params": self.model.classifier.parameters(), "lr": 5e-5}
+            ],
+            weight_decay=0.01  # 添加权重衰减
+        )
+        
+        # 创建学习率调度器
+        num_training_steps = len(train_loader) * num_epochs
+        num_warmup_steps = num_training_steps // 10  # 10%的步数用于预热
+        scheduler = get_linear_schedule_with_warmup(
+            optimizer, 
+            num_warmup_steps=num_warmup_steps,
+            num_training_steps=num_training_steps
+        )
+        
+        criterion = nn.MSELoss()
+        scaler = torch.cuda.amp.GradScaler()  # 使用混合精度训练
         
         # 训练循环
         best_val_loss = float('inf')
+        best_metrics = None
+        best_model_state = None
+        
+        # 早停相关变量
+        patience_counter = 0
+        best_val_loss_for_stopping = float('inf')
+        
+        logger.info("训练过程说明：")
+        logger.info("1. 每个epoch在前一个epoch的基础上继续训练")
+        logger.info("2. 使用MSE损失函数计算预测值与真实值的差异")
+        logger.info("3. 计算P@K指标（K=1,3,5,10）评估排序质量")
+        logger.info(f"4. 使用早停机制（耐心值={patience}, 最小改善={min_delta}）")
+        logger.info("5. 保存验证损失最小的模型\n")
+        
         for epoch in range(num_epochs):
             # 训练阶段
             self.model.train()
@@ -405,18 +570,19 @@ class ModelTrainer:
                 optimizer.zero_grad()
                 
                 # 前向传播
-                outputs = self.model(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    labels=labels.float()  # 确保标签是浮点数类型
-                )
-                
-                loss = outputs.loss
-                total_train_loss += loss.item()
+                with torch.cuda.amp.autocast():
+                    outputs = self.model(
+                        input_ids=input_ids,
+                        attention_mask=attention_mask
+                    )
+                    
+                    logits = outputs.logits.squeeze()
+                    loss = criterion(logits, labels)
                 
                 # 反向传播
-                loss.backward()
-                optimizer.step()
+                scaler.scale(loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
                 
                 # 更新进度条
                 train_iterator.set_postfix({'loss': f'{loss.item():.4f}'})
@@ -426,8 +592,8 @@ class ModelTrainer:
             # 验证阶段
             self.model.eval()
             total_val_loss = 0
-            val_preds = []
-            val_true = []
+            all_val_preds = []
+            all_val_labels = []
             
             with torch.no_grad():
                 for batch in val_loader:
@@ -435,35 +601,111 @@ class ModelTrainer:
                     
                     outputs = self.model(
                         input_ids=input_ids,
-                        attention_mask=attention_mask,
-                        labels=labels.float()
+                        attention_mask=attention_mask
                     )
                     
-                    loss = outputs.loss
+                    logits = outputs.logits.squeeze()
+                    loss = criterion(logits, labels)
                     total_val_loss += loss.item()
                     
-                    logits = outputs.logits
-                    preds = torch.sigmoid(logits).squeeze()  # 使用sigmoid获取概率值
-                    val_preds.extend(preds.cpu().numpy())
-                    val_true.extend(labels.cpu().numpy())
+                    # 收集所有预测和标签用于计算P@K
+                    all_val_preds.extend(logits.cpu().numpy())
+                    all_val_labels.extend(labels.cpu().numpy())
             
+            # 转换为numpy数组以便计算指标
+            all_val_preds = np.array(all_val_preds)
+            all_val_labels = np.array(all_val_labels)
+            
+            # 计算各项指标
             avg_val_loss = total_val_loss / len(val_loader)
+            val_mse = np.mean((all_val_labels - all_val_preds) ** 2)
             
-            # 计算MSE（因为我们在处理回归问题）
-            val_mse = np.mean((np.array(val_true) - np.array(val_preds)) ** 2)
+            # 计算P@K指标
+            p_at_1 = self.calculate_precision_at_k(all_val_preds, all_val_labels, k=1)
+            p_at_3 = self.calculate_precision_at_k(all_val_preds, all_val_labels, k=3)
+            p_at_5 = self.calculate_precision_at_k(all_val_preds, all_val_labels, k=5)
+            p_at_10 = self.calculate_precision_at_k(all_val_preds, all_val_labels, k=10)
             
-            logger.info(f'Epoch {epoch+1}:')
-            logger.info(f'Average training loss: {avg_train_loss:.4f}')
-            logger.info(f'Average validation loss: {avg_val_loss:.4f}')
-            logger.info(f'Validation MSE: {val_mse:.4f}')
+            # 计算NDCG@K指标
+            ndcg_at_1 = self.calculate_ndcg_at_k(all_val_preds, all_val_labels, k=1)
+            ndcg_at_3 = self.calculate_ndcg_at_k(all_val_preds, all_val_labels, k=3)
+            ndcg_at_5 = self.calculate_ndcg_at_k(all_val_preds, all_val_labels, k=5)
+            ndcg_at_10 = self.calculate_ndcg_at_k(all_val_preds, all_val_labels, k=10)
             
-            # 保存最佳模型
+            # 输出详细的训练信息
+            logger.info(f'Epoch {epoch+1}/{num_epochs}:')
+            logger.info(f'训练集 - 损失: {avg_train_loss:.4f}')
+            logger.info(f'验证集 - 损失: {avg_val_loss:.4f}, MSE: {val_mse:.4f}')
+            logger.info(f'排序指标:')
+            logger.info(f'  - P@1:  {p_at_1:.4f}  NDCG@1:  {ndcg_at_1:.4f}')
+            logger.info(f'  - P@3:  {p_at_3:.4f}  NDCG@3:  {ndcg_at_3:.4f}')
+            logger.info(f'  - P@5:  {p_at_5:.4f}  NDCG@5:  {ndcg_at_5:.4f}')
+            logger.info(f'  - P@10: {p_at_10:.4f}  NDCG@10: {ndcg_at_10:.4f}')
+            
+            # 检查是否需要保存最佳模型
             if avg_val_loss < best_val_loss:
                 best_val_loss = avg_val_loss
+                best_metrics = {
+                    'loss': avg_val_loss,
+                    'mse': val_mse,
+                    'p@1': p_at_1,
+                    'p@3': p_at_3,
+                    'p@5': p_at_5,
+                    'p@10': p_at_10,
+                    'ndcg@1': ndcg_at_1,
+                    'ndcg@3': ndcg_at_3,
+                    'ndcg@5': ndcg_at_5,
+                    'ndcg@10': ndcg_at_10
+                }
+                # 保存最佳模型状态
+                best_model_state = {
+                    'model_state_dict': self.model.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'epoch': epoch,
+                    'val_loss': avg_val_loss,
+                    'metrics': best_metrics
+                }
                 self.save_model()
-                logger.info("保存了新的最佳模型")
+                logger.info("√ 保存了新的最佳模型")
+                logger.info(f"  - 验证损失: {best_val_loss:.4f}")
+                logger.info(f"  - P@1: {p_at_1:.4f}, P@3: {p_at_3:.4f}")
+                logger.info(f"  - P@5: {p_at_5:.4f}, P@10: {p_at_10:.4f}")
+            
+            # 早停检查
+            if avg_val_loss < best_val_loss_for_stopping - min_delta:
+                # 如果验证损失有显著改善
+                best_val_loss_for_stopping = avg_val_loss
+                patience_counter = 0
+                logger.info("! 验证损失显著改善，重置早停计数器")
+            else:
+                # 如果验证损失没有显著改善
+                patience_counter += 1
+                logger.info(f"! 验证损失未改善，早停计数：{patience_counter}/{patience}")
+            
+            if patience_counter >= patience:
+                logger.info(f"\n早停触发！连续 {patience} 个epoch验证损失未改善")
+                logger.info("正在恢复最佳模型状态...")
+                # 恢复最佳模型状态
+                self.model.load_state_dict(best_model_state['model_state_dict'])
+                optimizer.load_state_dict(best_model_state['optimizer_state_dict'])
+                logger.info(f"训练结束于第 {epoch+1} 个epoch")
+                logger.info(f"最佳验证损失: {best_val_loss:.4f}")
+                logger.info(f"最佳P@1: {best_metrics['p@1']:.4f}")
+                logger.info(f"最佳P@3: {best_metrics['p@3']:.4f}")
+                logger.info(f"最佳P@5: {best_metrics['p@5']:.4f}")
+                logger.info(f"最佳P@10: {best_metrics['p@10']:.4f}")
+                break
             
             logger.info("-" * 60)
+        
+        # 如果没有触发早停，也输出最终的最佳结果
+        if epoch == num_epochs - 1:
+            logger.info("\n达到最大训练轮数，训练结束")
+            logger.info(f"最佳验证损失: {best_val_loss:.4f}")
+            logger.info(f"最佳P@1: {best_metrics['p@1']:.4f}")
+            logger.info(f"最佳P@3: {best_metrics['p@3']:.4f}")
+            logger.info(f"最佳P@5: {best_metrics['p@5']:.4f}")
+            logger.info(f"最佳P@10: {best_metrics['p@10']:.4f}")
 
     def _save_checkpoint(self, epoch, state):
         """保存检查点
@@ -690,6 +932,86 @@ class ModelTrainer:
         except Exception as e:
             logger.error(f"评估过程出错: {str(e)}")
             raise
+
+    def predict(self, query, doc_text):
+        """使用模型预测文档相关性得分
+        
+        Args:
+            query: 查询文本
+            doc_text: 文档文本
+            
+        Returns:
+            float: 相关性得分
+        """
+        try:
+            # 确保模型处于评估模式
+            self.model.eval()
+            
+            # 准备输入
+            text = f"{query} [SEP] {doc_text}"
+            inputs = self.tokenizer(
+                text,
+                padding=True,
+                truncation=True,
+                max_length=512,
+                return_tensors="pt"
+            )
+            
+            # 将输入移到正确的设备上
+            inputs = {k: v.to(self.device) for k, v in inputs.items()}
+            
+            # 使用模型进行预测
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                score = outputs.logits.squeeze().item()
+            
+            return score
+            
+        except Exception as e:
+            logger.error(f"预测出错: {str(e)}")
+            return 0.0  # 出错时返回默认得分
+            
+    def predict_batch(self, queries, doc_texts):
+        """批量预测文档相关性得分
+        
+        Args:
+            queries: 查询文本列表
+            doc_texts: 文档文本列表
+            
+        Returns:
+            list: 相关性得分列表
+        """
+        try:
+            # 确保模型处于评估模式
+            self.model.eval()
+            
+            # 准备输入
+            texts = [f"{q} [SEP] {d}" for q, d in zip(queries, doc_texts)]
+            inputs = self.tokenizer(
+                texts,
+                padding=True,
+                truncation=True,
+                max_length=512,
+                return_tensors="pt"
+            )
+            
+            # 将输入移到正确的设备上
+            inputs = {k: v.to(self.device) for k, v in inputs.items()}
+            
+            # 使用模型进行预测
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                scores = outputs.logits.squeeze().cpu().tolist()
+                
+            # 确保返回的是列表
+            if not isinstance(scores, list):
+                scores = [scores]
+                
+            return scores
+            
+        except Exception as e:
+            logger.error(f"批量预测出错: {str(e)}")
+            return [0.0] * len(queries)  # 出错时返回默认得分列表
 
 def main():
     """主函数"""

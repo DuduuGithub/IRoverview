@@ -62,6 +62,7 @@ def record_search_results(session_id, results, page, per_page):
         page: 当前页码
         per_page: 每页结果数
     """
+    print(f"记录搜索结果: session_id={session_id}, page={page}, per_page={per_page}")
     if not session_id or not results:
         logger.warning("无效的会话ID或结果列表")
         return
@@ -74,9 +75,7 @@ def record_search_results(session_id, results, page, per_page):
             # 检查是否已存在相同的结果记录
             existing_result = SearchResult.query.filter_by(
                 session_id=session_id,
-                entity_id=result['id'],
-                result_page=page,
-                result_position=i + 1
+                entity_id=result['id']
             ).first()
             
             if existing_result:
@@ -87,117 +86,100 @@ def record_search_results(session_id, results, page, per_page):
                 session_id=session_id,
                 entity_type='work',
                 entity_id=result['id'],
-                rank=position,
+                rank_position=position,
                 relevance_score=result.get('relevance_score', 0.0),
                 query_text=result.get('query_text', ''),
                 result_page=page,
-                result_position=i + 1,
-                is_clicked=False,
-                dwell_time=0,
-                click_time=None
+                result_position=i + 1
             )
             db.session.add(search_result)
+            
+            # 创建初始用户行为记录
+            behavior = UserBehavior(
+                session_id=session_id,
+                document_id=result['id'],
+                rank_position=position,
+                is_clicked=False,
+                dwell_time=0,
+                behavior_time=datetime.utcnow()
+            )
+            db.session.add(behavior)
         
         db.session.commit()
-        logger.info(f"成功记录搜索结果: session_id={session_id}, page={page}, count={len(results)}")
+        logger.info(f"成功记录搜索结果和初始用户行为: session_id={session_id}, page={page}, count={len(results)}")
     except Exception as e:
         logger.error(f"记录搜索结果失败: {str(e)}", exc_info=True)
         db.session.rollback()
 
 def record_document_click(session_id, document_id):
-    """记录文档点击"""
-    logger.info(f"开始记录文档点击: session_id={session_id}, document_id={document_id}")
+    """记录文档点击
     
+    Args:
+        session_id: 会话ID
+        document_id: 文档ID
+    """
     if not session_id or not document_id:
-        logger.warning(f"无效的会话ID或文档ID: session_id={session_id}, document_id={document_id}")
-        return
+        logger.warning("无效的会话ID或文档ID")
+        return False
         
     try:
-        # 检查文档是否存在
-        work = Work.query.get(document_id)
-        if not work:
-            logger.warning(f"文档不存在: document_id={document_id}")
-            return
-            
-        logger.info(f"文档存在，准备记录点击: work_id={work.id}, title={work.title or work.display_name}")
-        
-        # 查找现有记录
+        # 查找或创建用户行为记录
         behavior = UserBehavior.query.filter_by(
             session_id=session_id,
             document_id=document_id
         ).first()
         
-        current_time = datetime.now()
+        current_time = datetime.utcnow()
         
         if behavior:
-            # 更新现有记录
+            behavior.is_clicked = True
+            behavior.click_time = current_time
             behavior.behavior_time = current_time
         else:
-            # 创建新记录
             behavior = UserBehavior(
                 session_id=session_id,
                 document_id=document_id,
+                is_clicked=True,
+                click_time=current_time,
                 dwell_time=0,
                 behavior_time=current_time
             )
             db.session.add(behavior)
         
-        # 更新搜索结果的点击状态
-        search_result = SearchResult.query.filter_by(
-            session_id=session_id,
-            entity_id=document_id
-        ).first()
-        
-        if search_result:
-            search_result.is_clicked = True
-            search_result.click_time = current_time
-        
         db.session.commit()
-        logger.info(f"成功记录点击: session_id={session_id}, document_id={document_id}")
-            
+        logger.info(f"成功记录文档点击: session_id={session_id}, document_id={document_id}")
+        return True
+        
     except Exception as e:
-        logger.error(f"记录文档点击失败: session_id={session_id}, document_id={document_id}, 错误={str(e)}", exc_info=True)
+        logger.error(f"记录文档点击失败: {str(e)}", exc_info=True)
         db.session.rollback()
+        return False
 
 def record_dwell_time(session_id, document_id, dwell_time):
-    """记录文档停留时间"""
-    logger.info(f"开始记录停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
+    """记录文档停留时间
     
-    try:
-        if not session_id or not document_id:
-            logger.warning(f"无效的会话ID或文档ID: session_id={session_id}, document_id={document_id}")
-            return False
-            
-        if dwell_time <= 0:
-            logger.warning(f"无效的停留时间: {dwell_time}秒")
-            return False
-            
-        if dwell_time > 1200:
-            dwell_time = 1200
-            logger.info(f"停留时间超过20分钟，已限制为1200秒")
-
-        # 检查文档是否存在
-        work = Work.query.get(document_id)
-        if not work:
-            logger.warning(f"文档不存在: document_id={document_id}")
-            return False
-            
-        logger.info(f"文档存在，准备记录停留时间: work_id={work.id}, title={work.title or work.display_name}")
+    Args:
+        session_id: 会话ID
+        document_id: 文档ID
+        dwell_time: 停留时间（秒）
+    """
+    if not session_id or not document_id or dwell_time <= 0:
+        logger.warning("无效的参数")
+        return False
         
-        # 查找现有记录
+    try:
+        # 查找或创建用户行为记录
         behavior = UserBehavior.query.filter_by(
             session_id=session_id,
             document_id=document_id
         ).first()
         
-        current_time = datetime.now()
+        current_time = datetime.utcnow()
         
         if behavior:
-            # 更新现有记录
-            behavior.dwell_time += dwell_time
+            behavior.dwell_time = dwell_time
             behavior.behavior_time = current_time
         else:
-            # 创建新记录
             behavior = UserBehavior(
                 session_id=session_id,
                 document_id=document_id,
@@ -206,21 +188,12 @@ def record_dwell_time(session_id, document_id, dwell_time):
             )
             db.session.add(behavior)
         
-        # 更新搜索结果的停留时间
-        search_result = SearchResult.query.filter_by(
-            session_id=session_id,
-            entity_id=document_id
-        ).first()
-        
-        if search_result:
-            search_result.dwell_time = behavior.dwell_time
-        
         db.session.commit()
         logger.info(f"成功记录停留时间: session_id={session_id}, document_id={document_id}, dwell_time={dwell_time}")
         return True
-            
+        
     except Exception as e:
-        logger.error(f"记录停留时间失败: session_id={session_id}, document_id={document_id}, 错误={str(e)}", exc_info=True)
+        logger.error(f"记录停留时间失败: {str(e)}", exc_info=True)
         db.session.rollback()
         return False
 
@@ -299,3 +272,42 @@ def get_search_history(session_id):
         print(f"获取搜索历史失败: {str(e)}")
         return None 
         return None 
+
+def record_rerank_operation(session_id, prompt, results):
+    """记录重排序操作
+    
+    Args:
+        session_id: 会话ID
+        prompt: 重排序提示词
+        results: 重排序后的结果列表
+    """
+    print(f"记录重排序操作: session_id={session_id}, prompt={prompt}")
+    if not session_id or not results:
+        logger.warning("无效的会话ID或结果列表")
+        return
+        
+    try:
+        # 更新会话信息
+        session = SearchSession.query.filter_by(session_id=session_id).first()
+        if session:
+            session.last_rerank_time = datetime.utcnow()
+            session.last_rerank_prompt = prompt
+        
+        # 更新搜索结果的排名
+        for i, result in enumerate(results):
+            search_result = SearchResult.query.filter_by(
+                session_id=session_id,
+                entity_id=result['id']
+            ).first()
+            
+            if search_result:
+                search_result.rerank_position = i + 1
+                search_result.rerank_time = datetime.utcnow()
+                search_result.rerank_prompt = prompt
+        
+        db.session.commit()
+        logger.info(f"成功记录重排序操作: session_id={session_id}, prompt={prompt}")
+        
+    except Exception as e:
+        logger.error(f"记录重排序操作失败: {str(e)}", exc_info=True)
+        db.session.rollback() 
