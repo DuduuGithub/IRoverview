@@ -42,6 +42,8 @@ def document_detail(doc_id):
         # 获取论文来源信息
         venue_name = "未知来源"
         publisher = ""
+        landing_page_url = ""
+        pdf_url = ""
         work_location = WorkLocation.query.filter_by(work_id=doc_id).first()
         if work_location and work_location.source_id:
             source = Source.query.get(work_location.source_id)
@@ -50,6 +52,12 @@ def document_detail(doc_id):
                 # 尝试从来源名称中提取出版商信息
                 if "," in source.display_name:
                     publisher = source.display_name.split(",")[-1].strip()
+            # 获取落地页URL
+            if work_location.landing_page_url:
+                landing_page_url = work_location.landing_page_url
+            # 获取PDF URL
+            if work_location.pdf_url:
+                pdf_url = work_location.pdf_url
         else:
             print(f"[INFO] 未找到文档来源信息")
             
@@ -184,7 +192,9 @@ def document_detail(doc_id):
             'publisher': publisher,
             'volume': work.volume if work and hasattr(work, 'volume') else "",
             'issue': work.issue if work and hasattr(work, 'issue') else "",
-            'pages': f"{work.first_page}-{work.last_page}" if work and hasattr(work, 'first_page') and hasattr(work, 'last_page') and work.first_page and work.last_page else ""
+            'pages': f"{work.first_page}-{work.last_page}" if work and hasattr(work, 'first_page') and hasattr(work, 'last_page') and work.first_page and work.last_page else "",
+            'landing_page_url': landing_page_url,
+            'pdf_url': pdf_url
         }
 
         # 获取年度引用统计数据
@@ -350,161 +360,3 @@ def citation_network(doc_id):
         print(f"[ERROR] 生成引用关系图失败: {e}")
         print(traceback.format_exc())
         return jsonify({'error': str(e)}), 500
-
-
-
-def format_authors(authors):
-    if not authors:
-        return ""
-    formatted = []
-    for author in authors:
-        parts = author.strip().split()
-        if len(parts) >= 2:
-            last = parts[-1]
-            initials = " ".join([p[0] + "." for p in parts[:-1]])
-            formatted.append(f"{last}, {initials}")
-        else:
-            formatted.append(author)
-    if len(formatted) == 1:
-        return formatted[0]
-    elif len(formatted) <= 20:
-        return ", ".join(formatted[:-1]) + ", & " + formatted[-1]
-    else:
-        return ", ".join(formatted[:19]) + ", ... " + formatted[-1]
-
-def generate_apa_citation(info):
-    type_ = info.get("type", "other")
-    authors = format_authors(info.get("authors", []))
-    year = info.get("publication_year", "n.d.")
-    title = info.get("title", "[No title]")
-    container = info.get("container", "")
-    publisher = info.get("publisher", "")
-    volume = info.get("volume", "")
-    issue = info.get("issue", "")
-    pages = info.get("pages", "")
-    doi = info.get("doi", "")
-    url = info.get("url", "")
-
-    citation = ""
-
-    if type_ in ['article', 'erratum', 'letter', 'editorial', 'peer-review']:
-        # 期刊文章或类似文章
-        citation = f"{authors} ({year}). {title}. *{container}*"
-        if volume:
-            citation += f", {volume}"
-            if issue:
-                citation += f"({issue})"
-        if pages:
-            citation += f", {pages}"
-        citation += "."
-    
-    elif type_ == 'book':
-        citation = f"{authors} ({year}). *{title}*. {publisher}."
-
-    elif type_ == 'book-chapter':
-        editors = format_authors(info.get("editors", []))
-        book_title = info.get("book_title", "")
-        chapter_pages = f"(pp. {pages})" if pages else ""
-        citation = (
-            f"{authors} ({year}). {title}. In {editors} (Ed.), *{book_title}* {chapter_pages}. {publisher}."
-        )
-
-    elif type_ == 'report':
-        citation = f"{authors} ({year}). *{title}* (Report). {publisher}."
-
-    elif type_ == 'dissertation':
-        degree = info.get("degree", "Doctoral dissertation")
-        institution = publisher or info.get("institution", "Unknown institution")
-        citation = f"{authors} ({year}). *{title}* ({degree}). {institution}."
-
-    elif type_ == 'dataset':
-        citation = f"{authors} ({year}). *{title}* [Data set]. {publisher}."
-
-    elif type_ == 'reference-entry':
-        citation = f"{authors} ({year}). {title}. In *{container}*. {publisher}."
-
-    elif type_ == 'standard':
-        citation = f"{authors} ({year}). *{title}* (Standard). {publisher}."
-
-    elif type_ == 'grant':
-        citation = f"{authors} ({year}). *{title}* [Grant description]. {publisher}."
-
-    elif type_ == 'paratext':
-        citation = f"{authors} ({year}). *{title}*. {publisher}."
-
-    else:  # fallback
-        citation = f"{authors} ({year}). *{title}*. {publisher}."
-
-    if doi:
-        citation += f" https://doi.org/{doi.split('/')[-1]}"
-    elif url:
-        citation += f" {url}"
-
-    return citation
-
-def generate_apa_citation_agency(work_id):
-    """根据work_id从数据库中获取信息并生成APA格式引用"""
-    try:
-        # 从数据库获取论文信息
-        work = Work.query.get(work_id)
-        if not work:
-            return "引用信息不可用：找不到指定的文献"
-        
-        # 获取作者列表
-        authors = []
-        authorships = WorkAuthorship.query.filter_by(work_id=work_id).all()
-        for authorship in authorships:
-            if authorship.author_id:
-                author = Author.query.get(authorship.author_id)
-                if author:
-                    authors.append(author.display_name)
-        
-        # 获取期刊/来源信息
-        venue_name = "未知来源"
-        publisher = ""
-        work_location = WorkLocation.query.filter_by(work_id=work_id).first()
-        if work_location and work_location.source_id:
-            source = Source.query.get(work_location.source_id)
-            if source and source.display_name:
-                venue_name = source.display_name
-                # 尝试从来源名称中提取出版商信息
-                if "," in source.display_name:
-                    publisher = source.display_name.split(",")[-1].strip()
-        
-        # 构建引用信息字典
-        info = {
-            "type": work.type if work.type else "article",
-            "authors": authors,
-            "title": work.title if work.title else "[无标题]",
-            "publication_year": work.publication_year,
-            "container": venue_name,
-            "publisher": publisher,
-            "volume": work.volume if hasattr(work, 'volume') and work.volume else "",
-            "issue": work.issue if hasattr(work, 'issue') and work.issue else "",
-            "pages": f"{work.first_page}-{work.last_page}" if hasattr(work, 'first_page') and hasattr(work, 'last_page') and work.first_page and work.last_page else "",
-            "doi": work.doi if work.doi else ""
-        }
-        
-        # 调用generate_apa_citation生成引用
-        citation = generate_apa_citation(info)
-        # 清理引用字符串，移除前后空白
-        citation = citation.strip() if citation else ""
-        return citation
-        
-    except Exception as e:
-        print(f"[ERROR] 生成APA引用出错: {e}")
-        return "生成引用时发生错误"
-
-# example = {
-#     "type": "book-chapter",
-#     "authors": ["Alice Smith", "Bob Johnson"],
-#     "editors": ["Jane Editor"],
-#     "title": "Deep learning in genomics",
-#     "book_title": "Advances in Genomic Research",
-#     "publication_year": 2022,
-#     "pages": "100-115",
-#     "publisher": "Springer",
-#     "doi": "10.1234/abcd.2022.001"
-# }
-
-# print(generate_apa_citation(example))

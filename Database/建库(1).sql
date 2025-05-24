@@ -337,19 +337,16 @@ CREATE TABLE operation_logs (
 
 -- 表24：搜索会话表（核心表）
 CREATE TABLE search_sessions (
-    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '会话ID',
-    session_id VARCHAR(50) NOT NULL UNIQUE COMMENT '会话唯一标识符',
+    session_id VARCHAR(100) PRIMARY KEY COMMENT '会话唯一标识符',
     search_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '搜索时间',
     query_text TEXT NOT NULL COMMENT '检索式',
     total_results INT DEFAULT 0 COMMENT '搜索结果总数',
-    INDEX idx_session_id (session_id),
     INDEX idx_search_time (search_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表24：搜索会话表，记录用户搜索行为和条件';
 
 -- 表25：搜索结果表（核心表）
 CREATE TABLE search_results (
-    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '结果ID',
-    session_id VARCHAR(50) COMMENT '关联的会话ID',
+    session_id VARCHAR(100) COMMENT '关联的会话ID',
     entity_type ENUM('work', 'author', 'concept', 'institution', 'source', 'topic') COMMENT '结果实体类型',
     entity_id VARCHAR(255) COMMENT '结果实体ID',
     rank_position INT COMMENT '搜索结果排名位置',
@@ -360,21 +357,40 @@ CREATE TABLE search_results (
     is_clicked BOOLEAN DEFAULT FALSE COMMENT '是否被点击',
     click_time DATETIME COMMENT '点击时间',
     dwell_time INT DEFAULT 0 COMMENT '停留时间（秒）',
-    INDEX idx_session_id (session_id),
+    PRIMARY KEY (session_id, entity_id),
     INDEX idx_entity (entity_type, entity_id),
     INDEX idx_click_time (click_time),
     FOREIGN KEY (session_id) REFERENCES search_sessions(session_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表25：搜索结果表，记录搜索结果及用户交互行为';
 
--- 表26：用户行为记录表（核心表）
-CREATE TABLE IF NOT EXISTS user_behaviors (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    session_id VARCHAR(50) NOT NULL,
-    document_id VARCHAR(50) NOT NULL,
-    dwell_time INT DEFAULT 0,
-    behavior_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE KEY uix_session_document (session_id, document_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表26：用户行为记录表，记录用户在文献上的停留时间';
+-- 表26：重排序会话表（核心表）
+CREATE TABLE rerank_sessions (
+    session_id VARCHAR(100) PRIMARY KEY COMMENT '重排序会话ID',
+    search_session_id VARCHAR(100) COMMENT '关联的搜索会话ID',
+    rerank_query TEXT COMMENT '重排序查询文本',
+    rerank_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '重排序时间',
+    INDEX idx_search_session (search_session_id),
+    FOREIGN KEY (search_session_id) REFERENCES search_sessions(session_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表26：重排序会话表，记录用户重排序行为';
+
+-- 表27：用户行为表（核心表）
+CREATE TABLE user_behaviors (
+    session_id VARCHAR(100) COMMENT '关联的搜索会话ID',
+    rerank_session_id VARCHAR(100) COMMENT '关联的重排序会话ID',
+    document_id VARCHAR(255) COMMENT '文档ID',
+    rank_position INT COMMENT '排名位置',
+    is_clicked BOOLEAN DEFAULT FALSE COMMENT '是否被点击',
+    click_time DATETIME COMMENT '点击时间',
+    dwell_time INT DEFAULT 0 COMMENT '停留时间（秒）',
+    behavior_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '行为发生时间',
+    PRIMARY KEY (session_id, document_id),
+    INDEX idx_rerank_session (rerank_session_id),
+    INDEX idx_document (document_id),
+    INDEX idx_rank (rank_position),
+    FOREIGN KEY (session_id) REFERENCES search_sessions(session_id),
+    FOREIGN KEY (rerank_session_id) REFERENCES rerank_sessions(session_id),
+    FOREIGN KEY (document_id) REFERENCES works(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='表27：用户行为表，记录用户与文档的交互行为';
 
 -- 创建触发器函数
 -- 为五个主要表（authors、works、concepts、institutions、sources、topics）都创建了触发器，每个表都有三个触发器：
@@ -906,7 +922,7 @@ BEGIN
     ) VALUES (
         'search',
         'search_result',
-        NEW.id,
+        NEW.entity_id,
         'success',
         CONCAT('新增搜索结果: 会话ID=', NEW.session_id, ', 实体ID=', NEW.entity_id),
         1

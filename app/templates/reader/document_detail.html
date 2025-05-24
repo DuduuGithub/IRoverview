@@ -296,6 +296,33 @@
             color: white;
             text-align: center;
         }
+        
+        .fulltext-access {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .fulltext-access .btn {
+            padding: 0.5rem 1.25rem;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .fulltext-access .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .fulltext-access .btn-success {
+            background-color: #198754;
+            border-color: #198754;
+        }
+        
+        .fulltext-access .btn-success:hover {
+            background-color: #157347;
+            border-color: #146c43;
+        }
     </style>
 </head>
 <body>
@@ -364,6 +391,22 @@
                                 次
                             </span>
                         </div>
+                        
+                        <!-- 添加访问全文按钮 -->
+                        {% if document_data.landing_page_url or document_data.pdf_url %}
+                        <div class="fulltext-access mt-3">
+                            {% if document_data.landing_page_url %}
+                            <a href="{{ document_data.landing_page_url }}" target="_blank" class="btn btn-primary me-2">
+                                <i class="bi bi-file-earmark-text me-1"></i>访问全文
+                            </a>
+                            {% endif %}
+                            {% if document_data.pdf_url %}
+                            <a href="{{ document_data.pdf_url }}" target="_blank" class="btn btn-success">
+                                <i class="bi bi-file-earmark-pdf me-1"></i>获取PDF
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
                     </div>
                     
                     <div id="abstract-section" class="abstract-section">
@@ -849,7 +892,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 生成引用格式
-    const documentData = JSON.parse('{{ document_data|tojson|safe }}');
+    const documentData = {{ document_data|tojson|safe }};
     
     // 生成APA格式引用
     const apaCitation = generateApaCitation(documentData);
@@ -940,7 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 从模板变量获取session_id和文档ID
-    const sessionId = '{{ document_data.session_id }}';  // 从document_data中获取session_id
+    const sessionId = '{{ request.args.get("session_id") }}';  // 直接从URL参数获取session_id
     const docId = '{{ work.id }}';
     
     console.log('[用户行为] 参数初始化时间:', new Date().toISOString());
@@ -1085,7 +1128,7 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('[用户行为] 事件监听器设置完成, 时间:', new Date().toISOString());
     
     // 初始化引用统计图
-    const citationData = {{ citation_data|tojson }};
+    const citationData = {{ citation_data|tojson|safe }};
     const ctx = document.getElementById('citationsChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',

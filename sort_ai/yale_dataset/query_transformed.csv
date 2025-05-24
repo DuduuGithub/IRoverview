@@ -1,4 +1,4 @@
-index,query
+index,query_text
 0,(research papers) AND (compress) AND (large-scale language models) AND (task-agnostic knowledge distillation)
 1,(resources) AND (translating Tunisian Arabic) AND (manually translated comments) AND (native speakers) AND (data augmentation) AND (segmentation at stop words level)
 2,(studies) AND (post-hoc techniques) AND (hallucination detection) AND ((token-level) OR (sentence-level)) AND (neural sequence generation)

@@ -7,7 +7,8 @@ from .search_utils import (
     record_search_results,
     record_document_click,
     get_search_history,
-    record_dwell_time
+    record_dwell_time,
+    record_rerank_operation
 )
 from .basicSearch.search import search as basic_search
 from .proSearch.search import search as advanced_search
@@ -22,6 +23,9 @@ import math
 import nltk
 from nltk.corpus import stopwords
 import json
+import torch
+from sort_ai.model_trainer import ModelTrainer
+from transformers import AutoModel, AutoTokenizer
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
@@ -32,6 +36,42 @@ searcher_bp = Blueprint('searcher', __name__,
                        static_folder='static')
 
 logger = logging.getLogger(__name__)
+
+# 初始化重排序模型
+rerank_model = None
+try:
+    rerank_model = ModelTrainer()
+    logger.info("重排序模型加载成功")
+except Exception as e:
+    logger.error(f"重排序模型加载失败: {str(e)}")
+
+# 初始化BERT模型用于文本嵌入
+embedding_tokenizer = None
+embedding_model = None
+
+def init_embedding_model():
+    """初始化用于文本嵌入的BERT模型"""
+    global embedding_tokenizer, embedding_model
+    try:
+        if not rerank_model:
+            logger.error("重排序模型未初始化，无法获取模型路径")
+            return
+            
+        # 使用rerank_model的模型路径
+        model_path = rerank_model.model_path
+        logger.info(f"从路径加载文本嵌入模型: {model_path}")
+        
+        embedding_tokenizer = AutoTokenizer.from_pretrained(model_path)
+        embedding_model = AutoModel.from_pretrained(model_path)
+        
+        if torch.cuda.is_available():
+            embedding_model = embedding_model.cuda()
+        embedding_model.eval()
+        logger.info("文本嵌入模型加载成功")
+    except Exception as e:
+        logger.error(f"文本嵌入模型加载失败: {str(e)}")
+        embedding_tokenizer = None
+        embedding_model = None
 
 """
 高亮文本的辅助函数，用于突出显示查询关键词
@@ -212,129 +252,6 @@ def results_page():
     """搜索结果页面"""
     return render_template('search/results.html')
 
-@searcher_bp.route('/document/<doc_id>')
-def document_page(doc_id):
-    """文献详情页面"""
-    try:
-        # 从数据库获取文档详情
-        from Database.model import Work, Author, WorkAuthorship, Concept, Topic, WorkConcept, WorkTopic, WorkLocation, Source
-        
-        work = Work.query.get(doc_id)
-        if work is None:
-            return render_template('search/error.html', message=f"找不到ID为{doc_id}的文档")
-        
-        # 获取作者信息
-        authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
-        authors = []
-        for authorship in authorships:
-            if authorship.author_id:
-                author = Author.query.get(authorship.author_id)
-                if author:
-                    authors.append({
-                        'id': author.id,
-                        'name': author.display_name,
-                        'position': authorship.author_position
-                    })
-        
-        # 获取关键词、主题等
-        concepts = []
-        concept_records = WorkConcept.query.filter_by(work_id=doc_id).all()
-        for record in concept_records:
-            concept = Concept.query.get(record.concept_id)
-            if concept:
-                concepts.append(concept.display_name)
-                
-        topics = []
-        topic_records = WorkTopic.query.filter_by(work_id=doc_id).all()
-        for record in topic_records:
-            topic = Topic.query.get(record.topic_id)
-            if topic:
-                topics.append(topic.display_name)
-        
-        # 获取期刊/出版物信息
-        venue_name = '未知期刊'
-        try:
-            # 使用WorkLocation关联表获取source_id
-            work_location = WorkLocation.query.filter_by(work_id=doc_id, location_type='primary').first()
-            if work_location and work_location.source_id:
-                source = Source.query.get(work_location.source_id)
-                if source:
-                    venue_name = source.display_name or source.publisher or '未知期刊'
-        except Exception as venue_error:
-            print(f"获取期刊信息出错: {venue_error}")
-
-        # 构建文档详细信息，确保所有引用的属性都存在
-        try:
-            # 将倒排索引摘要转换为可读文本
-            abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
-            
-            document_data = {
-                'id': work.id,
-                'title': work.title or work.display_name or 'Untitled',
-                'authors': authors,
-                'year': work.publication_year or 0,
-                'venue': venue_name,
-                'doi': work.doi or '',
-                'abstract': abstract_text,
-                'cited_by_count': work.cited_by_count or 0,
-                'citations': work.cited_by_count or 0,
-                'keywords': concepts + topics,
-                'volume': work.volume or '',
-                'issue': work.issue or '',
-                'pages': f"{work.first_page or ''}-{work.last_page or ''}" if (work.first_page or work.last_page) else '',
-                'references': [],
-                'related': []
-            }
-            
-            # 获取相关文档（这里简化，实际应根据需求实现更复杂的相关性计算）
-            related_docs = []
-            # 简单示例：获取同一作者的其他文章
-            if authors:
-                try:
-                    # 查询作者ID
-                    author_ids = [a.id for a in Author.query.filter(Author.display_name.in_(authors)).all()]
-                    if author_ids:
-                        other_works = WorkAuthorship.query.filter(
-                            WorkAuthorship.author_id.in_(author_ids),
-                            WorkAuthorship.work_id != doc_id
-                        ).limit(5).all()
-                        
-                        for authorship in other_works:
-                            other_work = Work.query.get(authorship.work_id)
-                            if other_work:
-                                other_authors = []
-                                other_authorships = WorkAuthorship.query.filter_by(work_id=other_work.id).all()
-                                for other_authorship in other_authorships:
-                                    if other_authorship.author_id:
-                                        author = Author.query.get(other_authorship.author_id)
-                                        if author and author.display_name:
-                                            other_authors.append(author.display_name)
-                                
-                                related_docs.append({
-                                    'id': other_work.id,
-                                    'title': other_work.title or other_work.display_name or 'Untitled',
-                                    'authors': other_authors,
-                                    'year': other_work.publication_year or 0,
-                                    'cited_by_count': other_work.cited_by_count or 0
-                                })
-                except Exception as related_error:
-                    print(f"获取相关文档出错: {related_error}")
-            
-            document_data['related'] = related_docs
-            
-            return render_template(
-                'reader/document_detail.html',
-                work=work,
-                authors=authors,
-                document_data=document_data
-            )
-        except Exception as format_error:
-            print(f"格式化文档数据出错: {format_error}")
-            return render_template('search/error.html', message="处理文档数据时出错")
-        
-    except Exception as e:
-        return render_template('search/error.html', message=str(e))
-
 """
 基本搜索API
 处理POST请求，执行基本搜索并返回分页结果
@@ -508,7 +425,6 @@ def api_search():
 高级搜索API
 处理POST请求，执行高级搜索并返回分页结果
 """
-@searcher_bp.route('/api/basic/advanced_search', methods=['POST'])
 @searcher_bp.route('/api/advanced_search', methods=['POST'])
 def api_advanced_search():
     """高级搜索API接口"""
@@ -1109,4 +1025,208 @@ def api_document_detail(doc_id):
         
     except Exception as e:
         print(f"获取文档详情出错: {e}")
+        return jsonify({'error': str(e)}), 500
+
+def normalize_scores(scores):
+    """对分数进行Min-Max标准化
+    
+    Args:
+        scores: 原始分数列表
+    Returns:
+        list: 标准化后的分数列表
+    """
+    if not scores:
+        return scores
+    min_score = min(scores)
+    max_score = max(scores)
+    if max_score == min_score:
+        return [1.0] * len(scores)
+    return [(s - min_score) / (max_score - min_score) for s in scores]
+
+def calculate_cosine_similarity(vec1, vec2):
+    """计算两个向量的余弦相似度
+    
+    Args:
+        vec1: 第一个向量
+        vec2: 第二个向量
+    Returns:
+        float: 余弦相似度
+    """
+    dot_product = sum(a * b for a, b in zip(vec1, vec2))
+    norm1 = math.sqrt(sum(a * a for a in vec1))
+    norm2 = math.sqrt(sum(b * b for b in vec2))
+    
+    if norm1 == 0 or norm2 == 0:
+        return 0
+        
+    return dot_product / (norm1 * norm2)
+
+def calculate_basic_relevance(result, prompt):
+    """计算基础相关性得分，使用余弦相似度
+    
+    Args:
+        result: 搜索结果字典
+        prompt: 用户输入的查询文本
+    Returns:
+        float: 基础相关性得分
+    """
+    global embedding_tokenizer, embedding_model
+    
+    try:
+        # 如果模型未初始化，先初始化
+        if embedding_model is None or embedding_tokenizer is None:
+            init_embedding_model()
+            if embedding_model is None or embedding_tokenizer is None:
+                logger.error("文本嵌入模型未能成功初始化")
+                return 0.0
+        
+        # 准备文档文本（标题和摘要）
+        title = result.get('title', '')
+        abstract = result.get('abstract', '')
+        doc_text = f"{title} [SEP] {abstract}"
+        
+        # 对查询和文档文本进行编码
+        inputs = embedding_tokenizer(
+            [prompt, doc_text],
+            padding=True,
+            truncation=True,
+            max_length=512,
+            return_tensors="pt"
+        )
+        
+        # 将输入移到正确的设备上
+        device = next(embedding_model.parameters()).device
+        inputs = {k: v.to(device) for k, v in inputs.items()}
+        
+        # 获取文本嵌入
+        with torch.no_grad():
+            outputs = embedding_model(**inputs)
+            # 使用[CLS]标记的输出作为文本表示
+            embeddings = outputs.last_hidden_state[:, 0, :].cpu().numpy()
+            
+        # 计算余弦相似度
+        similarity = calculate_cosine_similarity(embeddings[0], embeddings[1])
+        
+        return float(similarity)
+        
+    except Exception as e:
+        logger.error(f"计算余弦相似度时出错: {str(e)}")
+        return 0.0
+
+@searcher_bp.route('/api/rerank', methods=['POST'])
+def api_rerank():
+    """重排序API"""
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': '无效的请求数据'}), 400
+            
+        results = data.get('results', [])
+        prompt = data.get('prompt', '')
+        session_id = data.get('session_id', '')
+        
+        # 获取权重参数，默认重排序得分权重为0.7，基础相关性得分权重为0.3
+        rerank_weight = data.get('rerank_weight', 0.7)
+        basic_weight = 1 - rerank_weight
+        
+        if not results or not prompt:
+            return jsonify({'error': '缺少必要参数'}), 400
+            
+        if not session_id:
+            return jsonify({'error': '缺少会话ID'}), 400
+            
+        # 验证会话是否存在
+        session = SearchSession.query.filter_by(session_id=session_id).first()
+        if not session:
+            return jsonify({'error': '无效的会话ID'}), 400
+            
+        if not rerank_model:
+            return jsonify({'error': '重排序模型未初始化'}), 500
+            
+        try:
+            # 使用模型计算得分
+            rerank_scores = []
+            basic_scores = []
+            logger.info(f"\n开始重排序，提示词: {prompt}")
+            logger.info("=" * 50)
+            
+            # 计算两种得分
+            for result in results:
+                # 计算重排序得分
+                doc_text = f"{result['title']} [SEP] {result.get('abstract', '')}"
+                rerank_score = rerank_model.predict(
+                    query=prompt,
+                    doc_text=doc_text
+                )
+                rerank_scores.append(rerank_score)
+                
+                # 计算基础相关性得分（余弦相似度）
+                basic_score = calculate_basic_relevance(
+                    result=result,
+                    prompt=prompt
+                )
+                basic_scores.append(basic_score)
+                
+                logger.info(f"文献: {result['title']}")
+                logger.info(f"重排序得分: {rerank_score:.4f}")
+                logger.info(f"余弦相似度得分: {basic_score:.4f}")
+                logger.info("-" * 30)
+            
+            # 对两种得分进行标准化
+            normalized_rerank_scores = normalize_scores(rerank_scores)
+            normalized_basic_scores = normalize_scores(basic_scores)
+            
+            # 计算加权组合得分
+            final_scores = []
+            for i in range(len(results)):
+                final_score = (rerank_weight * normalized_rerank_scores[i] + 
+                             basic_weight * normalized_basic_scores[i])
+                final_scores.append((final_score, results[i]))
+                
+                logger.info(f"\n文献: {results[i]['title']}")
+                logger.info(f"标准化重排序得分: {normalized_rerank_scores[i]:.4f}")
+                logger.info(f"标准化余弦相似度得分: {normalized_basic_scores[i]:.4f}")
+                logger.info(f"最终加权得分: {final_score:.4f}")
+                logger.info("-" * 30)
+            
+            # 根据最终得分排序
+            final_scores.sort(key=lambda x: x[0], reverse=True)
+            
+            # 提取排序后的结果
+            reranked_results = [item[1] for item in final_scores]
+            
+            # 更新排名信息
+            for i, result in enumerate(reranked_results):
+                result['rerank_position'] = i + 1
+                result['final_score'] = final_scores[i][0]
+            
+            logger.info("\n重排序后的最终顺序:")
+            logger.info("=" * 50)
+            for i, result in enumerate(reranked_results):
+                logger.info(f"第{i+1}名: {result['title']}")
+                logger.info(f"最终得分: {result['final_score']:.4f}")
+            logger.info("=" * 50)
+            
+            # 记录重排序操作
+            try:
+                record_rerank_operation(
+                    session_id=session_id,
+                    prompt=prompt,
+                    results=reranked_results
+                )
+                logger.info(f"重排序操作已记录: session_id={session_id}, prompt={prompt}")
+            except Exception as log_error:
+                logger.error(f"记录重排序操作失败: {str(log_error)}")
+            
+            return jsonify({
+                'status': 'success',
+                'results': reranked_results
+            })
+            
+        except Exception as model_error:
+            logger.error(f"模型预测出错: {str(model_error)}")
+            return jsonify({'error': '模型预测失败'}), 500
+            
+    except Exception as e:
+        logger.error(f"重排序API出错: {str(e)}")
         return jsonify({'error': str(e)}), 500
