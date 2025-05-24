@@ -11,7 +11,7 @@ from .search_utils import (
     record_rerank_operation
 )
 from .basicSearch.search import search as basic_search
-from .proSearch.search import search as advanced_search, sort_db_results
+from .proSearch.search import search as advanced_search, sort_db_results, highlight_advanced_search_text, parse_advanced_query
 from .aiSearch.search import convert_to_structured_query, search as ai_search
 from .rank.rank import SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
 import re
@@ -26,6 +26,7 @@ import json
 import torch
 from sort_ai.model_trainer import ModelTrainer
 from transformers import AutoModel, AutoTokenizer
+from nltk.stem import WordNetLemmatizer
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
@@ -85,6 +86,14 @@ def highlight_text(text, keywords):
     if not text or not keywords:
         return text
     
+    # 确保NLTK资源已下载
+    try:
+        nltk.data.find('corpora/wordnet')
+    except LookupError:
+        nltk.download('wordnet')
+    
+    lemmatizer = WordNetLemmatizer()
+    
     # 将字符串关键词转换为列表
     if isinstance(keywords, str):
         # 检查是否包含布尔操作符
@@ -99,9 +108,27 @@ def highlight_text(text, keywords):
     result = text
     for keyword in keywords:
         if keyword and len(keyword.strip()) > 0:
-            # 使用单词边界匹配，确保匹配完整单词而非子字符串
-            pattern = re.compile(r'\b({0})\b'.format(re.escape(keyword.strip())), re.IGNORECASE)
-            result = pattern.sub(r'<span class="highlight">\1</span>', result)
+            # 获取检索词的词形
+            keyword_lemma = lemmatizer.lemmatize(keyword.strip().lower())
+            
+            # 使用修改后的正则表达式，匹配包含完整检索词的扩展词，但只高亮检索词部分
+            pattern = re.compile(r'\b(\w*?)({0})(\w*?)\b'.format(re.escape(keyword.strip())), re.IGNORECASE)
+            
+            def replace_with_highlight(match):
+                full_word = match.group(0)  # 完整匹配的词
+                prefix = match.group(1)     # 前缀
+                matched = match.group(2)    # 匹配的检索词
+                suffix = match.group(3)     # 后缀
+                
+                # 获取完整词的词形
+                full_word_lemma = lemmatizer.lemmatize(full_word.lower())
+                
+                # 只有当词形相同时才高亮
+                if full_word_lemma == keyword_lemma:
+                    return f"{prefix}<span class='highlight'>{matched}</span>{suffix}"
+                return full_word
+            
+            result = pattern.sub(replace_with_highlight, result)
     
     return result
 
@@ -1570,8 +1597,8 @@ def process_single_field_query(field, term):
 @searcher_bp.route('/api/advanced_boolean_search', methods=['POST'])
 def api_advanced_boolean_search():
     try:
-        # 导入排序函数
-        from .proSearch.search import sort_db_results
+        # 导入排序函数和高亮函数
+        from .proSearch.search import sort_db_results, highlight_advanced_search_text, parse_advanced_query
         
         # 获取请求数据
         data = request.get_json()
@@ -1652,14 +1679,14 @@ def api_advanced_boolean_search():
                 # 将倒排索引摘要转换为可读文本
                 abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
                 
-                # 创建结果对象
+                # 创建结果对象，使用新的高亮函数
                 result = {
                     'id': work.id,
-                    'title': work.title or work.display_name or '',
+                    'title': highlight_advanced_search_text(work.title or work.display_name or '', parsed_query),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
                     'cited_by_count': work.cited_by_count or 0,
-                    'abstract': abstract_text,
+                    'abstract': highlight_advanced_search_text(abstract_text, parsed_query),
                     'url': f'/reader/document/{work.id}?session_id={session_id}'
                 }
                 results.append(result)

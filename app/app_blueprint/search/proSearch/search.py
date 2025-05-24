@@ -20,6 +20,7 @@ import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 
 # 初始化英文分词所需组件
 try:
@@ -1011,3 +1012,77 @@ def process_time_query_with_db(time_query):
             pass
     
     return matching_docs
+
+def highlight_advanced_search_text(text, parsed_query):
+    """
+    高亮高级检索结果中的文本
+    参数:
+        - text: 要处理的原始文本
+        - parsed_query: 解析后的高级查询，包含字段查询和通用查询
+    返回:
+        - 处理后的包含HTML高亮标记的文本
+    """
+    if not text or not parsed_query:
+        return text
+    
+    # 确保NLTK资源已下载
+    try:
+        nltk.data.find('corpora/wordnet')
+    except LookupError:
+        nltk.download('wordnet')
+    
+    lemmatizer = WordNetLemmatizer()
+    
+    # 收集所有需要高亮的关键词
+    keywords = set()
+    
+    # 处理字段查询中的关键词
+    for field, queries in parsed_query.get("field_queries", {}).items():
+        for query in queries:
+            # 检查是否包含布尔操作符
+            if any(op in query.upper() for op in [' AND ', ' OR ', ' NOT ']) or '(' in query:
+                # 提取布尔表达式中的关键词
+                # 使用正则表达式匹配单词，但排除布尔操作符和括号
+                extracted = re.findall(r'\b(?!(?:AND|OR|NOT)\b)\w+\b', query)
+                keywords.update(extracted)
+            else:
+                # 对于简单查询，直接添加
+                keywords.add(query.strip())
+    
+    # 处理通用查询中的关键词
+    general_query = parsed_query.get("general_query", "")
+    if general_query:
+        if any(op in general_query.upper() for op in [' AND ', ' OR ', ' NOT ']) or '(' in general_query:
+            # 提取布尔表达式中的关键词
+            extracted = re.findall(r'\b(?!(?:AND|OR|NOT)\b)\w+\b', general_query)
+            keywords.update(extracted)
+        else:
+            keywords.add(general_query.strip())
+    
+    # 处理多个关键词
+    result = text
+    for keyword in keywords:
+        if keyword and len(keyword.strip()) > 0:
+            # 获取检索词的词形
+            keyword_lemma = lemmatizer.lemmatize(keyword.strip().lower())
+            
+            # 使用修改后的正则表达式，匹配包含完整检索词的扩展词，但只高亮检索词部分
+            pattern = re.compile(r'\b(\w*?)({0})(\w*?)\b'.format(re.escape(keyword.strip())), re.IGNORECASE)
+            
+            def replace_with_highlight(match):
+                full_word = match.group(0)  # 完整匹配的词
+                prefix = match.group(1)     # 前缀
+                matched = match.group(2)    # 匹配的检索词
+                suffix = match.group(3)     # 后缀
+                
+                # 获取完整词的词形
+                full_word_lemma = lemmatizer.lemmatize(full_word.lower())
+                
+                # 只有当词形相同时才高亮
+                if full_word_lemma == keyword_lemma:
+                    return f"{prefix}<span class='highlight'>{matched}</span>{suffix}"
+                return full_word
+            
+            result = pattern.sub(replace_with_highlight, result)
+    
+    return result
