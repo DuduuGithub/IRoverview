@@ -270,6 +270,13 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
+            transition: all 0.3s ease;
+            transform-origin: left center;
+        }
+        
+        .advanced-condition-row:hover,
+        .advanced-condition-row:hover .condition-remove-btn {
+            transform: scale(1.02);
         }
         
         .condition-remove {
@@ -277,27 +284,30 @@
             min-width: 80px;
             display: flex;
             justify-content: flex-end;
-            color: #dc3545;
+        }
+        
+        .condition-remove-btn {
+            padding: 0.25rem 0.75rem;
+            border: 1px solid #4a6bdf;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #4a6bdf;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.875rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transform: none;
         }
         
-        .condition-remove i {
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+        .condition-remove-btn:hover {
+            background-color: #4a6bdf;
+            color: #ffffff;
+            box-shadow: 0 2px 5px rgba(74, 107, 223, 0.2);
         }
         
-        .condition-remove:hover {
-            color: #bb2d3b;
-            transform: scale(1.1);
-        }
-        
-        .condition-remove:hover i {
-            transform: rotate(90deg);
-        }
-        
-        .condition-remove:active {
-            transform: scale(0.95);
+        .condition-remove-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 2px rgba(74, 107, 223, 0.1);
         }
         
         .condition-logic {
@@ -406,19 +416,47 @@
             padding: 0.75rem 1rem;
             border-bottom: 1px solid var(--border-color);
             transition: background-color 0.2s;
+            gap: 1rem;
+            min-height: 60px;
         }
         
         .history-item:hover {
             background-color: #f8f9fa;
         }
         
+        .history-content {
+            flex: 1;
+            min-width: 0;
+            word-break: break-word;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
         .history-query {
             font-weight: 500;
+            margin-bottom: 0.25rem;
+            white-space: pre-wrap;
+            line-height: 1.4;
         }
         
         .history-time {
             color: #6c757d;
             font-size: 0.85rem;
+            line-height: 1.2;
+        }
+        
+        .history-apply-btn {
+            flex-shrink: 0;
+            width: 60px;
+            height: 32px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
         }
         
         /* 页脚样式 */
@@ -680,7 +718,7 @@
                             <!-- 默认的条件行 -->
                             <div class="advanced-condition-row">
                                 <div class="condition-remove">
-                                    <i class="bi bi-x-circle"></i>
+                                    <button type="button" class="condition-remove-btn">删除</button>
                                 </div>
                                 <select class="form-select condition-logic">
                                     <option value="AND">AND</option>
@@ -1190,7 +1228,7 @@
                 newRow.className = 'advanced-condition-row';
                 newRow.innerHTML = `
                     <div class="condition-remove">
-                        <i class="bi bi-x-circle"></i>
+                        <button type="button" class="condition-remove-btn">删除</button>
                     </div>
                     <select class="form-select condition-logic">
                         <option value="AND">AND</option>
@@ -1217,7 +1255,7 @@
                     <input type="text" class="form-control condition-input" placeholder="输入检索词">
                 `;
 
-                const removeBtn = newRow.querySelector('.condition-remove');
+                const removeBtn = newRow.querySelector('.condition-remove-btn');
                 removeBtn.addEventListener('click', function() {
                     if (document.querySelectorAll('.advanced-condition-row').length > 1) {
                         conditionsContainer.removeChild(newRow);
@@ -1260,7 +1298,7 @@
                     const formattedTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 
                     li.innerHTML = `
-                        <div>
+                        <div class="history-content">
                             <div class="history-query">${item.query}</div>
                             <div class="history-time">${formattedTime}</div>
                         </div>
