@@ -10,7 +10,7 @@ from datetime import datetime
 import json
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, Text, Date, Enum, TIMESTAMP, ForeignKey, DateTime, Boolean, Float, JSON, DECIMAL
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 
@@ -480,18 +480,13 @@ class DataImporter:
 class SearchSession(db.Model):
     __tablename__ = 'search_sessions'
     
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    session_id = Column(String(50), nullable=False, unique=True)
+    session_id = Column(String(100), primary_key=True)
     search_time = Column(DateTime, default=datetime.utcnow)
     query_text = Column(Text, nullable=False)  # 检索式
     total_results = Column(Integer, default=0)
     
-    # 关系
-    results = relationship('SearchResult', back_populates='session')
-    
     def to_dict(self):
         return {
-            'id': self.id,
             'session_id': self.session_id,
             'search_time': self.search_time.isoformat() if self.search_time else None,
             'query_text': self.query_text,
@@ -500,86 +495,81 @@ class SearchSession(db.Model):
 
 # 搜索结果记录
 class SearchResult(db.Model):
+    """搜索结果模型"""
     __tablename__ = 'search_results'
-    
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    session_id = Column(String(50), ForeignKey('search_sessions.session_id'))
-    entity_type = Column(Enum('work', 'author', 'concept', 'institution', 'source', 'topic'))
-    entity_id = Column(String(255))
-    rank = Column(Integer)  # 在总结果中的排名
-    relevance_score = Column(Float)
-    query_text = Column(Text)  # 检索式
+
+    session_id = Column(String(100), ForeignKey('search_sessions.session_id'), primary_key=True)
+    entity_id = Column(String(255), primary_key=True)
+    entity_type = Column(String(100))  # 实体类型（如work, author等）
+    rank_position = Column(Integer)  # 搜索结果排名位置
+    relevance_score = Column(Float)  # 相关性得分
+    query_text = Column(Text)  # 查询文本
     result_page = Column(Integer)  # 结果所在页码
     result_position = Column(Integer)  # 结果在页面中的位置
-    is_clicked = Column(Boolean, default=False)
-    click_time = Column(DateTime)
-    dwell_time = Column(Integer, default=0)  # 停留时间（秒）
-    
-    # 关系
-    session = relationship('SearchSession', back_populates='results')
-    
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'session_id': self.session_id,
-            'entity_type': self.entity_type,
-            'entity_id': self.entity_id,
-            'rank': self.rank,
-            'relevance_score': self.relevance_score,
-            'query_text': self.query_text,
-            'result_page': self.result_page,
-            'result_position': self.result_position,
-            'is_clicked': self.is_clicked,
-            'click_time': self.click_time.isoformat() if self.click_time else None,
-            'dwell_time': self.dwell_time
-        }
 
-class UserBehavior(db.Model):
-    """用户行为记录模型"""
-    __tablename__ = 'user_behaviors'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    session_id = db.Column(db.String(50), db.ForeignKey('search_sessions.session_id'), nullable=False)
-    document_id = db.Column(db.String(50), nullable=False)
-    dwell_time = db.Column(db.Integer, default=0)  # 停留时间（秒）
-    behavior_time = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    # 关系
-    search_session = db.relationship('SearchSession', backref='behaviors')
-    
-    __table_args__ = (
-        db.UniqueConstraint('session_id', 'document_id', name='uix_session_document'),
-    )
-    
-    @classmethod
-    def record_dwell_time(cls, session_id, document_id, dwell_time):
-        """记录文档停留时间
-        
-        Args:
-            session_id: 会话ID
-            document_id: 文档ID
-            dwell_time: 停留时间（秒）
-        """
-        # 限制最大停留时间为20分钟（1200秒）
-        max_dwell_time = 1200
-        dwell_time = min(dwell_time, max_dwell_time)
-        
-        behavior = cls(
-            session_id=session_id,
-            document_id=document_id,
-            dwell_time=dwell_time,
-            behavior_time=datetime.utcnow()
-        )
-        db.session.add(behavior)
-        db.session.commit()
-        return behavior
-    
+    search_session = relationship('SearchSession', backref=db.backref('search_results', lazy='dynamic'))
+
     def to_dict(self):
         """转换为字典格式"""
         return {
-            'id': self.id,
+            'session_id': self.session_id,
+            'entity_id': self.entity_id,
+            'entity_type': self.entity_type,
+            'rank_position': self.rank_position,
+            'relevance_score': self.relevance_score,
+            'query_text': self.query_text,
+            'result_page': self.result_page,
+            'result_position': self.result_position
+        }
+
+class UserBehavior(db.Model):
+    """用户行为记录"""
+    __tablename__ = 'user_behaviors'
+
+    session_id = db.Column(db.String(100), db.ForeignKey('search_sessions.session_id'), primary_key=True)
+    document_id = db.Column(db.String(255), db.ForeignKey('works.id'), primary_key=True)
+    rerank_session_id = db.Column(db.String(100), db.ForeignKey('rerank_sessions.session_id'))
+    rank_position = db.Column(db.Integer)  # 在结果中的排名位置
+    is_clicked = db.Column(db.Boolean, default=False)  # 是否被点击
+    click_time = db.Column(db.DateTime)  # 点击时间
+    dwell_time = db.Column(db.Integer, default=0)  # 停留时间（秒）
+    behavior_time = db.Column(db.DateTime, default=datetime.now)  # 行为发生时间
+
+    # 关联
+    search_session = db.relationship('SearchSession', backref=db.backref('user_behaviors', lazy='dynamic'))
+    rerank_session = db.relationship('RerankSession', backref=db.backref('user_behaviors', lazy='dynamic'))
+    document = db.relationship('Work', backref=db.backref('user_behaviors', lazy='dynamic'))
+
+    def to_dict(self):
+        """转换为字典格式"""
+        return {
             'session_id': self.session_id,
             'document_id': self.document_id,
+            'rerank_session_id': self.rerank_session_id,
+            'rank_position': self.rank_position,
+            'is_clicked': self.is_clicked,
+            'click_time': self.click_time.isoformat() if self.click_time else None,
             'dwell_time': self.dwell_time,
             'behavior_time': self.behavior_time.isoformat() if self.behavior_time else None
+        }
+
+class RerankSession(db.Model):
+    """重排序会话"""
+    __tablename__ = 'rerank_sessions'
+    
+    session_id = Column(String(100), primary_key=True)
+    search_session_id = Column(String(100), ForeignKey('search_sessions.session_id'))
+    rerank_query = Column(Text)  # 重排序查询文本
+    rerank_time = Column(DateTime, default=datetime.now)  # 重排序时间
+    
+    # 关联
+    search_session = relationship('SearchSession', backref='rerank_sessions')
+    
+    def to_dict(self):
+        """转换为字典"""
+        return {
+            'session_id': self.session_id,
+            'search_session_id': self.search_session_id,
+            'rerank_query': self.rerank_query,
+            'rerank_time': self.rerank_time.isoformat() if self.rerank_time else None
         }

@@ -258,6 +258,27 @@
             color: var(--primary-color);
             font-weight: 500;
         }
+        
+        .rerank-container {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        #rerank-input {
+            border-right: 0;
+        }
+        
+        #rerank-btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        
+        .reranking-spinner {
+            display: none;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -419,6 +440,19 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </div>
+                            <!-- 添加重排序输入框 -->
+                            <div class="rerank-container mt-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="rerank-input" 
+                                           placeholder="输入重排序需求，例如：'按照创新性排序'">
+                                    <button class="btn btn-primary" id="rerank-btn" type="button">
+                                        <i class="bi bi-sort-down"></i> 重排序
+                                    </button>
+                                </div>
+                                <small class="text-muted mt-1 d-block">
+                                    提示：将对前20条结果进行智能重排序
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -712,6 +746,13 @@
                 // 隐藏加载指示器
                 document.getElementById('loading-spinner').classList.add('d-none');
                 
+                // 保存session_id到searchParams
+                if (data.session_id) {
+                    searchParams.session_id = data.session_id;
+                    // 更新会话存储
+                    sessionStorage.setItem('searchParams', JSON.stringify(searchParams));
+                }
+                
                 // 处理结果
                 searchResults = data.results || [];
                 
@@ -738,13 +779,12 @@
                 updateFilters(data);
             })
             .catch(error => {
-                console.error('搜索出错:', error);
+                console.error('获取搜索结果失败:', error);
                 document.getElementById('loading-spinner').classList.add('d-none');
                 document.getElementById('search-results').innerHTML = `
                     <div class="alert alert-danger">
-                        <span class="text-zh">搜索出错，请稍后重试</span>
-                        <span class="text-en d-none">Search error, please try again later</span>
-                        <p class="mt-2"><small>${error.message}</small></p>
+                        <span class="text-zh">获取搜索结果失败，请稍后重试</span>
+                        <span class="text-en d-none">Failed to fetch results, please try again later</span>
                     </div>
                 `;
                 document.getElementById('search-results').classList.remove('d-none');
@@ -1004,6 +1044,75 @@
                 });
             });
         }
+        
+        // 添加重排序相关函数
+        function rerankResults() {
+            const rerankPrompt = document.getElementById('rerank-input').value.trim();
+            if (!rerankPrompt) {
+                alert('请输入重排序需求');
+                return;
+            }
+            
+            // 显示加载动画
+            document.getElementById('loading-spinner').classList.remove('d-none');
+            document.getElementById('search-results').classList.add('d-none');
+            
+            // 获取前20条结果
+            const resultsToRerank = searchResults.slice(0, 20);
+            
+            // 发送重排序请求
+            fetch('/search/api/rerank', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    results: resultsToRerank,
+                    prompt: rerankPrompt,
+                    session_id: searchParams.session_id
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // 更新搜索结果
+                searchResults = data.results.concat(searchResults.slice(20));
+                
+                // 重新渲染结果
+                renderResults(searchResults);
+                
+                // 显示结果区域
+                document.getElementById('loading-spinner').classList.add('d-none');
+                document.getElementById('search-results').classList.remove('d-none');
+            })
+            .catch(error => {
+                console.error('重排序出错:', error);
+                alert('重排序失败，请稍后重试');
+                document.getElementById('loading-spinner').classList.add('d-none');
+                document.getElementById('search-results').classList.remove('d-none');
+            });
+        }
+        
+        // 添加重排序按钮事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            const rerankBtn = document.getElementById('rerank-btn');
+            if (rerankBtn) {
+                rerankBtn.addEventListener('click', rerankResults);
+            }
+            
+            // 添加输入框回车事件
+            const rerankInput = document.getElementById('rerank-input');
+            if (rerankInput) {
+                rerankInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        rerankResults();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html> 

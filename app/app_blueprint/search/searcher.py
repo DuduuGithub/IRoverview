@@ -7,7 +7,8 @@ from .search_utils import (
     record_search_results,
     record_document_click,
     get_search_history,
-    record_dwell_time
+    record_dwell_time,
+    record_rerank_operation
 )
 from .basicSearch.search import search as basic_search
 from .proSearch.search import search as advanced_search, sort_db_results
@@ -22,6 +23,9 @@ import math
 import nltk
 from nltk.corpus import stopwords
 import json
+import torch
+from sort_ai.model_trainer import ModelTrainer
+from transformers import AutoModel, AutoTokenizer
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
@@ -32,6 +36,42 @@ searcher_bp = Blueprint('searcher', __name__,
                        static_folder='static')
 
 logger = logging.getLogger(__name__)
+
+# 初始化重排序模型
+rerank_model = None
+try:
+    rerank_model = ModelTrainer()
+    logger.info("重排序模型加载成功")
+except Exception as e:
+    logger.error(f"重排序模型加载失败: {str(e)}")
+
+# 初始化BERT模型用于文本嵌入
+embedding_tokenizer = None
+embedding_model = None
+
+def init_embedding_model():
+    """初始化用于文本嵌入的BERT模型"""
+    global embedding_tokenizer, embedding_model
+    try:
+        if not rerank_model:
+            logger.error("重排序模型未初始化，无法获取模型路径")
+            return
+            
+        # 使用rerank_model的模型路径
+        model_path = rerank_model.model_path
+        logger.info(f"从路径加载文本嵌入模型: {model_path}")
+        
+        embedding_tokenizer = AutoTokenizer.from_pretrained(model_path)
+        embedding_model = AutoModel.from_pretrained(model_path)
+        
+        if torch.cuda.is_available():
+            embedding_model = embedding_model.cuda()
+        embedding_model.eval()
+        logger.info("文本嵌入模型加载成功")
+    except Exception as e:
+        logger.error(f"文本嵌入模型加载失败: {str(e)}")
+        embedding_tokenizer = None
+        embedding_model = None
 
 """
 高亮文本的辅助函数，用于突出显示查询关键词
