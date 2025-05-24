@@ -892,19 +892,19 @@
             }
 
             // 当前搜索模式（基本、高级或检索式）
-            let currentSearchMode = 'basic';
+            let currentSearchMode = 'basic';  // 默认设置为基本检索
 
             // 切换标签页时更新搜索模式
-            document.getElementById('basic-tab').addEventListener('click', function() {
-                currentSearchMode = 'basic';
-            });
-
-            document.getElementById('advanced-tab').addEventListener('click', function() {
-                currentSearchMode = 'advanced';
-            });
-
-            document.getElementById('query-tab').addEventListener('click', function() {
-                currentSearchMode = 'query';
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    if (this.id === 'basic-tab') {
+                        currentSearchMode = 'basic';
+                    } else if (this.id === 'advanced-tab') {
+                        currentSearchMode = 'advanced';
+                    } else if (this.id === 'query-tab') {
+                        currentSearchMode = 'query';
+                    }
+                });
             });
 
             // 为所有文档链接添加事件监听器
@@ -1115,6 +1115,11 @@
 
             // 初始化
             function init() {
+                // 确保默认显示基本检索 Tab
+                const basicTab = new bootstrap.Tab(document.getElementById('basic-tab'));
+                basicTab.show();
+                currentSearchMode = 'basic';
+
                 const queryParam = getQueryParam('query');
                 if (queryParam) {
                     document.getElementById('basicQuery').value = decodeURIComponent(queryParam);
@@ -1139,25 +1144,27 @@
 
                 advancedForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    const conditions = document.querySelectorAll('.advanced-condition-row');
-                    let query = '';
+                    const conditions = [];
                     
-                    conditions.forEach(function(condition, index) {
+                    document.querySelectorAll('.advanced-condition-row').forEach(function(condition) {
                         const logic = condition.querySelector('.condition-logic').value;
                         const field = condition.querySelector('.condition-field').value;
                         const input = condition.querySelector('.condition-input').value.trim();
                         
                         if (input) {
-                            if (index > 0) {
-                                query += ` ${logic} `;
-                            }
-                            query += `${field}:(${input})`;
+                            conditions.push({
+                                field: field,
+                                logic: logic,
+                                input: input
+                            });
                         }
                     });
 
-                    if (query) {
-                        saveSearchHistory(query);
-                        window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
+                    if (conditions.length > 0) {
+                        // 保存搜索历史
+                        saveSearchHistory(JSON.stringify(conditions));
+                        // 跳转到结果页面，添加search_type参数
+                        window.location.href = `/search/results?query=${encodeURIComponent(JSON.stringify(conditions))}&search_type=boolean`;
                     } else {
                         alert('请至少输入一个检索条件');
                     }
@@ -1259,9 +1266,22 @@
                     const date = new Date(item.time);
                     const formattedTime = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 
+                    // 格式化查询显示
+                    let displayQuery = item.query;
+                    try {
+                        // 尝试解析JSON格式的高级检索式
+                        const queryObj = JSON.parse(item.query);
+                        if (Array.isArray(queryObj)) {
+                            displayQuery = formatAdvancedQuery(queryObj);
+                        }
+                    } catch (e) {
+                        // 如果解析失败，说明不是JSON格式，直接显示原始查询
+                        displayQuery = item.query;
+                    }
+
                     li.innerHTML = `
                         <div>
-                            <div class="history-query">${item.query}</div>
+                            <div class="history-query">${displayQuery}</div>
                             <div class="history-time">${formattedTime}</div>
                         </div>
                         <button class="btn btn-sm btn-outline-primary history-apply-btn">应用</button>
@@ -1271,8 +1291,22 @@
                     applyBtn.addEventListener('click', function() {
                         const query = item.query.trim();
                         if (query) {
-                            document.getElementById('basicQuery').value = query;
-                            basicForm.submit();
+                            try {
+                                // 尝试解析JSON格式，判断是否为高级检索式
+                                const queryObj = JSON.parse(query);
+                                if (Array.isArray(queryObj)) {
+                                    // 如果是高级检索式，添加search_type参数
+                                    window.location.href = `/search/results?query=${encodeURIComponent(query)}&search_type=boolean`;
+                                } else {
+                                    // 如果不是数组格式，按普通检索处理
+                                    document.getElementById('basicQuery').value = query;
+                                    basicForm.submit();
+                                }
+                            } catch (e) {
+                                // 如果解析JSON失败，按普通检索处理
+                                document.getElementById('basicQuery').value = query;
+                                basicForm.submit();
+                            }
                         } else {
                             alert('检索式不能为空');
                         }
@@ -1280,6 +1314,39 @@
 
                     historyList.appendChild(li);
                 });
+            }
+
+            // 格式化高级检索式显示
+            function formatAdvancedQuery(conditions) {
+                const fieldMap = {
+                    'title': '标题',
+                    'author': '作者',
+                    'keyword': '关键词',
+                    'abstract': '摘要',
+                    'institution': '机构',
+                    'source': '来源',
+                    'country': '国家',
+                    'language': '语言',
+                    'type': '类型',
+                    'cited': '被引用',
+                    'doi': 'DOI',
+                    'topic': '主题',
+                    'concept': '概念',
+                    'time': '时间',
+                    'content': '内容'
+                };
+
+                if (conditions.length === 1) {
+                    // 如果只有一个条件，不需要括号
+                    const field = fieldMap[conditions[0].field] || conditions[0].field;
+                    return `${field}:${conditions[0].input}`;
+                }
+                
+                // 如果有多个条件，每个条件都加上括号
+                return conditions.map(condition => {
+                    const field = fieldMap[condition.field] || condition.field;
+                    return `(${field}:${condition.input})`;
+                }).join(` ${conditions[0].logic} `);
             }
 
             // 初始化页面

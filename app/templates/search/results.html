@@ -469,11 +469,12 @@
             // 首先尝试从URL参数获取查询
             const urlParams = new URLSearchParams(window.location.search);
             const queryFromUrl = urlParams.get('query');
+            const searchType = urlParams.get('search_type');
             
             if (queryFromUrl) {
                 // 如果URL中有查询参数，则创建搜索参数
                 searchParams = {
-                    search_type: 'basic',
+                    search_type: searchType || 'basic',
                     keyword: queryFromUrl,
                     page: 1,
                     per_page: 10,
@@ -555,6 +556,18 @@
             
             if (searchParams.search_type === 'basic') {
                 queryText = searchParams.keyword || '';
+            } else if (searchParams.search_type === 'boolean') {
+                try {
+                    // 解析高级检索式
+                    const conditions = JSON.parse(searchParams.keyword);
+                    if (Array.isArray(conditions)) {
+                        queryText = formatAdvancedQuery(conditions);
+                    } else {
+                        queryText = searchParams.keyword;
+                    }
+                } catch (e) {
+                    queryText = searchParams.keyword;
+                }
             } else if (searchParams.search_type === 'advanced') {
                 const queryParts = [];
                 
@@ -566,11 +579,42 @@
                 queryText = queryParts.join(' AND ');
             } else if (searchParams.search_type === 'ai') {
                 queryText = searchParams.query || '';
-                
-                // 如果需要显示结构化查询，则在获取结果后显示
             }
             
             searchQueryElem.textContent = queryText;
+        }
+        
+        // 格式化高级检索式显示
+        function formatAdvancedQuery(conditions) {
+            const fieldMap = {
+                'title': '标题',
+                'author': '作者',
+                'keyword': '关键词',
+                'abstract': '摘要',
+                'institution': '机构',
+                'source': '来源',
+                'country': '国家',
+                'language': '语言',
+                'type': '类型',
+                'cited': '被引用',
+                'doi': 'DOI',
+                'topic': '主题',
+                'concept': '概念',
+                'time': '时间',
+                'content': '内容'
+            };
+
+            if (conditions.length === 1) {
+                // 如果只有一个条件，不需要括号
+                const field = fieldMap[conditions[0].field] || conditions[0].field;
+                return `${field}:${conditions[0].input}`;
+            }
+            
+            // 如果有多个条件，每个条件都加上括号
+            return conditions.map(condition => {
+                const field = fieldMap[condition.field] || condition.field;
+                return `(${field}:${condition.input})`;
+            }).join(` ${conditions[0].logic} `);
         }
         
         // 获取搜索结果
@@ -594,68 +638,26 @@
             // 判断搜索类型
             let apiUrl, requestData;
             
-            if (searchParams.search_type === 'basic') {
-                apiUrl = '/search/api/basic/search';
-                requestData = {
-                    keyword: searchParams.keyword,
-                    sort_method: sortMethod,
-                    page: currentPage,
-                    per_page: perPage
-                };
-                
-                // 添加年份筛选条件 - 支持多个年份范围
-                if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
-                    // 将所有年份范围合并为一个最大范围
-                    let minYear = 3000;
-                    let maxYear = 0;
-                    
-                    searchParams.year_ranges.forEach(range => {
-                        const [rangeMin, rangeMax] = range.split('-').map(Number);
-                        minYear = Math.min(minYear, rangeMin);
-                        maxYear = Math.max(maxYear, rangeMax);
-                    });
-                    
-                    requestData.date_from = `${minYear}-01-01`;
-                    requestData.date_to = `${maxYear}-12-31`;
-                    // 添加额外参数指示这是多选
-                    requestData.year_ranges = searchParams.year_ranges;
+            // 根据 URL 中的 search_type 参数决定使用哪个 API
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchType = urlParams.get('search_type') || 'basic';
+            
+            if (searchType === 'boolean') {
+                apiUrl = '/search/api/advanced_boolean_search';
+                try {
+                    // 解析JSON格式的查询条件
+                    const conditions = JSON.parse(searchParams.keyword);
+                    requestData = {
+                        conditions: conditions,
+                        sort_method: sortMethod,
+                        page: currentPage,
+                        per_page: perPage
+                    };
+                } catch (e) {
+                    console.error('解析布尔查询条件失败:', e);
+                    return;
                 }
-                
-            } else if (searchParams.search_type === 'advanced') {
-                apiUrl = '/search/api/advanced_search';
-                requestData = {
-                    title: searchParams.title || '',
-                    author: searchParams.author || '',
-                    keyword: searchParams.keyword || '',
-                    institution: searchParams.institution || '',
-                    sort_method: sortMethod,
-                    page: currentPage,
-                    per_page: perPage
-                };
-                
-                // 添加日期范围
-                if (searchParams.date_from) requestData.date_from = searchParams.date_from;
-                if (searchParams.date_to) requestData.date_to = searchParams.date_to;
-                
-                // 添加年份筛选条件 - 支持多个年份范围
-                if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
-                    // 将所有年份范围合并为一个最大范围
-                    let minYear = 3000;
-                    let maxYear = 0;
-                    
-                    searchParams.year_ranges.forEach(range => {
-                        const [rangeMin, rangeMax] = range.split('-').map(Number);
-                        minYear = Math.min(minYear, rangeMin);
-                        maxYear = Math.max(maxYear, rangeMax);
-                    });
-                    
-                    requestData.date_from = `${minYear}-01-01`;
-                    requestData.date_to = `${maxYear}-12-31`;
-                    // 添加额外参数指示这是多选
-                    requestData.year_ranges = searchParams.year_ranges;
-                }
-                
-            } else if (searchParams.search_type === 'ai') {
+            } else if (searchType === 'ai') {
                 apiUrl = '/search/api/basic/search';
                 requestData = {
                     keyword: searchParams.query,
@@ -663,28 +665,33 @@
                     page: currentPage,
                     per_page: perPage
                 };
-                
-                // 添加年份筛选条件 - 支持多个年份范围
-                if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
-                    // 将所有年份范围合并为一个最大范围
-                    let minYear = 3000;
-                    let maxYear = 0;
-                    
-                    searchParams.year_ranges.forEach(range => {
-                        const [rangeMin, rangeMax] = range.split('-').map(Number);
-                        minYear = Math.min(minYear, rangeMin);
-                        maxYear = Math.max(maxYear, rangeMax);
-                    });
-                    
-                    requestData.date_from = `${minYear}-01-01`;
-                    requestData.date_to = `${maxYear}-12-31`;
-                    // 添加额外参数指示这是多选
-                    requestData.year_ranges = searchParams.year_ranges;
-                }
-                
             } else {
-                console.error('未知的搜索类型:', searchParams.search_type);
-                return;
+                // 默认使用基本搜索
+                apiUrl = '/search/api/basic/search';
+                requestData = {
+                    keyword: searchParams.keyword,
+                    sort_method: sortMethod,
+                    page: currentPage,
+                    per_page: perPage
+                };
+            }
+            
+            // 添加年份筛选条件 - 支持多个年份范围
+            if (searchParams.year_ranges && searchParams.year_ranges.length > 0) {
+                // 将所有年份范围合并为一个最大范围
+                let minYear = 3000;
+                let maxYear = 0;
+                
+                searchParams.year_ranges.forEach(range => {
+                    const [rangeMin, rangeMax] = range.split('-').map(Number);
+                    minYear = Math.min(minYear, rangeMin);
+                    maxYear = Math.max(maxYear, rangeMax);
+                });
+                
+                requestData.date_from = `${minYear}-01-01`;
+                requestData.date_to = `${maxYear}-12-31`;
+                // 添加额外参数指示这是多选
+                requestData.year_ranges = searchParams.year_ranges;
             }
             
             // 发送搜索请求
@@ -865,19 +872,46 @@
             
             // 计算每个范围内的文档数量
             if (data.total > 0) {
+                // 获取当前搜索类型
+                const urlParams = new URLSearchParams(window.location.search);
+                const searchType = urlParams.get('search_type') || 'basic';
+                
+                // 根据搜索类型选择正确的 API
+                let apiUrl, requestData;
+                if (searchType === 'boolean') {
+                    apiUrl = '/search/api/advanced_boolean_search';
+                    try {
+                        const conditions = JSON.parse(searchParams.keyword);
+                        requestData = {
+                            conditions: conditions,
+                            sort_method: searchParams.sort_method || 'relevance',
+                            page: 1,
+                            per_page: 1000, // 获取足够多的结果以进行统计
+                            count_only: true // 仅请求计数，不返回完整结果
+                        };
+                    } catch (e) {
+                        console.error('解析布尔查询条件失败:', e);
+                        return;
+                    }
+                } else {
+                    // 基本搜索或 AI 搜索
+                    apiUrl = '/search/api/basic/search';
+                    requestData = {
+                        keyword: searchParams.keyword || searchParams.query || '',
+                        sort_method: searchParams.sort_method || 'relevance',
+                        page: 1,
+                        per_page: 1000,
+                        count_only: true
+                    };
+                }
+                
                 // 向后端请求新的统计
-                fetch('/search/api/basic/search', {
+                fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        keyword: searchParams.keyword || searchParams.query || '',
-                        sort_method: searchParams.sort_method || 'relevance',
-                        page: 1,
-                        per_page: 1000, // 获取足够多的结果以进行统计
-                        count_only: true // 仅请求计数，不返回完整结果
-                    })
+                    body: JSON.stringify(requestData)
                 })
                 .then(response => response.json())
                 .then(countData => {

@@ -10,7 +10,7 @@ from .search_utils import (
     record_dwell_time
 )
 from .basicSearch.search import search as basic_search
-from .proSearch.search import search as advanced_search
+from .proSearch.search import search as advanced_search, sort_db_results
 from .aiSearch.search import convert_to_structured_query, search as ai_search
 from .rank.rank import SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
 import re
@@ -380,85 +380,6 @@ def api_search():
     except Exception as e:
         logger.error(f"搜索出错: {str(e)}", exc_info=True)
         return jsonify({'error': str(e)}), 500
-
-"""
-高级搜索API
-处理POST请求，执行高级搜索并返回分页结果
-"""
-@searcher_bp.route('/api/advanced_search', methods=['POST'])
-def api_advanced_search():
-    """高级搜索API接口"""
-    try:
-        # 获取请求数据
-        data = request.get_json()
-        
-        if not data:
-            return jsonify({
-                'status': 'error',
-                'message': '请求数据无效'
-            }), 400
-        
-        # 提取查询文本和排序方法
-        query_text = data.get('query', '')
-        sort_method = data.get('sort_by', SORT_BY_RELEVANCE)
-        page = int(data.get('page', 1))
-        per_page = int(data.get('per_page', 10))
-        
-        if not query_text:
-            return jsonify({
-                'status': 'error',
-                'message': '查询文本不能为空'
-            }), 400
-        
-        # 记录搜索会话
-        session_id = record_search_session(query_text)
-        
-        # 执行高级检索
-        from .proSearch.search import search as advanced_search
-        result_ids = advanced_search(query_text=query_text, sort_method=sort_method, use_db=True)
-        
-        if not result_ids:
-            return jsonify({
-                'status': 'success',
-                'message': f'未找到任何相关结果: {query_text}',
-                'session_id': session_id,
-                'results': [],
-                'total': 0,
-                'page': page,
-                'per_page': per_page,
-                'pages': 0
-            })
-        
-        # 提取关键词用于高亮显示
-        keywords = extract_keywords_for_highlight(query_text)
-        
-        # 分页处理
-        paginated_ids = paginate_results(result_ids, page, per_page)
-        
-        # 获取详细信息
-        results = get_work_details(paginated_ids, keywords)
-        
-        # 记录搜索结果
-        record_search_results(session_id, results, page, per_page)
-        
-        # 返回结果
-        return jsonify({
-            'status': 'success',
-            'message': f'找到 {len(result_ids)} 条相关结果',
-            'session_id': session_id,
-            'results': results,
-            'total': len(result_ids),
-            'page': page,
-            'per_page': per_page,
-            'pages': math.ceil(len(result_ids) / per_page)
-        })
-        
-    except Exception as e:
-        logger.error(f"高级搜索出错: {str(e)}", exc_info=True)
-        return jsonify({
-            'status': 'error',
-            'message': f'搜索处理出错: {str(e)}'
-        }), 500
 
 @searcher_bp.route('/api/basic/record_click', methods=['POST'])
 def record_click():
@@ -986,3 +907,545 @@ def api_document_detail(doc_id):
     except Exception as e:
         print(f"获取文档详情出错: {e}")
         return jsonify({'error': str(e)}), 500
+
+"""
+处理布尔表达式的工具函数
+"""
+def is_operator(token):
+    """判断是否为运算符"""
+    return token in ['AND', 'OR', 'NOT']
+
+def get_operator_priority(operator):
+    """获取运算符优先级"""
+    priorities = {
+        'NOT': 3,
+        'AND': 2,
+        'OR': 1,
+        '(': 0
+    }
+    return priorities.get(operator, 0)
+
+def infix_to_postfix(expression):
+    """
+    将中缀表达式转换为后缀表达式
+    参数:
+        - expression: 中缀表达式字符串
+    返回:
+        - 后缀表达式token列表
+    """
+    logger.info(f"开始将中缀表达式转换为后缀表达式: {expression}")
+    
+    # 分词，保留括号和运算符
+    tokens = []
+    current_term = []
+    
+    for char in expression:
+        if char in '()':
+            if current_term:
+                tokens.append(''.join(current_term).strip())
+                current_term = []
+            tokens.append(char)
+        elif char.isspace():
+            if current_term:
+                tokens.append(''.join(current_term).strip())
+                current_term = []
+        else:
+            current_term.append(char)
+    
+    if current_term:
+        tokens.append(''.join(current_term).strip())
+    
+    # 清理空token
+    tokens = [t for t in tokens if t.strip()]
+    
+    # 处理运算符
+    i = 0
+    while i < len(tokens):
+        if tokens[i].upper() in ['AND', 'OR', 'NOT']:
+            tokens[i] = tokens[i].upper()
+        i += 1
+    
+    logger.info(f"分词结果: {tokens}")
+    
+    # 转换为后缀表达式
+    output = []
+    operator_stack = []
+    
+    for token in tokens:
+        if token == '(':
+            operator_stack.append(token)
+        elif token == ')':
+            while operator_stack and operator_stack[-1] != '(':
+                output.append(operator_stack.pop())
+            if operator_stack and operator_stack[-1] == '(':
+                operator_stack.pop()  # 弹出左括号
+        elif is_operator(token):
+            while (operator_stack and operator_stack[-1] != '(' and 
+                   get_operator_priority(operator_stack[-1]) >= get_operator_priority(token)):
+                output.append(operator_stack.pop())
+            operator_stack.append(token)
+        else:
+            output.append(token)
+    
+    # 处理剩余的运算符
+    while operator_stack:
+        if operator_stack[-1] == '(':
+            logger.warning("表达式中存在未匹配的左括号")
+        output.append(operator_stack.pop())
+    
+    logger.info(f"转换后的后缀表达式: {output}")
+    return output
+
+def evaluate_postfix(postfix_tokens, field, all_work_ids):
+    """
+    计算后缀表达式
+    参数:
+        - postfix_tokens: 后缀表达式token列表
+        - field: 查询字段
+        - all_work_ids: 所有文档ID列表
+    返回:
+        - 计算结果（文档ID列表）
+    """
+    from .basicSearch.search import boolean_AND, boolean_OR, boolean_NOT
+    
+    logger.info(f"开始计算后缀表达式: {postfix_tokens}")
+    stack = []
+    
+    for token in postfix_tokens:
+        if not is_operator(token):
+            # 处理搜索词
+            result = process_single_field_query(field, token)
+            stack.append(result)
+            logger.info(f"处理检索词 '{token}' 得到结果数量: {len(result)}")
+        else:
+            # 处理运算符
+            if token == 'NOT':
+                if stack:
+                    operand = stack.pop()
+                    result = boolean_NOT(operand, all_work_ids)
+                    stack.append(result)
+                    logger.info(f"执行NOT运算，结果数量: {len(result)}")
+            else:
+                if len(stack) >= 2:
+                    operand2 = stack.pop()
+                    operand1 = stack.pop()
+                    if token == 'AND':
+                        result = boolean_AND(operand1, operand2)
+                        logger.info(f"执行AND运算，结果数量: {len(result)}")
+                    elif token == 'OR':
+                        result = boolean_OR(operand1, operand2)
+                        logger.info(f"执行OR运算，结果数量: {len(result)}")
+                    stack.append(result)
+    
+    if stack:
+        result = stack[0]
+        logger.info(f"后缀表达式计算完成，最终结果数量: {len(result)}")
+        return result
+    
+    logger.warning("后缀表达式计算失败，返回空列表")
+    return []
+
+def process_field_boolean_queries(field_queries):
+    """
+    处理高级检索的布尔表达式
+    参数:
+        - field_queries: 字段查询列表，每个元素包含field、logic和input
+    返回:
+        - 匹配的文档ID列表
+    """
+    from .basicSearch.search import boolean_AND, boolean_OR, boolean_NOT
+    
+    # 打印接收到的查询条件
+    logger.info(f"开始处理布尔检索，接收到的查询条件: {field_queries}")
+    
+    # 如果没有查询条件，返回空列表
+    if not field_queries:
+        logger.warning("没有收到任何查询条件，返回空列表")
+        return []
+    
+    # 获取所有文档ID作为初始集合
+    all_work_ids = [w.id for w in Work.query.all()]
+    if not all_work_ids:
+        logger.warning("数据库中没有任何文档")
+        return []
+    
+    result = None
+    
+    # 确保 field_queries 是列表类型
+    if isinstance(field_queries, str):
+        try:
+            field_queries = json.loads(field_queries)
+            logger.info(f"将字符串查询条件解析为JSON: {field_queries}")
+        except:
+            logger.error(f"解析查询条件失败: {field_queries}")
+            return []
+    
+    if not isinstance(field_queries, list):
+        field_queries = [field_queries]
+        logger.info("将单个查询条件转换为列表")
+    
+    for query in field_queries:
+        # 确保 query 是字典类型
+        if isinstance(query, str):
+            try:
+                query = json.loads(query)
+                logger.info(f"将字符串查询解析为JSON: {query}")
+            except:
+                logger.error(f"解析单个查询条件失败: {query}")
+                continue
+                
+        field = query.get('field', '')
+        logic = query.get('logic', 'AND')  # 与前一个查询条件的布尔关系
+        input_text = query.get('input', '').strip()
+        
+        logger.info(f"处理查询条件: 字段={field}, 布尔关系={logic}, 输入={input_text}")
+        
+        if not input_text:
+            logger.warning(f"字段 {field} 的输入为空，跳过处理")
+            continue
+            
+        # 处理字段内的布尔表达式
+        field_result = []
+        
+        # 检查输入是否包含布尔操作符
+        has_boolean_ops = any(op in input_text.upper() for op in [' AND ', ' OR ', ' NOT ']) or '(' in input_text
+        
+        # 处理字段内的布尔表达式
+        if has_boolean_ops:
+            logger.info(f"检测到字段 {field} 内的布尔表达式: {input_text}")
+            # 转换为后缀表达式并计算
+            postfix_tokens = infix_to_postfix(input_text)
+            field_result = evaluate_postfix(postfix_tokens, field, all_work_ids)
+        else:
+            # 处理简单查询
+            logger.info(f"处理字段 {field} 的简单查询: {input_text}")
+            field_result = process_single_field_query(field, input_text)
+            logger.info(f"简单查询的结果数量: {len(field_result)}")
+        
+        # 根据逻辑运算符组合结果
+        if result is None:
+            result = field_result
+            logger.info(f"第一个查询条件的结果数量: {len(result)}")
+        else:
+            if logic == 'AND':
+                result = boolean_AND(result, field_result)
+                logger.info(f"与前一个结果执行AND操作后的数量: {len(result)}")
+            elif logic == 'OR':
+                result = boolean_OR(result, field_result)
+                logger.info(f"与前一个结果执行OR操作后的数量: {len(result)}")
+            elif logic == 'NOT':
+                not_result = boolean_NOT(field_result, all_work_ids)
+                result = boolean_AND(result, not_result)
+                logger.info(f"与前一个结果执行NOT操作后的数量: {len(result)}")
+    
+    logger.info(f"布尔检索最终结果数量: {len(result) if result is not None else 0}")
+    return result if result is not None else []
+
+def process_single_field_query(field, term):
+    """
+    处理单个字段的查询
+    参数:
+        - field: 查询字段
+        - term: 查询词
+    返回:
+        - 匹配的文档ID列表
+    """
+    logger.info(f"开始处理单个字段查询: 字段={field}, 检索词={term}")
+    
+    if field == 'title':
+        logger.info("执行标题字段查询")
+        works = Work.query.filter(
+            (Work.title.ilike(f'%{term}%')) | 
+            (Work.display_name.ilike(f'%{term}%'))
+        ).all()
+        result = [w.id for w in works]
+        logger.info(f"标题字段查询结果数量: {len(result)}")
+        return result
+        
+    elif field == 'author':
+        logger.info("执行作者字段查询")
+        authors = Author.query.filter(Author.display_name.ilike(f'%{term}%')).all()
+        author_ids = [a.id for a in authors]
+        logger.info(f"找到匹配的作者数量: {len(author_ids)}")
+        
+        if author_ids:
+            works = db.session.query(Work.id).select_from(Work).join(
+                WorkAuthorship, Work.id == WorkAuthorship.work_id
+            ).filter(
+                WorkAuthorship.author_id.in_(author_ids)
+            ).all()
+            result = [w[0] for w in works]
+            logger.info(f"作者字段查询结果数量: {len(result)}")
+            return result
+        logger.info("未找到匹配的作者")
+        return []
+        
+    elif field == 'keyword':
+        logger.info("执行关键词字段查询")
+        # 匹配概念和主题
+        concepts = Concept.query.filter(Concept.display_name.ilike(f'%{term}%')).all()
+        concept_ids = [c.id for c in concepts]
+        logger.info(f"找到匹配的概念数量: {len(concept_ids)}")
+        
+        topics = Topic.query.filter(Topic.display_name.ilike(f'%{term}%')).all()
+        topic_ids = [t.id for t in topics]
+        logger.info(f"找到匹配的主题数量: {len(topic_ids)}")
+        
+        # 查找相关作品
+        concept_works = []
+        if concept_ids:
+            concept_works = db.session.query(Work.id).select_from(Work).join(
+                WorkConcept, Work.id == WorkConcept.work_id
+            ).filter(
+                WorkConcept.concept_id.in_(concept_ids)
+            ).all()
+            concept_works = [w[0] for w in concept_works]
+            logger.info(f"概念相关文献数量: {len(concept_works)}")
+        
+        topic_works = []
+        if topic_ids:
+            topic_works = db.session.query(Work.id).select_from(Work).join(
+                WorkTopic, Work.id == WorkTopic.work_id
+            ).filter(
+                WorkTopic.topic_id.in_(topic_ids)
+            ).all()
+            topic_works = [w[0] for w in topic_works]
+            logger.info(f"主题相关文献数量: {len(topic_works)}")
+        
+        result = list(set(concept_works + topic_works))
+        logger.info(f"关键词字段查询最终结果数量: {len(result)}")
+        return result
+        
+    elif field == 'abstract':
+        logger.info("执行摘要字段查询")
+        works = Work.query.filter(
+            Work.abstract_inverted_index.cast(db.String).ilike(f'%{term}%')
+        ).all()
+        result = [w.id for w in works]
+        logger.info(f"摘要字段查询结果数量: {len(result)}")
+        return result
+        
+    elif field == 'institution':
+        logger.info("执行机构字段查询")
+        institutions = Institution.query.filter(
+            Institution.display_name.ilike(f'%{term}%')
+        ).all()
+        institution_ids = [i.id for i in institutions]
+        logger.info(f"找到匹配的机构数量: {len(institution_ids)}")
+        
+        if institution_ids:
+            works = db.session.query(Work.id).select_from(Work).join(
+                WorkAuthorship, Work.id == WorkAuthorship.work_id
+            ).filter(
+                WorkAuthorship.institution_id.in_(institution_ids)
+            ).all()
+            result = [w[0] for w in works]
+            logger.info(f"机构字段查询结果数量: {len(result)}")
+            return result
+        logger.info("未找到匹配的机构")
+        return []
+        
+    elif field == 'source':
+        logger.info("执行来源字段查询")
+        sources = Source.query.filter(Source.display_name.ilike(f'%{term}%')).all()
+        source_ids = [s.id for s in sources]
+        logger.info(f"找到匹配的来源数量: {len(source_ids)}")
+        
+        if source_ids:
+            works = Work.query.filter(Work.source_id.in_(source_ids)).all()
+            result = [w.id for w in works]
+            logger.info(f"来源字段查询结果数量: {len(result)}")
+            return result
+        logger.info("未找到匹配的来源")
+        return []
+        
+    elif field == 'country':
+        logger.info("执行国家字段查询")
+        institutions = Institution.query.filter(
+            (Institution.country_code.ilike(f'%{term}%')) | 
+            (Institution.country.ilike(f'%{term}%'))
+        ).all()
+        institution_ids = [i.id for i in institutions]
+        logger.info(f"找到匹配的国家机构数量: {len(institution_ids)}")
+        
+        if institution_ids:
+            works = db.session.query(Work.id).select_from(Work).join(
+                WorkAuthorship, Work.id == WorkAuthorship.work_id
+            ).filter(
+                WorkAuthorship.institution_id.in_(institution_ids)
+            ).all()
+            result = [w[0] for w in works]
+            logger.info(f"国家字段查询结果数量: {len(result)}")
+            return result
+        logger.info("未找到匹配的国家机构")
+        return []
+        
+    elif field == 'topic':
+        logger.info("执行主题字段查询")
+        topics = Topic.query.filter(Topic.display_name.ilike(f'%{term}%')).all()
+        topic_ids = [t.id for t in topics]
+        logger.info(f"找到匹配的主题数量: {len(topic_ids)}")
+        
+        if topic_ids:
+            works = db.session.query(Work.id).select_from(Work).join(
+                WorkTopic, Work.id == WorkTopic.work_id
+            ).filter(
+                WorkTopic.topic_id.in_(topic_ids)
+            ).all()
+            result = [w[0] for w in works]
+            logger.info(f"主题字段查询结果数量: {len(result)}")
+            return result
+        logger.info("未找到匹配的主题")
+        return []
+        
+    elif field == 'concept':
+        logger.info("执行概念字段查询")
+        concepts = Concept.query.filter(Concept.display_name.ilike(f'%{term}%')).all()
+        concept_ids = [c.id for c in concepts]
+        logger.info(f"找到匹配的概念数量: {len(concept_ids)}")
+        
+        if concept_ids:
+            works = db.session.query(Work.id).select_from(Work).join(
+                WorkConcept, Work.id == WorkConcept.work_id
+            ).filter(
+                WorkConcept.concept_id.in_(concept_ids)
+            ).all()
+            result = [w[0] for w in works]
+            logger.info(f"概念字段查询结果数量: {len(result)}")
+            return result
+        logger.info("未找到匹配的概念")
+        return []
+    
+    logger.warning(f"未知的查询字段: {field}")
+    return []
+
+"""
+新的高级检索API路由
+处理POST请求，执行高级检索并返回结果
+"""
+@searcher_bp.route('/api/advanced_boolean_search', methods=['POST'])
+def api_advanced_boolean_search():
+    try:
+        # 导入排序函数
+        from .proSearch.search import sort_db_results
+        
+        # 获取请求数据
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({
+                'status': 'error',
+                'message': '请求数据无效'
+            }), 400
+        
+        # 获取检索条件列表
+        conditions = data.get('conditions', [])
+        sort_method = data.get('sort_method', SORT_BY_RELEVANCE)
+        page = int(data.get('page', 1))
+        per_page = int(data.get('per_page', 10))
+        
+        if not conditions:
+            return jsonify({
+                'status': 'error',
+                'message': '检索条件不能为空'
+            }), 400
+        
+        # 记录搜索会话
+        session_id = record_search_session(str(conditions))
+        
+        # 执行高级布尔检索
+        result_ids = process_field_boolean_queries(conditions)
+        
+        if not result_ids:
+            return jsonify({
+                'status': 'success',
+                'message': '未找到任何相关结果',
+                'session_id': session_id,
+                'results': [],
+                'total': 0,
+                'page': page,
+                'per_page': per_page,
+                'pages': 0
+            })
+        
+        # 对结果进行排序
+        if sort_method:
+            # 将conditions转换为parsed_query格式
+            parsed_query = {
+                "field_queries": {},
+                "general_query": ""
+            }
+            for condition in conditions:
+                field = condition.get('field', '')
+                input_text = condition.get('input', '')
+                if field and input_text:
+                    parsed_query["field_queries"].setdefault(field, []).append(input_text)
+                    if not parsed_query["general_query"]:
+                        parsed_query["general_query"] = input_text
+            
+            result_ids = sort_db_results(result_ids, parsed_query, sort_method)
+        
+        # 分页处理
+        total = len(result_ids)
+        start_idx = (page - 1) * per_page
+        end_idx = start_idx + per_page
+        paginated_ids = result_ids[start_idx:end_idx]
+        
+        # 获取文档详细信息
+        results = []
+        for work_id in paginated_ids:
+            work = Work.query.get(work_id)
+            if work:
+                # 获取作者信息
+                authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
+                authors = []
+                for authorship in authorships:
+                    if authorship.author_id:
+                        author = Author.query.get(authorship.author_id)
+                        if author:
+                            authors.append(author.display_name)
+                
+                # 将倒排索引摘要转换为可读文本
+                abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
+                
+                # 创建结果对象
+                result = {
+                    'id': work.id,
+                    'title': work.title or work.display_name or '',
+                    'authors': ', '.join(authors) if authors else '未知作者',
+                    'year': work.publication_year,
+                    'cited_by_count': work.cited_by_count or 0,
+                    'abstract': abstract_text,
+                    'url': f'/reader/document/{work.id}?session_id={session_id}'
+                }
+                results.append(result)
+        
+        # 记录搜索结果
+        if session_id:
+            try:
+                record_search_results(
+                    session_id=session_id,
+                    results=[{'id': r['id'], 'relevance_score': 0.0, 'query_text': str(conditions)} for r in results],
+                    page=page,
+                    per_page=per_page
+                )
+            except Exception as e:
+                logger.error(f"记录搜索结果失败: {str(e)}", exc_info=True)
+        
+        return jsonify({
+            'status': 'success',
+            'message': f'找到 {total} 条相关结果',
+            'session_id': session_id,
+            'results': results,
+            'total': total,
+            'page': page,
+            'per_page': per_page,
+            'pages': math.ceil(total / per_page)
+        })
+        
+    except Exception as e:
+        logger.error(f"高级布尔检索出错: {str(e)}", exc_info=True)
+        return jsonify({
+            'status': 'error',
+            'message': f'检索处理出错: {str(e)}'
+        }), 500
