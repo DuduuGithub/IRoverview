@@ -1385,11 +1385,17 @@
                     return `${field}:${conditions[0].input}`;
                 }
                 
-                // 如果有多个条件，每个条件都加上括号
-                return conditions.map(condition => {
+                // 如果有多个条件，使用后一个条件的logic值作为连接符
+                return conditions.map((condition, index) => {
                     const field = fieldMap[condition.field] || condition.field;
-                    return `(${field}:${condition.input})`;
-                }).join(` ${conditions[0].logic} `);
+                    const formattedCondition = `(${field}:${condition.input})`;
+                    
+                    // 如果不是最后一个条件，添加下一个条件的logic值作为连接符
+                    if (index < conditions.length - 1) {
+                        return `${formattedCondition} ${conditions[index + 1].logic} `;
+                    }
+                    return formattedCondition;
+                }).join('');
             }
 
             // 初始化页面
