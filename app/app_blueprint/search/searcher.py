@@ -11,7 +11,7 @@ from .search_utils import (
     record_rerank_operation
 )
 from .basicSearch.search import search as basic_search
-from .proSearch.search import search as advanced_search, sort_db_results
+from .proSearch.search import search as advanced_search, sort_db_results, highlight_advanced_search_text, parse_advanced_query
 from .aiSearch.search import convert_to_structured_query, search as ai_search
 from .rank.rank import SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
 import re
@@ -26,6 +26,7 @@ import json
 import torch
 from sort_ai.model_trainer import ModelTrainer
 from transformers import AutoModel, AutoTokenizer
+from nltk.stem import WordNetLemmatizer
 
 # 添加项目根目录到sys.path，避免相对导入问题
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
@@ -39,19 +40,26 @@ logger = logging.getLogger(__name__)
 
 # 初始化重排序模型
 rerank_model = None
+rerank_available = False  # 新增全局标志
+model_init_error = None  # 新增错误信息存储
+
 try:
     rerank_model = ModelTrainer()
+    rerank_available = True  # 设置标志为True
     logger.info("重排序模型加载成功")
 except Exception as e:
+    model_init_error = str(e)  # 保存错误信息
     logger.error(f"重排序模型加载失败: {str(e)}")
+    logger.info("系统将在没有重排序功能的情况下继续运行")
 
 # 初始化BERT模型用于文本嵌入
 embedding_tokenizer = None
 embedding_model = None
+embedding_available = False  # 新增全局标志
 
 def init_embedding_model():
     """初始化用于文本嵌入的BERT模型"""
-    global embedding_tokenizer, embedding_model
+    global embedding_tokenizer, embedding_model, embedding_available
     try:
         if not rerank_model:
             logger.error("重排序模型未初始化，无法获取模型路径")
@@ -67,11 +75,13 @@ def init_embedding_model():
         if torch.cuda.is_available():
             embedding_model = embedding_model.cuda()
         embedding_model.eval()
+        embedding_available = True  # 设置标志为True
         logger.info("文本嵌入模型加载成功")
     except Exception as e:
         logger.error(f"文本嵌入模型加载失败: {str(e)}")
         embedding_tokenizer = None
         embedding_model = None
+        embedding_available = False  # 确保标志为False
 
 """
 高亮文本的辅助函数，用于突出显示查询关键词
@@ -84,6 +94,14 @@ def init_embedding_model():
 def highlight_text(text, keywords):
     if not text or not keywords:
         return text
+    
+    # 确保NLTK资源已下载
+    try:
+        nltk.data.find('corpora/wordnet')
+    except LookupError:
+        nltk.download('wordnet')
+    
+    lemmatizer = WordNetLemmatizer()
     
     # 将字符串关键词转换为列表
     if isinstance(keywords, str):
@@ -99,9 +117,27 @@ def highlight_text(text, keywords):
     result = text
     for keyword in keywords:
         if keyword and len(keyword.strip()) > 0:
-            # 使用单词边界匹配，确保匹配完整单词而非子字符串
-            pattern = re.compile(r'\b({0})\b'.format(re.escape(keyword.strip())), re.IGNORECASE)
-            result = pattern.sub(r'<span class="highlight">\1</span>', result)
+            # 获取检索词的词形
+            keyword_lemma = lemmatizer.lemmatize(keyword.strip().lower())
+            
+            # 使用修改后的正则表达式，匹配包含完整检索词的扩展词，但只高亮检索词部分
+            pattern = re.compile(r'\b(\w*?)({0})(\w*?)\b'.format(re.escape(keyword.strip())), re.IGNORECASE)
+            
+            def replace_with_highlight(match):
+                full_word = match.group(0)  # 完整匹配的词
+                prefix = match.group(1)     # 前缀
+                matched = match.group(2)    # 匹配的检索词
+                suffix = match.group(3)     # 后缀
+                
+                # 获取完整词的词形
+                full_word_lemma = lemmatizer.lemmatize(full_word.lower())
+                
+                # 只有当词形相同时才高亮
+                if full_word_lemma == keyword_lemma:
+                    return f"{prefix}<span class='highlight'>{matched}</span>{suffix}"
+                return full_word
+            
+            result = pattern.sub(replace_with_highlight, result)
     
     return result
 
@@ -991,53 +1027,101 @@ def calculate_basic_relevance(result, prompt):
     Returns:
         float: 基础相关性得分
     """
-    global embedding_tokenizer, embedding_model
+    global embedding_tokenizer, embedding_model, embedding_available
     
     try:
-        # 如果模型未初始化，先初始化
-        if embedding_model is None or embedding_tokenizer is None:
-            init_embedding_model()
+        # 如果嵌入模型可用，使用余弦相似度
+        if embedding_available:
+            # 如果模型未初始化，先初始化
             if embedding_model is None or embedding_tokenizer is None:
-                logger.error("文本嵌入模型未能成功初始化")
-                return 0.0
-        
-        # 准备文档文本（标题和摘要）
-        title = result.get('title', '')
-        abstract = result.get('abstract', '')
-        doc_text = f"{title} [SEP] {abstract}"
-        
-        # 对查询和文档文本进行编码
-        inputs = embedding_tokenizer(
-            [prompt, doc_text],
-            padding=True,
-            truncation=True,
-            max_length=512,
-            return_tensors="pt"
-        )
-        
-        # 将输入移到正确的设备上
-        device = next(embedding_model.parameters()).device
-        inputs = {k: v.to(device) for k, v in inputs.items()}
-        
-        # 获取文本嵌入
-        with torch.no_grad():
-            outputs = embedding_model(**inputs)
-            # 使用[CLS]标记的输出作为文本表示
-            embeddings = outputs.last_hidden_state[:, 0, :].cpu().numpy()
+                init_embedding_model()
+                if embedding_model is None or embedding_tokenizer is None:
+                    logger.error("文本嵌入模型未能成功初始化")
+                    return calculate_basic_relevance_fallback(result, prompt)
             
-        # 计算余弦相似度
-        similarity = calculate_cosine_similarity(embeddings[0], embeddings[1])
-        
-        return float(similarity)
-        
+            # 准备文档文本（标题和摘要）
+            title = result.get('title', '')
+            abstract = result.get('abstract', '')
+            doc_text = f"{title} [SEP] {abstract}"
+            
+            # 对查询和文档文本进行编码
+            inputs = embedding_tokenizer(
+                [prompt, doc_text],
+                padding=True,
+                truncation=True,
+                max_length=512,
+                return_tensors="pt"
+            )
+            
+            # 将输入移到正确的设备上
+            device = next(embedding_model.parameters()).device
+            inputs = {k: v.to(device) for k, v in inputs.items()}
+            
+            # 获取文本嵌入
+            with torch.no_grad():
+                outputs = embedding_model(**inputs)
+                # 使用[CLS]标记的输出作为文本表示
+                embeddings = outputs.last_hidden_state[:, 0, :].cpu().numpy()
+                
+            # 计算余弦相似度
+            similarity = calculate_cosine_similarity(embeddings[0], embeddings[1])
+            
+            return float(similarity)
+        else:
+            # 如果嵌入模型不可用，使用基础相关性计算方法
+            return calculate_basic_relevance_fallback(result, prompt)
+            
     except Exception as e:
         logger.error(f"计算余弦相似度时出错: {str(e)}")
+        return calculate_basic_relevance_fallback(result, prompt)
+
+def calculate_basic_relevance_fallback(result, prompt):
+    """基础相关性计算的降级方案，使用简单的词项匹配
+    
+    Args:
+        result: 搜索结果字典
+        prompt: 用户输入的查询文本
+    Returns:
+        float: 基础相关性得分
+    """
+    try:
+        # 准备文档文本
+        title = result.get('title', '').lower()
+        abstract = result.get('abstract', '').lower()
+        doc_text = f"{title} {abstract}"
+        
+        # 对提示词进行分词
+        prompt_terms = set(prompt.lower().split())
+        
+        # 计算匹配分数
+        title_matches = sum(1 for term in prompt_terms if term in title)
+        abstract_matches = sum(1 for term in prompt_terms if term in abstract)
+        
+        # 标题匹配的权重更高
+        score = (title_matches * 2 + abstract_matches) / (len(prompt_terms) * 3)
+        
+        # 归一化到[0,1]范围
+        return min(1.0, score)
+        
+    except Exception as e:
+        logger.error(f"计算基础相关性降级方案时出错: {str(e)}")
         return 0.0
 
 @searcher_bp.route('/api/rerank', methods=['POST'])
 def api_rerank():
     """重排序API"""
     try:
+        # 首先检查重排序功能是否可用
+        if not rerank_available:
+            error_message = "重排序功能当前不可用"
+            if model_init_error:
+                error_message += f"（原因：{model_init_error}）"
+            return jsonify({
+                'error': error_message,
+                'status': 'error',
+                'feature_available': False
+            }), 503  # Service Unavailable
+            
         data = request.get_json()
         if not data:
             return jsonify({'error': '无效的请求数据'}), 400
@@ -1060,9 +1144,6 @@ def api_rerank():
         session = SearchSession.query.filter_by(session_id=session_id).first()
         if not session:
             return jsonify({'error': '无效的会话ID'}), 400
-            
-        if not rerank_model:
-            return jsonify({'error': '重排序模型未初始化'}), 500
             
         try:
             # 使用模型计算得分
@@ -1141,16 +1222,25 @@ def api_rerank():
             
             return jsonify({
                 'status': 'success',
-                'results': reranked_results
+                'results': reranked_results,
+                'feature_available': True
             })
             
         except Exception as model_error:
             logger.error(f"模型预测出错: {str(model_error)}")
-            return jsonify({'error': '模型预测失败'}), 500
+            return jsonify({
+                'error': '模型预测失败',
+                'status': 'error',
+                'feature_available': True
+            }), 500
             
     except Exception as e:
         logger.error(f"重排序API出错: {str(e)}")
-        return jsonify({'error': str(e)}), 500
+        return jsonify({
+            'error': str(e),
+            'status': 'error',
+            'feature_available': rerank_available
+        }), 500
 
 """
 处理布尔表达式的工具函数
@@ -1570,8 +1660,8 @@ def process_single_field_query(field, term):
 @searcher_bp.route('/api/advanced_boolean_search', methods=['POST'])
 def api_advanced_boolean_search():
     try:
-        # 导入排序函数
-        from .proSearch.search import sort_db_results
+        # 导入排序函数和高亮函数
+        from .proSearch.search import sort_db_results, highlight_advanced_search_text, parse_advanced_query
         
         # 获取请求数据
         data = request.get_json()
@@ -1652,14 +1742,14 @@ def api_advanced_boolean_search():
                 # 将倒排索引摘要转换为可读文本
                 abstract_text = convert_abstract_to_text(work.abstract_inverted_index)
                 
-                # 创建结果对象
+                # 创建结果对象，使用新的高亮函数
                 result = {
                     'id': work.id,
-                    'title': work.title or work.display_name or '',
+                    'title': highlight_advanced_search_text(work.title or work.display_name or '', parsed_query),
                     'authors': ', '.join(authors) if authors else '未知作者',
                     'year': work.publication_year,
                     'cited_by_count': work.cited_by_count or 0,
-                    'abstract': abstract_text,
+                    'abstract': highlight_advanced_search_text(abstract_text, parsed_query),
                     'url': f'/reader/document/{work.id}?session_id={session_id}'
                 }
                 results.append(result)
