@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>词云分析 | Word Clouds</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #366686fb;
+            --secondary-color: #6c757d;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: var(--primary-color);
+            padding: 1.5rem 0 1rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            color: white;
+            text-align: center;
+            margin: 0;
+            font-size: 2rem;
+            padding-top: 0.5rem;
+        }
+
+        .header h1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .header .nav {
+            margin-top: 0.5rem;
+        }
+
+        .header .nav-link {
+            color: white;
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .header .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .header .nav-link.active {
+            color: white;
+            border-bottom: none;
+        }
+
+        .header .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .header .nav-link.active::after {
+            width: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .page-description {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-description h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .page-description p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        .feature-list li i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .word-cloud-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            padding: 20px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .word-cloud-card {
+            background: #fff;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            width: 100%;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.3s, transform 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .word-cloud-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+            transform: translateY(-8px) scale(1.05);
+            z-index: 10;
+        }
+
+        .word-cloud-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .word-cloud-card .info {
+            width: 100%;
+            text-align: left;
+        }
+
+        .word-cloud-card .info h3 {
+            margin: 0 0 4px 0;
+            font-size: 1.08em;
+            color: #222;
+        }
+
+        .word-cloud-card .info p {
+            margin: 2px 0;
+            font-size: 0.98em;
+            color: #444;
+        }
+
+        .main-word {
+            font-size: 1.25em;
+            font-weight: bold;
+            color: inherit;
+            background: #f5f5f5;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+
+        .main-word-label {
+            font-size: 0.95em;
+            color: #222;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .top-words {
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .top-word {
+            display: flex;
+            align-items: baseline;
+            font-size: 1.15em;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .top-word-value {
+            font-size: 0.7em;
+            color: #888;
+            margin-left: 3px;
+            font-weight: normal;
+        }
+
+        .related-words-pop {
+            display: none;
+            position: absolute;
+            left: 50%;
+            bottom: 12px;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.98);
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+            padding: 12px 16px;
+            min-width: 220px;
+            z-index: 100;
+            font-size: 1em;
+            color: #333;
+            animation: fadeIn 0.3s;
+        }
+
+        .word-cloud-card:hover .related-words-pop {
+            display: block;
+        }
+
+        .main-word-pop {
+            font-size: 1.08em;
+            font-weight: bold;
+            color: inherit;
+            margin-bottom: 4px;
+        }
+
+        .main-word-pop-label {
+            color: #222;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            color: #333;
+        }
+        .footer p {
+            text-align: center;
+            margin: 0 auto;
+            display: inline-block;
+        }
+
+        .nav-btn-highlight {
+            background-color: #366686fb;
+            color: #fff !important;
+            border-radius: 16px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0.3rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: none;
+            margin-left: 1.5rem;
+            margin-top: 1.2rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            text-align: center;
+        }
+        .nav-btn-highlight:hover, .nav-btn-highlight:focus {
+            background-color: #274e8e;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+        .header-row {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .header-title {
+            text-align: center;
+            font-size: 2rem;
+            margin: 0;
+            padding-top: 0.5rem;
+            width: 100%;
+        }
+        .header-nav-abs {
+            position: absolute;
+            right: 0;
+            bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-row">
+                <h1 class="header-title">
+                    <a href="/search/">
+                        文献检索系统
+                    </a>
+                </h1>
+                <nav class="header-nav-abs">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link active nav-btn-highlight" href="/search/">
+                                返回首页
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="page-description">
+            <h2>基于 BERT 的叙词表分析</h2>
+            <p>本页面展示了基于 BERT 模型构建的叙词表分析结果。通过深度学习技术，我们能够发现文献中词语之间的语义关联，并将其可视化为词云和社区网络。</p>
+            <ul class="feature-list">
+                <li><i class="bi bi-check-circle-fill"></i> 使用 SciBERT 模型进行词语关联预测</li>
+                <li><i class="bi bi-check-circle-fill"></i> 智能过滤和优化预测结果</li>
+                <li><i class="bi bi-check-circle-fill"></i> 社区发现和词云可视化</li>
+                <li><i class="bi bi-check-circle-fill"></i> 交互式词云卡片展示</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="word-cloud-container">
+
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_0.png" alt="Community 0">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#982e2e">work</span><br>
+                <h3>Community 0</h3>
+                <p>Words: 13</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">work<span class="top-word-value">(35.19)</span></span><span class="top-word" style="color:#64b5f6">paper<span class="top-word-value">(25.04)</span></span><span class="top-word" style="color:#81c784">study<span class="top-word-value">(14.33)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#982e2e">work</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">work</span><span style="color:#888;font-size:0.9em;">(35.19)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">paper</span><span style="color:#888;font-size:0.9em;">(25.04)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">study</span><span style="color:#888;font-size:0.9em;">(14.33)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_6.png" alt="Community 6">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#7e9428">method</span><br>
+                <h3>Community 6</h3>
+                <p>Words: 33</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">method<span class="top-word-value">(65.75)</span></span><span class="top-word" style="color:#64b5f6">model<span class="top-word-value">(55.15)</span></span><span class="top-word" style="color:#81c784">approach<span class="top-word-value">(48.62)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#7e9428">method</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">method</span><span style="color:#888;font-size:0.9em;">(65.75)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">model</span><span style="color:#888;font-size:0.9em;">(55.15)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">approach</span><span style="color:#888;font-size:0.9em;">(48.62)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_2.png" alt="Community 2">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#2e9858">show</span><br>
+                <h3>Community 2</h3>
+                <p>Words: 8</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">show<span class="top-word-value">(39.93)</span></span><span class="top-word" style="color:#64b5f6">demonstrate<span class="top-word-value">(20.51)</span></span><span class="top-word" style="color:#81c784">find<span class="top-word-value">(14.88)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#2e9858">show</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">show</span><span style="color:#888;font-size:0.9em;">(39.93)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">demonstrate</span><span style="color:#888;font-size:0.9em;">(20.51)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">find</span><span style="color:#888;font-size:0.9em;">(14.88)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_39.png" alt="Community 39">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#660d7d">problem</span><br>
+                <h3>Community 39</h3>
+                <p>Words: 26</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">problem<span class="top-word-value">(32.07)</span></span><span class="top-word" style="color:#64b5f6">task<span class="top-word-value">(27.01)</span></span><span class="top-word" style="color:#81c784">issue<span class="top-word-value">(12.79)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#660d7d">problem</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">problem</span><span style="color:#888;font-size:0.9em;">(32.07)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">task</span><span style="color:#888;font-size:0.9em;">(27.01)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">issue</span><span style="color:#888;font-size:0.9em;">(12.79)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_94.png" alt="Community 94">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#7a2390">may</span><br>
+                <h3>Community 94</h3>
+                <p>Words: 6</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">may<span class="top-word-value">(9.50)</span></span><span class="top-word" style="color:#64b5f6">can<span class="top-word-value">(6.90)</span></span><span class="top-word" style="color:#81c784">often<span class="top-word-value">(2.34)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#7a2390">may</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">may</span><span style="color:#888;font-size:0.9em;">(9.50)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">can</span><span style="color:#888;font-size:0.9em;">(6.90)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">often</span><span style="color:#888;font-size:0.9em;">(2.34)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_5.png" alt="Community 5">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#942828">new</span><br>
+                <h3>Community 5</h3>
+                <p>Words: 5</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">new<span class="top-word-value">(13.75)</span></span><span class="top-word" style="color:#64b5f6">novel<span class="top-word-value">(13.16)</span></span><span class="top-word" style="color:#81c784">simple<span class="top-word-value">(1.58)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#942828">new</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">new</span><span style="color:#888;font-size:0.9em;">(13.75)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">novel</span><span style="color:#888;font-size:0.9em;">(13.16)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">simple</span><span style="color:#888;font-size:0.9em;">(1.58)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_7.png" alt="Community 7">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#289453">propose</span><br>
+                <h3>Community 7</h3>
+                <p>Words: 8</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">propose<span class="top-word-value">(31.13)</span></span><span class="top-word" style="color:#64b5f6">present<span class="top-word-value">(20.54)</span></span><span class="top-word" style="color:#81c784">introduce<span class="top-word-value">(17.30)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#289453">propose</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">propose</span><span style="color:#888;font-size:0.9em;">(31.13)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">present</span><span style="color:#888;font-size:0.9em;">(20.54)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">introduce</span><span style="color:#888;font-size:0.9em;">(17.30)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_8.png" alt="Community 8">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#285394">few</span><br>
+                <h3>Community 8</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">few<span class="top-word-value">(4.81)</span></span><span class="top-word" style="color:#64b5f6">one<span class="top-word-value">(4.81)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#285394">few</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">few</span><span style="color:#888;font-size:0.9em;">(4.81)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">one</span><span style="color:#888;font-size:0.9em;">(4.81)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_9.png" alt="Community 9">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#7e2894">learning</span><br>
+                <h3>Community 9</h3>
+                <p>Words: 19</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">learning<span class="top-word-value">(18.59)</span></span><span class="top-word" style="color:#64b5f6">training<span class="top-word-value">(13.01)</span></span><span class="top-word" style="color:#81c784">large<span class="top-word-value">(7.34)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#7e2894">learning</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">learning</span><span style="color:#888;font-size:0.9em;">(18.59)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">training</span><span style="color:#888;font-size:0.9em;">(13.01)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">large</span><span style="color:#888;font-size:0.9em;">(7.34)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_10.png" alt="Community 10">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#902323">published</span><br>
+                <h3>Community 10</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">published<span class="top-word-value">(4.48)</span></span><span class="top-word" style="color:#64b5f6">presented<span class="top-word-value">(4.48)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#902323">published</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">published</span><span style="color:#888;font-size:0.9em;">(4.48)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">presented</span><span style="color:#888;font-size:0.9em;">(4.48)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_25.png" alt="Community 25">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#841515">performance</span><br>
+                <h3>Community 25</h3>
+                <p>Words: 13</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">performance<span class="top-word-value">(14.72)</span></span><span class="top-word" style="color:#64b5f6">result<span class="top-word-value">(12.51)</span></span><span class="top-word" style="color:#81c784">accuracy<span class="top-word-value">(8.29)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#841515">performance</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">performance</span><span style="color:#888;font-size:0.9em;">(14.72)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">result</span><span style="color:#888;font-size:0.9em;">(12.51)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">accuracy</span><span style="color:#888;font-size:0.9em;">(8.29)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_106.png" alt="Community 106">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#6e8415">based</span><br>
+                <h3>Community 106</h3>
+                <p>Words: 15</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">based<span class="top-word-value">(14.57)</span></span><span class="top-word" style="color:#64b5f6">conditioned<span class="top-word-value">(5.54)</span></span><span class="top-word" style="color:#81c784">type<span class="top-word-value">(4.12)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#6e8415">based</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">based</span><span style="color:#888;font-size:0.9em;">(14.57)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">conditioned</span><span style="color:#888;font-size:0.9em;">(5.54)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">type</span><span style="color:#888;font-size:0.9em;">(4.12)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_13.png" alt="Community 13">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#234e90">deep</span><br>
+                <h3>Community 13</h3>
+                <p>Words: 11</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">deep<span class="top-word-value">(13.98)</span></span><span class="top-word" style="color:#64b5f6">machine<span class="top-word-value">(8.39)</span></span><span class="top-word" style="color:#81c784">neural<span class="top-word-value">(6.61)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#234e90">deep</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">deep</span><span style="color:#888;font-size:0.9em;">(13.98)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">machine</span><span style="color:#888;font-size:0.9em;">(8.39)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">neural</span><span style="color:#888;font-size:0.9em;">(6.61)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_14.png" alt="Community 14">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#7a2390">previous</span><br>
+                <h3>Community 14</h3>
+                <p>Words: 10</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">previous<span class="top-word-value">(9.19)</span></span><span class="top-word" style="color:#64b5f6">existing<span class="top-word-value">(8.59)</span></span><span class="top-word" style="color:#81c784">prior<span class="top-word-value">(4.63)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#7a2390">previous</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">previous</span><span style="color:#888;font-size:0.9em;">(9.19)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">existing</span><span style="color:#888;font-size:0.9em;">(8.59)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">prior</span><span style="color:#888;font-size:0.9em;">(4.63)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_15.png" alt="Community 15">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#8c1e1e">terminating</span><br>
+                <h3>Community 15</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">terminating<span class="top-word-value">(3.29)</span></span><span class="top-word" style="color:#64b5f6">termination<span class="top-word-value">(3.29)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#8c1e1e">terminating</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">terminating</span><span style="color:#888;font-size:0.9em;">(3.29)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">termination</span><span style="color:#888;font-size:0.9em;">(3.29)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_16.png" alt="Community 16">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#768c1e">also</span><br>
+                <h3>Community 16</h3>
+                <p>Words: 8</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">also<span class="top-word-value">(7.69)</span></span><span class="top-word" style="color:#64b5f6">thus<span class="top-word-value">(4.14)</span></span><span class="top-word" style="color:#81c784">further<span class="top-word-value">(3.21)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#768c1e">also</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">also</span><span style="color:#888;font-size:0.9em;">(7.69)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">thus</span><span style="color:#888;font-size:0.9em;">(4.14)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">further</span><span style="color:#888;font-size:0.9em;">(3.21)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_17.png" alt="Community 17">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#1e8c4a">bonus</span><br>
+                <h3>Community 17</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">bonus<span class="top-word-value">(3.08)</span></span><span class="top-word" style="color:#64b5f6">reward<span class="top-word-value">(3.08)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#1e8c4a">bonus</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">bonus</span><span style="color:#888;font-size:0.9em;">(3.08)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">reward</span><span style="color:#888;font-size:0.9em;">(3.08)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_18.png" alt="Community 18">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#1e4a8c">information</span><br>
+                <h3>Community 18</h3>
+                <p>Words: 3</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">information<span class="top-word-value">(5.87)</span></span><span class="top-word" style="color:#64b5f6">knowledge<span class="top-word-value">(3.06)</span></span><span class="top-word" style="color:#81c784">message<span class="top-word-value">(2.81)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#1e4a8c">information</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">information</span><span style="color:#888;font-size:0.9em;">(5.87)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">knowledge</span><span style="color:#888;font-size:0.9em;">(3.06)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">message</span><span style="color:#888;font-size:0.9em;">(2.81)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_20.png" alt="Community 20">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#881919">significantly</span><br>
+                <h3>Community 20</h3>
+                <p>Words: 3</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">significantly<span class="top-word-value">(5.52)</span></span><span class="top-word" style="color:#64b5f6">consistently<span class="top-word-value">(2.86)</span></span><span class="top-word" style="color:#81c784">much<span class="top-word-value">(2.66)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#881919">significantly</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">significantly</span><span style="color:#888;font-size:0.9em;">(5.52)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">consistently</span><span style="color:#888;font-size:0.9em;">(2.86)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">much</span><span style="color:#888;font-size:0.9em;">(2.66)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_21.png" alt="Community 21">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#728819">buggy</span><br>
+                <h3>Community 21</h3>
+                <p>Words: 3</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">buggy<span class="top-word-value">(4.78)</span></span><span class="top-word" style="color:#64b5f6">normal<span class="top-word-value">(2.82)</span></span><span class="top-word" style="color:#81c784">undesirable<span class="top-word-value">(1.96)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#728819">buggy</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">buggy</span><span style="color:#888;font-size:0.9em;">(4.78)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">normal</span><span style="color:#888;font-size:0.9em;">(2.82)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">undesirable</span><span style="color:#888;font-size:0.9em;">(1.96)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_22.png" alt="Community 22">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#198846">require</span><br>
+                <h3>Community 22</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">require<span class="top-word-value">(2.78)</span></span><span class="top-word" style="color:#64b5f6">requires<span class="top-word-value">(2.78)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#198846">require</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">require</span><span style="color:#888;font-size:0.9em;">(2.78)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">requires</span><span style="color:#888;font-size:0.9em;">(2.78)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_23.png" alt="Community 23">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#194688">high</span><br>
+                <h3>Community 23</h3>
+                <p>Words: 3</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">high<span class="top-word-value">(7.56)</span></span><span class="top-word" style="color:#64b5f6">low<span class="top-word-value">(5.21)</span></span><span class="top-word" style="color:#81c784">higher<span class="top-word-value">(2.36)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#194688">high</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">high</span><span style="color:#888;font-size:0.9em;">(7.56)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">low</span><span style="color:#888;font-size:0.9em;">(5.21)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">higher</span><span style="color:#888;font-size:0.9em;">(2.36)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_24.png" alt="Community 24">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#721988">function</span><br>
+                <h3>Community 24</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">function<span class="top-word-value">(5.15)</span></span><span class="top-word" style="color:#64b5f6">formulation<span class="top-word-value">(4.06)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#721988">function</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">function</span><span style="color:#888;font-size:0.9em;">(5.15)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">formulation</span><span style="color:#888;font-size:0.9em;">(4.06)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_27.png" alt="Community 27">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#158442">struggle</span><br>
+                <h3>Community 27</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">struggle<span class="top-word-value">(2.35)</span></span><span class="top-word" style="color:#64b5f6">fail<span class="top-word-value">(2.35)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#158442">struggle</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">struggle</span><span style="color:#888;font-size:0.9em;">(2.35)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">fail</span><span style="color:#888;font-size:0.9em;">(2.35)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_28.png" alt="Community 28">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#154284">set</span><br>
+                <h3>Community 28</h3>
+                <p>Words: 5</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">set<span class="top-word-value">(7.17)</span></span><span class="top-word" style="color:#64b5f6">number<span class="top-word-value">(5.25)</span></span><span class="top-word" style="color:#81c784">variety<span class="top-word-value">(4.73)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#154284">set</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">set</span><span style="color:#888;font-size:0.9em;">(7.17)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">number</span><span style="color:#888;font-size:0.9em;">(5.25)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">variety</span><span style="color:#888;font-size:0.9em;">(4.73)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_30.png" alt="Community 30">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#811111">released</span><br>
+                <h3>Community 30</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">released<span class="top-word-value">(2.23)</span></span><span class="top-word" style="color:#64b5f6">available<span class="top-word-value">(2.23)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#811111">released</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">released</span><span style="color:#888;font-size:0.9em;">(2.23)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">available</span><span style="color:#888;font-size:0.9em;">(2.23)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_31.png" alt="Community 31">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#6a8111">different</span><br>
+                <h3>Community 31</h3>
+                <p>Words: 8</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">different<span class="top-word-value">(7.51)</span></span><span class="top-word" style="color:#64b5f6">many<span class="top-word-value">(6.04)</span></span><span class="top-word" style="color:#81c784">multiple<span class="top-word-value">(5.16)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#6a8111">different</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">different</span><span style="color:#888;font-size:0.9em;">(7.51)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">many</span><span style="color:#888;font-size:0.9em;">(6.04)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">multiple</span><span style="color:#888;font-size:0.9em;">(5.16)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="/static/thesaurus/word_cloud_communities/word_cloud_community_32.png" alt="Community 32">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#11813e">provides</span><br>
+                <h3>Community 32</h3>
+                <p>Words: 4</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">provides<span class="top-word-value">(4.42)</span></span><span class="top-word" style="color:#64b5f6">offer<span class="top-word-value">(2.16)</span></span><span class="top-word" style="color:#81c784">exhibit<span class="top-word-value">(1.20)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#11813e">provides</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">provides</span><span style="color:#888;font-size:0.9em;">(4.42)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">offer</span><span style="color:#888;font-size:0.9em;">(2.16)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">exhibit</span><span style="color:#888;font-size:0.9em;">(1.20)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_82.png') }}" alt="Community 82">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#2e9858">video</span><br>
+                <h3>Community 82</h3>
+                <p>Words: 7</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">video<span class="top-word-value">(5.98)</span></span><span class="top-word" style="color:#64b5f6">motion<span class="top-word-value">(3.64)</span></span><span class="top-word" style="color:#81c784">visual<span class="top-word-value">(2.87)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#2e9858">video</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">video</span><span style="color:#888;font-size:0.9em;">(5.98)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">motion</span><span style="color:#888;font-size:0.9em;">(3.64)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">visual</span><span style="color:#888;font-size:0.9em;">(2.87)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_58.png') }}" alt="Community 58">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#1e4a8c">input</span><br>
+                <h3>Community 58</h3>
+                <p>Words: 16</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">input<span class="top-word-value">(7.24)</span></span><span class="top-word" style="color:#64b5f6">learn<span class="top-word-value">(6.40)</span></span><span class="top-word" style="color:#81c784">use<span class="top-word-value">(5.31)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#1e4a8c">input</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">input</span><span style="color:#888;font-size:0.9em;">(7.24)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">learn</span><span style="color:#888;font-size:0.9em;">(6.40)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">use</span><span style="color:#888;font-size:0.9em;">(5.31)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_35.png') }}" alt="Community 35">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#7d0d0d">attacker</span><br>
+                <h3>Community 35</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">attacker<span class="top-word-value">(2.10)</span></span><span class="top-word" style="color:#64b5f6">adversary<span class="top-word-value">(2.10)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#7d0d0d">attacker</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">attacker</span><span style="color:#888;font-size:0.9em;">(2.10)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">adversary</span><span style="color:#888;font-size:0.9em;">(2.10)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_37.png') }}" alt="Community 37">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#0d7d39">difficult</span><br>
+                <h3>Community 37</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">difficult<span class="top-word-value">(2.01)</span></span><span class="top-word" style="color:#64b5f6">challenging<span class="top-word-value">(2.01)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#0d7d39">difficult</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">difficult</span><span style="color:#888;font-size:0.9em;">(2.01)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">challenging</span><span style="color:#888;font-size:0.9em;">(2.01)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_38.png') }}" alt="Community 38">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#0d397d">using</span><br>
+                <h3>Community 38</h3>
+                <p>Words: 4</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">using<span class="top-word-value">(3.98)</span></span><span class="top-word" style="color:#64b5f6">through<span class="top-word-value">(1.97)</span></span><span class="top-word" style="color:#81c784">leveraging<span class="top-word-value">(1.01)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#0d397d">using</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">using</span><span style="color:#888;font-size:0.9em;">(3.98)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">through</span><span style="color:#888;font-size:0.9em;">(1.97)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">leveraging</span><span style="color:#888;font-size:0.9em;">(1.01)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_40.png') }}" alt="Community 40">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#982e2e">empirical</span><br>
+                <h3>Community 40</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">empirical<span class="top-word-value">(1.87)</span></span><span class="top-word" style="color:#64b5f6">experimental<span class="top-word-value">(1.87)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#982e2e">empirical</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">empirical</span><span style="color:#888;font-size:0.9em;">(1.87)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">experimental</span><span style="color:#888;font-size:0.9em;">(1.87)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_41.png') }}" alt="Community 41">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#82982e">render</span><br>
+                <h3>Community 41</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">render<span class="top-word-value">(1.84)</span></span><span class="top-word" style="color:#64b5f6">make<span class="top-word-value">(1.84)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#82982e">render</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">render</span><span style="color:#888;font-size:0.9em;">(1.84)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">make</span><span style="color:#888;font-size:0.9em;">(1.84)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_42.png') }}" alt="Community 42">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#2e9858">cost</span><br>
+                <h3>Community 42</h3>
+                <p>Words: 3</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">cost<span class="top-word-value">(2.84)</span></span><span class="top-word" style="color:#64b5f6">complexity<span class="top-word-value">(1.84)</span></span><span class="top-word" style="color:#81c784">burden<span class="top-word-value">(1.00)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#2e9858">cost</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">cost</span><span style="color:#888;font-size:0.9em;">(2.84)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">complexity</span><span style="color:#888;font-size:0.9em;">(1.84)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">burden</span><span style="color:#888;font-size:0.9em;">(1.00)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_43.png') }}" alt="Community 43">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#2e5898">allows</span><br>
+                <h3>Community 43</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">allows<span class="top-word-value">(3.39)</span></span><span class="top-word" style="color:#64b5f6">enables<span class="top-word-value">(3.39)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#2e5898">allows</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">allows</span><span style="color:#888;font-size:0.9em;">(3.39)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">enables</span><span style="color:#888;font-size:0.9em;">(3.39)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_44.png') }}" alt="Community 44">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#822e98">size</span><br>
+                <h3>Community 44</h3>
+                <p>Words: 2</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">size<span class="top-word-value">(2.90)</span></span><span class="top-word" style="color:#64b5f6">length<span class="top-word-value">(2.90)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#822e98">size</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">size</span><span style="color:#888;font-size:0.9em;">(2.90)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">length</span><span style="color:#888;font-size:0.9em;">(2.90)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_55.png') }}" alt="Community 55">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#8c1e1e">example</span><br>
+                <h3>Community 55</h3>
+                <p>Words: 5</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">example<span class="top-word-value">(3.94)</span></span><span class="top-word" style="color:#64b5f6">class<span class="top-word-value">(3.20)</span></span><span class="top-word" style="color:#81c784">instance<span class="top-word-value">(2.67)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#8c1e1e">example</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">example</span><span style="color:#888;font-size:0.9em;">(3.94)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">class</span><span style="color:#888;font-size:0.9em;">(3.20)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">instance</span><span style="color:#888;font-size:0.9em;">(2.67)</span></div></div>
+        </div>
+    
+        <div class="word-cloud-card">
+            <img src="{{ url_for('static', filename='thesaurus/word_cloud_communities/word_cloud_community_47.png') }}" alt="Community 47">
+            <div class="info">
+                <span class="main-word-label">Main word:</span> <span class="main-word" style="color:#289453">furthermore</span><br>
+                <h3>Community 47</h3>
+                <p>Words: 4</p>
+                <div class="top-words"><span class="top-word" style="color:#e57373">furthermore<span class="top-word-value">(6.47)</span></span><span class="top-word" style="color:#64b5f6">moreover<span class="top-word-value">(5.57)</span></span><span class="top-word" style="color:#81c784">finally<span class="top-word-value">(3.72)</span></span></div>
+            </div>
+            <div class="related-words-pop"><div class="main-word-pop-label">Main word: <span class="main-word-pop" style="color:#289453">furthermore</span></div><div style="margin-top:6px;"><b>Most related words:</b><br><span style="color:#e57373;font-size:1.1em;font-weight:bold;">furthermore</span><span style="color:#888;font-size:0.9em;">(6.47)</span>, <span style="color:#64b5f6;font-size:1.1em;font-weight:bold;">moreover</span><span style="color:#888;font-size:0.9em;">(5.57)</span>, <span style="color:#81c784;font-size:1.1em;font-weight:bold;">finally</span><span style="color:#888;font-size:0.9em;">(3.72)</span></div></div>      
+
+    </div>
+
+    <footer class="footer">
+        <p class="mb-0">© 2025 文献检索系统. 保留所有权利.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+        

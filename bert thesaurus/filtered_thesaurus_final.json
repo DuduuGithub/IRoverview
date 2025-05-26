@@ -1,0 +1,5388 @@
+{
+  "predictions": [
+    {
+      "original_word": "work",
+      "predicted_word": "paper",
+      "score": 15.606277918064734,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "approach",
+      "score": 13.104774890001863,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "demonstrate",
+      "predicted_word": "show",
+      "score": 9.938939644023776,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "algorithm",
+      "score": 8.24100726749748,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "task",
+      "predicted_word": "problem",
+      "score": 8.195645076877554,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "approach",
+      "predicted_word": "method",
+      "score": 7.755537599383388,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "find",
+      "predicted_word": "show",
+      "score": 7.153581079095602,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "can",
+      "predicted_word": "may",
+      "score": 6.901092728890944,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "novel",
+      "predicted_word": "new",
+      "score": 6.828931855387054,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "algorithm",
+      "predicted_word": "method",
+      "score": 6.822344146989053,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "network",
+      "score": 6.66276598595141,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "present",
+      "predicted_word": "propose",
+      "score": 6.275385797023773,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "show",
+      "predicted_word": "demonstrate",
+      "score": 6.201935702934861,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "propose",
+      "predicted_word": "introduce",
+      "score": 6.04760277364403,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "issue",
+      "predicted_word": "problem",
+      "score": 5.823794417548925,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "propose",
+      "predicted_word": "present",
+      "score": 5.087745503522456,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "approach",
+      "predicted_word": "framework",
+      "score": 5.058683944283985,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "problem",
+      "predicted_word": "task",
+      "score": 4.989281587215373,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "few",
+      "predicted_word": "one",
+      "score": 4.813861548900604,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "new",
+      "predicted_word": "novel",
+      "score": 4.750984902493656,
+      "original_word_pos": [
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "training",
+      "predicted_word": "learning",
+      "score": 4.605248675099574,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "published",
+      "predicted_word": "presented",
+      "score": 4.482685878872871,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "paper",
+      "predicted_word": "work",
+      "score": 4.472845919430256,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "architecture",
+      "predicted_word": "model",
+      "score": 4.463039539754391,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "technique",
+      "score": 4.428365916013718,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "accuracy",
+      "predicted_word": "performance",
+      "score": 4.421913711819798,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "network",
+      "predicted_word": "model",
+      "score": 4.419949534145417,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "conditioned",
+      "predicted_word": "based",
+      "score": 4.396801307797432,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "approach",
+      "predicted_word": "algorithm",
+      "score": 4.391093304846436,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "introduce",
+      "predicted_word": "propose",
+      "score": 4.260498370975256,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "task",
+      "predicted_word": "domain",
+      "score": 4.136641268240055,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "prove",
+      "predicted_word": "show",
+      "score": 4.0423902571201324,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "problem",
+      "predicted_word": "issue",
+      "score": 3.8358572453726083,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "deep",
+      "predicted_word": "machine",
+      "score": 3.6181800110498443,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "prior",
+      "predicted_word": "previous",
+      "score": 3.488990767626092,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "terminating",
+      "predicted_word": "termination",
+      "score": 3.291475385427475,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "llm",
+      "predicted_word": "model",
+      "score": 3.282125921919942,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "algorithm",
+      "predicted_word": "approach",
+      "score": 3.2734754253178835,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "result",
+      "predicted_word": "performance",
+      "score": 3.208407422527671,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "further",
+      "predicted_word": "also",
+      "score": 3.2078340388834476,
+      "original_word_pos": [
+        "v",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "technique",
+      "predicted_word": "method",
+      "score": 3.187670584768057,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "model",
+      "score": 3.1727548924973235,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "work",
+      "predicted_word": "study",
+      "score": 3.1462585901026614,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "method",
+      "score": 3.0932071519782767,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "bonus",
+      "predicted_word": "reward",
+      "score": 3.0765414373017848,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "show",
+      "predicted_word": "find",
+      "score": 3.0660566645674407,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "knowledge",
+      "predicted_word": "information",
+      "score": 3.060916186321265,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "architecture",
+      "predicted_word": "network",
+      "score": 3.0131435827352107,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "framework",
+      "predicted_word": "approach",
+      "score": 2.9478934351354837,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "small",
+      "predicted_word": "large",
+      "score": 2.8991810688748956,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "experiment",
+      "predicted_word": "result",
+      "score": 2.8854668717831373,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "consistently",
+      "predicted_word": "significantly",
+      "score": 2.8583115711808205,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "introduce",
+      "predicted_word": "present",
+      "score": 2.833618938922882,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "buggy",
+      "predicted_word": "normal",
+      "score": 2.8190081864595413,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "performance",
+      "predicted_word": "accuracy",
+      "score": 2.8189879013225436,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "work",
+      "predicted_word": "research",
+      "score": 2.784965114435181,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "require",
+      "predicted_word": "requires",
+      "score": 2.78211472555995,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "high",
+      "predicted_word": "low",
+      "score": 2.7744009951129556,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "architecture",
+      "predicted_word": "framework",
+      "score": 2.7603803873062134,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "propose",
+      "predicted_word": "develop",
+      "score": 2.756610241252929,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "significantly",
+      "predicted_word": "much",
+      "score": 2.6634513484314084,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "r"
+      ]
+    },
+    {
+      "original_word": "develop",
+      "predicted_word": "propose",
+      "score": 2.5861208252608776,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "transformer",
+      "predicted_word": "model",
+      "score": 2.5853165425360203,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "formulation",
+      "predicted_word": "function",
+      "score": 2.582365815527737,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "baseline",
+      "predicted_word": "method",
+      "score": 2.5785043032083195,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "show",
+      "predicted_word": "prove",
+      "score": 2.564746394287795,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "generation",
+      "predicted_word": "synthesis",
+      "score": 2.480012441985309,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "low",
+      "predicted_word": "high",
+      "score": 2.43263161694631,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "solution",
+      "predicted_word": "approach",
+      "score": 2.416658815694973,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "imitation",
+      "predicted_word": "reinforcement",
+      "score": 2.3988057672977448,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "benchmark",
+      "predicted_word": "task",
+      "score": 2.359078362584114,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "struggle",
+      "predicted_word": "fail",
+      "score": 2.3500431776046753,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "range",
+      "predicted_word": "variety",
+      "score": 2.3414104357361794,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "representation",
+      "predicted_word": "model",
+      "score": 2.3013719963491894,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "neural",
+      "predicted_word": "deep",
+      "score": 2.295876471995143,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "layout",
+      "predicted_word": "label",
+      "score": 2.276265065098414,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "representation",
+      "predicted_word": "space",
+      "score": 2.2756312657147646,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "released",
+      "predicted_word": "available",
+      "score": 2.232070744037628,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "demonstrate",
+      "predicted_word": "demonstrates",
+      "score": 2.226683408021927,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "representation",
+      "score": 2.22533248977561,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "framework",
+      "score": 2.204876590287313,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "performance",
+      "predicted_word": "result",
+      "score": 2.202424617484212,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "llm",
+      "predicted_word": "human",
+      "score": 2.1996567994356155,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a"
+      ]
+    },
+    {
+      "original_word": "framework",
+      "predicted_word": "model",
+      "score": 2.1949997872579843,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "machine",
+      "predicted_word": "deep",
+      "score": 2.187667887657881,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "different",
+      "predicted_word": "multiple",
+      "score": 2.164584456011653,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a"
+      ]
+    },
+    {
+      "original_word": "offer",
+      "predicted_word": "provides",
+      "score": 2.1589457038789988,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "current",
+      "predicted_word": "existing",
+      "score": 2.150196270318702,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s",
+        "a"
+      ]
+    },
+    {
+      "original_word": "result",
+      "predicted_word": "experiment",
+      "score": 2.1491507426835597,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "architecture",
+      "score": 2.147658280329779,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "find",
+      "predicted_word": "demonstrate",
+      "score": 2.146302084438503,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "image",
+      "predicted_word": "video",
+      "score": 2.1457689432427287,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "input",
+      "predicted_word": "behavior",
+      "score": 2.1439015622017905,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "decoder",
+      "score": 2.1367522187210852,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "attacker",
+      "predicted_word": "adversary",
+      "score": 2.104919293895364,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "work",
+      "score": 2.1043573450297117,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "generate",
+      "predicted_word": "predict",
+      "score": 2.072068601846695,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "previous",
+      "predicted_word": "existing",
+      "score": 2.0524169616401196,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s",
+        "a"
+      ]
+    },
+    {
+      "original_word": "adaptation",
+      "predicted_word": "learning",
+      "score": 2.0113008096814156,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "difficult",
+      "predicted_word": "challenging",
+      "score": 2.0110614970326424,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "work",
+      "score": 1.997898742556572,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "problem",
+      "predicted_word": "question",
+      "score": 1.9845478573115543,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "show",
+      "predicted_word": "demonstrates",
+      "score": 1.9813106767833233,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "approach",
+      "predicted_word": "architecture",
+      "score": 1.977621216326952,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "through",
+      "predicted_word": "using",
+      "score": 1.968090020120144,
+      "original_word_pos": [
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "buggy",
+      "predicted_word": "undesirable",
+      "score": 1.958732757717371,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "behavior",
+      "predicted_word": "output",
+      "score": 1.9558591777458787,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "algorithm",
+      "score": 1.9330579146408127,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "scenario",
+      "predicted_word": "setting",
+      "score": 1.9270222827326506,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "approach",
+      "score": 1.9204404802294448,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "existing",
+      "predicted_word": "previous",
+      "score": 1.8741893032565713,
+      "original_word_pos": [
+        "v",
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "empirical",
+      "predicted_word": "experimental",
+      "score": 1.867441225796938,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "building",
+      "predicted_word": "based",
+      "score": 1.863518089056015,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "problem",
+      "predicted_word": "case",
+      "score": 1.8609008342027664,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "tangent",
+      "predicted_word": "network",
+      "score": 1.8558703362941742,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "work",
+      "predicted_word": "method",
+      "score": 1.855243256315589,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "still",
+      "predicted_word": "also",
+      "score": 1.8505951166152954,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s",
+        "a",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "render",
+      "predicted_word": "make",
+      "score": 1.8446456752717495,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "learning",
+      "predicted_word": "training",
+      "score": 1.8436744746359182,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "system",
+      "score": 1.8385209790722001,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "cost",
+      "predicted_word": "complexity",
+      "score": 1.8356613470241427,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "data",
+      "predicted_word": "task",
+      "score": 1.834988271817565,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "allows",
+      "predicted_word": "enables",
+      "score": 1.8259506653994322,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "size",
+      "predicted_word": "length",
+      "score": 1.8125523838680238,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "large",
+      "predicted_word": "small",
+      "score": 1.8107871520332992,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "present",
+      "predicted_word": "provide",
+      "score": 1.8107089642435312,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "subclass",
+      "predicted_word": "class",
+      "score": 1.8076079934835434,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "tackle",
+      "predicted_word": "address",
+      "score": 1.7980874832719564,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "moreover",
+      "predicted_word": "furthermore",
+      "score": 1.7932836413383484,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "outperform",
+      "predicted_word": "outperforms",
+      "score": 1.7878795005381107,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "framework",
+      "score": 1.786755452863872,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "type",
+      "predicted_word": "based",
+      "score": 1.7800451517105103,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "contrastive",
+      "predicted_word": "deep",
+      "score": 1.7762466371059418,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "recent",
+      "predicted_word": "previous",
+      "score": 1.7737178585957736,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "several",
+      "predicted_word": "many",
+      "score": 1.7696308232843876,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "challenge",
+      "predicted_word": "issue",
+      "score": 1.751552195288241,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "setting",
+      "predicted_word": "task",
+      "score": 1.7321782130748034,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "consider",
+      "score": 1.7301005572080612,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "graph",
+      "predicted_word": "deep",
+      "score": 1.7148930486291647,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "supervised",
+      "predicted_word": "reinforcement",
+      "score": 1.7069700174033642,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "test",
+      "predicted_word": "training",
+      "score": 1.6970436312258244,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "produce",
+      "predicted_word": "generate",
+      "score": 1.6934404820203781,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "constraint",
+      "predicted_word": "guidance",
+      "score": 1.6916181445121765,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "mover",
+      "predicted_word": "move",
+      "score": 1.6805994790047407,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "bag",
+      "predicted_word": "set",
+      "score": 1.677561308373697,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "negative",
+      "predicted_word": "positive",
+      "score": 1.6754178404808044,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "message",
+      "predicted_word": "information",
+      "score": 1.674470841884613,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "compression",
+      "predicted_word": "pruning",
+      "score": 1.6687775254249573,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "objective",
+      "predicted_word": "problem",
+      "score": 1.6673937331943307,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "generation",
+      "predicted_word": "processing",
+      "score": 1.6504608765244484,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "sample",
+      "predicted_word": "example",
+      "score": 1.6434369224589318,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "probabilistic",
+      "predicted_word": "generative",
+      "score": 1.6422776579856873,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "application",
+      "predicted_word": "use",
+      "score": 1.637241218239069,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "modeling",
+      "predicted_word": "model",
+      "score": 1.6337627805769444,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "challenge",
+      "predicted_word": "problem",
+      "score": 1.63192630559206,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "train",
+      "predicted_word": "learn",
+      "score": 1.6238753153011203,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "operator",
+      "predicted_word": "network",
+      "score": 1.6196690215729177,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "whole",
+      "predicted_word": "entire",
+      "score": 1.6101592183113098,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "setting",
+      "predicted_word": "scenario",
+      "score": 1.6079404153861105,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "set",
+      "predicted_word": "bag",
+      "score": 1.6062851548194885,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "suffer",
+      "predicted_word": "suffers",
+      "score": 1.601971823722124,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "design",
+      "predicted_word": "propose",
+      "score": 1.584850750863552,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "reinforcement",
+      "predicted_word": "machine",
+      "score": 1.5847965366729113,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "simple",
+      "predicted_word": "novel",
+      "score": 1.5777974259108305,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "drop",
+      "predicted_word": "loss",
+      "score": 1.5773233948275447,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "enables",
+      "predicted_word": "allows",
+      "score": 1.5690018981695175,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "provide",
+      "predicted_word": "present",
+      "score": 1.5679438337683678,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "multiple",
+      "predicted_word": "different",
+      "score": 1.5678668044274673,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "demonstrates",
+      "predicted_word": "show",
+      "score": 1.5619981847703457,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "experiment",
+      "predicted_word": "simulation",
+      "score": 1.5616438426077366,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "set",
+      "predicted_word": "number",
+      "score": 1.5607001148164272,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "neural",
+      "predicted_word": "functional",
+      "score": 1.5591414477676153,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "thus",
+      "predicted_word": "therefore",
+      "score": 1.556757886428386,
+      "original_word_pos": [
+        "n",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "develop",
+      "predicted_word": "present",
+      "score": 1.5449680984020233,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "squashing",
+      "predicted_word": "fitting",
+      "score": 1.5434882082045078,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "optimization",
+      "predicted_word": "learning",
+      "score": 1.5369555186480284,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "adopted",
+      "predicted_word": "used",
+      "score": 1.529116839170456,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "different",
+      "predicted_word": "various",
+      "score": 1.523229961283505,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "task",
+      "predicted_word": "data",
+      "score": 1.522914350964129,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "testing",
+      "predicted_word": "test",
+      "score": 1.5220180321484804,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "way",
+      "predicted_word": "manner",
+      "score": 1.5188779282616451,
+      "original_word_pos": [
+        "n",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "framework",
+      "predicted_word": "architecture",
+      "score": 1.5185216888785362,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "many",
+      "predicted_word": "several",
+      "score": 1.500725394114852,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "visual",
+      "predicted_word": "action",
+      "score": 1.4997538356110454,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "smaller",
+      "predicted_word": "sparse",
+      "score": 1.4994647204875946,
+      "original_word_pos": [
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "classification",
+      "predicted_word": "learning",
+      "score": 1.49563467502594,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "neural",
+      "predicted_word": "nonlinear",
+      "score": 1.492219362524338,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "observation",
+      "predicted_word": "data",
+      "score": 1.4861083403229713,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "function",
+      "predicted_word": "formulation",
+      "score": 1.480407953262329,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "paper",
+      "predicted_word": "presentation",
+      "score": 1.4636324048042297,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "technique",
+      "predicted_word": "algorithm",
+      "score": 1.4629283770918846,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "cross",
+      "predicted_word": "inter",
+      "score": 1.4621885439753441,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "dependent",
+      "predicted_word": "specific",
+      "score": 1.4620421286672354,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "advocate",
+      "predicted_word": "propose",
+      "score": 1.457995891571045,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "theorem",
+      "predicted_word": "skill",
+      "score": 1.4579931423068047,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "tend",
+      "predicted_word": "tends",
+      "score": 1.4576862901449203,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "address",
+      "score": 1.4537098086730111,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "level",
+      "predicted_word": "based",
+      "score": 1.4534375516232103,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "link",
+      "predicted_word": "node",
+      "score": 1.4521974688395858,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "address",
+      "predicted_word": "solve",
+      "score": 1.4505525762215257,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "environment",
+      "predicted_word": "setting",
+      "score": 1.4496577195823193,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "test",
+      "predicted_word": "testing",
+      "score": 1.4442645739763975,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "introduce",
+      "predicted_word": "develop",
+      "score": 1.4411261398345232,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "efficacy",
+      "predicted_word": "effectiveness",
+      "score": 1.4396950006484985,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "patch",
+      "predicted_word": "repair",
+      "score": 1.4372138381004333,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "large",
+      "predicted_word": "natural",
+      "score": 1.4365603253245354,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "many",
+      "predicted_word": "multiple",
+      "score": 1.4285020641982555,
+      "original_word_pos": [
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a"
+      ]
+    },
+    {
+      "original_word": "world",
+      "predicted_word": "time",
+      "score": 1.4248922634869814,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "test",
+      "predicted_word": "evaluate",
+      "score": 1.4200763180851936,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "present",
+      "predicted_word": "introduce",
+      "score": 1.4166496684774756,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "trained",
+      "predicted_word": "training",
+      "score": 1.4110022684035357,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "framework",
+      "predicted_word": "method",
+      "score": 1.4100165662821382,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "widely",
+      "predicted_word": "commonly",
+      "score": 1.4065692014992237,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "however",
+      "predicted_word": "unfortunately",
+      "score": 1.4022701068315655,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "inspired",
+      "predicted_word": "motivated",
+      "score": 1.3989311456680298,
+      "original_word_pos": [
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "generalize",
+      "predicted_word": "perform",
+      "score": 1.3979619015008211,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "empirically",
+      "predicted_word": "experimentally",
+      "score": 1.3966459929943085,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "class",
+      "predicted_word": "instance",
+      "score": 1.3954684099298902,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "perform",
+      "predicted_word": "conduct",
+      "score": 1.391056278720498,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "observation",
+      "predicted_word": "state",
+      "score": 1.388270599534735,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "developed",
+      "predicted_word": "proposed",
+      "score": 1.3827521279454231,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "issue",
+      "predicted_word": "challenge",
+      "score": 1.3747739922255278,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "video",
+      "predicted_word": "visual",
+      "score": 1.3731128158397041,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "use",
+      "predicted_word": "employ",
+      "score": 1.3700406178832054,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "paper",
+      "score": 1.3676119707524776,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "control",
+      "predicted_word": "motion",
+      "score": 1.364957194775343,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "original",
+      "predicted_word": "input",
+      "score": 1.3640695288777351,
+      "original_word_pos": [
+        "n",
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "thus",
+      "predicted_word": "also",
+      "score": 1.3612008467316628,
+      "original_word_pos": [
+        "n",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "input",
+      "predicted_word": "data",
+      "score": 1.3600889157969505,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "notably",
+      "predicted_word": "moreover",
+      "score": 1.3556690202094615,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "variety",
+      "predicted_word": "number",
+      "score": 1.3549021519720554,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "approach",
+      "predicted_word": "technique",
+      "score": 1.353254661837127,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "recourse",
+      "predicted_word": "robustness",
+      "score": 1.35123061388731,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "gradient",
+      "predicted_word": "weight",
+      "score": 1.3492301739752293,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "tool",
+      "score": 1.3485634699463844,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "some",
+      "predicted_word": "many",
+      "score": 1.3409723583608866,
+      "original_word_pos": [
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "agnostic",
+      "predicted_word": "based",
+      "score": 1.3334541199728847,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "sequence",
+      "predicted_word": "language",
+      "score": 1.3333741091773845,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "self",
+      "predicted_word": "semi",
+      "score": 1.3308558111275488,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "layer",
+      "predicted_word": "neuron",
+      "score": 1.3303657434880733,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "method",
+      "predicted_word": "module",
+      "score": 1.3299345895648003,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "free",
+      "predicted_word": "based",
+      "score": 1.32943544536829,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "framework",
+      "predicted_word": "tool",
+      "score": 1.326999016397167,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "improvement",
+      "predicted_word": "gain",
+      "score": 1.3250019503757358,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "observation",
+      "predicted_word": "sequence",
+      "score": 1.320775207132101,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "factual",
+      "predicted_word": "relevant",
+      "score": 1.3175842124037445,
+      "original_word_pos": [
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "furthermore",
+      "predicted_word": "finally",
+      "score": 1.3165842331945896,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "tool",
+      "predicted_word": "method",
+      "score": 1.3123357277363539,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "doe",
+      "predicted_word": "may",
+      "score": 1.309967263834551,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "number",
+      "predicted_word": "set",
+      "score": 1.3008830290782498,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "develop",
+      "predicted_word": "introduce",
+      "score": 1.2960685268044472,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "data",
+      "predicted_word": "observation",
+      "score": 1.29366146447137,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "data",
+      "score": 1.2934740754426457,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "evaluate",
+      "score": 1.293115060776472,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "often",
+      "predicted_word": "may",
+      "score": 1.2918161563575268,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "existing",
+      "predicted_word": "popular",
+      "score": 1.2911664098501205,
+      "original_word_pos": [
+        "v",
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "address",
+      "predicted_word": "tackle",
+      "score": 1.2879222705960274,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "named",
+      "predicted_word": "called",
+      "score": 1.2850466966629028,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "produce",
+      "predicted_word": "learn",
+      "score": 1.284406065940857,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "explore",
+      "predicted_word": "investigate",
+      "score": 1.2779986299574375,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "type",
+      "predicted_word": "kind",
+      "score": 1.277818463742733,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "motion",
+      "predicted_word": "video",
+      "score": 1.2771249897778034,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "example",
+      "predicted_word": "instance",
+      "score": 1.2754198323873425,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "generative",
+      "predicted_word": "probabilistic",
+      "score": 1.2740026265382767,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "output",
+      "predicted_word": "predict",
+      "score": 1.2725588362663984,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "synthetic",
+      "predicted_word": "representative",
+      "score": 1.272368609905243,
+      "original_word_pos": [
+        "n",
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s",
+        "a"
+      ]
+    },
+    {
+      "original_word": "find",
+      "predicted_word": "observe",
+      "score": 1.268233273178339,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "empirically",
+      "predicted_word": "also",
+      "score": 1.2667631842195988,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "outer",
+      "predicted_word": "inner",
+      "score": 1.26235821377486,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "s",
+        "a"
+      ]
+    },
+    {
+      "original_word": "generation",
+      "predicted_word": "quality",
+      "score": 1.2601396441459656,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "distribution",
+      "predicted_word": "label",
+      "score": 1.259464631555602,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "deep",
+      "predicted_word": "neural",
+      "score": 1.259214114434144,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "higher",
+      "predicted_word": "high",
+      "score": 1.252596154808998,
+      "original_word_pos": [
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "inference",
+      "predicted_word": "learning",
+      "score": 1.251503960644186,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "line",
+      "predicted_word": "dot",
+      "score": 1.2512931823730469,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "module",
+      "predicted_word": "method",
+      "score": 1.2512533408589661,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "find",
+      "predicted_word": "prove",
+      "score": 1.2507817819714546,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "centric",
+      "predicted_word": "based",
+      "score": 1.250361394137144,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "prediction",
+      "predicted_word": "learning",
+      "score": 1.2471156587416772,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "slot",
+      "predicted_word": "scene",
+      "score": 1.2470780108124018,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "input",
+      "predicted_word": "network",
+      "score": 1.24177629314363,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "finally",
+      "predicted_word": "moreover",
+      "score": 1.2417748626321554,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "space",
+      "predicted_word": "representation",
+      "score": 1.23347188916523,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "enhance",
+      "predicted_word": "improve",
+      "score": 1.2312394753098488,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "thus",
+      "predicted_word": "hence",
+      "score": 1.224545031785965,
+      "original_word_pos": [
+        "n",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "provision",
+      "predicted_word": "verification",
+      "score": 1.2237685024738312,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "series",
+      "predicted_word": "expansion",
+      "score": 1.2236773170552624,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "popular",
+      "predicted_word": "existing",
+      "score": 1.2229335233569145,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s",
+        "a"
+      ]
+    },
+    {
+      "original_word": "inner",
+      "predicted_word": "outer",
+      "score": 1.2166562613565475,
+      "original_word_pos": [
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "human",
+      "predicted_word": "user",
+      "score": 1.2141055356478319,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "language",
+      "predicted_word": "learning",
+      "score": 1.2136085180100054,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "case",
+      "predicted_word": "situation",
+      "score": 1.2071953415870667,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "application",
+      "predicted_word": "task",
+      "score": 1.206351950764656,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "standard",
+      "predicted_word": "traditional",
+      "score": 1.2058084830641747,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "discover",
+      "predicted_word": "learn",
+      "score": 1.2009079866111279,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "exhibit",
+      "predicted_word": "provides",
+      "score": 1.1978925168514252,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "train",
+      "predicted_word": "use",
+      "score": 1.1974838352762163,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "large",
+      "predicted_word": "learning",
+      "score": 1.1957814954221249,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "decoder",
+      "predicted_word": "model",
+      "score": 1.1943191409955034,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "training",
+      "predicted_word": "computational",
+      "score": 1.1888026893138885,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "achieved",
+      "predicted_word": "shown",
+      "score": 1.187268316745758,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "key",
+      "predicted_word": "underlying",
+      "score": 1.1871679872274399,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "capture",
+      "predicted_word": "learn",
+      "score": 1.1835122772026807,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "different",
+      "predicted_word": "two",
+      "score": 1.183443092275411,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "version",
+      "predicted_word": "variant",
+      "score": 1.1827484667301178,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "video",
+      "predicted_word": "action",
+      "score": 1.1797853748430498,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "lower",
+      "predicted_word": "upper",
+      "score": 1.1794809326529503,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "describe",
+      "predicted_word": "show",
+      "score": 1.177576381713152,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "furthermore",
+      "predicted_word": "moreover",
+      "score": 1.1749877259135246,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "technique",
+      "predicted_word": "approach",
+      "score": 1.172897532582283,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "represent",
+      "predicted_word": "represents",
+      "score": 1.1726354360580444,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "highlight",
+      "predicted_word": "demonstrates",
+      "score": 1.1709978058934212,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "token",
+      "predicted_word": "word",
+      "score": 1.170537871250417,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "like",
+      "predicted_word": "based",
+      "score": 1.1646320580039173,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "unfortunately",
+      "predicted_word": "however",
+      "score": 1.1613197177648544,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "finally",
+      "predicted_word": "furthermore",
+      "score": 1.1601560697308742,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "text",
+      "predicted_word": "training",
+      "score": 1.1586757600307465,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "enable",
+      "predicted_word": "help",
+      "score": 1.1548245400190353,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "approach",
+      "predicted_word": "model",
+      "score": 1.1536633791401982,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "content",
+      "predicted_word": "style",
+      "score": 1.1517876386642456,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "structured",
+      "predicted_word": "like",
+      "score": 1.1509961560368538,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "show",
+      "predicted_word": "observe",
+      "score": 1.149653575848788,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "actor",
+      "predicted_word": "critic",
+      "score": 1.1474101571875508,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "address",
+      "predicted_word": "overcome",
+      "score": 1.146353054791689,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "provide",
+      "predicted_word": "derive",
+      "score": 1.146205622702837,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "bespoke",
+      "predicted_word": "dedicated",
+      "score": 1.145104005932808,
+      "original_word_pos": [
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "improvement",
+      "predicted_word": "increase",
+      "score": 1.1448137052357197,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "additional",
+      "predicted_word": "prior",
+      "score": 1.1444071531295776,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "s"
+      ]
+    },
+    {
+      "original_word": "policy",
+      "predicted_word": "algorithm",
+      "score": 1.1438159870449454,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "experiment",
+      "score": 1.1414566729217768,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "conditioned",
+      "predicted_word": "directed",
+      "score": 1.1397576220333576,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "current",
+      "predicted_word": "traditional",
+      "score": 1.1373436730355024,
+      "original_word_pos": [
+        "n",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "feasible",
+      "predicted_word": "possible",
+      "score": 1.1371295414865017,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a"
+      ]
+    },
+    {
+      "original_word": "research",
+      "predicted_word": "work",
+      "score": 1.1360905966721475,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "output",
+      "predicted_word": "input",
+      "score": 1.1349500474170782,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "pruning",
+      "predicted_word": "compression",
+      "score": 1.1341527226322796,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "information",
+      "predicted_word": "message",
+      "score": 1.131957732141018,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "world",
+      "predicted_word": "life",
+      "score": 1.1312698530964553,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "generation",
+      "predicted_word": "generative",
+      "score": 1.1305939704179764,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "baseline",
+      "predicted_word": "model",
+      "score": 1.1302299811504781,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "unseen",
+      "predicted_word": "new",
+      "score": 1.126359447836876,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "supervised",
+      "predicted_word": "deep",
+      "score": 1.123432144522667,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "instruction",
+      "predicted_word": "fine",
+      "score": 1.1203241497278214,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s",
+        "a",
+        "r"
+      ]
+    },
+    {
+      "original_word": "decreasing",
+      "predicted_word": "reducing",
+      "score": 1.120176300406456,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "particular",
+      "predicted_word": "addition",
+      "score": 1.1167342457920313,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "setting",
+      "predicted_word": "framework",
+      "score": 1.1133349337615073,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "training",
+      "predicted_word": "text",
+      "score": 1.1099393498152494,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "long",
+      "predicted_word": "short",
+      "score": 1.1094172414159402,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "representation",
+      "predicted_word": "vector",
+      "score": 1.108181795105338,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "optimize",
+      "predicted_word": "learn",
+      "score": 1.1065598130226135,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "observation",
+      "predicted_word": "analysis",
+      "score": 1.105005250312388,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "use",
+      "predicted_word": "application",
+      "score": 1.104991520754993,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "high",
+      "predicted_word": "higher",
+      "score": 1.1034329140093178,
+      "original_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "s",
+        "a"
+      ]
+    },
+    {
+      "original_word": "learning",
+      "predicted_word": "network",
+      "score": 1.1011966526857577,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "paper",
+      "predicted_word": "article",
+      "score": 1.0997151830233634,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "backbone",
+      "predicted_word": "scaffold",
+      "score": 1.0996556510217488,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "transformation",
+      "predicted_word": "loss",
+      "score": 1.0908069163560867,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "structure",
+      "predicted_word": "representation",
+      "score": 1.0883407164365053,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "length",
+      "predicted_word": "size",
+      "score": 1.0883178990334272,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "observe",
+      "predicted_word": "show",
+      "score": 1.0870923697948456,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "distribution",
+      "predicted_word": "model",
+      "score": 1.0852922040066915,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "gradient",
+      "predicted_word": "data",
+      "score": 1.0851513966917992,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "condition",
+      "predicted_word": "assumption",
+      "score": 1.0851086592301726,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "curiosity",
+      "predicted_word": "learning",
+      "score": 1.0846500843763351,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "network",
+      "predicted_word": "function",
+      "score": 1.0829870238376316,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "implicit",
+      "predicted_word": "explicit",
+      "score": 1.0824675718322396,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "problem",
+      "predicted_word": "method",
+      "score": 1.0784388538450003,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "perspective",
+      "predicted_word": "viewpoint",
+      "score": 1.0767390802502632,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "propose",
+      "predicted_word": "design",
+      "score": 1.0761687476187944,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "disjoint",
+      "predicted_word": "different",
+      "score": 1.0754443109035492,
+      "original_word_pos": [
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "model",
+      "predicted_word": "generator",
+      "score": 1.0744183766655624,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "gap",
+      "predicted_word": "difference",
+      "score": 1.0741161876867409,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "baseline",
+      "predicted_word": "approach",
+      "score": 1.0703385734232143,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "test",
+      "predicted_word": "data",
+      "score": 1.0669042114168406,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "network",
+      "predicted_word": "representation",
+      "score": 1.0664645065553486,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "setting",
+      "predicted_word": "case",
+      "score": 1.0661286870017648,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "text",
+      "predicted_word": "textual",
+      "score": 1.0656485999352299,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "study",
+      "predicted_word": "investigate",
+      "score": 1.0645527332089841,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "variant",
+      "predicted_word": "type",
+      "score": 1.064431607723236,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "provides",
+      "predicted_word": "achieves",
+      "score": 1.0618185698986053,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "work",
+      "predicted_word": "analysis",
+      "score": 1.0601717084646225,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "stake",
+      "predicted_word": "level",
+      "score": 1.0600458979606628,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "conventional",
+      "predicted_word": "traditional",
+      "score": 1.0575879216194153,
+      "original_word_pos": [
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "token",
+      "predicted_word": "sequence",
+      "score": 1.0574488990241662,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "extend",
+      "predicted_word": "apply",
+      "score": 1.0565464347600937,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "trained",
+      "predicted_word": "performance",
+      "score": 1.0525354817509651,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "policy",
+      "predicted_word": "line",
+      "score": 1.0522661656141281,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "identical",
+      "predicted_word": "similar",
+      "score": 1.0515524297952652,
+      "original_word_pos": [
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "increased",
+      "predicted_word": "improved",
+      "score": 1.0511521100997925,
+      "original_word_pos": [
+        "v",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "typically",
+      "predicted_word": "often",
+      "score": 1.0499413311481476,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "molecule",
+      "predicted_word": "molecular",
+      "score": 1.048429250717163,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "a"
+      ]
+    },
+    {
+      "original_word": "frame",
+      "predicted_word": "view",
+      "score": 1.048072200268507,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "quality",
+      "predicted_word": "accuracy",
+      "score": 1.0470010173739865,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "choice",
+      "predicted_word": "parameter",
+      "score": 1.0458152629435062,
+      "original_word_pos": [
+        "n",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "established",
+      "predicted_word": "known",
+      "score": 1.0440638959407806,
+      "original_word_pos": [
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "v",
+        "a"
+      ]
+    },
+    {
+      "original_word": "scenario",
+      "predicted_word": "case",
+      "score": 1.0413071550428867,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "learned",
+      "predicted_word": "latent",
+      "score": 1.0401754146441817,
+      "original_word_pos": [
+        "v",
+        "s",
+        "a"
+      ],
+      "predicted_word_pos": [
+        "s"
+      ]
+    },
+    {
+      "original_word": "finding",
+      "predicted_word": "result",
+      "score": 1.039876103401184,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "modular",
+      "predicted_word": "new",
+      "score": 1.0388192385435104,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "task",
+      "predicted_word": "language",
+      "score": 1.0343161383934785,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "data",
+      "predicted_word": "distribution",
+      "score": 1.0335802771151066,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "typically",
+      "predicted_word": "usually",
+      "score": 1.033404216170311,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "together",
+      "predicted_word": "along",
+      "score": 1.0323619842529297,
+      "original_word_pos": [
+        "s",
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "number",
+      "predicted_word": "variety",
+      "score": 1.032189029356232,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "synthesize",
+      "predicted_word": "produce",
+      "score": 1.027667872607708,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "work",
+      "predicted_word": "approach",
+      "score": 1.0274622258730233,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "setting",
+      "predicted_word": "optimization",
+      "score": 1.0267569869756699,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "paper",
+      "predicted_word": "study",
+      "score": 1.0255151318851858,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "commonly",
+      "predicted_word": "widely",
+      "score": 1.0226183533668518,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "validate",
+      "predicted_word": "evaluate",
+      "score": 1.022513828240335,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "v"
+      ]
+    },
+    {
+      "original_word": "diverse",
+      "predicted_word": "wide",
+      "score": 1.022475391626358,
+      "original_word_pos": [
+        "s"
+      ],
+      "predicted_word_pos": [
+        "a",
+        "s",
+        "r"
+      ]
+    },
+    {
+      "original_word": "analysis",
+      "predicted_word": "result",
+      "score": 1.0211211005225778,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "solution",
+      "predicted_word": "point",
+      "score": 1.0207436066120863,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "notably",
+      "predicted_word": "furthermore",
+      "score": 1.0206982139497995,
+      "original_word_pos": [
+        "r"
+      ],
+      "predicted_word_pos": [
+        "r"
+      ]
+    },
+    {
+      "original_word": "range",
+      "predicted_word": "set",
+      "score": 1.0203537079505622,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v",
+        "s"
+      ]
+    },
+    {
+      "original_word": "approximate",
+      "predicted_word": "posterior",
+      "score": 1.0203124582767487,
+      "original_word_pos": [
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s"
+      ]
+    },
+    {
+      "original_word": "example",
+      "predicted_word": "sample",
+      "score": 1.0200675894739106,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "stability",
+      "predicted_word": "performance",
+      "score": 1.0200473554432392,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "access",
+      "predicted_word": "query",
+      "score": 1.0197514295578003,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "dimension",
+      "predicted_word": "dimensionality",
+      "score": 1.0166338663548231,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "generate",
+      "predicted_word": "produce",
+      "score": 1.01370245590806,
+      "original_word_pos": [
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "manner",
+      "predicted_word": "fashion",
+      "score": 1.0130060017108917,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "strategy",
+      "predicted_word": "technique",
+      "score": 1.0118025904521346,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "layer",
+      "predicted_word": "module",
+      "score": 1.0112037053331733,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "leveraging",
+      "predicted_word": "using",
+      "score": 1.0089180991053581,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "code",
+      "predicted_word": "program",
+      "score": 1.0075203512096778,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "given",
+      "predicted_word": "using",
+      "score": 1.0063737577293068,
+      "original_word_pos": [
+        "n",
+        "v",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "cost",
+      "predicted_word": "burden",
+      "score": 1.0044151889160275,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "transfer",
+      "predicted_word": "machine",
+      "score": 1.0025954158927561,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "pelvis",
+      "predicted_word": "motion",
+      "score": 1.0017511248588562,
+      "original_word_pos": [
+        "n"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "query",
+      "predicted_word": "pair",
+      "score": 1.0016274112276733,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "v"
+      ]
+    },
+    {
+      "original_word": "question",
+      "predicted_word": "problem",
+      "score": 1.0009408511250513,
+      "original_word_pos": [
+        "n",
+        "v"
+      ],
+      "predicted_word_pos": [
+        "n"
+      ]
+    },
+    {
+      "original_word": "open",
+      "predicted_word": "real",
+      "score": 1.0002914385404438,
+      "original_word_pos": [
+        "n",
+        "v",
+        "a",
+        "s"
+      ],
+      "predicted_word_pos": [
+        "n",
+        "a",
+        "s",
+        "r"
+      ]
+    }
+  ]
+}

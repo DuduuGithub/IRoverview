@@ -4,6 +4,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from flask import Flask, redirect, url_for, jsonify
 from app_blueprint.search import searcher_bp
 from app_blueprint.reader import reader_bp
+from app_blueprint.thesaurus import thesaurus_bp
 from Database.model import *
 from Database.config import db
 import Database.config 
@@ -43,6 +44,7 @@ def createApp(debug=False):
     # 注册蓝图
     app.register_blueprint(searcher_bp, url_prefix='/search')
     app.register_blueprint(reader_bp, url_prefix='/reader')
+    app.register_blueprint(thesaurus_bp, url_prefix='/word_clouds')
     
     return app
 
