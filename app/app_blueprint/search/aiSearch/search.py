@@ -100,9 +100,17 @@ def search(dictionary_file=None, postings_file=None, queries_file=None, output_f
         # 异常情况下返回空结果
         return []
 
-"""
-调用deepseek API将自然语言转换为结构化检索式
-"""
+def clean_api_response(response_text):
+    """清理 API 返回的响应，移除可能的 markdown 格式和换行符"""
+    # 移除可能的 markdown 代码块标记
+    response_text = re.sub(r'^```json\s*', '', response_text)
+    response_text = re.sub(r'\s*```$', '', response_text)
+    # 移除可能的其他 markdown 格式
+    response_text = re.sub(r'^```\s*', '', response_text)
+    # 将多行字符串转换为单行，但保留换行符的转义
+    response_text = re.sub(r'\n', '\\n', response_text)
+    return response_text.strip()
+
 def convert_to_structured_query(nl_query, search_mode='basic'):
     if not nl_query:
         return ""  # 如果查询为空，返回空字符串
@@ -117,61 +125,68 @@ def convert_to_structured_query(nl_query, search_mode='basic'):
             "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
         }
         
-        # 修改为英文提示
-        prompt = f"""As an intelligent assistant for an academic literature search system,
-analyze the user's natural language query in English,
-extract key information, and convert it into an appropriate search expression.
+        # 支持中英文的提示词，生成特定格式的检索式字符串
+        prompt = f"""You are a search query generator for academic literature. Your task is to convert natural language queries (in Chinese or English) into a structured search expression string.
 
-Please analyze the user's intent, identifying:
-1. Core topics or keywords
-2. Author information
-3. Publication year or time range
-4. Specific terms in titles
-5. Institution information
-6. Abstract content - identify terms that might appear in paper abstracts
-7. Logical relationships (AND, OR, NOT)
+Rules:
+1. Generate a multi-line string where each line represents a search condition.
+2. Each line must start with a boolean operator (AND, OR, NOT). The first line should also start with 'and'.
+3. Use the format: [operator] field: value
+4. Only include fields relevant to the query.
+5. Keep field values simple and focused.
+6. Use proper English terms for technical concepts in field values.
+7. Supported fields and operators are based on the search system's capabilities (AND, OR, NOT, field:value). Use parentheses `()` to group terms connected by OR.
+8. IMPORTANT: The response must be a valid JSON string, without any markdown formatting (like ```json) or extra text before or after the JSON. The JSON should have the following structure:
+{{"structured_query_string": "[operator] field1: value1\\n[operator] field2: value2\\n..."}}
 
-Please follow these rules to generate the search expression:
-1. Current mode is: {search_mode}
-2. In basic mode:
-   - Generate simple boolean expressions, like "deep learning AND image recognition"
-   - Record time, author, and other filters separately without including them in the expression
-   - Consider potential abstract content when generating the expression
-   
-3. In advanced mode:
-   - Use field-limited syntax, like "title:\\"deep learning\\" AND author:\\"John Smith\\""
-   - Use year:[start TO end] syntax for time ranges
-   - Include abstract search with abstract:"term" syntax when appropriate
+Examples in English:
+1. "recent papers about machine learning in healthcare"
+{{"structured_query_string": "and title: machine learning\\nand abstract: healthcare"}}
 
-Your response must be in JSON format, including these fields:
-{{
-  "query": "search expression string",
-  "has_time_filter": true/false,
-  "time_range": [start_year,end_year],
-  "has_author_filter": true/false,
-  "authors": ["author1", "author2"],
-  "has_institution_filter": true/false,
-  "institutions": ["institution1", "institution2"],
-  "has_abstract_filter": true/false,
-  "abstract_terms": ["term1", "term2"]
-}}
+2. "papers by John Smith or David Lee about deep learning"
+{{"structured_query_string": "and title: deep learning\\nand author: (John Smith OR David Lee)"}}
 
-For basic mode, record all filter information in their respective fields, but the "query" field should only include a simple boolean expression.
-For advanced mode, you can use full field-limited syntax in the "query" field.
+3. "papers by John Smith except those about biology"
+{{"structured_query_string": "and author: John Smith\\nnot abstract: biology"}}
+
+4. "papers on neural networks or deep learning by Zhang San or Li Si"
+{{"structured_query_string": "and title: (neural networks OR deep learning)\\nand author: (Zhang San OR Li Si)"}}
+
+Examples in Chinese:
+1. "医疗领域的机器学习研究"
+{{"structured_query_string": "and title: machine learning\\nand abstract: healthcare"}}
+
+2. "张三或李四发表的深度学习论文"
+{{"structured_query_string": "and title: deep learning\\nand author: (Zhang San OR Li Si)"}}
+
+3. "海岩除了在北京大学期间发表的全部论文"
+{{"structured_query_string": "and author: haiyan\\nnot institution: peking university"}}
+
+4. "神经网络或深度学习方面的论文，作者为张三或李四"
+{{"structured_query_string": "and title: (neural networks OR deep learning)\\nand author: (Zhang San OR Li Si)"}}
+
+Important:
+1. For Chinese queries, convert key terms to English in the search expression string.
+2. Each line in the \"structured_query_string\" MUST follow the format: [operator] field: value.
+3. The operator must be one of: and, or, not.
+4. The first line should also start with an operator, preferably 'and'.
+5. Maintain the original meaning and intent while simplifying the expression.
+6. Use parentheses `()` to group terms connected by OR.
+7. The response must be a valid single-line JSON string with escaped newlines.
 
 Natural language query: {nl_query}
 Search mode: {search_mode}
-Search expression:"""
+Structured Query String:"""
         
         data = {
             "model": "deepseek-chat",
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": 300,
-            "temperature": 0.1  # 低温度使输出更确定
+            "max_tokens": 300,  # 可以根据需要调整
+            "temperature": 0.1  # 保持低温度以确保输出的一致性
         }
         
         # 设置请求超时
-        response = requests.post(DEEPSEEK_API_URL, headers=headers, json=data, timeout=5)
+        response = requests.post(DEEPSEEK_API_URL, headers=headers, json=data, timeout=15)
         
         if response.status_code != 200:
             error_msg = f"API请求失败，状态码：{response.status_code}"
@@ -182,57 +197,30 @@ Search expression:"""
             result = response.json()
             ai_response = result["choices"][0]["message"]["content"].strip()
             
-            # 尝试解析JSON结果
+            # 清理 API 响应
+            cleaned_response = clean_api_response(ai_response)
+            
+            # 尝试解析 JSON
             try:
-                response_json = json.loads(ai_response)
+                parsed_response = json.loads(cleaned_response)
+                if "structured_query_string" in parsed_response:
+                    # 将转义的换行符转换回实际的换行符
+                    return parsed_response["structured_query_string"].replace('\\n', '\n')
+                else:
+                    print("API返回的JSON中没有structured_query_string字段")
+                    return ""
+            except json.JSONDecodeError as e:
+                print(f"无法解析API返回的JSON: {e}")
+                print(f"API返回的原始文本: {cleaned_response}")
+                return ""
                 
-                # 获取检索式
-                structured_query = response_json.get("query", "")
-                
-                # 记录额外的过滤条件信息，供后端使用
-                # 这些信息可以用于后端过滤，不必全部包含在检索式中
-                has_time_filter = response_json.get("has_time_filter", False)
-                time_range = response_json.get("time_range", [])
-                has_author_filter = response_json.get("has_author_filter", False)
-                authors = response_json.get("authors", [])
-                has_institution_filter = response_json.get("has_institution_filter", False)
-                institutions = response_json.get("institutions", [])
-                has_abstract_filter = response_json.get("has_abstract_filter", False)
-                abstract_terms = response_json.get("abstract_terms", [])
-                
-                # 保存完整的意图分析结果，便于后续处理
-                # 可以考虑将这些信息存储在某个地方，以便后端检索使用
-                print(f"意图分析结果: {response_json}")
-                
-                return structured_query
-                
-            except json.JSONDecodeError:
-                # 如果无法解析为JSON，则直接返回原始回复
-                print("无法解析API返回的JSON，使用原始文本")
-                # 提取回复中的检索式部分
-                if "```json" in ai_response:
-                    # 尝试提取代码块中的内容
-                    match = re.search(r'```json\s*(.*?)\s*```', ai_response, re.DOTALL)
-                    if match:
-                        try:
-                            json_str = match.group(1)
-                            response_json = json.loads(json_str)
-                            return response_json.get("query", ai_response)
-                        except:
-                            pass
-                
-                # 如果上述尝试都失败，返回原始回复作为检索式
-                return ai_response
-                
-        except (KeyError, IndexError) as e:
-            error_msg = f"解析API响应出错: {e}"
-            print(error_msg)
-            raise ValueError(error_msg)
-        
+        except Exception as e:
+            print(f"处理API响应时出错: {e}")
+            return ""
+            
     except Exception as e:
-        error_msg = f"API调用失败: {e}"
-        print(error_msg)
-        raise RuntimeError(error_msg)
+        print(f"API调用失败: {e}")
+        return ""
 
 """
 判断是否为高级查询格式
@@ -281,7 +269,6 @@ if __name__ == "__main__":
             sys.exit()
         elif opt in ("-q", "--query"):
             query = arg
-            
     if not query:
         print_usage()
         sys.exit(2)

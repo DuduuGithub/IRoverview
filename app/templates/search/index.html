@@ -203,22 +203,36 @@
         /* 搜索框容器样式 */
         .search-box {
             position: relative;
+            display: flex;
+            gap: 10px;
+            align-items: center;
             max-width: 800px;
             margin: 0 auto;
         }
         
         .search-input {
-            width: 100%;
+            flex: 1;
             padding: 0.75rem 1rem;
-            border-radius: 8px;
+            border-radius: 30px;
             border: 1px solid var(--border-color);
-            font-size: 1rem;
-            transition: all 0.3s ease;
         }
         
-        .search-input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(74, 107, 223, 0.25);
+        .search-btn {
+            position: static;
+            border-radius: 30px;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #1f3c6e;
+            transform: translateY(-1px);
         }
         
         /* Tab样式 */
@@ -759,7 +773,7 @@
             <div class="tab-content" id="searchTabsContent">
                 <!-- 基本检索 -->
                 <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab">
-                    <form id="basicSearchForm" class="search-form" action="/search/results" method="get">
+                    <form id="basicSearchForm" action="results" method="get">
                         <div class="search-box mb-3">
                             <div class="suggestions-container">
                                 <input type="text" id="basicSearchInput" name="query" class="form-control search-input" placeholder="请输入检索词..." required>
@@ -781,10 +795,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-primary search-submit-btn">
-                                检索
+                            <button type="submit" class="btn btn-primary search-btn">
+                                <i class="bi bi-search"></i>
                             </button>
                         </div>
                     </form>
@@ -1223,11 +1235,178 @@
             // 应用检索式
             function applySearchQuery(query) {
                 if (currentSearchMode === 'basic') {
-                    document.getElementById('basicQuery').value = query;
-                    basicForm.submit();
-                } else {
-                    document.querySelector('#advanced .condition-input').value = query;
+                    const basicQueryInput = document.getElementById('basicSearchInput');
+                    if (basicQueryInput) {
+                        // 使用相同的转换函数处理基本检索的输入
+                        const standardQuery = convertToStandardQuery(query);
+                        basicQueryInput.value = standardQuery;
+                    } else {
+                        console.error('未找到基本检索输入框元素');
+                    }
+                } else if (currentSearchMode === 'query') {
+                    const queryInputArea = document.getElementById('queryInput');
+                    if (queryInputArea) {
+                        // 转换 AI 生成的检索式为标准检索式格式
+                        const standardQuery = convertToStandardQuery(query);
+                        queryInputArea.value = standardQuery;
+                    } else {
+                        console.error('未找到检索式检索输入框元素');
+                    }
+                } else if (currentSearchMode === 'advanced') {
+                    // 处理高级检索情况
+                    const conditionsContainer = document.getElementById('advancedConditions');
+                    conditionsContainer.innerHTML = '';
+
+                    const conditionLines = query.split('\n').filter(line => line.trim() !== '');
+
+                    conditionLines.forEach((line, index) => {
+                        let logic = '';
+                        let field = '';
+                        let value = '';
+                        let remainingLine = line.trim();
+
+                        const logicMatch = remainingLine.match(/^(and|or|not)\s+/i);
+                        if (logicMatch) {
+                            logic = logicMatch[1].toUpperCase();
+                            remainingLine = remainingLine.substring(logicMatch[0].length).trim();
+                        }
+
+                        const parts = remainingLine.split(':', 2);
+                        if (parts.length === 2) {
+                            field = parts[0].trim();
+                            value = parts[1].trim();
+
+                            // 如果值被最外层括号包裹，则去掉括号
+                            if (value.startsWith('(') && value.endsWith(')')) {
+                                value = value.substring(1, value.length - 1).trim();
+                            }
+
+                            addConditionRow();
+
+                            const newRow = conditionsContainer.lastElementChild;
+                            if (newRow) {
+                                const logicSelect = newRow.querySelector('.condition-logic');
+                                const fieldSelect = newRow.querySelector('.condition-field');
+                                const valueInput = newRow.querySelector('.condition-input');
+
+                                // 字段名映射
+                                const fieldMap = {
+                                    'year': 'time',
+                                    // 可以根据需要添加更多映射
+                                };
+
+                                // 使用映射后的字段名
+                                const mappedField = fieldMap[field] || field;
+
+                                // 填充逻辑运算符
+                                if (logicSelect && (logic === 'AND' || logic === 'OR' || logic === 'NOT')) {
+                                    logicSelect.value = logic;
+                                } else if (logicSelect && index === 0) {
+                                    logicSelect.value = 'AND';
+                                }
+
+                                // 填充字段
+                                if (fieldSelect) {
+                                    let fieldExists = false;
+                                    for (let i = 0; i < fieldSelect.options.length; i++) {
+                                        if (fieldSelect.options[i].value === mappedField) {
+                                            fieldSelect.value = mappedField;
+                                            fieldExists = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!fieldExists) {
+                                        console.warn(`高级检索：AI生成的字段 '${field}' 不在可用选项中。`);
+                                    }
+                                }
+
+                                if (valueInput) {
+                                    valueInput.value = value;
+                                }
+                            }
+                        } else {
+                            console.warn(`高级检索：无法解析AI生成的条件行: ${line}`);
+                        }
+                    });
                 }
+
+                // 关闭侧边栏
+                closeSidebarFunc();
+            }
+
+            // 将 AI 生成的检索式转换为标准检索式格式
+            function convertToStandardQuery(aiQuery) {
+                const lines = aiQuery.split('\n').filter(line => line.trim() !== '');
+                const conditions = lines.map((line, index) => {
+                    // 移除开头的逻辑运算符
+                    const logicMatch = line.match(/^(and|or|not)\s+/i);
+                    const logic = logicMatch ? logicMatch[1].toUpperCase() : 'AND';
+                    line = line.replace(/^(and|or|not)\s+/i, '');
+                    
+                    // 提取字段和值
+                    const parts = line.split(':');
+                    if (parts.length === 2) {
+                        const value = parts[1].trim();
+                        
+                        // 根据逻辑运算符处理值
+                        if (logic === 'NOT') {
+                            return `NOT ${value}`;
+                        } else if (logic === 'OR') {
+                            // 如果是 OR 条件，用括号包裹
+                            return `(${value})`;
+                        } else {
+                            return value;
+                        }
+                    }
+                    return line.trim();
+                });
+
+                // 使用 AND 连接所有条件，但保持括号和 NOT 运算符
+                return conditions.join(' AND ');
+            }
+
+            // 添加高级检索条件行
+            function addConditionRow() {
+                const conditionsContainer = document.getElementById('advancedConditions');
+                const newRow = document.createElement('div');
+                newRow.className = 'advanced-condition-row';
+                newRow.innerHTML = `
+                    <div class="condition-remove">
+                        <button type="button" class="condition-remove-btn">删除</button>
+                    </div>
+                    <select class="form-select condition-logic">
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                        <option value="NOT">NOT</option>
+                    </select>
+                    <select class="form-select condition-field">
+                        <option value="title">标题</option>
+                        <option value="author">作者</option>
+                        <option value="keyword">关键词</option>
+                        <option value="abstract">摘要</option>
+                        <option value="institution">机构</option>
+                        <option value="source">来源/期刊</option>
+                        <option value="country">国家</option>
+                        <option value="language">语言</option>
+                        <option value="type">文献类型</option>
+                        <option value="cited">被引用次数</option>
+                        <option value="doi">DOI</option>
+                        <option value="topic">学科主题</option>
+                        <option value="concept">概念</option>
+                        <option value="time">发表时间</option>
+                        <option value="content">内容</option>
+                    </select>
+                    <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                `;
+
+                const removeBtn = newRow.querySelector('.condition-remove-btn');
+                removeBtn.addEventListener('click', function() {
+                    if (document.querySelectorAll('.advanced-condition-row').length > 1) {
+                        conditionsContainer.removeChild(newRow);
+                    }
+                });
+
+                conditionsContainer.appendChild(newRow);
             }
 
             // 初始化
@@ -1305,50 +1484,6 @@
                     localStorage.setItem('searchMode', 'query');
                     window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
                 });
-            }
-
-            // 添加高级检索条件行
-            function addConditionRow() {
-                const conditionsContainer = document.getElementById('advancedConditions');
-                const newRow = document.createElement('div');
-                newRow.className = 'advanced-condition-row';
-                newRow.innerHTML = `
-                    <div class="condition-remove">
-                        <button type="button" class="condition-remove-btn">删除</button>
-                    </div>
-                    <select class="form-select condition-logic">
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
-                        <option value="NOT">NOT</option>
-                    </select>
-                    <select class="form-select condition-field">
-                        <option value="title">标题</option>
-                        <option value="author">作者</option>
-                        <option value="keyword">关键词</option>
-                        <option value="abstract">摘要</option>
-                        <option value="institution">机构</option>
-                        <option value="source">来源/期刊</option>
-                        <option value="country">国家</option>
-                        <option value="language">语言</option>
-                        <option value="type">文献类型</option>
-                        <option value="cited">被引用次数</option>
-                        <option value="doi">DOI</option>
-                        <option value="topic">学科主题</option>
-                        <option value="concept">概念</option>
-                        <option value="time">发表时间</option>
-                        <option value="content">内容</option>
-                    </select>
-                    <input type="text" class="form-control condition-input" placeholder="输入检索词">
-                `;
-
-                const removeBtn = newRow.querySelector('.condition-remove-btn');
-                removeBtn.addEventListener('click', function() {
-                    if (document.querySelectorAll('.advanced-condition-row').length > 1) {
-                        conditionsContainer.removeChild(newRow);
-                    }
-                });
-
-                conditionsContainer.appendChild(newRow);
             }
 
             // 保存搜索历史
