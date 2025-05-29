@@ -273,8 +273,8 @@
         }
         
         .condition-remove {
-            width: 12%;
-            min-width: 80px;
+            width: 8%;
+            min-width: 60px;
             display: flex;
             justify-content: flex-end;
         }
@@ -304,19 +304,19 @@
         }
         
         .condition-logic {
-            width: 12%;
-            min-width: 80px;
+            width: 15%;
+            min-width: 100px;
         }
         
         .condition-field {
-            width: 20%;
-            min-width: 120px;
+            width: 15%;
+            min-width: 100px;
         }
         
         .condition-input-container {
             flex-grow: 1;
             position: relative;
-            max-width: calc(100% - 24% - 20% - 12% - 20px);
+            max-width: calc(100% - 8% - 15% - 15% - 30px);
         }
         
         .condition-input {
@@ -1675,7 +1675,7 @@
 
                 // 处理表单提交
                 basicForm.addEventListener('submit', function(e) {
-                    const query = document.getElementById('basicQuery').value.trim();
+                    const query = document.getElementById('basicSearchInput').value.trim();
                     if (!query) {
                         e.preventDefault();
                         alert('请输入检索条件');
@@ -1685,6 +1685,8 @@
                     if (query) {
                         saveSearchHistory(query);
                         localStorage.setItem('searchMode', 'basic');
+                        window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
+                        e.preventDefault();
                     }
                 });
 
@@ -1806,13 +1808,13 @@
                                     window.location.href = `/search/results?query=${encodeURIComponent(query)}&search_type=boolean`;
                                 } else {
                                     // 如果不是数组格式，按普通检索处理
-                                    document.getElementById('basicQuery').value = query;
-                                    basicForm.submit();
+                                    document.getElementById('basicSearchInput').value = query;
+                                    window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
                                 }
                             } catch (e) {
                                 // 如果解析JSON失败，按普通检索处理
-                                document.getElementById('basicQuery').value = query;
-                                basicForm.submit();
+                                document.getElementById('basicSearchInput').value = query;
+                                window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
                             }
                         } else {
                             alert('检索式不能为空');
