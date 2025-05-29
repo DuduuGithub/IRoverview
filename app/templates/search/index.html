@@ -270,13 +270,6 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            transition: all 0.3s ease;
-            transform-origin: left center;
-        }
-        
-        .advanced-condition-row:hover,
-        .advanced-condition-row:hover .condition-remove-btn {
-            transform: scale(1.02);
         }
         
         .condition-remove {
@@ -320,9 +313,33 @@
             min-width: 120px;
         }
         
-        .condition-input {
+        .condition-input-container {
             flex-grow: 1;
-            max-width: 400px;
+            position: relative;
+            max-width: calc(100% - 24% - 20% - 12% - 20px);
+        }
+        
+        .condition-input {
+            width: 100%;
+        }
+        
+        .condition-suggestions-box {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .condition-suggestions-box.show {
+            display: block;
         }
         
         .add-condition-container {
@@ -381,11 +398,6 @@
         .search-submit-btn:active {
             transform: translateY(0);
             box-shadow: none;
-        }
-        
-        .condition-input {
-            flex-grow: 1;
-            max-width: calc(100% - 24% - 20% - 12% - 20px); /* 减去其他元素的宽度和间距 */
         }
         
         /* 检索历史样式 */
@@ -833,7 +845,26 @@
                                     <option value="time">发表时间</option>
                                     <option value="content">内容</option>
                                 </select>
-                                <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                                <div class="condition-input-container">
+                                    <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                                    <div class="condition-suggestions-box">
+                                        <!-- 同义词建议 -->
+                                        <div class="suggestion-section">
+                                            <h6>同义词推荐</h6>
+                                            <div class="synonym-suggestions"></div>
+                                        </div>
+                                        <!-- 主题建议 -->
+                                        <div class="suggestion-section">
+                                            <h6>相关主题</h6>
+                                            <div class="theme-suggestions"></div>
+                                        </div>
+                                        <!-- 布尔组合建议 -->
+                                        <div class="suggestion-section">
+                                            <h6>布尔组合建议</h6>
+                                            <div class="boolean-suggestions"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -1396,7 +1427,23 @@
                         <option value="time">发表时间</option>
                         <option value="content">内容</option>
                     </select>
-                    <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                    <div class="condition-input-container">
+                        <input type="text" class="form-control condition-input" placeholder="输入检索词">
+                        <div class="condition-suggestions-box">
+                            <div class="suggestion-section">
+                                <h6>同义词推荐</h6>
+                                <div class="synonym-suggestions"></div>
+                            </div>
+                            <div class="suggestion-section">
+                                <h6>相关主题</h6>
+                                <div class="theme-suggestions"></div>
+                            </div>
+                            <div class="suggestion-section">
+                                <h6>布尔组合建议</h6>
+                                <div class="boolean-suggestions"></div>
+                            </div>
+                        </div>
+                    </div>
                 `;
 
                 const removeBtn = newRow.querySelector('.condition-remove-btn');
@@ -1406,7 +1453,210 @@
                     }
                 });
 
+                // 为新添加的行设置建议功能
+                setupAdvancedSuggestions(newRow);
+
                 conditionsContainer.appendChild(newRow);
+            }
+
+            // 为高级检索的输入框添加建议功能
+            function setupAdvancedSuggestions(conditionRow) {
+                const inputContainer = conditionRow.querySelector('.condition-input-container');
+                const input = inputContainer.querySelector('.condition-input');
+                const suggestionsBox = inputContainer.querySelector('.condition-suggestions-box');
+                const synonymSuggestions = suggestionsBox.querySelector('.synonym-suggestions');
+                const themeSuggestions = suggestionsBox.querySelector('.theme-suggestions');
+                const booleanSuggestions = suggestionsBox.querySelector('.boolean-suggestions');
+                
+                let advancedDebounceTimer;
+                
+                input.addEventListener('input', function() {
+                    const fullQuery = this.value;
+                    const currentPosition = this.selectionStart;
+                    
+                    // 清除之前的定时器
+                    clearTimeout(advancedDebounceTimer);
+                    
+                    // 获取光标位置之前的文本
+                    const textBeforeCursor = fullQuery.substring(0, currentPosition);
+                    
+                    // 解析检索式，获取最后一个词
+                    const lastTerm = getLastTerm(textBeforeCursor);
+                    
+                    // 如果没有检索词，隐藏推荐框
+                    if (!lastTerm) {
+                        suggestionsBox.classList.remove('show');
+                        return;
+                    }
+                    
+                    // 设置300ms的防抖
+                    advancedDebounceTimer = setTimeout(() => {
+                        fetchAdvancedSuggestions(lastTerm, suggestionsBox, synonymSuggestions, themeSuggestions, booleanSuggestions, input);
+                    }, 300);
+                });
+                
+                // 点击其他地方时关闭建议框
+                document.addEventListener('click', function(e) {
+                    if (!inputContainer.contains(e.target)) {
+                        suggestionsBox.classList.remove('show');
+                    }
+                });
+            }
+
+            // 获取高级检索的建议词
+            function fetchAdvancedSuggestions(term, suggestionsBox, synonymSuggestions, themeSuggestions, booleanSuggestions, input) {
+                fetch('/search/api/suggest_terms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ term: term })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        updateAdvancedSuggestions(
+                            data.suggestions,
+                            term,
+                            suggestionsBox,
+                            synonymSuggestions,
+                            themeSuggestions,
+                            booleanSuggestions,
+                            input
+                        );
+                        suggestionsBox.classList.add('show');
+                    }
+                })
+                .catch(error => {
+                    console.error('获取推荐词失败:', error);
+                });
+            }
+
+            // 解析检索式，获取最后一个词
+            function getLastTerm(text) {
+                // 移除多余的空格
+                text = text.trim();
+                if (!text) return '';
+                
+                // 分割检索式，考虑括号
+                const tokens = text.split(/\s+/);
+                if (tokens.length === 0) return '';
+                
+                // 获取最后一个token
+                let lastToken = tokens[tokens.length - 1];
+                
+                // 如果最后一个token是布尔运算符，返回空
+                const booleanOperators = ['AND', 'OR', 'NOT'];
+                if (booleanOperators.includes(lastToken.toUpperCase())) {
+                    return '';
+                }
+                
+                // 处理可能包含左括号的情况
+                if (lastToken.startsWith('(')) {
+                    lastToken = lastToken.substring(1);
+                }
+                
+                return lastToken;
+            }
+
+            // 更新高级检索的建议词显示
+            function updateAdvancedSuggestions(suggestions, currentTerm, suggestionsBox, synonymSuggestions, themeSuggestions, booleanSuggestions, input) {
+                const fullQuery = input.value;
+                const currentPosition = input.selectionStart;
+                
+                // 获取光标位置前后的文本
+                const textBeforeCursor = fullQuery.substring(0, currentPosition);
+                const textAfterCursor = fullQuery.substring(currentPosition);
+                
+                // 使用正则表达式匹配当前词及其上下文
+                // 向前查找最后一个词，排除括号和空格
+                const beforeMatch = textBeforeCursor.match(/.*?(\s*\(?\s*)([^\s()]+)$/);
+                const beforeContext = beforeMatch ? beforeMatch[1] : ''; // 包含可能的左括号和空格
+                const beforeLastWord = beforeMatch ? textBeforeCursor.substring(0, textBeforeCursor.length - beforeMatch[2].length - beforeContext.length) : textBeforeCursor;
+                const currentWord = beforeMatch ? beforeMatch[2].replace(/^\(+/, '') : ''; // 移除开头的左括号
+                
+                // 向后查找下一个词，排除括号和空格
+                const afterMatch = textAfterCursor.match(/^([^\s()]+)?(\s*\)?\s*)(.*)/);
+                const afterWord = afterMatch ? afterMatch[1] || '' : '';
+                const afterContext = afterMatch ? afterMatch[2] || '' : ''; // 包含可能的右括号和空格
+                const afterRemainder = afterMatch ? afterMatch[3] || '' : '';
+                
+                // 检查是否是复杂检索式（包含布尔运算符）
+                const isComplexQuery = /\b(AND|OR|NOT)\b/i.test(fullQuery);
+                
+                // 检查当前词是否在括号内
+                const openBrackets = (textBeforeCursor.match(/\(/g) || []).length;
+                const closeBrackets = (textBeforeCursor.match(/\)/g) || []).length;
+                const isInBrackets = openBrackets > closeBrackets;
+                
+                // 检查afterContext中是否包含右括号
+                const hasClosingBracket = /\)/.test(afterContext);
+                
+                // 更新同义词建议
+                synonymSuggestions.innerHTML = suggestions.synonyms.map(syn => `
+                    <div class="suggestion-item" data-value="${beforeLastWord}${beforeContext}${syn.word}${afterContext}${afterRemainder}" data-type="synonym">
+                        <span>${syn.word}</span>
+                        <span class="suggestion-score">${(syn.score * 100).toFixed(0)}%</span>
+                    </div>
+                `).join('');
+                
+                // 更新主题建议
+                themeSuggestions.innerHTML = suggestions.themes.map(theme => `
+                    <div class="suggestion-item" data-value="${beforeLastWord}${beforeContext}${theme.theme}${afterContext}${afterRemainder}" data-type="theme">
+                        <span>${theme.theme}</span>
+                        <span class="suggestion-score">${(theme.relevance * 100).toFixed(0)}%</span>
+                    </div>
+                `).join('');
+                
+                // 更新布尔组合建议
+                booleanSuggestions.innerHTML = suggestions.boolean_suggestions.map(suggestion => {
+                    // 对布尔组合建议，始终用括号包裹，但要考虑现有的括号结构
+                    let suggestionText;
+                    if (isInBrackets) {
+                        // 如果已经在括号内，添加内层括号，并保留原有的右括号
+                        suggestionText = `(${suggestion})${hasClosingBracket ? afterContext.trim() : ''}`;
+                    } else {
+                        // 如果不在括号内，完整包裹
+                        suggestionText = `(${suggestion})`;
+                    }
+                    
+                    return `
+                        <div class="suggestion-item boolean-suggestion" data-value="${beforeLastWord}${beforeContext}${suggestionText}${afterRemainder}" data-type="boolean">
+                            <span>${suggestion}</span>
+                        </div>
+                    `;
+                }).join('');
+                
+                // 为所有建议项添加点击事件
+                suggestionsBox.querySelectorAll('.suggestion-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const newValue = this.getAttribute('data-value');
+                        const suggestionType = this.getAttribute('data-type');
+                        
+                        // 根据建议类型处理光标位置
+                        let newCursorPos;
+                        if (suggestionType === 'boolean') {
+                            // 对于布尔组合，将光标定位到建议词的末尾（包括括号）
+                            const suggestionLength = this.querySelector('span').textContent.length;
+                            const bracketAdjustment = isInBrackets ? (hasClosingBracket ? 3 : 2) : 2; // 考虑原有的右括号
+                            newCursorPos = beforeLastWord.length + beforeContext.length + suggestionLength + bracketAdjustment;
+                        } else {
+                            // 对于其他类型，将光标定位到替换词的末尾
+                            const termLength = this.querySelector('span').textContent.length;
+                            newCursorPos = beforeLastWord.length + beforeContext.length + termLength;
+                        }
+                        
+                        input.value = newValue;
+                        input.setSelectionRange(newCursorPos, newCursorPos);
+                        suggestionsBox.classList.remove('show');
+                        input.focus();
+                    });
+                });
+                
+                // 如果所有部分都为空，隐藏建议框
+                if (!suggestions.synonyms.length && !suggestions.themes.length && !suggestions.boolean_suggestions.length) {
+                    suggestionsBox.classList.remove('show');
+                }
             }
 
             // 初始化
@@ -1483,6 +1733,11 @@
                     saveSearchHistory(query);
                     localStorage.setItem('searchMode', 'query');
                     window.location.href = `/search/results?query=${encodeURIComponent(query)}`;
+                });
+
+                // 为所有已存在的高级检索条件行设置建议功能
+                document.querySelectorAll('.advanced-condition-row').forEach(row => {
+                    setupAdvancedSuggestions(row);
                 });
             }
 
@@ -1607,26 +1862,26 @@
                 }).join('');
             }
 
-            // 获取DOM元素
+            // 获取基本检索DOM元素
             const basicSearchInput = document.getElementById('basicSearchInput');
             const suggestionBox = document.getElementById('suggestionBox');
             const synonymSuggestions = document.getElementById('synonymSuggestions');
             const themeSuggestions = document.getElementById('themeSuggestions');
             const booleanSuggestions = document.getElementById('booleanSuggestions');
             
-            let debounceTimer;
-            let currentInputPosition;
+            let basicDebounceTimer;
+            let basicCurrentInputPosition;
             
-            // 监听输入事件
+            // 监听基本检索输入事件
             basicSearchInput.addEventListener('input', function(e) {
                 const fullQuery = this.value;
-                currentInputPosition = this.selectionStart;
+                basicCurrentInputPosition = this.selectionStart;
                 
                 // 清除之前的定时器
-                clearTimeout(debounceTimer);
+                clearTimeout(basicDebounceTimer);
                 
                 // 获取光标位置之前的文本
-                const textBeforeCursor = fullQuery.substring(0, currentInputPosition);
+                const textBeforeCursor = fullQuery.substring(0, basicCurrentInputPosition);
                 
                 // 解析检索式，获取最后一个词
                 const lastTerm = getLastTerm(textBeforeCursor);
@@ -1638,36 +1893,10 @@
                 }
                 
                 // 设置300ms的防抖
-                debounceTimer = setTimeout(() => {
-                    fetchSuggestions(lastTerm, fullQuery);
+                basicDebounceTimer = setTimeout(() => {
+                    fetchBasicSuggestions(lastTerm, fullQuery);
                 }, 300);
             });
-            
-            // 解析检索式，获取最后一个词
-            function getLastTerm(text) {
-                // 移除多余的空格
-                text = text.trim();
-                if (!text) return '';
-                
-                // 分割检索式
-                const tokens = text.split(/\s+/);
-                
-                // 如果最后一个token是布尔运算符，返回空
-                const booleanOperators = ['AND', 'OR', 'NOT'];
-                if (booleanOperators.includes(tokens[tokens.length - 1].toUpperCase())) {
-                    return '';
-                }
-                
-                // 返回最后一个非布尔运算符的词
-                for (let i = tokens.length - 1; i >= 0; i--) {
-                    const token = tokens[i].toUpperCase();
-                    if (!booleanOperators.includes(token)) {
-                        return tokens[i];
-                    }
-                }
-                
-                return '';
-            }
             
             // 监听点击事件，处理建议词的选择
             document.addEventListener('click', function(e) {
@@ -1676,8 +1905,8 @@
                 }
             });
             
-            // 获取推荐词
-            function fetchSuggestions(term, fullQuery) {
+            // 获取基本检索推荐词
+            function fetchBasicSuggestions(term, fullQuery) {
                 fetch('/search/api/suggest_terms', {
                     method: 'POST',
                     headers: {
@@ -1688,7 +1917,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 'success') {
-                        updateSuggestions(data.suggestions, term, fullQuery);
+                        updateBasicSuggestions(data.suggestions, term, fullQuery);
                         suggestionBox.classList.add('show');
                     }
                 })
@@ -1697,8 +1926,8 @@
                 });
             }
             
-            // 更新推荐词显示
-            function updateSuggestions(suggestions, currentTerm, fullQuery) {
+            // 更新基本检索推荐词显示
+            function updateBasicSuggestions(suggestions, currentTerm, fullQuery) {
                 // 获取当前检索式中，当前词之前的部分
                 const beforeCurrentTerm = fullQuery.substring(0, fullQuery.lastIndexOf(currentTerm));
                 // 获取当前检索式中，当前词之后的部分
@@ -1735,7 +1964,7 @@
                 }).join('');
                 
                 // 为所有建议项添加点击事件
-                document.querySelectorAll('.suggestion-item').forEach(item => {
+                document.querySelectorAll('#suggestionBox .suggestion-item').forEach(item => {
                     item.addEventListener('click', function() {
                         const newValue = this.getAttribute('data-value');
                         const suggestionType = this.getAttribute('data-type');
@@ -1743,9 +1972,9 @@
                         // 根据建议类型处理光标位置
                         let cursorPosition;
                         if (suggestionType === 'boolean') {
-                            // 对于布尔组合，将光标定位到建议词的末尾
-                            // 如果是复杂查询，则定位到右括号后，否则定位到最后一个词后
-                            cursorPosition = newValue.length;
+                            // 对于布尔组合，将光标定位到建议词的末尾（包括括号）
+                            const suggestionLength = this.querySelector('span').textContent.length;
+                            cursorPosition = beforeCurrentTerm.length + suggestionLength + 2; // +2 for the added parentheses
                         } else {
                             // 对于其他类型，将光标定位到替换词的末尾
                             const termLength = this.querySelector('span').textContent.length;
@@ -1765,7 +1994,7 @@
                 }
             }
 
-            // 初始化页面
+            // 初始化
             init();
         });
     </script>
