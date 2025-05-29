@@ -1,9 +1,14 @@
 #!/usr/bin/python
-from ..rank.rank import rank_results, SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
-from Database.config import db
-from Database.model import Work, Author, Topic, Concept, Institution, Source, WorkAuthorship, WorkConcept, WorkTopic
-import re
+import os
 import sys
+import logging
+from datetime import datetime
+
+# 添加项目根目录到Python路径
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../')))
+
+from app.app_blueprint.search.rank.rank import rank_results, SORT_BY_RELEVANCE, SORT_BY_TIME_DESC, SORT_BY_TIME_ASC, SORT_BY_COMBINED
+import re
 import getopt
 import codecs
 import struct
@@ -13,13 +18,33 @@ import collections
 import json
 import bisect
 from datetime import datetime
-# import jieba  # 移除jieba导入
-import subprocess
-# 添加英文分词工具
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+
+# 配置日志记录
+def setup_logger():
+    # 创建logs目录
+    log_dir = os.path.join(os.path.dirname(__file__), 'logs')
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # 创建日志文件名，包含时间戳
+    log_file = os.path.join(log_dir, f'search_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+    
+    # 配置日志记录器
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_file, encoding='utf-8'),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+    return logging.getLogger(__name__)
+
+# 初始化日志记录器
+logger = setup_logger()
 
 # 初始化英文分词所需组件
 try:
@@ -42,36 +67,28 @@ def tokenize_english(text):
         return []
     # 转为小写
     text = text.lower()
-    # 只保留字母、数字和空格
-    text = re.sub(r'[^\w\s]', ' ', text)
+    # 保留更多特殊字符，只移除真正无用的标点
+    text = re.sub(r'[^\w\s\-\.]', ' ', text)
     # 分词
     tokens = word_tokenize(text)
-    # 移除停用词、单个字符的词，并进行词干提取
-    tokens = [stemmer.stem(word) for word in tokens if word not in stop_words and len(word) > 1]
+    # 只过滤空字符串
+    tokens = [word for word in tokens if len(word) > 0]
     return tokens
-
-# 导入数据库模型和配置
-import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-
-# 导入排序模块
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 常量定义
 BYTE_SIZE = 4  # 文档ID使用整型存储，占用4字节
 
 """
-布尔检索主函数，支持从数据库读取数据
+布尔检索主函数，支持从倒排索引读取数据
 如果指定了排序方式，会对结果进行排序处理
 参数:
-    - dictionary_file: 词典文件路径（文件模式时使用）
-    - postings_file: 倒排索引文件路径（文件模式时使用）
-    - queries_file: 查询文件路径（文件模式时使用）
-    - output_file: 输出文件路径（文件模式时使用）
+    - dictionary_file: 词典文件路径
+    - postings_file: 倒排索引文件路径
+    - queries_file: 查询文件路径
+    - output_file: 输出文件路径
     - sort_method: 排序方法，默认按相关性排序
-    - query_text: 查询文本（数据库模式时使用）
-    - use_db: 是否使用数据库模式，默认为True
+    - query_text: 查询文本（直接查询模式时使用）
+    - use_file: 是否使用文件模式，默认为False
 返回:
     - 匹配的文档ID列表
 """
@@ -82,16 +99,13 @@ def search(
     output_file=None,
     sort_method=SORT_BY_RELEVANCE,
     query_text=None,
-    use_db=True):
+    use_file=False):  # 默认使用API模式
     
-    # 数据库模式
-    if use_db:
-        if query_text is None:
-            raise ValueError("使用数据库模式时必须提供query_text参数")
-        return process_query_with_db(query_text, sort_method)
-    
-    # 文件模式
-    else:
+    # 批量文件模式（用于命令行批量处理多个查询）
+    if use_file:
+        if not all([dictionary_file, postings_file, queries_file, output_file]):
+            raise ValueError("批量文件模式需要提供所有文件路径参数：词典文件、倒排文件、查询文件和输出文件")
+            
         # 打开文件
         dict_file = codecs.open(dictionary_file, encoding='utf-8')
         post_file = io.open(postings_file, 'rb')
@@ -140,321 +154,128 @@ def search(
         query_file.close()
         out_file.close()
         return results
-
+    
+    # API模式（用于代码中直接调用）
+    else:
+        if query_text is None:
+            raise ValueError("API模式必须提供query_text参数")
+        if not all([dictionary_file, postings_file]):
+            raise ValueError("API模式需要提供词典文件和倒排文件路径")
+            
+        return process_query_with_index(query_text, dictionary_file, postings_file, sort_method)
 
 """
-从数据库处理查询
+使用倒排索引处理查询
 参数:
     - query_text: 查询文本
+    - dictionary_file: 词典文件路径
+    - postings_file: 倒排索引文件路径
     - sort_method: 排序方法
 返回:
     - 匹配的文档ID列表
 """
-def process_query_with_db(query_text, sort_method=SORT_BY_RELEVANCE):
-    # 标准化布尔操作符，确保空格分隔
-    query_text = re.sub(r'\band\b', ' AND ', query_text, flags=re.IGNORECASE)
-    query_text = re.sub(r'\bor\b', ' OR ', query_text, flags=re.IGNORECASE)
-    query_text = re.sub(r'\bnot\b', ' NOT ', query_text, flags=re.IGNORECASE)
-    
-    # 判断是否为布尔查询
-    has_boolean_ops = any(op in query_text for op in ['AND', 'OR', 'NOT', '(', ')'])
+def process_query_with_index(query_text, dictionary_file, postings_file, sort_method=SORT_BY_RELEVANCE):
+    """使用倒排索引处理查询"""
+    try:
+        logger.info(f"开始处理查询: {query_text}")
+        logger.info(f"使用词典文件: {dictionary_file}")
+        logger.info(f"使用倒排文件: {postings_file}")
+        logger.info(f"排序方式: {sort_method}")
+        
+        # 打开文件
+        dict_file = codecs.open(dictionary_file, encoding='utf-8')
+        post_file = io.open(postings_file, 'rb')
+        
+        # 加载词典
+        loaded_dict = load_dictionary(dict_file)
+        dictionary = loaded_dict[0]     # 词典映射
+        indexed_docIDs = loaded_dict[1]  # 所有已索引的文档
+        doc_lengths = loaded_dict[2]    # 文档长度映射
+        doc_metadata = loaded_dict[3]   # 文档元数据
+        dict_file.close()
+        
+        logger.info(f"成功加载词典，包含 {len(dictionary)} 个词项")
+        logger.info(f"索引文档数量: {len(indexed_docIDs)}")
+        
+        # 标准化布尔操作符，确保空格分隔
+        query_text = re.sub(r'\band\b', ' AND ', query_text, flags=re.IGNORECASE)
+        query_text = re.sub(r'\bor\b', ' OR ', query_text, flags=re.IGNORECASE)
+        query_text = re.sub(r'\bnot\b', ' NOT ', query_text, flags=re.IGNORECASE)
+        
+        # 判断是否为布尔查询
+        has_boolean_ops = any(op in query_text for op in ['AND', 'OR', 'NOT', '(', ')'])
+        logger.info(f"查询类型: {'布尔查询' if has_boolean_ops else '普通查询'}")
 
-    print(f"查询文本: {query_text}")
-    print(f"是否为布尔查询: {has_boolean_ops}")
+        # 根据查询类型选择处理方法
+        if has_boolean_ops:
+            result = process_boolean_query(query_text, dictionary, post_file, indexed_docIDs)
+        else:
+            result = get_matching_docs(query_text, dictionary, post_file)
 
-    # 根据查询类型选择处理方法
-    if has_boolean_ops:
-        result = process_boolean_query_with_db(query_text)
-    else:
-        result = get_matching_docs_from_db(query_text)
+        # 提取查询词项，用于排序
+        query_terms = extract_query_terms(query_text)
+        logger.info(f"查询词项: {query_terms}")
 
-    # 提取查询词项，用于排序
-    query_terms = extract_query_terms(query_text)
+        # 对结果进行排序（非布尔查询）
+        if result and not has_boolean_ops and query_terms and sort_method:
+            logger.info(f"开始对 {len(result)} 个结果进行排序")
+            result = rank_results(result, query_text, dictionary, post_file, doc_metadata, sort_method)
+            logger.info("排序完成")
 
-    # 对结果进行排序（非布尔查询）
-    if result and not has_boolean_ops and query_terms and sort_method:
-        result = sort_db_results(result, query_text, sort_method)
-
-    return result
-
+        # 关闭文件
+        post_file.close()
+        logger.info(f"查询处理完成，返回 {len(result)} 个结果")
+        return result
+        
+    except Exception as e:
+        logger.error(f"处理查询时发生错误: {str(e)}", exc_info=True)
+        # 确保文件被正确关闭
+        try:
+            if 'dict_file' in locals():
+                dict_file.close()
+            if 'post_file' in locals():
+                post_file.close()
+        except:
+            pass
+        raise
 
 """
-从数据库获取匹配的文档ID列表
+从倒排索引获取匹配的文档ID列表
 参数:
     - query: 查询文本
+    - dictionary: 词典
+    - post_file: 倒排索引文件对象
 返回:
     - 匹配的文档ID列表
 """
-def get_matching_docs_from_db(query):
-    """从数据库获取匹配的文档ID列表"""
-    print(f"正在搜索关键词: {query}")
-    query_terms = tokenize_english(query)
+def get_matching_docs(query, dictionary, post_file):
+    """从倒排索引获取匹配的文档ID列表"""
+    # 分词 - 使用英文分词
+    terms = tokenize_english(query)
+    logger.info(f"查询词项: {terms}")
     
-    print(f"分词结果: {query_terms}")
-    
-    # 如果分词结果为空，直接使用原始查询词
-    if not query_terms:
-        query_terms = [query.lower().strip()]
-    
-    # 从数据库中搜索匹配的文档
-    matching_docs = set()
-    for term in query_terms:
-        # 在标题中搜索
-        title_matches = Work.query.filter(
-            Work.title.ilike(f'%{term}%')
-        ).all()
-        
-        # 在摘要中搜索
-        abstract_matches = Work.query.filter(
-            Work.abstract_inverted_index.ilike(f'%{term}%')
-        ).all()
-        
-        # 合并结果
-        for work in title_matches + abstract_matches:
-            matching_docs.add(work.id)
-    
-    # 转换为列表并排序
-    result = sorted(list(matching_docs))
-    print(f"找到匹配文档数: {len(result)}")
-    return result
-
-
-"""
-处理数据库布尔查询
-参数:
-    - query: 布尔查询表达式
-返回:
-    - 匹配的文档ID列表
-"""
-def process_boolean_query_with_db(query):
-    # 处理查询字符串，确保括号周围有空格
-    query = query.replace('(', ' ( ').replace(')', ' ) ')
-    
-    # 确保布尔操作符规范，前后加空格
-    query = re.sub(r'\bAND\b', ' AND ', query, flags=re.IGNORECASE)
-    query = re.sub(r'\bOR\b', ' OR ', query, flags=re.IGNORECASE)
-    query = re.sub(r'\bNOT\b', ' NOT ', query, flags=re.IGNORECASE)
-    query = re.sub(r'\s+', ' ', query).strip()  # 规范化多余的空格
-
-    print(f"处理的布尔查询: {query}")
-
-    # 分离操作符和词项
-    operators = ['AND', 'OR', 'NOT', '(', ')']
-    query_parts = []
-    current_term = ""
-    
-    # 迭代处理查询词项，确保捕获多词项
-    for part in query.split():
-        if part in operators:
-            # 添加之前积累的词项
-            if current_term:
-                query_parts.append(current_term.strip())
-                current_term = ""
-            # 添加操作符
-            query_parts.append(part)
-        else:
-            # 连接非操作符部分
-            if current_term:
-                current_term += " " + part
-            else:
-                current_term = part
-    
-    # 添加最后一个词项
-    if current_term:
-        query_parts.append(current_term.strip())
-    
-    print(f"解析的查询词项: {query_parts}")
-    
-    # 规范化查询表达式
-    # 如果只有一个词项，直接返回结果
-    if len(query_parts) == 1 and query_parts[0] not in operators:
-        return get_matching_docs_from_db(query_parts[0])
-        
-    # 如果是简单的 "A NOT B" 形式，转换为 "A AND NOT B"
-    if len(query_parts) == 3 and query_parts[1] == 'NOT':
-        print("检测到 'A NOT B' 简单形式，转换为 'A AND NOT B'")
-        query_parts = [query_parts[0], 'AND', 'NOT', query_parts[2]]
-        print(f"修正后的查询词项: {query_parts}")
-    
-    # 使用Shunting-yard算法将中缀表达式转换为后缀表达式
-    try:
-        postfix = shunting_yard(query_parts)
-        print(f"生成的后缀表达式: {postfix}")
-    except Exception as e:
-        print(f"生成后缀表达式失败: {str(e)}")
-        raise
-    
-    try:
-        # 计算结果
-        return evaluate_postfix_with_db(postfix)
-    except Exception as e:
-        print(f"表达式评估错误: {str(e)}")
-        raise
-
-
-"""
-使用数据库查询评估后缀表达式
-参数:
-    - postfix: 后缀表达式
-返回:
-    - 匹配的文档ID列表
-"""
-def evaluate_postfix_with_db(postfix):
-    stack = []
-    
-    # 延迟初始化，避免不必要的数据库查询
-    all_doc_ids = None
-    
-    print(f"开始评估后缀表达式: {postfix}")
-    
-    for i, token in enumerate(postfix):
-        try:
-            if token == 'AND':
-                if len(stack) < 2:
-                    raise ValueError(f"表达式错误：AND操作符缺少操作数。当前栈: {stack}")
-                right = stack.pop()
-                left = stack.pop()
-                result = boolean_AND(left, right)
-                print(f"执行 AND 操作: {len(left)} AND {len(right)} = {len(result)} 条结果")
-                stack.append(result)
-            elif token == 'OR':
-                if len(stack) < 2:
-                    raise ValueError(f"表达式错误：OR操作符缺少操作数。当前栈: {stack}")
-                right = stack.pop()
-                left = stack.pop()
-                result = boolean_OR(left, right)
-                print(f"执行 OR 操作: {len(left)} OR {len(right)} = {len(result)} 条结果")
-                stack.append(result)
-            elif token == 'NOT':
-                if len(stack) < 1:
-                    raise ValueError(f"表达式错误：NOT操作符缺少操作数。当前栈: {stack}")
-                operand = stack.pop()
-                # 延迟加载所有文档ID
-                if all_doc_ids is None:
-                    all_doc_ids = [work.id for work in Work.query.with_entities(Work.id).all()]
-                    print(f"加载全部文档ID: {len(all_doc_ids)} 条")
-                result = boolean_NOT(operand, all_doc_ids)
-                print(f"执行 NOT 操作: NOT {len(operand)} = {len(result)} 条结果")
-                stack.append(result)
-            else:
-                # 词项，获取匹配的文档ID
-                result = get_matching_docs_from_db(token)
-                print(f"查询词项 '{token}': 找到 {len(result)} 条结果")
-                stack.append(result)
-            
-            print(f"处理完 token '{token}' 后栈状态: {[len(x) for x in stack]} 个结果集")
-            
-        except Exception as e:
-            print(f"处理 token '{token}' (位置 {i+1}/{len(postfix)}) 时出错: {str(e)}")
-            raise
-    
-    if len(stack) != 1:
-        raise ValueError(f"表达式错误：操作符与操作数不匹配。最终栈: {[len(x) for x in stack]}")
-    
-    return stack[0]
-
-
-"""
-对数据库查询结果进行排序
-参数:
-    - result_ids: 结果文档ID列表
-    - query_text: 查询文本
-    - sort_method: 排序方法
-返回:
-    - 排序后的文档ID列表
-"""
-def sort_db_results(result_ids, query_text, sort_method):
-    if not result_ids:
+    # 如果没有有效词项，返回空列表
+    if not terms:
         return []
     
-    # 从数据库获取文档详情
-    docs = {}
-    for doc_id in result_ids:
-        work = Work.query.get(doc_id)
-        if work:
-            # 获取作者信息
-            authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
-            authors = []
-            for authorship in authorships:
-                if authorship.author_id:
-                    author = Author.query.get(authorship.author_id)
-                    if author:
-                        authors.append(author.display_name)
-                
-            # 构建文档对象，包含排序需要的信息
-            docs[doc_id] = {
-                'id': work.id,
-                'openalex': work.openalex or None,
-                'doi': work.doi or None,
-                'title': work.title or work.display_name or '',
-                'abstract': work.abstract_inverted_index or '',
-                'authors': authors,
-                'year': work.publication_year or 0,
-                'cited_by_count': work.cited_by_count or 0,
-                'publication_date': work.publication_date or datetime.now()
-            }
+    # 对每个词项获取匹配文档，然后取并集
+    results = []
+    for term in terms:
+        if term in dictionary:
+            df, idf, offset = dictionary[term]
+            logger.info(f"词项 '{term}' 的统计信息: df={df}, idf={idf:.4f}, offset={offset}")
+            postings_list = load_posting_list(post_file, df, offset)
+            logger.info(f"词项 '{term}' 匹配到 {len(postings_list)} 个文档")
+            if not results:
+                results = postings_list
+            else:
+                results = boolean_OR(results, postings_list)
+                logger.info(f"合并后的结果数量: {len(results)}")
+        else:
+            logger.warning(f"词项 '{term}' 不在词典中")
     
-    # 根据排序方法对结果进行排序
-    if sort_method == SORT_BY_RELEVANCE:
-        # 按相关性排序 - 简单实现基于词项匹配频率
-        query_terms = extract_query_terms(query_text)
-        scored_docs = []
-        
-        for doc_id, doc in docs.items():
-            score = 0
-            text = (doc['title'] + ' ' + doc['abstract']).lower()
-            for term in query_terms:
-                # 使用单词边界匹配以增加精确度
-                pattern = r'\b' + re.escape(term) + r'\b'
-                matches = len(re.findall(pattern, text))
-                score += matches * 2  # 精确匹配的得分更高
-                
-                # 还要检查部分匹配
-                score += text.count(term) * 0.5
-            scored_docs.append((doc_id, score))
-        
-        # 按分数降序排序
-        return [doc_id for doc_id, score in sorted(scored_docs, key=lambda x: x[1], reverse=True)]
-    
-    elif sort_method == SORT_BY_TIME_DESC:
-        # 按时间降序
-        return [doc_id for doc_id, _ in sorted(docs.items(), key=lambda x: x[1]['year'], reverse=True)]
-    
-    elif sort_method == SORT_BY_TIME_ASC:
-        # 按时间升序
-        return [doc_id for doc_id, _ in sorted(docs.items(), key=lambda x: x[1]['year'])]
-    
-    elif sort_method == SORT_BY_COMBINED:
-        # 组合排序：结合相关性和引用次数
-        query_terms = extract_query_terms(query_text)
-        scored_docs = []
-        
-        for doc_id, doc in docs.items():
-            # 相关性分数
-            relevance_score = 0
-            text = (doc['title'] + ' ' + doc['abstract']).lower()
-            for term in query_terms:
-                # 使用单词边界匹配
-                pattern = r'\b' + re.escape(term) + r'\b'
-                matches = len(re.findall(pattern, text))
-                relevance_score += matches * 2  # 精确匹配的得分更高
-                
-                # 还要检查部分匹配
-                relevance_score += text.count(term) * 0.5
-            
-            # 引用分数
-            citation_score = doc['cited_by_count']
-            
-            # 综合分数
-            combined_score = relevance_score * 0.7 + (citation_score / 100) * 0.3
-            scored_docs.append((doc_id, combined_score))
-        
-        # 按综合分数降序排序
-        return [doc_id for doc_id, score in sorted(scored_docs, key=lambda x: x[1], reverse=True)]
-    
-    # 默认返回原始顺序
-    return result_ids
-
+    logger.info(f"最终匹配到 {len(results)} 个文档")
+    return results
 
 """
 从查询中提取词项，用于排序和结果处理
@@ -469,7 +290,6 @@ def extract_query_terms(query):
     
     # 使用英文分词
     return tokenize_english(cleaned_query)
-
 
 """
 加载词典文件
@@ -540,9 +360,13 @@ def load_dictionary(dict_file):
     - 匹配的文档ID列表
 """
 def process_boolean_query(query, dictionary, post_file, indexed_docIDs):
+    """处理布尔查询表达式"""
+    logger.info(f"处理布尔查询: {query}")
+    
     # 处理查询字符串，确保括号周围有空格
     query = query.replace('(', ' ( ').replace(')', ' ) ')
     query = re.sub(r'\s+', ' ', query).strip()  # 规范化空格
+    logger.debug(f"规范化后的查询: {query}")
     
     # 标准化布尔操作符
     query = re.sub(r'\bAND\b', 'AND', query, flags=re.IGNORECASE)
@@ -562,7 +386,9 @@ def process_boolean_query(query, dictionary, post_file, indexed_docIDs):
     postfix = shunting_yard(tokens)
     
     # 计算后缀表达式
-    return evaluate_postfix(postfix, dictionary, post_file, indexed_docIDs)
+    result = evaluate_postfix(postfix, dictionary, post_file, indexed_docIDs)
+    logger.info(f"布尔查询结果: {len(result)} 个文档")
+    return result
 
 
 """
@@ -606,37 +432,6 @@ def evaluate_postfix(postfix, dictionary, post_file, indexed_docIDs):
     
     return stack[0]
 
-
-"""
-获取与查询匹配的文档ID列表
-参数:
-    - query: 查询文本
-    - dictionary: 词典
-    - post_file: 倒排索引文件对象
-返回:
-    - 匹配的文档ID列表
-"""
-def get_matching_docs(query, dictionary, post_file):
-    # 分词 - 使用英文分词
-    terms = tokenize_english(query)
-    
-    # 如果没有有效词项，返回空列表
-    if not terms:
-        return []
-    
-    # 对每个词项获取匹配文档，然后取并集
-    results = []
-    for term in terms:
-        if term in dictionary:
-            df, _, offset = dictionary[term]
-            postings_list = load_posting_list(post_file, df, offset)
-            if not results:
-                results = postings_list
-            else:
-                results = boolean_OR(results, postings_list)
-    
-    return results
-
 # 以下是布尔操作函数，不需要修改
 """
 计算两个列表的逻辑与（交集）
@@ -646,22 +441,37 @@ def get_matching_docs(query, dictionary, post_file):
     - 交集结果
 """
 def boolean_AND(list1, list2):
-    # 优化：根据列表长度决定使用哪种方法
-    if not list1 or not list2:
-        return []
+    """计算两个列表的逻辑与（交集）"""
+    try:
+        # 优化：根据列表长度决定使用哪种方法
+        if not list1 or not list2:
+            logger.debug("至少一个列表为空，返回空列表")
+            return []
+            
+        logger.debug(f"计算交集: 列表1长度={len(list1)}, 列表2长度={len(list2)}")
         
-    if len(list1) > 10*len(list2) or len(list2) > 10*len(list1):
-        # 长度差异大时使用二分查找
-        if len(list1) < len(list2):
-            return binary_search_AND(list2, list1)
+        if len(list1) > 10*len(list2) or len(list2) > 10*len(list1):
+            # 长度差异大时使用二分查找
+            logger.debug("使用二分查找方法")
+            if len(list1) < len(list2):
+                result = binary_search_AND(list2, list1)
+            else:
+                result = binary_search_AND(list1, list2)
+        elif len(list1) + len(list2) > 1000:
+            # 列表较长时使用跳跃表方法
+            logger.debug("使用跳跃表方法")
+            result = skip_list_AND(list1, list2)
         else:
-            return binary_search_AND(list1, list2)
-    elif len(list1) + len(list2) > 1000:
-        # 列表较长时使用跳跃表方法
-        return skip_list_AND(list1, list2)
-    else:
-        # 列表较短时使用简单扫描
-        return [x for x in list1 if x in list2]
+            # 列表较短时使用简单扫描
+            logger.debug("使用简单扫描方法")
+            result = [x for x in list1 if x in list2]
+            
+        logger.debug(f"交集计算完成，结果长度: {len(result)}")
+        return result
+        
+    except Exception as e:
+        logger.error(f"计算交集时发生错误: {str(e)}", exc_info=True)
+        return []
 
 
 """
@@ -845,19 +655,45 @@ def shunting_yard(query_tokens):
     - 倒排列表（文档ID列表）
 """
 def load_posting_list(post_file, length, offset):
-    post_file.seek(offset)
-    result = []
-    
-    for i in range(length):
-        # 每个记录包含docID(4字节)和词频(4字节)
-        docID_bytes = post_file.read(BYTE_SIZE)
-        tf_bytes = post_file.read(BYTE_SIZE)  # 读取但不使用词频
+    """从倒排文件中读取倒排列表"""
+    try:
+        post_file.seek(offset)
+        # 读取倒排列表长度（4字节）
+        length_bytes = post_file.read(4)
+        if not length_bytes:
+            logger.warning(f"在偏移量 {offset} 处无法读取倒排列表长度")
+            return []
+            
+        posting_length = int.from_bytes(length_bytes, byteorder='big')
+        logger.debug(f"读取到倒排列表长度: {posting_length}")
         
-        # 将字节转换为整数
-        docID = struct.unpack('I', docID_bytes)[0]
-        result.append(docID)
-    
-    return result
+        if posting_length > 1000000:  # 设置一个合理的上限
+            logger.error(f"倒排列表长度异常: {posting_length}")
+            return []
+        
+        # 使用生成器读取倒排列表，减少内存使用
+        def read_doc_ids():
+            for _ in range(posting_length):
+                # 读取文档ID（4字节）
+                doc_id_bytes = post_file.read(4)
+                if not doc_id_bytes:
+                    logger.error(f"读取文档ID时出错，offset={post_file.tell()}")
+                    break
+                doc_id = int.from_bytes(doc_id_bytes, byteorder='big')
+                yield doc_id
+        
+        # 将生成器转换为列表
+        posting_list = list(read_doc_ids())
+        
+        if len(posting_list) != posting_length:
+            logger.warning(f"实际读取的文档ID数量 ({len(posting_list)}) 与预期 ({posting_length}) 不符")
+        
+        logger.debug(f"成功读取倒排列表，包含 {len(posting_list)} 个文档ID")
+        return posting_list
+        
+    except Exception as e:
+        logger.error(f"读取倒排列表时发生错误: {str(e)}", exc_info=True)
+        return []
 
 
 """
@@ -870,21 +706,32 @@ def load_posting_list(post_file, length, offset):
     - 倒排列表，每项为(docID, 词频)元组
 """
 def load_posting_list_with_tf(post_file, length, offset):
+    """从倒排文件中读取带词频的倒排列表"""
     post_file.seek(offset)
-    result = []
+    # 读取倒排列表长度（4字节）
+    length_bytes = post_file.read(4)
+    if not length_bytes:
+        return []
+    posting_length = int.from_bytes(length_bytes, byteorder='big')
     
-    for i in range(length):
-        # 读取docID和词频
-        docID_bytes = post_file.read(BYTE_SIZE)
-        tf_bytes = post_file.read(BYTE_SIZE)
+    # 读取倒排列表
+    posting_list = []
+    for _ in range(posting_length):
+        # 读取文档ID（4字节）
+        doc_id_bytes = post_file.read(4)
+        if not doc_id_bytes:
+            break
+        doc_id = int.from_bytes(doc_id_bytes, byteorder='big')
         
-        # 将字节转换为整数
-        docID = struct.unpack('I', docID_bytes)[0]
-        tf = struct.unpack('I', tf_bytes)[0]
+        # 读取词频（4字节）
+        tf_bytes = post_file.read(4)
+        if not tf_bytes:
+            break
+        tf = int.from_bytes(tf_bytes, byteorder='big')
         
-        result.append((docID, tf))
+        posting_list.append((doc_id, tf))
     
-    return result
+    return posting_list
 
 
 """显示正确的命令用法"""
@@ -916,4 +763,4 @@ if __name__ == "__main__":
         print_usage()
         sys.exit(2)
         
-    search(dictionary_file, postings_file, queries_file, output_file, use_db=False)
+    search(dictionary_file, postings_file, queries_file, output_file, use_file=True)  # 命令行使用批量文件模式

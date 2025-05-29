@@ -322,8 +322,18 @@ def api_search():
         # 获取多选年份范围（如果有）
         year_ranges = data.get('year_ranges', [])
         
+        # 获取索引文件路径
+        index_dir = os.path.join(os.path.dirname(__file__), 'basicSearch', 'index')
+        dictionary_file = os.path.join(index_dir, 'dictionary.txt')
+        postings_file = os.path.join(index_dir, 'postings.bin')
+        
         # 执行搜索
-        work_ids = basic_search(query_text=keyword, use_db=True, sort_method=sort_method)
+        work_ids = basic_search(
+            query_text=keyword,
+            dictionary_file=dictionary_file,
+            postings_file=postings_file,
+            sort_method=sort_method
+        )
         
         # 如果有日期筛选或年份范围筛选，应用筛选
         if date_from or date_to or year_ranges:
@@ -1782,6 +1792,123 @@ def api_advanced_boolean_search():
         return jsonify({
             'status': 'error',
             'message': f'检索处理出错: {str(e)}'
+        }), 500
+
+def load_theme_thesaurus():
+    """加载主题词表"""
+    try:
+        # 从静态文件目录加载主题词表
+        thesaurus_path = os.path.join(os.path.dirname(__file__), '../../static/search/theme_thesaurus.json')
+        with open(thesaurus_path, 'r', encoding='utf-8') as f:
+            thesaurus_data = json.load(f)
+        return thesaurus_data
+    except Exception as e:
+        logger.error(f"加载主题词表失败: {str(e)}")
+        return []
+
+def find_similar_words(input_word, max_suggestions=3):
+    """查找语义相近的词"""
+    try:
+        thesaurus = load_theme_thesaurus()
+        suggestions = {
+            'synonyms': [],  # 同义词
+            'themes': [],    # 相关主题
+            'boolean_suggestions': []  # 布尔组合建议
+        }
+        
+        # 将输入词转为小写以进行不区分大小写的匹配
+        input_word = input_word.lower()
+        
+        # 1. 直接匹配主题词
+        matched_themes = []
+        for theme_entry in thesaurus:
+            theme = theme_entry['theme']
+            words = theme_entry['words']
+            
+            # 检查输入词是否在该主题的词列表中
+            for word_entry in words:
+                word = word_entry['word'].lower()
+                score = word_entry['score']
+                
+                # 如果找到完全匹配或部分匹配
+                if input_word == word or input_word in word or word in input_word:
+                    # 添加同一主题下的其他高分词作为同义词建议
+                    for other_word in words:
+                        if other_word['word'].lower() != input_word:
+                            suggestions['synonyms'].append({
+                                'word': other_word['word'],
+                                'score': other_word['score'],
+                                'theme': theme
+                            })
+                    
+                    # 记录匹配的主题
+                    if theme not in matched_themes:
+                        matched_themes.append(theme)
+                    break
+        
+        # 2. 添加相关主题
+        for theme in matched_themes:
+            suggestions['themes'].append({
+                'theme': theme,
+                'relevance': 1.0  # 直接匹配的主题相关度最高
+            })
+        
+        # 3. 生成布尔组合建议
+        if suggestions['synonyms']:
+            # 选择得分最高的同义词生成OR组合
+            top_synonyms = sorted(suggestions['synonyms'], key=lambda x: x['score'], reverse=True)[:3]
+            or_combination = f"{input_word} OR {' OR '.join(s['word'] for s in top_synonyms)}"
+            suggestions['boolean_suggestions'].append(or_combination)
+        
+        # 对同义词按得分排序并限制数量
+        suggestions['synonyms'] = sorted(suggestions['synonyms'], 
+                                      key=lambda x: x['score'], 
+                                      reverse=True)[:max_suggestions]
+        
+        return suggestions
+        
+    except Exception as e:
+        logger.error(f"查找相似词失败: {str(e)}")
+        return {'synonyms': [], 'themes': [], 'boolean_suggestions': []}
+
+@searcher_bp.route('/api/suggest_terms', methods=['POST'])
+def api_suggest_terms():
+    """词语推荐API"""
+    try:
+        data = request.get_json()
+        if not data or 'term' not in data:
+            return jsonify({
+                'status': 'error',
+                'message': '缺少检索词参数'
+            }), 400
+            
+        input_term = data.get('term', '').strip()
+        if not input_term:
+            return jsonify({
+                'status': 'success',
+                'suggestions': {
+                    'synonyms': [],
+                    'themes': [],
+                    'boolean_suggestions': []
+                }
+            })
+        
+        # 获取推荐数量参数（可选）
+        max_suggestions = data.get('max_suggestions', 3)
+        
+        # 获取词语建议
+        suggestions = find_similar_words(input_term, max_suggestions)
+        
+        return jsonify({
+            'status': 'success',
+            'suggestions': suggestions
+        })
+        
+    except Exception as e:
+        logger.error(f"词语推荐服务出错: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'处理请求时出错: {str(e)}'
         }), 500
 
 def load_theme_thesaurus():
