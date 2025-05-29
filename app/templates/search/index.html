@@ -15,7 +15,7 @@
             --secondary-color: #f5f5f5;
             --text-color: #333;
             --border-color: #ddd;
-            --sidebar-width: 320px;
+            --sidebar-width: 380px;
             --sidebar-min-width: 280px;
             --sidebar-max-width: 500px;
             --transition-time: 0.3s;
@@ -480,13 +480,95 @@
         
         /* 查询预览样式 */
         .query-preview {
-            background-color: #f0f2ff;
-            border-radius: 5px;
-            padding: 0.5rem 1rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--primary-color);
-            font-family: monospace;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border: 1px solid #e9ecef;
+            font-family: 'Consolas', 'Monaco', 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #2c3e50;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
             overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .query-preview:hover {
+            border-color: #3a5bc7;
+            box-shadow: 0 6px 16px rgba(74, 107, 223, 0.15);
+            background-color: #ffffff;
+        }
+
+        .query-preview::before {
+            content: "检索式";
+            position: absolute;
+            top: -0.1rem;
+            left: 0.5rem;
+            background-color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            color: #4a6bdf;
+            font-weight: 500;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            z-index: 1;
+        }
+
+        /* 检索式语法高亮 */
+        .query-preview .operator {
+            color: #0d6efd;
+            font-weight: 500;
+        }
+
+        .query-preview .field {
+            color: #0a58ca;
+        }
+
+        .query-preview .value {
+            color: #d63384;
+        }
+
+        .query-preview .parenthesis {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        /* 复制按钮样式 */
+        .copy-query-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #ffffff;
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-query-btn:hover {
+            background-color: #f8f9fa;
+            color: #4a6bdf;
+            border-color: #4a6bdf;
+        }
+
+        .copy-query-btn.copied {
+            background-color: #198754;
+            color: #ffffff;
+            border-color: #198754;
         }
         
         /* 应用检索式按钮样式 */
@@ -494,25 +576,38 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 20px;
-            padding: 0.5rem 1.5rem;
-            margin-top: 0.5rem;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            margin-top: 0.8rem;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             transition: all 0.2s ease;
             font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 4px rgba(74, 107, 223, 0.2);
+            width: fit-content;
+            margin-left: auto;
         }
         
         .apply-query-btn:hover {
             background-color: #3a5bc7;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(74, 107, 223, 0.3);
         }
         
         .apply-query-btn:active {
             transform: translateY(0);
-            box-shadow: none;
+            box-shadow: 0 2px 4px rgba(74, 107, 223, 0.2);
+        }
+
+        .apply-query-btn i {
+            font-size: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .apply-query-btn:hover i {
+            transform: translateX(2px);
         }
         
         /* 加载动画样式 */
@@ -1100,18 +1195,43 @@
                 messageEl.className = `message ${sender}-message`;
 
                 if (sender === 'ai' && typeof content === 'object') {
+                    // 对检索式进行语法高亮处理
+                    const highlightedQuery = highlightQuery(content.query);
                     messageEl.innerHTML = `
                         <p class="message-content">
                             ${content.message}
                         </p>
-                        <div class="query-preview">
-                            ${content.query}
+                        <div class="query-preview-wrapper">
+                            <div class="query-preview">
+                                ${highlightedQuery}
+                            </div>
+                            <button class="copy-query-btn" data-query="${content.query}">
+                                <i class="bi bi-clipboard"></i>
+                                复制
+                            </button>
                         </div>
-                        <button class="apply-query-btn" data-query="${content.query}">
-                            <i class="bi bi-search"></i>
-                            应用检索式
-                        </button>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="apply-query-btn" data-query="${content.query}">
+                                <i class="bi bi-search"></i>
+                                应用
+                            </button>
+                        </div>
                     `;
+
+                    // 添加复制功能
+                    const copyBtn = messageEl.querySelector('.copy-query-btn');
+                    copyBtn.addEventListener('click', function() {
+                        const query = this.getAttribute('data-query');
+                        navigator.clipboard.writeText(query).then(() => {
+                            const originalText = this.innerHTML;
+                            this.innerHTML = '<i class="bi bi-check2"></i>已复制';
+                            this.classList.add('copied');
+                            setTimeout(() => {
+                                this.innerHTML = originalText;
+                                this.classList.remove('copied');
+                            }, 2000);
+                        });
+                    });
                 } else {
                     messageEl.innerHTML = `
                         <p class="message-content">
@@ -1154,6 +1274,24 @@
                 } else {
                     document.querySelector('#advanced .condition-input').value = query;
                 }
+            }
+
+            // 添加检索式语法高亮函数
+            function highlightQuery(query) {
+                // 替换操作符
+                query = query.replace(/\b(AND|OR|NOT)\b/g, '<span class="operator">$1</span>');
+                
+                // 替换字段名（假设字段名后面跟着冒号）
+                query = query.replace(/([^:]+):/g, '<span class="field">$1:</span>');
+                
+                // 替换括号
+                query = query.replace(/[()]/g, '<span class="parenthesis">$&</span>');
+                
+                // 替换引号内的内容
+                query = query.replace(/"([^"]+)"/g, '<span class="value">"$1"</span>');
+                query = query.replace(/'([^']+)'/g, '<span class="value">\'$1\'</span>');
+                
+                return query;
             }
 
             // 初始化
