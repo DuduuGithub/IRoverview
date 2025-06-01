@@ -7,9 +7,9 @@ from typing import List, Dict, Tuple, Optional
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from sort_ai.model import NLRankingModel
+from sort_ai.model_backup import NLRankingModel
 from Database.model import Work, RerankSession, UserBehavior
-from .model_trainer import ModelTrainer
+from .model_trainer_backup import ModelTrainer
 
 # 配置日志
 logging.basicConfig(level=logging.INFO)
