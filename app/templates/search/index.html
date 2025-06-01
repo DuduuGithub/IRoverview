@@ -1374,9 +1374,13 @@
             // 格式化AI响应
             function formatAIResponse(data) {
                 if (data.status === 'success' && data.query) {
+                    const cleanedQuery = data.query
+                        .replace(/<[^>]+>/g, '') // 移除所有HTML标签
+                        .replace(/"field">/g, '') // 移除特定错误字符串
+                        .replace(/\\n/g, '\n');   // 转换换行符
                     return {
                         message: data.response || '根据您的描述，我生成了以下检索式：',
-                        query: data.query
+                        query: cleanedQuery
                     };
                 } else {
                     return data.response || '抱歉，我无法生成适合的检索式。请尝试提供更详细的描述。';
@@ -1785,7 +1789,7 @@
                 query = query.replace(/\b(AND|OR|NOT)\b/g, '<span class="operator">$1</span>');
                 
                 // 替换字段名（假设字段名后面跟着冒号）
-                query = query.replace(/([^:]+):/g, '<span class="field">$1:</span>');
+                
                 
                 // 替换括号
                 query = query.replace(/[()]/g, '<span class="parenthesis">$&</span>');
