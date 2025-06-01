@@ -322,18 +322,8 @@ def api_search():
         # 获取多选年份范围（如果有）
         year_ranges = data.get('year_ranges', [])
         
-        # 获取索引文件路径
-        index_dir = os.path.join(os.path.dirname(__file__), 'basicSearch', 'index')
-        dictionary_file = os.path.join(index_dir, 'dictionary.txt')
-        postings_file = os.path.join(index_dir, 'postings.bin')
-        
         # 执行搜索
-        work_ids = basic_search(
-            query_text=keyword,
-            dictionary_file=dictionary_file,
-            postings_file=postings_file,
-            sort_method=sort_method
-        )
+        work_ids = basic_search(query_text=keyword, use_db=True, sort_method=sort_method)
         
         # 如果有日期筛选或年份范围筛选，应用筛选
         if date_from or date_to or year_ranges:
@@ -1162,14 +1152,30 @@ def api_rerank():
             logger.info(f"\n开始重排序，提示词: {prompt}")
             logger.info("=" * 50)
             
+            # 确保模型处于评估模式
+            rerank_model.model.eval()
+            
             # 计算两种得分
             for result in results:
-                # 计算重排序得分
-                doc_text = f"{result['title']} [SEP] {result.get('abstract', '')}"
-                rerank_score = rerank_model.predict(
-                    query=prompt,
-                    doc_text=doc_text
-                )
+                # 分别获取标题和摘要
+                title = result['title']
+                abstract = result.get('abstract', '')
+                
+                # 计算重排序得分，使用模型的forward方法
+                try:
+                    with torch.no_grad():
+                        rerank_score = rerank_model.model(
+                            query=prompt,
+                            doc_title=title,
+                            doc_abstract=abstract
+                        )
+                        # 如果返回的是tensor，转换为Python标量
+                        if torch.is_tensor(rerank_score):
+                            rerank_score = rerank_score.item()
+                except Exception as model_error:
+                    logger.error(f"模型预测单个文档时出错: {str(model_error)}")
+                    rerank_score = 0.0
+                
                 rerank_scores.append(rerank_score)
                 
                 # 计算基础相关性得分（余弦相似度）
@@ -1179,7 +1185,7 @@ def api_rerank():
                 )
                 basic_scores.append(basic_score)
                 
-                logger.info(f"文献: {result['title']}")
+                logger.info(f"文献: {title}")
                 logger.info(f"重排序得分: {rerank_score:.4f}")
                 logger.info(f"余弦相似度得分: {basic_score:.4f}")
                 logger.info("-" * 30)

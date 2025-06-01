@@ -14,8 +14,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 # 添加项目根目录到Python路径
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from sort_ai.model import IRRankingModel, FusionRankingModel
-from sort_ai.model_trainer import SearchSessionDataset
+from sort_ai.model_backup import IRRankingModel, FusionRankingModel
+from sort_ai.model_trainer_backup import SearchSessionDataset
 from Database.model import Work, Author, WorkAuthorship
 
 # 配置日志
@@ -499,7 +499,7 @@ def main():
         choice = input("请输入选项（1-7）: ").strip()
         
         # 准备测试数据
-        from sort_ai.model_trainer import ModelTrainer
+        from sort_ai.model_trainer_backup import ModelTrainer
         trainer = ModelTrainer()
         train_sessions, test_sessions = trainer.prepare_training_data()
         
