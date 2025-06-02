@@ -1,0 +1,501 @@
+id,orcid,display_name,display_name_alternatives,works_count,cited_by_count,last_known_institution,works_api_url,updated_date
+5087249091,,Natalya Lyapkalo,"[""Natalya Lyapkalo""]",1,17,21203515.0,5087249091,2023-09-02T15:25:17.836956
+5062915596,,Vanessa Ribeiro de Almeida,"[""Vanessa Ribeiro de Almeida""]",2,0,,5062915596,2023-09-02T14:08:09.059099
+5022190089,,Marco H. Kraal,"[""Marco H. Kraal"", ""M.H. Kraal""]",2,120,,5022190089,2023-10-22T23:24:16.902262
+5050964499,,K.Y. Cho,"[""K.Y. Cho""]",3,104,4210151417.0,5050964499,2023-10-22T16:31:28.106963
+5075010605,,Andrew D. Fant,"[""Andrew D. Fant"", ""A. D. Fant""]",4,103,114027177.0,5075010605,2023-10-22T04:55:28.002379
+5008974874,,and András Guttman,"[""and András Guttman""]",1,99,12912129.0,5008974874,2023-10-22T23:32:05.262485
+5002139034,,Olivier Hancisse,"[""Olivier Hancisse""]",3,80,141945490.0,5002139034,2023-10-22T22:16:46.245312
+5023158589,,James R. Grajek,"[""James R. Grajek""]",1,52,1298060332.0,5023158589,2023-10-22T03:21:38.690889
+5065552531,,Po-Fen Tai,"[""Po‐Fen Tai""]",7,52,114150738.0,5065552531,2023-10-22T14:52:39.386756
+5090856588,,Magnus Tottie,"[""Magnus Tottie""]",2,48,,5090856588,2023-10-22T06:12:14.899351
+5000241801,,Patrick Neuhaus,"[""Patrick Neuhaus""]",2,45,4210139035.0,5000241801,2023-10-22T23:38:50.927069
+5069963505,,Devesh B. Vyas,"[""Devesh B. Vyas""]",1,45,,5069963505,2023-10-22T22:05:38.083806
+5071865686,,Alexander Bullerjahn,"[""Alexander Bullerjahn""]",2,41,75951250.0,5071865686,2023-10-22T05:12:07.886722
+5010042476,,Gerhold Mühmel,"[""G. Mühmel"", ""Gerhold Mühmel""]",3,34,135140700.0,5010042476,2023-10-22T23:38:41.596142
+5017707285,,G. J. de Raad,"[""G. J. de Raad""]",1,33,83019370.0,5017707285,2023-10-22T23:18:08.307881
+5053730749,,S. Jean,"[""S. Jean""]",1,31,,5053730749,2023-10-22T10:49:50.286066
+5029042842,,T. C. Chen,"[""T. C. Chen""]",3,27,143578492.0,5029042842,2023-10-22T17:32:53.986253
+5090170009,,LI Hanying,"[""LI Hanying"", ""Hanying Li""]",2,24,204831749.0,5090170009,2023-10-22T22:16:35.604348
+5075959498,,Justin Plummer,"[""Justin Plummer"", ""Justin E. Plummer""]",4,23,169335092.0,5075959498,2023-10-22T22:47:18.882641
+5088250792,,L. Nuttens,"[""L. Nuttens""]",3,23,,5088250792,2023-10-22T04:21:56.446467
+5084821703,,Tetuharu Okazaki,"[""T. OKAZAKI"", ""Tetuharu Okazaki""]",2,20,4210091817.0,5084821703,2023-10-22T19:38:31.276674
+5039553335,0000-0002-7790-939X,Marielle Dias Martins,"[""Marielle Dias Martins""]",2,19,101100930.0,5039553335,2023-10-22T15:11:09.339505
+5083513594,,I. Rhodes,"[""I. Rhodes""]",2,19,,5083513594,2023-10-22T06:30:22.968713
+5047860725,,Michael B. Towns,"[""Michael B. Towns""]",1,18,,5047860725,2023-10-22T19:38:13.677743
+5001247168,,Oliver Ottinger,"[""Oliver Ottinger""]",2,15,4210093306.0,5001247168,2023-10-22T23:24:16.052390
+5007226805,,J Paruk,"[""Jan Paruk"", ""J Paruk""]",3,15,,5007226805,2023-10-22T16:39:43.444134
+5067083570,,Natalia Stamataki,"[""Natalia Stamataki""]",3,13,4210131924.0,5067083570,2023-10-22T12:01:14.697072
+5088774335,,Xiang Fei He,"[""Xiang Fei He"", ""Xiang He""]",2,7,142108993.0,5088774335,2023-10-22T06:13:00.382635
+5047975619,,Inês Mota,"[""Inês Mota""]",2,5,71999127.0,5047975619,2023-10-22T06:35:39.118572
+5052796219,,Ruchama Weiss,"[""R.A. Weiss"", ""Ruchama Weiss""]",2,5,,5052796219,2023-10-22T15:11:38.583110
+5057126228,,Wendell L. Griffen,"[""Wendell L. Griffen""]",3,5,,5057126228,2023-10-22T03:14:19.791603
+5071907383,,Bam Ogar,"[""Bam Ogar""]",1,5,3970730.0,5071907383,2023-10-22T15:41:53.450072
+5055704153,,Nadia Iryani Najri,"[""N I Najri"", ""Nadia Iryani Najri""]",2,4,161371597.0,5055704153,2023-10-22T17:28:28.404988
+5060074227,,Zhihua XIE,"[""Zhihua XIE""]",2,4,,5060074227,2023-10-22T13:21:31.217943
+5068086817,,Masahiro Hirano,"[""Masahiro Hirano""]",4,4,3123035732.0,5068086817,2023-10-22T04:55:25.975903
+5091239365,,Semyon Shestakov,"[""Semyon Shestakov""]",1,4,,5091239365,2023-10-22T07:34:13.091833
+5028220643,,J. Ciftci,"[""J. Ciftci""]",1,3,,5028220643,2023-10-22T16:40:14.783641
+5084721919,,M.Iu. Kudinov,"[""M.Iu. Kudinov""]",1,3,,5084721919,2023-10-22T16:04:03.572007
+5005914009,,L. Denais,"[""L. Denais""]",2,2,,5005914009,2023-10-22T16:40:33.962345
+5034243585,0000-0001-5085-2015,Amir Eqtedaei,"[""Amir Eqtedaei""]",2,2,176861719.0,5034243585,2023-10-22T04:55:31.292870
+5048078588,,Candida Andreati,"[""Candida Andreati""]",2,2,,5048078588,2023-10-22T23:23:09.363520
+5048466472,,M. Beisekova,"[""M. Beisekova""]",2,0,,5048466472,2023-10-22T12:55:52.908448
+5057198702,,Sandra Hgli-Jost,"[""Sandra Hgli‐Jost""]",3,0,,5057198702,2023-10-22T03:45:03.117985
+5067235788,,Erdem FATİHOĞLU,"[""Erdem FATİHOĞLU""]",1,0,176037994.0,5067235788,2023-10-22T15:22:59.132489
+5076559815,,GoldenGate,"[""GoldenGate""]",1,0,,5076559815,2023-10-22T13:21:18.435607
+5086511085,,CM Pereira,"[""CM Pereira""]",3,0,879563668.0,5086511085,2023-10-22T15:23:18.113892
+5005020376,,Daniel Marcu,"[""Daniel Marcu"", ""D. Marcu"", ""Daniel C. Marcu""]",163,13673,121196025.0,5005020376,2024-02-21T07:58:09.785742
+5022425980,,Bruce A. Cunningham,"[""B. A. Cunningham"", ""B Cunningham"", ""Bruce A. Cunningham""]",120,13100,123431417.0,5022425980,2024-02-21T15:34:56.182818
+5028999916,,M. Sanjeev Arulampalam,"[""M. Sanjeev Arulampalam"", ""M. S. Arulampalam"", ""M. Arulampalam"", ""Moses Sanjeev Arulampalam""]",17,10936,1303474014.0,5028999916,2024-02-21T19:25:26.897734
+5029924681,,Lori E. Greene,"[""L. Greene"", ""Lori E. Greene"", ""Lori Elizabeth Greene"", ""Lori Greene""]",19,10046,148283060.0,5029924681,2024-02-21T13:41:08.851074
+5056029393,,Román Herrera,"[""R. Herrera"", ""Román Herrera"", ""Roman Herrera"", ""R.Antonio Herrera""]",51,9533,180857899.0,5056029393,2024-02-21T11:39:47.458707
+5065061430,,C. Struck,"[""C. J. Struck"", ""Chr. Struck"", ""C. Struck""]",89,8934,114090438.0,5065061430,2024-02-21T03:18:07.936045
+5008513659,,Richard M. Robson,"[""Robert Robson"", ""R. L. Robson"", ""R. Robson"", ""Richard M. Robson"", ""Robert L. Robson"", ""R. Moyra Robson"", ""R. M. Robson""]",162,8524,71052956.0,5008513659,2024-02-21T01:22:41.561749
+5045541568,0000-0002-5986-962X,Jeroen Van Rie,"[""J. Van Rie"", ""Jeroen Van Rie""]",68,8432,2801148265.0,5045541568,2024-02-21T08:28:02.313103
+5079320024,,Jerry R. Mitchell,"[""J. Roy Mitchell"", ""Jerry Mitchell"", ""J. Mitchell"", ""J.R.A. Mitchell"", ""Jerry R. Mitchell"", ""J. R. Mitchell"", ""J R. Mitchell""]",131,8285,155781252.0,5079320024,2024-02-21T07:18:39.222172
+5085701476,,Koji Isozaki,"[""K. Isozaki"", ""Koji Isozaki"", ""Kouji Isozaki""]",69,8244,137459256.0,5085701476,2024-02-21T10:49:21.659326
+5029873389,,Don Hutchison,"[""Don Hutchison""]",12,7893,4210143017.0,5029873389,2024-02-21T11:45:45.239461
+5054466592,,K. E. Gregory,"[""K. E. Gregory"", ""Keith Gregory"", ""Keith E. Gregory"", ""Keith Edward Gregory"", ""K Gregory""]",237,7873,2802490183.0,5054466592,2024-02-21T08:50:47.684007
+5082696829,0000-0001-7088-2035,Christopher T. Seto,"[""C. Seto"", ""C. T. Seto"", ""Christopher T. Seto"", ""Christopher Seto""]",93,7619,196272386.0,5082696829,2024-02-21T00:17:15.848230
+5042635009,,S. F. Paul Man,"[""S. Man"", ""Sfp Man"", ""S.F Paul Man"", ""S. F. Man"", ""Songhang Man"", ""Shirley Man"", ""S. F. Paul Man"", ""S. F. P. Man""]",85,7250,4210151833.0,5042635009,2024-02-21T11:26:09.897813
+5028386879,,John V. Jacobsen,"[""John Jacobsen"", ""J. V. Jacobsen"", ""John V. Jacobsen"", ""J. Jacobsen""]",102,7233,4210152679.0,5028386879,2024-02-21T02:44:57.674563
+5078586744,,Hiroyuki Tamemoto,"[""Hiroyuki Tamemoto"", ""Hiroyuki Tamemoto Tamemoto"", ""H. Tamemoto""]",84,7208,146500386.0,5078586744,2024-02-21T18:47:54.244715
+5024332613,,Alfred Linker,"[""A. Linker"", ""Alfred. Linker""]",112,7117,4210089864.0,5024332613,2024-02-21T18:07:13.423156
+5061039751,,D. F. Cowen,"[""Df Cowen"", ""D.F Cowen"", ""D. Cowen"", ""D F. Cowen"", ""D. F. Cowen""]",185,7108,135310074.0,5061039751,2024-02-21T08:35:13.163110
+5080782025,0000-0002-6516-8352,Walter R. Boynton,"[""W.R Boynton"", ""Walter R. Boynton"", ""Walter Raymond Boynton"", ""W. R. Boynton"", ""Walter Boynton"", ""W. Boynton""]",105,7011,149521062.0,5080782025,2024-02-21T18:11:28.421832
+5022729625,,Richard G. Hansford,"[""R. Hansford"", ""Richard Hansford"", ""Richard G. Hansford"", ""R. G. Hansford""]",93,6774,133879957.0,5022729625,2024-02-21T02:08:19.869577
+5036662362,,GF Baxter,"[""Gary Francis Baxter"", ""Gf Baxter"", ""G.F Baxter"", ""Baxter Gf"", ""G. F. Baxter"", ""Gary F. Baxter""]",103,6691,79510175.0,5036662362,2024-02-21T22:08:29.968467
+5080874815,,Tadashi Koike,"[""T. Koike"", ""Tadashi Koike""]",215,6505,71395657.0,5080874815,2024-02-21T02:29:11.346165
+5062074070,,C. Georgiopoulos,"[""Christos Haralampos Georgiopoulos"", ""Christos H. Georgiopoulos"", ""C. H. Georgiopoulos"", ""C. Georgiopoulos""]",212,6502,103163165.0,5062074070,2024-02-21T03:22:39.354132
+5051475312,0000-0003-2449-2663,Gerald L. Hazelbauer,"[""G. L. Hazelbauer"", ""Gerald L. Hazelbauer""]",119,6479,76835614.0,5051475312,2024-02-21T12:12:43.063253
+5052205279,,Edward E. Max,"[""E. E. Max"", ""Edward E. Max"", ""Edward Max"", ""E. Max""]",90,6355,1333606569.0,5052205279,2024-02-21T05:07:24.708979
+5079362604,,Francis J. Lovas,"[""F J. Lovas"", ""Francis J. Lovas"", ""F. Lovas"", ""F. J. Lovas"", ""F.J Lovas""]",212,6342,1321296531.0,5079362604,2024-02-21T13:03:47.931781
+5081763586,,E. Tscheslog,"[""E. Tscheslog""]",67,6190,4210148700.0,5081763586,2024-02-21T08:13:19.118025
+5034812092,,Serge Jard,"[""Serge Jard"", ""S. Jard""]",159,6180,187986737.0,5034812092,2024-02-21T08:20:12.247251
+5046371155,,G. Salvini,"[""Giorgio Salvini"", ""G. Salvini""]",173,6174,4210098972.0,5046371155,2024-02-21T13:38:18.347286
+5008144877,,M. Г. Крейн,"[""M. G. Kreĭn"", ""Mark Krein"", ""M. Крейн"", ""M. G. Krein"", ""M. Kreĭn"", ""M. Г. Крейн"", ""M G Kreǐn"", ""M.G Krein"", ""M. Krein"", ""Mark G. Krein""]",100,6156,2802542201.0,5008144877,2024-02-21T07:17:20.874196
+5025389409,,John Tait,"[""J. F. Tait"", ""James F. Tait"", ""John Tait"", ""J. Tait"", ""J. I. Tait"", ""John I. Tait"", ""James Francis Tait"", ""John Irving Tait"", ""J. F.. Tait""]",265,6115,1289784979.0,5025389409,2024-02-21T09:04:04.855813
+5045820780,0000-0001-5509-2561,Adrian Feiguin,"[""A. E. Feiguin"", ""Adrian Feiguin"", ""Adrian E. Feiguin"", ""A. Feiguin""]",215,6112,12912129.0,5045820780,2024-02-21T02:04:48.561964
+5012287162,,Samuel E. DePrimo,"[""Samuel Deprimo"", ""S. E. Deprimo"", ""S.E DePrimo"", ""Samuel E. Deprimo"", ""S. Deprimo""]",52,6106,4210154172.0,5012287162,2024-02-21T10:38:10.363081
+5044782313,,L. B. Crittenden,"[""L. B. Crittenden"", ""Lyman Crittenden"", ""Lyman B. Crittenden"", ""Lyman Butler Crittenden"", ""L. Crittenden""]",157,6087,1341202592.0,5044782313,2024-02-21T02:01:24.570320
+5062872027,,Lee‐Yuan Liu‐Chen,"[""L. ‐Y. Liu‐Chen"", ""L. Y. Liu‐Chen"", ""Lee‐Yuan Y Liu‐Chen"", ""Lee‐Yuan. Liu‐Chen"", ""L LIUCHEN""]",172,6086,2801004183.0,5062872027,2024-02-21T03:13:34.063170
+5089362934,,Gilbert S. Greenwald,"[""Gilbert Greenwald"", ""Gilbert S. Greenwald"", ""G. S. Greenwald"", ""G. Greenwald"", ""G. S Greenwald""]",250,6074,4210128618.0,5089362934,2024-02-21T23:41:40.693102
+5073347409,0000-0003-3388-3850,Eleni Nikolakaki,"[""Nikolakaki Eleni"", ""Eleni Nikolakaki"", ""E. Nikolakaki""]",53,6049,21370196.0,5073347409,2024-02-21T02:29:24.017119
+5086736655,,L. Mašek,"[""L. Masek"", ""L. Mašek""]",66,6031,21250087.0,5086736655,2024-02-21T07:41:48.646935
+5040010116,,Dolphus E. Milligan,"[""Dolphus E. Milligan"", ""D.E. Milligan""]",96,5994,1321296531.0,5040010116,2024-02-21T15:35:10.689010
+5062080272,,Randy Molina,"[""R. Molina"", ""Randy J. Molina"", ""Randy. Molina"", ""R. J. Molina""]",115,5976,131249849.0,5062080272,2024-02-21T20:16:11.100412
+5058798806,,Martin Gibbs,"[""M. Gibbs"", ""Martin. Gibbs"", ""M. M. Gibbs""]",205,5958,2801694295.0,5058798806,2024-02-21T06:10:58.300920
+5086983410,,Andrew M. Wallace,"[""Andrew. M. Wallace"", ""A. Michael Wallace"", ""Andrew Michael Wallace"", ""Adele Wallace"", ""Andrew Wallace"", ""A. Wallace"", ""A. M. Wallace"", ""Andrew M. Wallace""]",204,5921,32062511.0,5086983410,2024-02-21T01:32:55.924854
+5027477693,,Arthur J. Ashe,"[""A. J. Iii Ashe"", ""Arthur James Ashe"", ""Arthur J. Ashe"", ""A. J. Ashe"", ""Arthur J. Iii Ashe""]",247,5915,27837315.0,5027477693,2024-02-21T12:30:42.368799
+5008496635,0000-0003-3842-9454,Jan H. Hoh,"[""J. H. Hoh"", ""Jan H. Hoh"", ""Jan Hakan Hoh"", ""Jan Hoh"", ""J. Hoh""]",118,5893,2799853436.0,5008496635,2024-02-21T12:25:51.093346
+5072262259,,Laura Liscum,"[""Laura Liscum"", ""L. Liscum""]",53,5861,121934306.0,5072262259,2024-02-21T03:32:03.584066
+5020483292,,Ian Barton,"[""I. P. Barton"", ""Ian P. Barton"", ""I. Barton"", ""Isobel Barton"", ""Ian Barton""]",41,5845,74680897.0,5020483292,2024-02-21T21:23:12.227173
+5049439898,,Sergio Tanganelli,"[""S. Tanganelli"", ""Sergio Tanganelli""]",165,5822,201324441.0,5049439898,2024-02-21T02:35:19.937232
+5067845888,,Gregory S. Wilson,"[""G. Wilson"", ""Gregory Sims Wilson"", ""Greg J. Wilson"", ""Gregory S. Wilson"", ""G S. Wilson"", ""Greg Wilson"", ""G. J. Wilson"", ""Gregory Wilson"", ""G. S. Wilson"", ""Greg. J. Wilson""]",168,5819,110152177.0,5067845888,2024-02-21T20:27:58.219331
+5080419223,,H. Steenbock,"[""H. Steenbock"", ""Harry. Steenbock""]",245,5797,135310074.0,5080419223,2024-02-21T09:54:03.523392
+5076254444,,Hermann Stetter,"[""Hermann Stetter"", ""H. Stetter""]",358,5793,4210145899.0,5076254444,2024-02-21T04:20:23.868046
+5058161260,,S. Orteu,"[""S. Orteu""]",163,5783,4210133362.0,5058161260,2024-02-21T12:53:54.328990
+5075822266,,Beverly Peterkofsky,"[""Beverly Peterkofsky"", ""B. Peterkofsky"", ""Beyerl Y Peterkofsky""]",86,5691,4210140884.0,5075822266,2024-02-21T00:14:20.485314
+5033181376,,Jun Ichi Hata,"[""Jun Ichi Hata"", ""J. Hata"", ""J. I. Hata"", ""J.‐I. Hata""]",105,5669,20783137.0,5033181376,2024-02-21T01:55:40.315572
+5005123802,,F. Morrow,"[""F. Morrow"", ""F. M. Morrow"", ""Fiona Morrow""]",156,5652,917168660.0,5005123802,2024-02-21T16:00:44.413417
+5065889843,,A. Silvana Santachiara‐Benerecetti,"[""A. S. Santachiara‐Benerecetti"", ""A S. Santachiara‐Benerecetti"", ""Augusta S Santachiara‐Benerecetti"", ""A. Silvana Santachiara‐Benerecetti""]",47,5635,25217355.0,5065889843,2024-02-21T10:04:51.465079
+5025986188,,Robert A. Mah,"[""Rowan Mah"", ""R. A. Mah"", ""Robert A. Mah""]",96,5610,2799798094.0,5025986188,2024-02-21T10:59:26.293146
+5083296313,0000-0001-5600-8034,David Scheschkewitz,"[""D. Scheschkewitz"", ""David Scheschkewitz"", ""Scheschkewitz David""]",212,5593,91712215.0,5083296313,2024-02-21T10:31:47.909346
+5004747807,,O. S. Privett,"[""Orville S. Privett"", ""O. S. Privett""]",144,5581,223919290.0,5004747807,2024-02-21T04:13:21.058317
+5046367144,0009-0002-6397-4614,J. Sass,"[""June S Sass"", ""Jean Sass"", ""J. Sass"", ""J.H. Sass""]",61,5581,67311998.0,5046367144,2024-02-21T08:40:30.944271
+5033872453,,Harvey M. Florman,"[""H. Florman"", ""Harvey Florman"", ""Harvey M. Florman"", ""H. M. Florman""]",84,5555,166722992.0,5033872453,2024-02-21T02:28:02.400947
+5083981519,,Mike Waterfield,"[""Mike D. Waterfield"", ""Mike Waterfield"", ""M. D. Waterfield"", ""M. Waterfield""]",66,5551,45129253.0,5083981519,2024-02-21T10:31:49.786773
+5033204973,,Rudolf Faust,"[""R. C. Faust"", ""Rudolf Faust"", ""R. Faust""]",216,5532,133738476.0,5033204973,2024-02-21T17:42:44.625363
+5061531752,0000-0001-6260-6479,Subha Sen,"[""S. Sen"", ""Sanchala Sen"", ""Subha Sen"", ""S. K. Sen""]",132,5510,161318765.0,5061531752,2024-02-21T08:43:16.737123
+5056461765,,Mariel Birnbaumer,"[""M. Birnbaumer"", ""Maria E. Birnbaumer"", ""M. E. Birnbaumer"", ""Mariel Birnbaumer"", ""Mariel Biriel Birnbaumer""]",90,5483,4210126298.0,5056461765,2024-02-21T19:41:37.780523
+5085932070,,Maxine A. Lesniak,"[""M. A. Lesniak"", ""M Lesniak"", ""Maxine A. Lesniak"", ""Maxine Lesniak"", ""M Leśniak""]",70,5479,1299303238.0,5085932070,2024-02-21T12:04:44.185135
+5009687540,,Harry Goldblatt,"[""Harry Goldblatt"", ""H. Goldblatt""]",158,5471,4210102044.0,5009687540,2024-02-21T01:16:42.606565
+5087602901,,Jean‐Pierre Raynauld,"[""Jean‐Pierre Raynauld"", ""J. Raynauld"", ""J. P. Raynauld"", ""J.‐P. Raynauld"", ""J.P.R. Raynauld""]",129,5469,70931966.0,5087602901,2024-02-21T18:17:24.758701
+5026940991,,I. Sheer,"[""I. Sheer"", ""Irwin Sheer"", ""Irwin R. Sheer""]",112,5463,4210116088.0,5026940991,2024-02-21T07:33:01.824535
+5013514001,,J. Kubart,"[""J. Kubart""]",47,5444,21250087.0,5013514001,2024-02-21T02:08:54.949274
+5084419303,,John H. Venable,"[""J. H. Venable"", ""John Heinz. Venable"", ""John H. Venable"", ""John H. Jun. Venable"", ""J. H. Jun. Venable"", ""John Venable""]",47,5439,200719446.0,5084419303,2024-02-21T03:39:06.694566
+5087305515,,John Swanson,"[""J. Swanson"", ""John Swanson"", ""John F. Jamesandjohn Swanson""]",78,5429,2801441769.0,5087305515,2024-02-21T15:03:48.450341
+5076381637,,Ákos Kulik,"[""Akos Kulik"", ""Ákos Kulik"", ""A. Kulik"", ""Á Kulik"", ""A. M. Kulik""]",91,5415,161046081.0,5076381637,2024-02-21T12:26:33.602796
+5085591989,,Janice R. Stevens,"[""Janice R. Stevens"", ""J. R. Stevens"", ""Julia Stevens"", ""Julia S Stevens"", ""J. Stevens"", ""Janice Stevens""]",156,5391,1316535847.0,5085591989,2024-02-21T21:46:50.337274
+5066809107,,John H. Nilson,"[""J. H. Nilson"", ""John Nilson"", ""John H. Nilson"", ""J. Nilson""]",123,5335,72951846.0,5066809107,2024-02-21T13:04:05.674531
+5022719891,,Janet E. Mertz,"[""Janet Mertz"", ""J. E. Mertz"", ""Janet E. Mertz""]",121,5328,135310074.0,5022719891,2024-02-21T13:59:15.093532
+5080719634,0000-0002-9764-4368,Addy Pross,"[""Addy. Pross"", ""A. Pross"", ""a Addy Pross""]",146,5290,124227911.0,5080719634,2024-02-21T01:14:39.354071
+5008679646,,J. M. Guida,"[""J. M. Guida"", ""Jan Marie Guida"", ""Jan M. Guida"", ""J.M Guida"", ""Jan Guida"", ""J. Guida""]",143,5281,27804330.0,5008679646,2024-02-21T17:28:37.452301
+5020825814,0000-0002-1068-6734,E. V. Browell,"[""Edward V. Browell"", ""E. V. Browell"", ""Eduard V. Browell"", ""E. Browell"", ""E V. Browell"", ""Edward Browell"", ""Ed Browell"", ""E. Browell"", ""E. V. Browell"", ""Edward V. Browell"", ""Edward Vern Browell""]",239,5241,1319063186.0,5020825814,2024-02-21T20:25:56.926626
+5059536702,,Eugene Morkin,"[""E. Morkin"", ""Eugene Morkin"", ""Eugene MorkinE. Morkin""]",133,5239,138006243.0,5059536702,2024-02-21T05:15:00.352710
+5011743476,,Christopher J. Erceg,"[""Christopher J. Erceg"", ""Christopher Erceg""]",129,5219,1310145890.0,5011743476,2024-02-21T03:53:36.141727
+5015987754,0000-0001-8712-3051,T. B. Pittman,"[""Todd Pittman"", ""T Pittman"", ""Todd B. Pittman"", ""Todd Butler Pittman"", ""T B. Pittman"", ""T. B. Pittman""]",156,5175,79272384.0,5015987754,2024-02-21T20:54:06.883067
+5043776379,,E.P. Mamounas,"[""Mamounas Ep"", ""E Mamounas"", ""Elfetherios P. Mamounas"", ""Elefetherios P. Mamounas"", ""E.P. Mamounas"", ""E.P Mamounas"", ""Eletherios Mamounas""]",33,5170,4210162844.0,5043776379,2024-02-21T08:50:46.519564
+5038838837,,L. Mihály,"[""L. G. Mihály"", ""Laszlo Mihaly"", ""L. Mihaly"", ""László Mihály"", ""L. Míhaly"", ""L. Mihály""]",173,5164,59553526.0,5038838837,2024-02-21T17:04:44.698710
+5083043755,,Thomas O. Baldwin,"[""Thomas Baldwin"", ""T. Baldwin"", ""Thomas O. Baldwin"", ""T. O. Baldwin""]",157,5120,103635307.0,5083043755,2024-02-21T09:41:55.157869
+5064606248,,Fujio Kimura,"[""Fujio Kimura"", ""Kimura Fujio"", ""F. Kimura""]",142,5106,146399215.0,5064606248,2024-02-21T23:45:35.671238
+5083251793,,Jay L. Dinerman,"[""Jay Dinerman"", ""J. Dinerman"", ""J. L. Dinerman"", ""Jay L. Dinerman""]",41,5091,4210152887.0,5083251793,2024-02-21T00:59:24.945312
+5004932139,,E. S. P. Reddy,"[""E. S. P. Reddy"", ""E. P. Reddy"", ""E. Shyam P. Reddy"", ""Esp Reddy"", ""E. Premkuwar Reddy"", ""E Shyam P. Reddy"", ""E. Shyam P Reddy"", ""E. Reddy"", ""E.Premkumanar Reddy"", ""E. Shyam Reddy"", ""E. S. Reddy""]",119,5086,6332465.0,5004932139,2024-02-21T21:27:30.617188
+5049404359,,Doris C. Wong,"[""Doris Wong"", ""D. Wong"", ""Dennis K. Wong"", ""Dennis Kachun Wong"", ""Doris C. Wong"", ""D. C. Wong"", ""Dennis Wong""]",61,5079,2803036750.0,5049404359,2024-02-21T01:12:27.390638
+5024951508,,Steven K. Nordeen,"[""Steven K. Nordeen"", ""S. K. Nordeen"", ""S Nordeen""]",116,5070,51713134.0,5024951508,2024-02-21T17:10:14.501206
+5018227642,,Jean‐Luc Vonesch,"[""Jean‐Luc Vonesch"", ""J.‐L. Vonesch"", ""J Vonesch"", ""Jean‐Luc ‐L Vonesch"", ""J.L. Vonesch""]",77,5057,4210086872.0,5018227642,2024-02-21T05:38:52.471429
+5033632800,,Patricia Allen,"[""P. Allen"", ""P. L. Allen"", ""Phillip Paul Allen"", ""Patricia L. Allen"", ""Patricia Allen"", ""Patricia L. Jackson Allen""]",143,5054,152830075.0,5033632800,2024-02-21T05:57:22.454131
+5020207018,,Reinhard Benn,"[""R. Benn"", ""Reinhard. Benn""]",240,5049,4210090782.0,5020207018,2024-02-21T20:19:05.938368
+5047461444,,Melvin W. Hanna,"[""M. W. Hanna"", ""M. Hanna"", ""Melvin Hanna"", ""Melvin W. Hanna"", ""Mark C. Hanna"", ""Mark Hanna"", ""M. C. Hanna""]",134,5027,39586589.0,5047461444,2024-02-21T19:05:58.472391
+5065753963,,H. C. Carlson,"[""H.C Carlson"", ""H. Carlson"", ""Herbert C. Carlson"", ""Herbert Carlson"", ""H. C. Carlson""]",216,4965,121980950.0,5065753963,2024-02-21T10:11:45.680091
+5073491740,,Frank J. Longo,"[""Frank Longo"", ""F. J. Longo"", ""Frank J. Longo""]",158,4947,126307644.0,5073491740,2024-02-21T02:00:36.751087
+5030232420,,G. LoCurto,"[""Gaspare Locurto"", ""G. J. LoCurto"", ""G. Locurto"", ""G LOCURTO""]",74,4928,4210129531.0,5030232420,2024-02-21T02:04:50.766581
+5082202542,0000-0002-6558-4639,Marco Aurélio Romano-Silva,"[""M. A. Romano‐Silva"", ""Marco Aurélio Romano‐Silva"", ""Marco Aurelio Romano Silva"", ""Romano‐Silva Ma"", ""Marco A. Romano Silva"", ""Marco Aurelio Romano‐Silva"", ""M.A Romano‐Silva"", ""Marco Romano‐Silva"", ""Marco Aurélio Romano Silva"", ""Marco Romano Silva"", ""Marco A. Romano‐Silva"", ""Marco Aurelio Romano-Silva""]",240,4920,110200422.0,5082202542,2024-02-21T00:58:05.106146
+5089085199,,J. A. Archer,"[""Juanita A. Archer"", ""Archer Ja"", ""Juanita Archer"", ""J.A Archer"", ""J. Archer"", ""J. A. Archer"", ""Jason A. Archer""]",125,4919,4210122424.0,5089085199,2024-02-21T07:18:36.719519
+5013414360,,John R. Eyler,"[""J. R. Eyler"", ""John R. Eyler"", ""J. Eyler"", ""John Eyler""]",198,4904,4210147789.0,5013414360,2024-02-21T06:18:09.221966
+5025191886,,Hossein Ghassemi,"[""H. Ghassemi"", ""Hossein Ghassemi""]",69,4878,58956616.0,5025191886,2024-02-21T07:13:12.935606
+5075559582,,H. D. Hafs,"[""Harold Hafs"", ""Harold D. Hafs"", ""H. D Hafs"", ""H. D. Hafs""]",149,4875,102322142.0,5075559582,2024-02-21T03:46:33.359863
+5019123826,,Kathyjo A. Jackson,"[""Kathyjo A. Jackson"", ""Kathyjo Ann Jackson"", ""Kathyjo Jackson"", ""K A Jackson""]",23,4872,181547552.0,5019123826,2024-02-21T02:33:37.380746
+5031221034,,Anne J. McGahon,"[""A. J. Mcgahon"", ""Anne McGahon"", ""Anne J. McGahon"", ""A J McGahon""]",14,4844,27577105.0,5031221034,2024-02-21T06:58:53.730581
+5091686644,,Henry Borsook,"[""Henry. Borsook"", ""H. Borsook"", ""Henry M. Borsook""]",157,4842,122411786.0,5091686644,2024-02-21T16:36:55.317034
+5017901206,,Samuel Bellet,"[""Samuel Bellet"", ""S. Bellet""]",250,4835,2799810409.0,5017901206,2024-02-21T06:39:39.113886
+5080705201,,Richard M. Watson,"[""Richard M. Watson"", ""R. Watson"", ""Rio Yasui Watson"", ""R. M. Watson"", ""Richard Watson""]",87,4829,165733156.0,5080705201,2024-02-21T01:58:35.924413
+5025750453,0000-0002-5514-439X,Guo-Ping Zhou,"[""Guo‐Ping Zhou"", ""Guoping Zhou"", ""Guodong ZHOU"", ""G. P. Zhou"", ""G. Zhou"", ""G.‐P. Zhou""]",134,4824,4210165264.0,5025750453,2024-02-21T10:40:00.549580
+5065024297,,C. Butuceanu,"[""Cornel Butuceanu"", ""C. Butuceanu""]",122,4812,35777872.0,5065024297,2024-02-21T12:55:25.639593
+5075717505,0000-0002-2729-7962,Kenneth F. Drinkwater,"[""Kenneth F. Drinkwater"", ""Kenneth Drinkwater"", ""K. Drinkwater"", ""K. F. Drinkwater"", ""Kenneth Francis Drinkwater""]",81,4789,2802153510.0,5075717505,2024-02-21T12:34:41.080395
+5002587301,,U. Binder,"[""Uwe Binder"", ""U. Binder""]",129,4785,161046081.0,5002587301,2024-02-21T12:38:29.329929
+5019738494,,D. Kurath,"[""Dieter Kurath"", ""D. Kurath""]",72,4771,1282105669.0,5019738494,2024-02-21T16:45:55.762489
+5075033189,0000-0002-6612-7106,Frank E. McDonald,"[""F. McDonald"", ""F. E. Mcdonald"", ""Frank McDonald"", ""Frank E. Mcdonald""]",185,4765,150468666.0,5075033189,2024-02-21T15:25:15.968572
+5005097293,,J. Perrier,"[""Jacques Perrier"", ""J.C. Perrier"", ""J.‐C. Perrier"", ""J.C Perrier"", ""J. Perrier""]",136,4764,106785703.0,5005097293,2024-02-21T09:31:00.363003
+5023846504,0000-0002-5545-2595,G. Y. Yin,"[""Guang‐Yu Yin"", ""G. Y. Yin"", ""Guangyu Yin"", ""Guanchao Yin"", ""G. Yin"", ""Guoyawen Yin""]",113,4752,196699116.0,5023846504,2024-02-21T15:29:20.731701
+5058691660,,S. A. Morrow,"[""S. A. Morrow"", ""S. Morrow""]",101,4752,103163165.0,5058691660,2024-02-21T10:12:47.372730
+5083399969,0000-0002-8463-3168,J. C. Corchado,"[""Corchado Jc"", ""José Carlos Corchado"", ""Jose C. Corchado"", ""José C. Corchado"", ""José Corchado"", ""J. C. Corchado"", ""Jose Carlos Corchado"", ""Jose Corchado"", ""J. Corchado"", ""and José C. Corchado""]",130,4740,80606768.0,5083399969,2024-02-21T16:32:23.166491
+5056986606,0000-0002-1215-1493,Jean-Pierre Rabès,"[""Rabès Jp"", ""Jean P Rabès"", ""J.‐P. Rabès"", ""Jean Pierre Rabès"", ""Jean‐Pierre Rabès"", ""J.P. Rabès""]",47,4739,277688954.0,5056986606,2024-02-21T05:52:44.936789
+5090456925,,J. P. Heppner,"[""J. P. Heppner"", ""James P. Heppner""]",93,4730,4210135298.0,5090456925,2024-02-21T13:40:10.281115
+5005617701,,R. Guy Kraines,"[""R. Guy Kraines"", ""R G Kraines""]",8,4705,97018004.0,5005617701,2024-02-21T16:53:51.851411
+5007428634,,Wendy A. Gattis,"[""W Gattis"", ""Wendy Gattis"", ""W. A. Gattis"", ""Wendy A. Gattis"", ""W.A Gattis""]",97,4705,4210088741.0,5007428634,2024-02-21T02:45:41.066465
+5075723628,0000-0002-7892-8007,C. A. Stein,"[""Christian Stein"", ""Christian A. Stein"", ""C.A Stein"", ""C. Stein"", ""C. A. Stein"", ""Christian Alexander Stein""]",103,4698,4210167353.0,5075723628,2024-02-21T09:32:12.679484
+5066389004,,W. F. H. M. Mommaerts,"[""Wilfried F. H. M. Mommaerts"", ""W. F. Mommaerts"", ""W.F.H.M Mommaerts"", ""W. F. H. M. Mommaerts"", ""Wilfried F. Mommaerts"", ""Wilfried Francis Henry Maria Mommaerts""]",153,4697,161318765.0,5066389004,2024-02-21T10:03:58.516974
+5005363995,,Ronald F. Young,"[""R. F. Young"", ""Ronald Young"", ""R. Young"", ""Ronald F. Young""]",149,4696,4210087306.0,5005363995,2024-02-21T18:02:59.096260
+5068485943,,Dan Dill,"[""D B Dill"", ""Dan Dill"", ""D. Dill""]",99,4696,111088046.0,5068485943,2024-02-21T22:24:46.800084
+5051924943,,T. M. Fulton,"[""Theresa Fulton"", ""T. M. Fulton"", ""Theresa M. Fulton"", ""T. Fulton""]",23,4691,205783295.0,5051924943,2024-02-21T09:43:00.712298
+5017719790,0000-0002-1693-9392,Irina V. Lebedeva,"[""I Lebedeva"", ""Irina V. Lebedeva"", ""Irina Lebedeva"", ""I. V. Lebedeva""]",80,4671,4210153054.0,5017719790,2024-02-21T20:10:13.678604
+5084785027,,Robin Ireland,"[""R. Ireland"", ""R. M. Ireland"", ""Robin Martin Ireland"", ""Robin Ireland"", ""Robin M. Ireland""]",120,4666,4210111135.0,5084785027,2024-02-21T12:19:38.106122
+5052965284,0000-0001-8995-1088,Thomas C. Pochapsky,"[""Thomas Pochapsky"", ""T. Pochapsky"", ""Thomas Charles Pochapsky"", ""T. C. Pochapsky"", ""Thomas C. Pochapsky""]",158,4664,6902469.0,5052965284,2024-02-21T04:58:39.863746
+5013318251,0000-0001-7494-7780,W. F. Wang,"[""Weidi Wang"", ""W. F. Wang""]",123,4662,133738476.0,5013318251,2024-02-21T18:13:12.885165
+5090936894,0000-0002-9061-4350,Ghenwa Bouhadir,"[""Ghenwa Bouhadir"", ""G. Bouhadir""]",111,4655,4210135875.0,5090936894,2024-02-21T16:54:11.285178
+5000942206,,Phyllis M. Starkey,"[""Phyllis Starkey"", ""P M. Starkey"", ""Philip Alexander Starkey"", ""P. Starkey"", ""P. M. Starkey"", ""Phyllis M. Starkey""]",72,4652,204337017.0,5000942206,2024-02-21T16:54:43.068479
+5001149760,,Mick N. Mulders,"[""Mick Norman Mulders"", ""Mick N. Mulders"", ""Mick. N. Mulders"", ""Mick Mulders"", ""M. N. Mulders"", ""M. Mulders"", ""M.N Mulders""]",96,4629,4210105654.0,5001149760,2024-02-21T09:51:03.991794
+5062289468,,Sérgio Antônio Draibe,"[""Sergio Antônio Draibe"", ""Sergio Draibe"", ""S. A Draibe"", ""Sérgio Antônio Draibe"", ""Sergio A. Draibe"", ""Sérgio Antonio Draibe"", ""Sérgio A. Draibe"", ""S. Draibe"", ""Sérgio Draibe"", ""S. A. Draibe"", ""Sergio Antonio Draibe""]",167,4607,88273585.0,5062289468,2024-02-21T18:11:56.710032
+5067094023,,Patrick M. Flood,"[""P. Flood"", ""Patrick Flood"", ""Patrick M. Flood"", ""P. M. Flood""]",125,4607,154425047.0,5067094023,2024-02-21T04:35:05.272928
+5071960323,,R. Leuchs,"[""Reinhard Leuchs"", ""R. Leuchs""]",58,4607,861853513.0,5071960323,2024-02-21T22:15:46.312505
+5065356202,,Andrew D. Ferguson,"[""A Ferguson"", ""Andrew Ferguson"", ""A. D. Ferguson"", ""Andrew D. Ferguson"", ""A. D Ferguson""]",94,4606,4210119109.0,5065356202,2024-02-21T08:29:28.393439
+5086132698,,Michael L. Mimmack,"[""M. Mimmack"", ""Michael Mimmack"", ""M. L. Mimmack"", ""M.L Mimmack"", ""Michael L. Mimmack""]",39,4595,4210156194.0,5086132698,2024-02-21T23:21:55.238676
+5024995818,0000-0001-6219-8989,Yong─Geun Oh,"[""Y. Oh"", ""Yong─Geun Oh"", ""Yeon‐Wha Oh"", ""Yebin Oh"", ""Yong‐Geun Oh"", ""Y.‐G. Oh"", ""Yuns Oh"", ""Y. G. Oh"", ""Y. M. Y. J. Oh"", ""Yong Geun Oh"", ""Y.S. Oh"", ""Young‐Seok Oh"", ""Yujeong Oh""]",293,4591,4210104335.0,5024995818,2024-02-21T20:24:45.301294
+5038596508,,Bert Ely,"[""B. Ely"", ""B. W. Ely"", ""Bert Ely""]",131,4578,155781252.0,5038596508,2024-02-21T03:21:15.872313
+5066572586,,P. Heimann,"[""P. A. Heimann"", ""P A. Heimann"", ""P. Heimann""]",97,4569,148283060.0,5066572586,2024-02-21T01:06:19.830384
+5029954150,,Riccardo Baron,"[""R. Baron"", ""Riccardo Baron""]",68,4565,223532165.0,5029954150,2024-02-21T21:55:22.734578
+5074758078,,Ann E. Wakefield,"[""A.E Wakefield"", ""A. E. Wakefield"", ""Ann E. Wakefield"", ""A Wakefield""]",90,4562,4210110594.0,5074758078,2024-02-21T01:05:29.479843
+5055050619,,Kunisuke Tanaka,"[""Kunisuke Tanaka"", ""К. Tanaka"", ""K.I. Tanaka"", ""K. Tanaka""]",172,4535,169719367.0,5055050619,2024-02-21T12:49:36.538651
+5088422718,,Jeffrey D. Bunce,"[""J Bunce"", ""J. D. Bunce"", ""Jeffrey Bunce"", ""Jeffrey D. Bunce""]",14,4532,118118575.0,5088422718,2024-02-21T11:43:33.050728
+5084737453,,Charles Armstrong,"[""Charles L. Armstrong"", ""C. Armstrong"", ""C L. Armstrong"", ""Charles Armstrong"", ""C. L. Armstrong""]",145,4527,150569930.0,5084737453,2024-02-21T18:01:19.806849
+5072797742,,Roger Guevremont,"[""Roger. Guevremont"", ""R. Guevremont""]",96,4519,142606810.0,5072797742,2024-02-21T19:05:35.880408
+5058565276,,Joel G. Hardman,"[""J.G Hardman"", ""J. Hardman"", ""J. G. Hardman"", ""Joel G. Hardman""]",86,4503,200719446.0,5058565276,2024-02-21T02:22:02.525084
+5039220042,,Jörg Magull,"[""J. Magull"", ""Jörg Magull"", ""Jorg Magull""]",168,4502,74656192.0,5039220042,2024-02-21T15:28:38.962189
+5037571721,,Hiromu Murofushi,"[""Hiromu Murofushi"", ""H. Murofushi""]",114,4501,26120043.0,5037571721,2024-02-21T04:09:02.474750
+5025334373,0000-0003-0795-124X,Chris Allton,"[""Allton Cr"", ""C. R Allton"", ""C. Allton"", ""Chris Allton"", ""Chris R. Allton"", ""C. R. Allton"", ""Cr Allton""]",148,4497,39586589.0,5025334373,2024-02-21T07:08:11.852322
+5005284578,0000-0003-1722-6340,Gilly Salmon,"[""Gilly Salmon"", ""G. K. Salmon"", ""Gilly K. Salmon""]",105,4487,177877127.0,5005284578,2024-02-21T06:26:36.263514
+5018947247,,J. L. Elliot,"[""J. Elliot"", ""J.L Elliot"", ""James Ludlow Elliot"", ""James L. Elliot"", ""James Elliot"", ""J. L. Elliot""]",315,4479,63966007.0,5018947247,2024-02-21T06:14:08.696663
+5037703738,,Thomas M. Saba,"[""Toni Saba"", ""T. Saba"", ""Thomas M. Saba"", ""T. M. Saba"", ""Saba Tm""]",193,4470,31746571.0,5037703738,2024-02-21T13:58:46.721648
+5074008211,,Catherine P. Browman,"[""C.P Browman"", ""C. P. Browman"", ""Catherine Phebe Browman"", ""Catherine Browman"", ""Catherine P. Browman"", ""C. Browman""]",43,4445,57206974.0,5074008211,2024-02-21T13:52:58.699573
+5029831246,,Hervé Darbon,"[""Hervé Darbon"", ""Herve Darbon"", ""H. Darbon""]",158,4441,4210146787.0,5029831246,2024-02-21T16:45:06.410654
+5021079206,,D. Glenn Pennington,"[""D. Glenn Pennington"", ""D. G. Pennington"", ""D. Pennington"", ""Dg Pennington""]",130,4434,200719446.0,5021079206,2024-02-21T12:47:06.209446
+5068820249,,Wilberth J. J. Smeets,"[""Wilberth J.J Smeets"", ""W. J. J. Smeets"", ""Wilberth J. J. Smeets"", ""Wilberth Smeets""]",134,4434,193662353.0,5068820249,2024-02-21T11:50:44.052942
+5010660088,,Makoto Hirosawa,"[""Makoto Hirosawa"", ""M. Hirosawa""]",46,4422,165735259.0,5010660088,2024-02-21T06:51:27.566203
+5070810077,,C. T. Dyrness,"[""C. T. Dyrness""]",61,4419,1313416372.0,5070810077,2024-02-21T21:16:51.089106
+5004081995,,M. Calicchio,"[""M. Calicchio"", ""Marco Calicchio""]",166,4406,4210134634.0,5004081995,2024-02-21T18:54:05.408539
+5020875533,,László Seress,"[""L.ászló Seress"", ""Laszlo Seress"", ""L. Seress""]",121,4403,79741316.0,5020875533,2024-02-21T12:33:09.417870
+5037599277,,Folke Pettersson,"[""Folke Pettersson"", ""F. Pettersson""]",85,4403,2799877368.0,5037599277,2024-02-21T22:56:41.281734
+5068071279,,Karen E. Wetterhahn,"[""Karen Wetterhahn"", ""K. E. Wetterhahn"", ""Karen E. Wetterhahn""]",73,4385,107672454.0,5068071279,2024-02-21T07:32:14.142924
+5070106223,,P Jandı́k,"[""Pavel Jandik"", ""P Jandı́k"", ""P. Jandik"", ""Pavel Jandík"", ""P. Jandík""]",69,4381,4210137570.0,5070106223,2024-02-21T19:32:48.650451
+5043391310,,Wolfgang Doppler,"[""Wolfgang Doppler"", ""W. Doppler""]",103,4379,143397708.0,5043391310,2024-02-21T06:12:46.095153
+5012722674,,Jeannette J. Townsend,"[""Jeannette J. Townsend"", ""J. Townsend"", ""J. J. Townsend"", ""Jeannette Townsend""]",101,4377,4210153400.0,5012722674,2024-02-21T10:00:07.930331
+5047062612,,Cecil R. Stewart,"[""Cecil R. Stewart"", ""C. R. Stewart"", ""Cecil Stewart""]",71,4374,173911158.0,5047062612,2024-02-21T19:09:06.480920
+5052378655,,John T. Hunt,"[""J T Hunt"", ""John T. Hunt"", ""Hunt Jt""]",60,4372,4210091812.0,5052378655,2024-02-21T22:44:27.079821
+5007972136,,Ezio Merler,"[""Ezio Ed. Merler"", ""E. Merler"", ""Ezio Merler""]",93,4370,153297377.0,5007972136,2024-02-21T03:55:41.608573
+5041827931,,Ernest Martinez,"[""Ernest Martinez"", ""E. Martinez"", ""E. Suarez Martinez""]",57,4365,103635307.0,5041827931,2024-02-21T19:20:27.686116
+5062686968,,K. L. Leenders,"[""K. L. Leenders"", ""K.L Leenders"", ""Kl Leenders"", ""K. Leenders"", ""Leenders Kl""]",111,4353,1334415907.0,5062686968,2024-02-21T12:03:56.266735
+5038664377,,H. Peschel,"[""H. Peschel""]",36,4334,1325886976.0,5038664377,2024-02-21T05:51:08.978790
+5033932131,,Christine R. Mason,"[""Christine R. Mason"", ""C. Mason"", ""Christine Rosemary Mason"", ""Christine Mason"", ""C. R. Mason""]",141,4333,111088046.0,5033932131,2024-02-21T15:20:57.575697
+5020737678,0000-0001-5584-3206,Hiroko Tanaka,"[""H. Tanaka"", ""Hiroko Tanaka"", ""Tanaka Hiroko""]",187,4326,4210088637.0,5020737678,2024-02-21T06:39:04.604246
+5021295149,,Shun‐le Chen,"[""Shun‐Le Chen"", ""C Shun‐le"", ""Chen Shunle"", ""Chen Shun‐Le"", ""Shunle Chen""]",93,4323,2800570007.0,5021295149,2024-02-21T10:10:37.293452
+5061357549,,David L. Kirk,"[""D. L. Kirk"", ""David Kirk"", ""David L. Kirk"", ""D. Kirk""]",116,4315,204465549.0,5061357549,2024-02-21T18:36:09.376618
+5026914227,,Jean‐Claude Vernant,"[""Jen‐Claude Vernant"", ""J.Cl. Vernant"", ""J. C Vernant"", ""J. C. Vernant"", ""Jean‐Claude Vernant"", ""J. ‐C Vernant"", ""J.‐C. Vernant""]",54,4306,4210135110.0,5026914227,2024-02-21T23:52:43.547685
+5032900153,0000-0002-0107-3063,Karen I. Barnes,"[""Karen Irma Barnes"", ""Karen I. Barnes"", ""K. I. Barnes"", ""Katy Barnes"", ""Karen Barnes"", ""K. Barnes""]",167,4305,4210155930.0,5032900153,2024-02-21T14:52:29.868305
+5049357009,,C. Wesley Dingman,"[""C. W. Dingman"", ""Charles W. Dingman"", ""C. Wesley Dingman""]",31,4305,1299303238.0,5049357009,2024-02-21T22:00:01.807791
+5050053255,,P. D. J. Calcott,"[""P. Calcott"", ""P.D.J Calcott"", ""P. D. J. Calcott"", ""Phillip D. J. Calcott""]",34,4299,173869447.0,5050053255,2024-02-21T20:40:05.018177
+5047433484,,D. Robert,"[""Daniel Robert"", ""D. Robert"", ""D Wines Robert""]",210,4296,4210095915.0,5047433484,2024-02-21T20:12:45.524271
+5012427925,,K. Torii,"[""K. I. Torii"", ""Ken‐Ichi Torii"", ""Ken’ichi Torii"", ""Ken′ichi Torii"", ""Kenichi Torii"", ""Ken'ichi Torii"", ""K. Torii""]",297,4283,4210142332.0,5012427925,2024-02-21T15:49:26.320889
+5034382647,,Carol Iversen,"[""C. Iversen"", ""Carol Iversen""]",73,4281,100930933.0,5034382647,2024-02-21T09:13:39.261607
+5059163043,,A. M. Ahmed,"[""A. M. Ahmed"", ""Abir Ahmed"", ""Abdul M. Ahmed"", ""Akhalaq Ahmed"", ""Afsa Ahmed"", ""Abdul Ahmed"", ""Abdul Mateen Ahmed""]",45,4281,170201317.0,5059163043,2024-02-21T11:43:28.304144
+5065529657,0000-0002-6909-3722,B. Davids,"[""B. Davids"", ""B.S Davids"", ""Barry Samuel Davids"", ""B. S. Davids"", ""Barry Davids""]",246,4265,1304378839.0,5065529657,2024-02-21T08:41:57.153239
+5032828472,,Ronald M. Lynch,"[""R. M. Lynch"", ""Ronald M. Lynch"", ""R. Lynch"", ""Ronald Lynch""]",141,4264,2803071314.0,5032828472,2024-02-21T13:56:16.052647
+5057190771,0000-0001-9701-8546,J. Eduardo Fajardo,"[""J. Eduardo Fajardo"", ""Jorge E. Fajardo"", ""J. E. Fajardo"", ""Jorge Eduardo Fajardo"", ""J.E Fajardo"", ""J. Fajardo"", ""J. Eduardo Fajardo""]",69,4260,238302431.0,5057190771,2024-02-21T08:56:15.380514
+5043013411,,J. Andrew Whitney,"[""J. Andrew Whitney"", ""Joe Whitney"", ""J. A. Whitney""]",37,4256,4210141030.0,5043013411,2024-02-21T09:25:30.613572
+5067386145,0000-0003-2668-129X,Hirooki Yabe,"[""H. Yabe"", ""Yabe Hirooki"", ""Hirooki Yabe"", ""H.Y. Yabe""]",307,4256,130830085.0,5067386145,2024-02-21T10:36:33.562077
+5064871109,,R Distel,"[""Robert Distel"", ""R. J. Distel"", ""R. Distel"", ""Robert J. Distel""]",76,4246,4210117453.0,5064871109,2024-02-21T23:59:35.321995
+5083887768,,Patricia P. Jones,"[""Patricia Jones"", ""P. Jones"", ""P. P. Jones"", ""Patricia P. Jones""]",90,4243,97018004.0,5083887768,2024-02-21T08:00:17.390995
+5008557121,,Herman Hugenholtz,"[""H. Hugenholtz"", ""Herman Hugenholtz""]",59,4238,2800264117.0,5008557121,2024-02-21T07:50:23.474121
+5061252395,,J. E. Crow,"[""J.E Crow"", ""J. E. Crow"", ""J. Crow""]",146,4234,103163165.0,5061252395,2024-02-21T05:41:57.440999
+5089253709,,Marko Baller,"[""M Baller"", ""Marko K. Baller"", ""Marko Baller"", ""M. K. Baller"", ""M.K Baller""]",20,4233,73114660.0,5089253709,2024-02-21T02:31:34.310424
+5035722682,,Salem Faham,"[""Salem Faham"", ""S. Faham""]",56,4214,61970326.0,5035722682,2024-02-21T00:31:12.984861
+5051771612,0000-0002-4500-2232,Arnulf Kletzin,"[""and Arnulf Kletzin"", ""Arnulf Kletzin"", ""A. Kletzin""]",72,4206,4210122847.0,5051771612,2024-02-21T23:43:46.422293
+5062920055,,David W. Garber,"[""Drew Garber"", ""D. W. Garber"", ""David Garber"", ""David W. Garber"", ""D. Garber""]",77,4202,4210086933.0,5062920055,2024-02-21T03:17:36.468866
+5048192566,,Bernard Jacq,"[""Bernard Jacq"", ""B. Jacq""]",59,4196,21491767.0,5048192566,2024-02-21T16:26:48.469153
+5023934619,,K. Lukashin,"[""K. V. Lukashin"", ""K. Lukashin""]",63,4193,29801172.0,5023934619,2024-02-21T23:27:16.407439
+5040427649,,Kathryn Bernard,"[""Kathryn Bernard"", ""K. Bernard"", ""K. A. Bernard"", ""Kathryn A. Bernard""]",132,4193,177235860.0,5040427649,2024-02-21T07:01:42.044282
+5068550414,,E. Lillethun,"[""E. Lillethun"", ""Endre Lillethun""]",111,4179,4432739.0,5068550414,2024-02-21T04:56:18.399740
+5076551316,,Farial A. Tanious,"[""Farial A. Tanious"", ""F Tanious"", ""Farial Tanious"", ""F. A. Tanious""]",80,4175,181565077.0,5076551316,2024-02-21T22:40:43.012380
+5086287652,0000-0002-9834-1617,Andrey A. Gurtovenko,"[""Andrew A. Gurtovenko"", ""and Andrey A. Gurtovenko"", ""Andrei A. Gurtovenko"", ""Andrey Alekseevich Gurtovenko"", ""Andrey Gurtovenko"", ""A. A. Gurtovenko"", ""Andrey A. Gurtovenko""]",103,4175,4210091702.0,5086287652,2024-02-21T02:23:37.958539
+5027852733,,E. Teasdale,"[""E. Teasdale"", ""Evelyn M. Teasdale"", ""E. M. Teasdale"", ""Evelyn Teasdale""]",104,4174,2802050120.0,5027852733,2024-02-21T23:02:41.567425
+5007589050,,M. Löwe,"[""M. Lowe"", ""M. Löwe"", ""M. J. Lowe"", ""Martin Lowe""]",91,4173,134421475.0,5007589050,2024-02-21T09:42:13.544502
+5082893702,,P. Wibault,"[""P. Wibault"", ""Pierre Wibault"", ""Wibault Pierre.""]",154,4168,2801843802.0,5082893702,2024-02-21T20:10:49.776914
+5074969093,,Gwen O. Ivy,"[""Gwen O. Ivy"", ""Gwen Ivy"", ""G.O Ivy"", ""G. O. Ivy"", ""G. Ivy""]",88,4160,2799376586.0,5074969093,2024-02-21T08:18:33.682531
+5044339534,,C. M. Venkatachalam,"[""C. M. Venkatachalam"", ""C. Mahalingam Venkatachalam"", ""C.M Venkatachalam"", ""Cherayathumadom M. Venkatachalam""]",60,4154,32389192.0,5044339534,2024-02-21T23:54:37.902279
+5013274507,,Bernhard Kolmerer,"[""Bernhard Kolmerer"", ""B. Kolmerer""]",34,4147,4210138560.0,5013274507,2024-02-21T09:57:18.612699
+5069242667,,J. J. K. Best,"[""Jonathan Best"", ""JR Best"", ""Jonathan J. K. Best"", ""J. Best"", ""J. J. K. Best"", ""J.J.K Best"", ""Jonathan Jk Best"", ""Jonathan J.K Best"", ""J.J. Best""]",115,4146,2801395776.0,5069242667,2024-02-21T06:01:15.822182
+5072030391,,Maurice Sokolow,"[""M. Sokolow"", ""Maurice Sokolow""]",131,4141,180670191.0,5072030391,2024-02-21T01:47:25.761868
+5065383227,,B. J. Gallop,"[""B. Gallop"", ""B. J. Gallop""]",175,4136,1286704778.0,5065383227,2024-02-21T04:26:34.406777
+5011899689,0000-0003-4458-360X,Ying-li Tian,"[""Y.‐I. Tian"", ""Yingli Tian"", ""Ying‐Li Tian""]",31,4135,4210093530.0,5011899689,2024-02-21T21:12:04.438369
+5051873291,,Narayanan Menon,"[""N K Menon"", ""Narayanan Menon"", ""N. Menon""]",182,4130,24603500.0,5051873291,2024-02-21T17:20:49.254830
+5081345828,0009-0001-2635-2915,Catherine C. Marshall,"[""C. Marshall"", ""Catherine C. Marshall"", ""Catherine Marshall"", ""C C Marshall""]",159,4119,4210151516.0,5081345828,2024-02-21T21:28:54.223683
+5071636149,0000-0003-3948-5183,Lars Eide,"[""Lars Eide"", ""L. Eide"", ""Linn Haug Eide""]",79,4105,54108979.0,5071636149,2024-02-21T03:37:49.558213
+5065760562,,Anton I.P.M. de Kroon,"[""Anton I. De Kroon"", ""de Kroon Ai"", ""Anton I.P.M de Kroon"", ""A.I.P.M de Kroon"", ""and Anton I. P. M. de Kroon"", ""Antonius I. P. M. de Kroon"", ""A.I.P.M. Kroon"", ""Anton I. P. M. De Kroon"", ""A I de Kroon"", ""Ali Kroon"", ""A. Kroon"", ""A. I. P. M. De Kroon""]",111,4093,193662353.0,5065760562,2024-02-21T09:33:21.885347
+5044944579,,Hidenori Kiyosawa,"[""H. Kiyosawa"", ""Hidenori Kiyosawa""]",69,4091,77063589.0,5044944579,2024-02-21T20:23:28.358440
+5016716157,,Philip S.K. Paty,"[""P S Paty"", ""Philip Paty"", ""Philip S. K. Paty"", ""P. S K Paty"", ""P. S. K. Paty"", ""Philip S. Paty"", ""Philip S.K Paty"", ""P.S.K Paty"", ""P Paty""]",198,4063,52792670.0,5016716157,2024-02-21T07:54:13.205619
+5086118789,,R. Beer,"[""Renee de Beer"", ""Reinhard Beer"", ""R. Reinhard Beer"", ""R. Beer""]",152,4063,122411786.0,5086118789,2024-02-21T04:26:54.031038
+5071448111,,J. Scott Sawyer,"[""Jeff Sawyer"", ""Jacqueline Sawyer"", ""Jeffery R. Sawyer"", ""J. Sawyer"", ""J L Sawyer"", ""J. Scott Sawyer"", ""J. Scott. Sawyer"", ""Jeffery Sawyer"", ""J.R. Sawyer"", ""J. S. Sawyer""]",112,4058,4210129634.0,5071448111,2024-02-21T17:59:32.667814
+5041430199,,Irina Apostolou,"[""I. Apostolou"", ""Irina Apostolou""]",31,4056,4210115312.0,5041430199,2024-02-21T02:43:33.102584
+5017062408,,David L. Gard,"[""David Gard"", ""D. L. Gard"", ""David L. Gard"", ""David Lynn Gard""]",58,4046,223532165.0,5017062408,2024-02-21T05:00:24.558718
+5064260400,,Joseph R. Kahn,"[""Joseph R. Kahn"", ""J. Kahn"", ""J. R. Kahn"", ""Joseph Kahn""]",57,4040,130701444.0,5064260400,2024-02-21T16:17:52.421566
+5071305673,0000-0002-7212-2512,Susanna Tomasoni,"[""Susanna Tomasoni"", ""S. Tomasoni""]",91,4034,19630809.0,5071305673,2024-02-21T00:25:00.915379
+5060049581,,B. L. Jones,"[""B. L Jones"", ""Berne L. Jones"", ""Berne Jones"", ""B. Jones"", ""B. L. Jones""]",143,4027,135310074.0,5060049581,2024-02-21T07:32:10.092588
+5011244104,,Michael J. Shamblott,"[""Michael J. Shamblott"", ""M. Shamblott"", ""M. J. Shamblott"", ""Michael Shamblott""]",77,4019,174015415.0,5011244104,2024-02-21T02:51:30.946689
+5076472285,,Rob Rowan,"[""R. Rowan"", ""Rob. Rowan""]",18,4019,80276326.0,5076472285,2024-02-21T06:40:27.222313
+5067006146,,A. S. Wightman,"[""A. S. Wightman"", ""A. Wightman"", ""Arthur Wightman"", ""A.S Wightman"", ""Arthur Strong Wightman"", ""Arthur S. Wightman""]",136,4007,20089843.0,5067006146,2024-02-21T04:05:51.742202
+5056259610,,Eugene A. Mash,"[""Eugene A. Mash"", ""E. A. Mash"", ""Eugene Mash""]",206,4006,138006243.0,5056259610,2024-02-21T16:50:31.631802
+5045171401,,Gerry McEntee,"[""G. P. Mcentee"", ""Gerry Mcentee"", ""Gerry P. Mcentee"", ""Gerry P.Y.R. McEntee"", ""G. Mcentee""]",149,3997,2803071314.0,5045171401,2024-02-21T02:40:56.048328
+5046265468,,A.E. Wright,"[""Ae Wright"", ""A. E. Wright"", ""A E. Wright"", ""A.E Wright"", ""A. Wright""]",122,3975,1286704778.0,5046265468,2024-02-21T08:11:09.302449
+5088879876,,Helen L. Henry,"[""H. L. Henry"", ""H. Henry"", ""Helen L. Henry"", ""Helen Henry""]",140,3975,103635307.0,5088879876,2024-02-21T10:09:19.458136
+5004437004,,Neil C. Gudmestad,"[""N. C. Gudmestad"", ""Neil Gudmestad"", ""N. Gudmestad"", ""Neil. C. Gudmestad"", ""Neil C. Gudmestad""]",172,3967,57328836.0,5004437004,2024-02-21T22:31:41.854898
+5033600987,,John J. Iandolo,"[""John Joseph Iandolo"", ""J. J. Iandolo"", ""John Iandolo"", ""J. Iandolo"", ""John J. Iandolo""]",90,3949,49332381.0,5033600987,2024-02-21T04:44:51.331417
+5089013547,,N. R. Keemer,"[""Nr Keemer"", ""N. R. Keemer"", ""N.R Keemer"", ""N R. Keemer""]",91,3949,67415387.0,5089013547,2024-02-21T07:39:01.256996
+5010789873,,Frederick I. Tsuji,"[""F. I. Tsuji"", ""F.I Tsuji"", ""Frederick I. Tsuji"", ""Fi. Tsuji""]",99,3944,150209017.0,5010789873,2024-02-21T08:47:09.587068
+5074766372,0000-0002-0461-331X,Ludwig Müller,"[""L.C Muller"", ""Ludwig Muller"", ""L. Muller"", ""L. C. Muller"", ""L. C. Müller"", ""Lia B. Müller"", ""L. Müller"", ""L. Ch. Müller"", ""Laure Muller"", ""Ludwig Müller"", ""Ludwig C. Müller"", ""Ludwig Ch. Müller""]",183,3935,132053463.0,5074766372,2024-02-21T00:59:40.828039
+5001166023,0000-0001-5642-9293,J. Timmer,"[""John Timmer"", ""Jacob Timmer"", ""J. Timmer"", ""J.H. Timmer""]",60,3934,193662353.0,5001166023,2024-02-21T07:34:42.911059
+5042575786,,M. Maolinbay,"[""M. Maolinbay"", ""Manat Maolinbay""]",106,3933,43591049.0,5042575786,2024-02-21T06:59:34.893238
+5048149307,,Frede Østergaard Andersen,"[""Frede Ø. Andersen"", ""Frede Østergaard Andersen"", ""F. Andersen"", ""F. Ø. Andersen"", ""F. O. Andersen"", ""Frederik Mazur Andersen"", ""Frede Ostergaard Andersen"", ""Frederik Andersen""]",114,3932,177969490.0,5048149307,2024-02-21T07:05:40.459543
+5050057021,,Gian Gastone Neri Serneri,"[""G. G Neri Serneri"", ""G. G. N. Serneri"", ""Gian Gastone Neri Serneri"", ""G. G N Serneri"", ""G. G. Neri Serneri"", ""Gian G.Neri Serneri"", ""G. G. Serneri""]",184,3932,45084792.0,5050057021,2024-02-21T09:49:33.004601
+5056624209,,Joseph R. Dalovisio,"[""Joseph R. Dalovisio"", ""J. R. Dalovisio"", ""J. Dalovisio"", ""Joseph Dalovisio""]",51,3930,1336053918.0,5056624209,2024-02-21T13:40:47.979833
+5039553170,0000-0003-1381-7549,Masakazu Kondo,"[""M. Kondo"", ""Kondo Masakazu"", ""Maiko Kondo"", ""Masakazu Kondo""]",218,3913,4210146532.0,5039553170,2024-02-21T03:59:57.172398
+5006741875,,Michel Potier,"[""M. Potier"", ""M. F. le Potier"", ""Michel Potier""]",200,3909,2802351361.0,5006741875,2024-02-21T09:14:42.477002
+5029438796,,John D. Neill,"[""J. Neill"", ""J. D. Neill"", ""John D. Neill"", ""John Neill""]",156,3907,4210142913.0,5029438796,2024-02-21T21:42:18.107641
+5010447879,,Zwe-Lee Gaing,"[""Zwe Lee Gaing"", ""Z.L.Gaing"", ""Z. Gaing"", ""Zwe‐Lee Gaing"", ""Z.L. Gaing""]",42,3898,33374188.0,5010447879,2024-02-21T05:05:12.965307
+5037014853,,John A. DeMoss,"[""J. A. Demoss"", ""John A. Demoss"", ""J. A Demoss"", ""J DeMoss""]",81,3897,4210157660.0,5037014853,2024-02-21T15:57:00.957776
+5053901088,,Martyn Thomas,"[""M. L. Thomas"", ""M. Thomas"", ""M. Lea Thomas"", ""Martyn Thomas""]",59,3897,200166805.0,5053901088,2024-02-21T05:27:13.562060
+5072569246,,B. Kassanis,"[""Basilios Kassanis"", ""B. Kassanis"", ""Basil Kassanis""]",130,3897,4210105766.0,5072569246,2024-02-21T12:12:13.860113
+5066985949,,Malcolm B. Wilkins,"[""M.Wilkins"", ""Malcolm B. Wilkins"", ""M. B. Wilkins""]",121,3894,7882870.0,5066985949,2024-02-21T22:20:38.022365
+5051739746,,J Videbæk,"[""J. Videbæk"", ""Jorgen Videbaek"", ""Jørgen Videbæk"", ""Jørgen Videbaek"", ""J. Videbåek"", ""J. Videbaek"", ""Jorgen Videbæk""]",49,3884,2802709434.0,5051739746,2024-02-21T07:15:40.991869
+5049923176,,C. Wahl,"[""Ch. Wahl"", ""C. Wahl""]",107,3883,161046081.0,5049923176,2024-02-21T06:07:36.639898
+5040294959,,Brian A. Lieberman,"[""B. A. Lieberman"", ""B. Albert Lieberman"", ""B. Lieberman"", ""Brian Lieberman"", ""Brian A. Lieberman""]",121,3870,28407311.0,5040294959,2024-02-21T19:11:11.498277
+5090522992,0000-0001-9266-336X,Vladislav Gulis,"[""V. Gulis"", ""Vlad Gulis"", ""V. I. Gulis"", ""Vladislav Gulis"", ""Vladislav I. Gulis""]",61,3869,208081647.0,5090522992,2024-02-21T03:08:17.186414
+5069950019,,James E. Cheek,"[""James Cheek"", ""J. Cheek"", ""J. E. Cheek"", ""James E. Cheek""]",103,3866,169521973.0,5069950019,2024-02-21T18:06:40.983240
+5072419495,0000-0003-4960-8001,Leonie C. Moyle,"[""Leonie Moyle"", ""L. C. Moyle"", ""Leonie C. Moyle""]",110,3866,4210119109.0,5072419495,2024-02-21T06:43:16.877373
+5001110049,,L. G. Kiloh,"[""Leslie G. Kiloh"", ""Leslie Kiloh"", ""L. G. Kiloh""]",92,3863,31746571.0,5001110049,2024-02-21T01:09:28.127862
+5006874901,,P.A. Cranwell,"[""P. Cranwell"", ""Peter A. Cranwell"", ""P. A. Cranwell""]",44,3861,13460158.0,5006874901,2024-02-21T09:21:25.249254
+5042893113,,W. Retyk,"[""W. Retyk"", ""Waldemar Retyk""]",66,3860,4654613.0,5042893113,2024-02-21T22:33:18.349686
+5055935882,,A. Wonacott,"[""Alan Wonacott"", ""Alan J. Wonacott"", ""A. J. Wonacott"", ""and Alan J. Wonacott"", ""A. Wonacott""]",70,3860,141584323.0,5055935882,2024-02-21T09:57:49.104682
+5033568231,,David Porter,"[""David Peter Porter"", ""David Porter"", ""D. Porter"", ""D. P. Porter"", ""Dave Porter"", ""David P. Porter""]",207,3859,185071736.0,5033568231,2024-02-21T23:17:38.368908
+5090664376,,M. Thomasset,"[""Monique Thomasset"", ""Μ THOMASSET"", ""M. Thomasset""]",199,3853,4210126712.0,5090664376,2024-02-21T14:54:21.953137
+5047842014,,Yves Leblanc,"[""Leblanc Yves"", ""Yves G. Leblanc"", ""Yves. Leblanc"", ""Y. Leblanc""]",146,3852,4210146481.0,5047842014,2024-02-21T05:10:50.345731
+5014926274,,Dorothy Bray,"[""Dorothy H. Bray"", ""Dorothy Bray"", ""D. Bray"", ""D. H. Bray""]",47,3845,114457229.0,5014926274,2024-02-21T05:30:29.484242
+5049907176,,Richard J. Imbra,"[""Richard J. Imbra"", ""R J Imbra"", ""Richard Imbra"", ""R. Imbra""]",13,3844,2799503643.0,5049907176,2024-02-21T12:48:55.121947
+5003214232,,Jess R. Young,"[""J. R. Young"", ""Jess R. Young"", ""J Young""]",73,3841,1283280774.0,5003214232,2024-02-21T07:22:02.556404
+5019872225,,E A Shinebourne,"[""Ea Shinebourne"", ""Elliota Shinebourne"", ""ElliotA. Shinebourne"", ""E. Shinebourne"", ""Shinebourne Ea"", ""Elliott A. Shinebourne"", ""Elliott Shinebourne"", ""E. A. Shinebourne"", ""E.A Shinebourne""]",82,3841,4210096640.0,5019872225,2024-02-21T06:56:03.623477
+5035966325,,John H. Moyer,"[""J. H. Moyer"", ""John H. Moyer"", ""J. Moyer"", ""John Moyer"", ""John H. CaptainJr. Moyer"", ""John Henry Moyer""]",290,3836,1290900354.0,5035966325,2024-02-21T02:39:32.062556
+5006372117,,J. W. Mitchell,"[""Joseph Mitchell"", ""Joseph W. Mitchell"", ""J.W Mitchell"", ""J. W. Mitchell"", ""J. Mitchell"", ""Joseph William Mitchell""]",159,3832,241749.0,5006372117,2024-02-21T04:33:37.982068
+5064723798,,C. Birkinshaw,"[""C. Birkinshaw"", ""Colin Birkinshaw""]",79,3832,230495080.0,5064723798,2024-02-21T15:35:26.590431
+5048015354,,Birgit H. Satir,"[""B. Satir"", ""Brgit H. Satir"", ""Birgit H. Satir"", ""Birgit Hegner Satir"", ""Birgit Satir"", ""B. H. Satir"", ""B H. Satir"", ""Birgit H. Satir.""]",87,3831,129975664.0,5048015354,2024-02-21T12:29:49.904744
+5051138710,,Robert L. Young,"[""Richard Young"", ""Robert Young"", ""Robert Louis Young"", ""R. L. Young"", ""Robert L. Young"", ""Rodolfo Rafael Vergara Young"", ""R. Young""]",160,3828,189196454.0,5051138710,2024-02-21T02:19:56.247038
+5030832876,,C. Moscovici,"[""C. Moscovici"", ""Carlo Moscovici""]",118,3824,1322918889.0,5030832876,2024-02-21T10:23:24.356807
+5023437486,,Ulrich Groth,"[""U. M. Groth"", ""U. Groth"", ""Ulrich M. Groth"", ""Ulrich Groth""]",238,3823,189712700.0,5023437486,2024-02-21T03:47:56.558837
+5022977316,,M. Malec,"[""M. Malec"", ""Michaela Malec""]",57,3820,114112103.0,5022977316,2024-02-21T13:52:11.638281
+5047681132,,Roy L. Hopfer,"[""R. Hopfer"", ""Roy L. Hopfer"", ""Roy Hopfer"", ""R. L. Hopfer""]",97,3815,4210123841.0,5047681132,2024-02-21T03:18:35.019282
+5071741692,,Martijn F.B.G. Gebbink,"[""Martijn F. Gebbink"", ""Martijn Gebbink"", ""M. F. Gebbink"", ""M. F. B. G. Gebbink"", ""Martijn F.B.G Gebbink"", ""Martijn F.B. Gebbink"", ""M.F.B.G Gebbink"", ""M. Gebbink"", ""Martijn F. B. G. Gebbink"", ""M. F B G Gebbink""]",66,3811,3018483916.0,5071741692,2024-02-21T08:22:18.538735
+5034051555,,M. A. Mayo,"[""M Mayo"", ""Mike A. Mayo"", ""M.A Mayo"", ""Mike Mayo"", ""M A. Mayo"", ""M. A. Mayo""]",113,3807,867280407.0,5034051555,2024-02-21T02:43:23.059303
+5043554245,,Margery H. Mark,"[""Margery Mark"", ""Margery H. Mark"", ""M. H. Mark"", ""Mikkelsen Mark"", ""Manford Mark"", ""Matthews Mark"", ""M. Mark""]",73,3807,2800549715.0,5043554245,2024-02-21T09:39:17.215849
+5009746570,,Bertil Holmlund,"[""Bertil Holmlund"", ""B. Holmlund""]",249,3803,123387679.0,5009746570,2024-02-21T06:07:07.244422
+5003501052,,K. S. Mazdiyasni,"[""K. S Mazdiyasni"", ""K. S. Mazdiyasni"", ""Khodabakhsh S. Mazdiyasni""]",95,3797,63533367.0,5003501052,2024-02-21T15:34:44.664161
+5087984395,,Joseph F. Antognini,"[""J. Antognini"", ""Joseph F. Antognini"", ""Joseph Antognini"", ""J. F. Antognini""]",177,3793,84218800.0,5087984395,2024-02-21T06:53:09.824347
+5084901619,,R A Warnock,"[""R. Aaron Warnock"", ""Richard A. Warnock"", ""R.A. Warnock""]",13,3792,136199984.0,5084901619,2024-02-21T08:13:13.126527
+5047981631,,Stefan Höglund,"[""S. Høglund"", ""S. Höglund"", ""S. Hoglund"", ""Stefan Hoglund"", ""Stefan Höglund""]",86,3777,123387679.0,5047981631,2024-02-21T02:09:01.754500
+5033355358,,Alan Weinstein,"[""A. D. Weinstein"", ""Alan D Weinstein"", ""Alan Weinstein"", ""Alan David Weinstein"", ""A. Weinstein""]",108,3774,95457486.0,5033355358,2024-02-21T18:15:52.462444
+5054826195,,A. Rollnik,"[""A. Rollnik"", ""Andreas Rollnik""]",106,3769,135140700.0,5054826195,2024-02-21T17:57:55.911598
+5065482075,0000-0003-4635-4093,Susann M. Brady‐Kalnay,"[""S. Brady‐Kalnay"", ""Susann Brady‐Kalnay"", ""S. M. Brady‐Kalnay"", ""Susann M. Brady‐Kalnay""]",103,3768,58956616.0,5065482075,2024-02-21T09:24:32.669091
+5003352360,,J. Ransdell,"[""Jeffrey Thomas Ransdell"", ""J. Ransdell""]",36,3766,103635307.0,5003352360,2024-02-21T23:46:11.746162
+5030455939,,W. P. Vanderlaan,"[""W Vanderlaan"", ""W. P. Vanderlaan"", ""Willard P. Vanderlaan"", ""W. P Vanderlaan""]",106,3761,4210142769.0,5030455939,2024-02-21T13:04:25.861486
+5005721248,,Masafumi Ogawa,"[""M. Ogawa"", ""Masafumi Ogawa""]",166,3759,4210150196.0,5005721248,2024-02-21T13:45:36.201039
+5045791535,,Horace S. Isbell,"[""Horace S. Isbell"", ""H S. Isbell"", ""H. S. Isbell"", ""Horace Isbell""]",205,3757,181401687.0,5045791535,2024-02-21T01:19:54.940381
+5017528904,0000-0003-4677-3853,Conor Gissane,"[""Connor Gissane"", ""Conor Gissane"", ""C. Gissane"", ""Conor C Gissane"", ""Conor""]",141,3756,205274468.0,5017528904,2024-02-21T23:37:44.354176
+5066838003,,Barbara Colombi,"[""B. Colombi"", ""Barbara Colombi""]",24,3756,4210091499.0,5066838003,2024-02-21T17:44:55.737649
+5078181346,,Oi Shan Tang,"[""Oi Shan Tang"", ""Oi S. Tang"", ""O.‐S. Tang"", ""O.S.F. Tang"", ""O. S. Tang""]",77,3751,4210100061.0,5078181346,2024-02-21T04:02:55.128899
+5047169769,,Michèle Tarayre,"[""M. Tarayre"", ""Michele Tarayre"", ""Michéle Tarayre"", ""Michèle Tarayre""]",77,3736,1294671590.0,5047169769,2024-02-21T12:29:39.441823
+5073456593,,V. Malychev,"[""V. Malychev""]",126,3736,4843557.0,5073456593,2024-02-21T07:49:47.116470
+5028399643,,P J Hitchcock,"[""Penny Hitchcock"", ""Penelope J. Hitchcock"", ""P. J. Hitchcock"", ""Penny J. Hitchcock""]",42,3731,4210099728.0,5028399643,2024-02-21T10:34:49.747215
+5053083874,,James W. Fisher,"[""J. Fisher"", ""James Westbrook Fisher"", ""James Fisher"", ""J. W. Fisher"", ""James W. Fisher""]",164,3730,4210157164.0,5053083874,2024-02-21T04:05:40.980690
+5076625976,0000-0001-9847-5108,Andreas Koch,"[""Amanda L. Koch"", ""Andreas Koch"", ""Andrew S. Koch"", ""Andrew Koch"", ""Amanda Koch"", ""A. Koch"", ""A. S. Koch""]",139,3727,4210145899.0,5076625976,2024-02-21T04:30:11.792656
+5020600189,,D. M. Ritson,"[""David M. Ritson"", ""D. Ritson"", ""David M. . Ritson"", ""David Ritson"", ""D. M. Ritson""]",166,3726,97018004.0,5020600189,2024-02-21T12:19:14.994565
+5000276923,,Emil Dumitriu,"[""Emil Dumitriu"", ""Dumitriu Emil"", ""E. Dumitriu""]",149,3709,4210108695.0,5000276923,2024-02-21T18:14:44.884091
+5085149146,,Daniel Wellner,"[""D. Wellner"", ""Daniel Wellner"", ""Daniel B. Wellner""]",68,3701,2802034949.0,5085149146,2024-02-21T00:17:36.172280
+5052810313,,Yoram Ben-Porath,"[""Y. Ben‐Porath"", ""Yoram Ben‐Porath""]",37,3700,197251160.0,5052810313,2024-02-21T18:10:51.354038
+5058152912,,Christian J. Burnham,"[""Christian Burnham"", ""Christian J. Burnham"", ""C. J. Burnham"", ""C. Burnham""]",59,3695,100930933.0,5058152912,2024-02-21T23:19:47.005081
+5013399870,,Å. Hjalmarson,"[""A. Hjalmarson"", ""Åke Hjalmarson"", ""A. G. Hjalmarson"", ""Ake Hjalmarson"", ""Å.. Hjalmarson"", ""Å. Hjalmarson"", ""Å . Hjalmarson""]",211,3691,66862912.0,5013399870,2024-02-21T10:30:12.698770
+5014012945,,Thierry Jouault,"[""T. Jouault"", ""Thierry Jouault"", ""Jouault Thierry""]",91,3689,4210128436.0,5014012945,2024-02-21T20:38:46.030592
+5026097127,,A. M. Bencheikh,"[""A. M. Bencheikh"", ""Am Bencheikh"", ""A.M Bencheikh""]",112,3686,4210144793.0,5026097127,2024-02-21T23:42:49.187880
+5020768392,,Richard Stillwell,"[""Richard Stillwell"", ""R. N. Stillwell"", ""Richard N. Stillwell""]",120,3685,181547552.0,5020768392,2024-02-21T12:10:37.375709
+5075409077,,Savka I. Stoeva,"[""Savka Stoeva"", ""S. I. Stoeva"", ""S. Stoeva"", ""Savka I. Stoeva""]",34,3683,111979921.0,5075409077,2024-02-21T03:56:21.684323
+5014976407,0000-0002-2728-415X,Mingwan Su,"[""Ming Wan Su"", ""M.‐W. Su"", ""Ming‐Wan Su"", ""M. Su"", ""Mingwan Su"", ""Mingwei Su"", ""Ming Su"", ""M. W. Su"", ""Su Ming‐Wan""]",85,3682,157773358.0,5014976407,2024-02-21T12:54:45.912471
+5047386795,,Joseph T. Chambers,"[""Joseph T. Chambers"", ""J. T. Chambers"", ""Jacky Chambers"", ""Joe T. Chambers"", ""Joseph Chambers"", ""J. Chambers""]",113,3682,4210122485.0,5047386795,2024-02-21T23:19:46.969867
+5053015523,,Rami Moucari,"[""Rami Moucari"", ""R. Moucari""]",78,3679,4210130096.0,5053015523,2024-02-21T03:28:38.924039
+5062198870,,Kishiko Nikaido,"[""K. Nikaido"", ""Kishiko Nikaido""]",32,3679,95457486.0,5062198870,2024-02-21T23:17:35.871119
+5044368045,,Sidney A. Bernhard,"[""S. A. Bernhard"", ""Sidney Bernhard"", ""Sidney A. Bernhard""]",82,3677,181233156.0,5044368045,2024-02-21T02:39:48.788836
+5016174754,,Mary D. Barkley,"[""M. D. Barkley"", ""Mary Barkley"", ""Mary D. Barkley""]",81,3672,4210136609.0,5016174754,2024-02-21T09:59:57.097192
+5016635951,,Stephen T. Ross,"[""S. Ross"", ""Stephen Ross"", ""S. T. Ross"", ""Stephen T. Ross""]",102,3657,169521973.0,5016635951,2024-02-21T20:54:53.126862
+5035274402,,J.R. Holt,"[""J. Holt"", ""J. R. Holt"", ""John Holt""]",60,3655,4210092990.0,5035274402,2024-02-21T11:50:51.965118
+5044015982,,Kaoru Ono,"[""Ono Kaoru"", ""K. Ono"", ""Kaoru Ono""]",241,3648,4210097831.0,5044015982,2024-02-21T11:41:41.785319
+5019944016,,E. S. Smith,"[""E. S. Smith"", ""E. Smith""]",94,3644,29801172.0,5019944016,2024-02-21T00:54:31.803308
+5025583560,0000-0002-6401-3850,Jaap Gordijn,"[""Jaap Gordijn"", ""J. Gordijn""]",188,3644,865915315.0,5025583560,2024-02-21T05:22:27.926815
+5083494700,,Hans Peter Hauri,"[""Hans Peter Hauri"", ""H. P. Hauri"", ""H.‐P. Hauri""]",41,3637,1850255.0,5083494700,2024-02-21T10:42:28.724361
+5072340000,,Natalie M. Teich,"[""Natalie M. Teich"", ""Natalie Teich"", ""N. M. Teich"", ""N. Teich""]",49,3634,1292966370.0,5072340000,2024-02-21T19:30:35.582766
+5008172234,,Elizeus Kahigwa,"[""E. Kahigwa"", ""E.A. Kahigwa"", ""Eliseus Kahigwa"", ""Elizeus Kahigwa""]",46,3631,114292369.0,5008172234,2024-02-21T10:47:19.456954
+5084534799,0000-0003-1473-0437,Edmund Lau,"[""Edmund M. T. Lau"", ""Edmund Lau"", ""E. Lau"", ""E. M. T. Lau"", ""Edmund M T E.M.T. Lau"", ""E.M. Lau"", ""Edmund M. Lau"", ""Edmund Mt Lau""]",172,3621,2799732068.0,5084534799,2024-02-21T16:38:03.230704
+5088509732,,Boris A. Chizh,"[""Boris Andreyevich Chizh"", ""B. A. Chizh"", ""Boris Chizh"", ""Boris A. Chizh"", ""B.A Chizh"", ""B. Chizh""]",84,3617,188950975.0,5088509732,2024-02-21T15:58:25.811256
+5091304121,,H. J. A. Dartnall,"[""H. J. A. Dartnall"", ""H J Dartnall"", ""Herbert J. A. Dartnall""]",62,3611,4210131026.0,5091304121,2024-02-21T18:37:34.554976
+5044612344,,Uriel G. Rothblum,"[""Uriel Rothblum"", ""U. G. Rothblum"", ""Uriel G. Rothblum"", ""U. Rothblum""]",219,3608,174306211.0,5044612344,2024-02-21T22:00:55.027610
+5065185246,0000-0002-2626-7155,K. E. Kraemer,"[""Kathleen Elizabeth Kraemer"", ""K. Kraemer"", ""Kathleen E. Kraemer"", ""K. E. Kraemer"", ""Kathleen Kraemer""]",216,3605,103531236.0,5065185246,2024-02-21T02:31:01.679172
+5082761038,,Kurt Hannig,"[""K. H. Hannig"", ""Kurt Hannig"", ""K. Hannig""]",123,3603,4210150093.0,5082761038,2024-02-21T15:51:50.505158
+5022032584,,William H. Beers,"[""William H. Beers"", ""W. H. Beers""]",20,3595,47838141.0,5022032584,2024-02-21T22:47:03.565850
+5017932701,,Howard Fox,"[""Howard George Fox"", ""H. Fox"", ""Howard G. Fox"", ""Howard Fox""]",65,3591,4210163709.0,5017932701,2024-02-21T10:31:56.400418
+5049412578,,Chris P. Miller,"[""C. P. Miller"", ""Chris Miller"", ""C. Miller"", ""Chris P. Miller""]",117,3590,4210089486.0,5049412578,2024-02-21T18:28:14.186166
+5088109232,0000-0002-4052-3733,Larry E. Antonuk,"[""Larry Edward Antonuk"", ""L.E Antonuk"", ""Larry E. Antonuk"", ""L. E. Antonuk"", ""Larry Antonuk"", ""L. Antonuk""]",181,3590,4210111179.0,5088109232,2024-02-21T22:42:16.587016
+5036578348,,Roger Strong,"[""R. Strong"", ""R. A. Strong"", ""Roger Strong"", ""Roger A Strong""]",52,3589,189731429.0,5036578348,2024-02-21T22:23:47.281234
+5021038153,0000-0003-2656-7446,Kiyokazu Fuke,"[""Keito Fuke"", ""K. Fuke"", ""Fuke Kiyokazu"", ""Kiyokazu Fuke""]",140,3587,4210165351.0,5021038153,2024-02-21T13:00:24.776112
+5058050138,,Kenneth Bailey,"[""K. Bailey"", ""K.B. Bailey"", ""Kenneth Bailey""]",66,3585,241749.0,5058050138,2024-02-21T02:51:32.420590
+5080781092,0000-0001-6554-8948,Kevin Mitchell,"[""Kevin Andrew Mitchell"", ""Kevin Mitchell"", ""Kevin A. Mitchell"", ""K. A. Mitchell"", ""K. Mitchell"", ""K.A Mitchell""]",246,3581,156087764.0,5080781092,2024-02-21T03:57:49.302643
+5065281470,,B. A. D. Hetrick,"[""Barbara A. D. Hetrick"", ""B. A. Daniels Hetrick"", ""B. A. D. Hetrick"", ""B. A. Dantels Hetrick"", ""Barbara A. Daniels Hetrick"", ""B. A. Hetrick""]",72,3578,119234918.0,5065281470,2024-02-21T02:42:04.942218
+5032111372,,David P. Goldenberg,"[""David P. Goldenberg"", ""D Goldenberg"", ""D. P. Goldenberg"", ""David Goldenberg""]",85,3575,223532165.0,5032111372,2024-02-21T05:16:58.032280
+5049719582,,J. B. Restorff,"[""James Restorff"", ""James B. Restorff"", ""J. B. Restorff"", ""J.B Restorff""]",121,3569,2802287952.0,5049719582,2024-02-21T03:01:07.989051
+5062662618,,R. Verbeni,"[""R. Verbeni"", ""Roberto Verbeni""]",100,3562,2801997478.0,5062662618,2024-02-21T11:18:16.039851
+5000712499,,James N. Herron,"[""James N. Herron"", ""James Herron"", ""J. N. Herron"", ""J.N Herron"", ""Jeff A. Herron"", ""J. Herron"", ""James Nelson Herron""]",121,3560,223532165.0,5000712499,2024-02-21T13:31:29.876547
+5061127517,,Noboru Horiuchi,"[""Nobuyuki Horiuchi"", ""Horiuchi Noboru"", ""Noboru Horiuchi"", ""Noboro Horiuchi"", ""Norika Horiuchi"", ""N. Horiuchi""]",115,3560,31618427.0,5061127517,2024-02-21T01:03:11.815091
+5084023575,0000-0002-6703-4497,David J. Blackbourn,"[""D. J. Blackbourn"", ""David Blackbourn"", ""David J. Blackbourn""]",74,3558,195460627.0,5084023575,2024-02-21T03:00:25.184045
+5089469349,,Laura S. Haneline,"[""L.S. Haneline"", ""Laura Haneline"", ""Laura S. Haneline""]",116,3555,4210153792.0,5089469349,2024-02-21T00:59:36.481085
+5029175540,,M. A. Tamor,"[""Michael Tamor"", ""Michael Alan Tamor"", ""M. Tamor"", ""M. A. Tamor"", ""Mike A. Tamor"", ""Michael A. Tamor"", ""Mike Tamor"", ""M. A Tamor""]",100,3551,55732556.0,5029175540,2024-02-21T03:17:26.436671
+5024947955,,P. Pfister,"[""Peer Pfister"", ""P. Pfister""]",111,3550,161046081.0,5024947955,2024-02-21T00:55:44.906745
+5062001477,0000-0002-8983-6669,Cécile Holweg,"[""Cécile T. Holweg"", ""C.T Holweg"", ""Cecile T. Holweg"", ""Cecile T. J. Holweg"", ""C. T. J. Holweg"", ""C. Holweg"", ""Cécile Holweg"", ""Cecile TJ. Holweg"", ""Cecile Holweg"", ""C. T. Holweg"", ""Cecile Tj Holweg"", ""Cécile T.J Holweg"", ""Cécile T. J. Holweg"", ""C.T.J Holweg""]",140,3549,2948539688.0,5062001477,2024-02-21T17:12:03.234482
+5065944922,,Henry L. Ehrlich,"[""Henry Ehrlich"", ""H. Ehrlich"", ""H. L. Ehrlich"", ""Henry L. Ehrlich"", ""Henry Lutz Ehrlich""]",170,3549,165799507.0,5065944922,2024-02-21T14:01:31.161796
+5057963729,,Sergey V. Fridrikh,"[""Sergey Fridrikh"", ""S. V. Fridrikh"", ""S.V Fridrikh"", ""Sergey V. Fridrikh"", ""S. Fridrikh""]",25,3545,63966007.0,5057963729,2024-02-21T17:59:07.208822
+5023582922,,Raúl Susmel,"[""Raul Susmel"", ""Raúl Susmel""]",37,3539,44461941.0,5023582922,2024-02-21T10:12:24.891834
+5018089442,,Magdy M. Nouh,"[""Magdy M. Nouh""]",2,3532,63601056.0,5018089442,2024-02-21T15:38:08.365541
+5054951136,,J. Mos,"[""Jan Mos"", ""J. S. D. O. mos"", ""Mos J"", ""J C A de Mos"", ""J. Mos""]",130,3532,4210163392.0,5054951136,2024-02-21T11:55:17.985225
+5029414284,,Kerwin D. Dobbs,"[""Kerwin Dobbs"", ""K. D. Dobbs"", ""Kerwin D. Dobbs""]",57,3531,4210105766.0,5029414284,2024-02-21T20:52:03.421619
+5020782456,,Steingrimur Stefansson,"[""S. Stefansson"", ""Steingrimur Stefansson"", ""Stefansson Steingrimur""]",55,3526,126744593.0,5020782456,2024-02-21T03:45:31.579097
+5010840896,,Inge‐Bert Täljedal,"[""I Täljedal"", ""Inge–Bert Taljedal"", ""I Taljedal"", ""I.‐B Täljedal"", ""Inge‐Bert Täljedal"", ""I. B. Täljedal"", ""I.‐B. Täljedal"", ""IB Taljedal"", ""Täljedal Inge‐Bert"", ""Inge‐Bert Taljedal"", ""I. B. Taljedal""]",161,3522,90267481.0,5010840896,2024-02-21T19:40:09.789695
+5046786559,,J. M. Yamartino,"[""J. Yamartino"", ""Jm Yamartino"", ""J M. Yamartino"", ""J.M Yamartino"", ""J. M. Yamartino""]",166,3521,135310074.0,5046786559,2024-02-21T02:00:32.122653
+5030039484,,Richard C. Schneider,"[""Richard C. Schneider"", ""R. C. Schneider"", ""R. Schneider"", ""Richard Coy Schneider""]",121,3520,1316910977.0,5030039484,2024-02-21T04:48:24.158207
+5029720502,0000-0002-8538-1732,Allan Chris M. Ferreon,"[""Allan Chris M. Ferreon"", ""Allan C. M. Ferreon"", ""A.C.M. Ferreon"", ""Allan Chris Ferreon"", ""Allan Ferreon""]",55,3517,181547552.0,5029720502,2024-02-21T02:45:09.670016
+5016173920,0000-0001-9394-8850,C. R. Williams,"[""C. R. Williams"", ""Christopher R. Williams"", ""C. Rosie Williams"", ""Christopher Williams"", ""Chris Williams"", ""C. Williams""]",171,3511,4210122332.0,5016173920,2024-02-21T04:52:04.011531
+5089722418,,Simone Schuffenhauer,"[""Simone Schuffenhauer"", ""S. Schuffenhauer""]",66,3510,3018134672.0,5089722418,2024-02-21T05:42:47.786100
+5038933898,,Randall K. Julian,"[""Randall Julian"", ""Randall Keith Julian"", ""R. K. Julian"", ""Randall K. Julian"", ""R. Julian""]",44,3509,204465549.0,5038933898,2024-02-21T11:38:09.535117
+5056230284,,Lisette Lagacé,"[""Lisette Lagacé"", ""Lisette Lagace"", ""L. Lagacé"", ""L. Lagace""]",80,3500,4210138665.0,5056230284,2024-02-21T16:05:14.004947
+5007604289,,Gary W. Moy,"[""Gary Moy"", ""Gary W. Moy"", ""G. W. Moy""]",49,3499,150209017.0,5007604289,2024-02-21T23:00:17.977435
+5018069743,0000-0001-6620-4274,Yiping Jin,"[""Y. Jin"", ""Yi‐Ru Jin"", ""Yiping Jin"", ""Yinqi Jin"", ""Yuanjiang Jin"", ""Yin‐Li Jin"", ""Y.‐P. Jin"", ""Yi‐Ping Jin""]",107,3498,2801534221.0,5018069743,2024-02-21T03:48:23.409080
+5059075801,,Adrienne H. Williams,"[""Adrienne Williams"", ""Adrienne H. Williams"", ""A. H. Williams"", ""A. Williams"", ""Adrienne. H. Williams"", ""Alexandria G. Williams""]",60,3492,47251452.0,5059075801,2024-02-21T06:30:17.732120
+5077357839,0000-0002-3798-1741,Moria Golan,"[""M. Golan"", ""Moria Golan""]",60,3491,68147069.0,5077357839,2024-02-21T23:54:44.761679
+5042045648,,B. Eckart,"[""Ben Eckart"", ""B. Eckart""]",109,3486,4210127875.0,5042045648,2024-02-21T19:22:02.667119
+5009902972,,Kenneth P. Madden,"[""Ken Madden"", ""Katherine A Madden"", ""K. Madden"", ""K. P. Madden"", ""Katherine Madden"", ""Ken P. Madden"", ""Keira Madden"", ""Kenneth Madden"", ""Kenneth P. Madden""]",48,3482,2802146118.0,5009902972,2024-02-21T03:45:41.413176
+5057124086,,Robert L. Nord,"[""R. Nord"", ""R. L. Nord"", ""Robert L. Nord"", ""Robert Nord""]",147,3482,74973139.0,5057124086,2024-02-21T06:37:22.644107
+5081006604,,D. Dijkkamp,"[""D. Dijkkamp""]",61,3482,4210122849.0,5081006604,2024-02-21T23:56:16.732812
+5028356280,,J.E. Parlevliet,"[""J. E. Parlevliet"", ""J Parlevliet"", ""Jan E. Parlevliet"", ""Jan Parlevliet""]",132,3481,4210090479.0,5028356280,2024-02-21T20:15:14.097087
+5013056424,0000-0002-9864-6234,J.B. Deijen,"[""J Deijen"", ""J.‐B. Deijen"", ""Jan B. Deijen"", ""J.B Deijen"", ""J. B. Deijen"", ""Jan Berend Deijen""]",124,3478,865915315.0,5013056424,2024-02-21T16:22:02.127198
+5036137417,,Joachim H. G. Steinke,"[""Joachim H.G Steinke"", ""Joachim H. Steinke"", ""Joachim Steinke"", ""Joachim Hans Georg Steinke"", ""J. H G Steinke"", ""J. H. Steinke"", ""J. Steinke"", ""Joachim H. G. Steinke"", ""J. H. G. Steinke""]",97,3478,47508984.0,5036137417,2024-02-21T15:48:32.125134
+5086210261,,Kilmer S. McCully,"[""K. Mccully"", ""Kilmer S. Mccully"", ""Kate McCully"", ""K. S. Mccully"", ""Kilmer McCully""]",107,3475,4210146582.0,5086210261,2024-02-21T01:39:54.267100
+5034258825,0000-0002-4907-2676,Alain Michaud,"[""Alexandre Michaud"", ""Alain Michaud"", ""A. Michaud""]",108,3471,43406934.0,5034258825,2024-02-21T22:07:10.958263
+5017444673,,R C Moellering,"[""RobertC. Moellering"", ""R. C. Moellering"", ""R. Moellering""]",70,3468,1310729568.0,5017444673,2024-02-21T23:42:57.371641
+5049500816,,W.A.B. Stalman,"[""Wim A. B Stalman"", ""Wab Stalman"", ""W. A B Stalman"", ""Wim A. B. Stalman"", ""Wilhelmus A. B. Stalman"", ""Wim Ab Stalman"", ""Wim Stalman"", ""W. A. B. Stalman"", ""W A Stalman"", ""W. Stalman""]",121,3467,169381384.0,5049500816,2024-02-21T17:26:44.119281
+5091101235,0000-0002-4189-8297,Hiroyuki Hirashita,"[""N. Hirashita"", ""Hiroyuki Hirashita"", ""H. Hirashita""]",224,3457,1311099166.0,5091101235,2024-02-21T12:35:37.267885
+5010171854,,Ian R. Hamilton,"[""Ian Hamilton"", ""I. R. Hamilton"", ""Ian R. Hamilton"", ""I Hamilton"", ""I.R Hamilton""]",85,3456,46247651.0,5010171854,2024-02-21T02:54:06.454292
+5087216208,,Andrew Keat,"[""Andrew Keat"", ""A. C. Keat"", ""Andrew C. S. Keat"", ""A. C. S. Keat"", ""Andrew C. Keat"", ""A Cs Keat"", ""A. Keat""]",163,3455,2802052328.0,5087216208,2024-02-21T15:07:54.881119
+5036189845,,Stephen Madigan,"[""Stephen Madigan"", ""S. Madigan"", ""S. A. Madigan"", ""Stephen A. Madigan""]",67,3450,204250578.0,5036189845,2024-02-21T04:51:53.577931
+5034371720,,Anna C. Shore,"[""Anna Shore"", ""A. C. Shore"", ""Anna C. Shore"", ""A. Shore""]",68,3444,4210142514.0,5034371720,2024-02-21T18:46:03.263996
+5033738984,,Timothy Danford,"[""Timothy W. Danford"", ""Timothy Danford""]",14,3443,95457486.0,5033738984,2024-02-21T02:03:18.347126
+5036460013,,M. I. Parsons,"[""M I. Parsons"", ""Mi Parsons"", ""M.I Parsons"", ""M. I. Parsons""]",108,3440,98677209.0,5036460013,2024-02-21T02:33:34.853568
+5052332422,,Rufino Jiménez-Dı́az,"[""R. Jiménez‐Díaz"", ""Rufino Jiménez‐Díaz"", ""Rufino Jiménez‐Dı́az"", ""Rufino Jimenez‐Diaz"", ""R. Jimenez‐Diaz"", ""R. Jiménez‐Dı́az""]",67,3438,4210092824.0,5052332422,2024-02-21T00:32:12.333299
+5015394724,,J. M. Lorah,"[""J M. Lorah"", ""J. M. Lorah"", ""John Michael Lorah""]",95,3429,66946132.0,5015394724,2024-02-21T07:45:04.663475
+5083179065,,John T. Clark,"[""John Clark"", ""J. Clark"", ""J. T. Clark"", ""John Taggart Clark"", ""John T. Clark""]",88,3424,4210103008.0,5083179065,2024-02-21T09:30:41.954704
+5004100415,,S. Srinivasa,"[""S. Srinivasa"", ""Sudhir Srinivasa""]",22,3420,204250578.0,5004100415,2024-02-21T11:07:01.342931
+5089416879,,N. A. Frederick,"[""Neil A. Frederick"", ""Neil Adam Frederick"", ""Neil Frederick"", ""N. Frederick"", ""N.A Frederick"", ""N. A. Frederick""]",90,3420,4210132461.0,5089416879,2024-02-21T21:47:19.091961
+5014063849,,Bill H. Hoyer,"[""Bill Hoyer"", ""Bill H. Hoyer"", ""B. Hoyer"", ""B. H. Hoyer""]",46,3419,4210134534.0,5014063849,2024-02-21T11:22:08.144484
+5065616745,,H. St. John,"[""Holger John"", ""H. St John"", ""H. John"", ""Harris V. John"", ""Holger St. John"", ""H. St. John""]",66,3416,882761360.0,5065616745,2024-02-21T08:31:45.146920
+5034109237,,Brian E. Heard,"[""Brian E. Heard"", ""B. Heard"", ""Brian Heard"", ""B. E. Heard"", ""Brian Edyvean Heard""]",86,3407,4210103404.0,5034109237,2024-02-21T18:28:53.107732
+5043633135,,John L. Ulmer,"[""John L. Ulmer"", ""J. Ulmer"", ""John Ulmer"", ""J. L. Ulmer""]",144,3406,204308271.0,5043633135,2024-02-21T02:35:05.825645
+5002849837,,Kenneth A. Narahara,"[""Kenneth Narahara"", ""K. Narahara"", ""K. A. Narahara"", ""Kenneth A. Narahara""]",55,3402,4210165985.0,5002849837,2024-02-21T03:01:56.026073
+5033696402,,S. Lund,"[""S. Lund"", ""Staffan Lund""]",32,3399,881427289.0,5033696402,2024-02-21T23:08:39.583530
+5080726524,,A. W. Chan,"[""A. Chan"", ""Aw Chan"", ""A. W. Chan"", ""Chan Aw""]",111,3394,200870766.0,5080726524,2024-02-21T20:04:22.039098
+5005372190,0000-0001-9238-132X,Giuseppina Mignogna,"[""Giuseppina Mignogna"", ""G. Mignogna"", ""Guiseppina Mignogna"", ""Mignogna Giuseppina""]",66,3390,861853513.0,5005372190,2024-02-21T23:03:13.930575
+5014366029,,Hideki Shimamura,"[""Hiroyuki Shimamura"", ""Hideki Shimamura"", ""H. Shimamura"", ""Shimamura Hiroyuki"", ""Shimamura Hideki""]",178,3388,2800865746.0,5014366029,2024-02-21T11:13:53.365983
+5033077809,,W S Kemper,"[""W. Scott Kemper"", ""William S. Kemper"", ""William Kemper"", ""W. S. Kemper""]",41,3388,111979921.0,5033077809,2024-02-21T20:41:19.152639
+5035108806,,J. Drinkard,"[""J. Drinkard"", ""J. D. Drinkard""]",90,3383,162096671.0,5035108806,2024-02-21T12:20:59.200007
+5065415889,,William C. Quinby,"[""William C. Quinby"", ""William Carter Quinby"", ""W. C. Quinby""]",90,3380,4210140405.0,5065415889,2024-02-21T19:08:54.467784
+5031016286,,Åsa Rangert Derolf,"[""Asa Rangert Derolf"", ""Åsa Derolf"", ""Å. Derolf"", ""A. Derolf"", ""Å. Rangert Derolf"", ""Asa R. Derolf"", ""Åsa R. Derolf"", ""Asa Derolf"", ""A. Rangert Derolf"", ""Å. R. Derolf"", ""Åsa Rangert Derolf""]",65,3376,1335113835.0,5031016286,2024-02-21T23:40:57.695350
+5038540369,,Andrew J. Sleight,"[""A. Sleight"", ""A. J. Sleight"", ""A.J Sleight"", ""Andrew J. Sleight"", ""Andrew Sleight""]",78,3376,4210156933.0,5038540369,2024-02-21T23:41:31.218966
+5069308466,0000-0002-6273-5630,G. Musolino,"[""G. Musolino"", ""Giovanni Musolino""]",121,3373,4210151851.0,5069308466,2024-02-21T05:59:28.481175
+5075465227,0000-0002-8880-3961,Xiao‐Ting He,"[""Xinglin He"", ""He Xiao‐Ting"", ""X. T. He"", ""Xuchun He"", ""He Xiao‐ling"", ""X. He"", ""XiaoQing He"", ""Xiao‐Ting He"", ""He Xuezhi"", ""Xiao‐ling He"", ""Xue‐Feng He"", ""Xuefeng He"", ""X. N. He"", ""Xiang He"", ""Xuezhi He"", ""Xue‐zhi He"", ""Xiang Nan He"", ""Xiaoting He"", ""HE Xue‐zhi"", ""HE Xiao‐qing"", ""Xiang N. He"", ""He Xuefeng""]",213,3372,158842170.0,5075465227,2024-02-21T21:56:57.961737
+5076268018,,S. D. Silvey,"[""Samuel D. Silvey"", ""Samuel. D. Silvey"", ""S. D. Silvey"", ""S. Silvey"", ""Samuel David Silvey""]",60,3372,7882870.0,5076268018,2024-02-21T06:05:13.173616
+5020108281,,Naohito Takatori,"[""Naohito Takatori""]",30,3367,69740276.0,5020108281,2024-02-21T00:56:35.037219
+5043034077,,A. Hillenbrand,"[""Achim Hillenbrand"", ""A. Hillenbrand""]",65,3364,4210135516.0,5043034077,2024-02-21T02:56:59.996114
+5054091435,,A.A. Lagatsky,"[""A. A. Lagatsky"", ""Alexander Alexandrovich Lagatsky"", ""A.A Lagatsky"", ""Alexander A. Lagatsky"", ""Alexander Lagatsky"", ""A. Lagatsky""]",164,3363,4210107211.0,5054091435,2024-02-21T17:59:32.350005
+5080978581,,J. W. McCubbin,"[""James W. Mccubbin"", ""James Mccubbin"", ""J. W. Mccubbin""]",80,3358,1316902750.0,5080978581,2024-02-21T15:21:28.286431
+5046188438,,Jan Heeres,"[""J. Heeres"", ""Jan Heeres""]",69,3350,149213910.0,5046188438,2024-02-21T14:02:11.063411
+5030237199,,Edgardo Becher,"[""Edgardo F. Becher"", ""Edgardo Becher"", ""E. Becher"", ""E. F. Becher""]",105,3349,24354313.0,5030237199,2024-02-21T23:05:27.786389
+5085842813,,C. L. Hedley,"[""Cliff L. Hedley"", ""C. Hedley"", ""C. L. Hedley"", ""Cliff Hedley""]",104,3336,2799300731.0,5085842813,2024-02-21T07:57:14.151343
+5002142037,,C. H. Sowers,"[""C. H. Sowers"", ""C.H Sowers"", ""Cameron Sowers""]",90,3334,1282105669.0,5002142037,2024-02-21T19:46:39.911986
+5026638363,0000-0002-0418-085X,Jacquelyn Gervay‐Hague,"[""Jacquelyn Gervay‐Hague"", ""J. Gervay‐Hague"", ""Jacquelyn Gervay""]",115,3328,84218800.0,5026638363,2024-02-21T12:29:26.404753
+5066410040,0000-0001-9712-9625,Tom Moore,"[""T. Moore"", ""Tom Moore"", ""Tom F. Moore"", ""T. F. Moore"", ""Thomas F. Moore""]",68,3324,27577105.0,5066410040,2024-02-21T13:46:48.945041
+5067841886,,J. Lonsdorfer,"[""Jean Lonsdorfer"", ""J. Lonsdorfer""]",145,3321,68947357.0,5067841886,2024-02-21T10:24:22.172906
+5065372450,,Richard Herman,"[""Richard M. Herman"", ""Richard Herman"", ""R.M. v.d. Vijver Herman"", ""R. Herman"", ""Richard S. Herman"", ""R.S. Herman"", ""R. M. Herman""]",135,3317,55732556.0,5065372450,2024-02-21T06:37:23.420529
+5039679486,,Susan Cook,"[""S.J Cook"", ""S. J. Cook"", ""S. Cook"", ""Susan Cook"", ""Susan J. Cook""]",124,3312,4210102886.0,5039679486,2024-02-21T06:01:38.523099
+5044900800,,B. Wolf,"[""Bernhard H. Wolf"", ""Bernhard Wolf"", ""B. H. Wolf"", ""B. Wolf""]",91,3308,8204097.0,5044900800,2024-02-21T10:17:58.152814
+5010586392,,Julie A. Lemm,"[""Julie Lemm"", ""J. Lemm"", ""J.A. Lemm"", ""Julie A. Lemm""]",47,3303,4210091812.0,5010586392,2024-02-21T01:39:27.121156
+5084167711,,S. Rossberg,"[""S. Rossberg""]",109,3302,161046081.0,5084167711,2024-02-21T05:17:56.141375
+5024732052,,D. Riou,"[""Didier. Riou"", ""D. Riou""]",92,3291,4210141025.0,5024732052,2024-02-21T10:22:46.059667
+5037168372,,Watson Davis,"[""W. Bruce Davis"", ""Watson Davis"", ""Williamb . Davis"", ""W. E. B. Davis"", ""W. Davis"", ""W. B. Davis"", ""W. E. Davis"", ""W.E Davis"", ""W. Eugene Davis""]",192,3291,25041050.0,5037168372,2024-02-21T13:14:00.383217
+5054000647,,George D. Jackson,"[""George D. JacksonG.D. Jackson"", ""G. D Jackson"", ""George David Jackson"", ""G. D. Jackson"", ""G. Jackson"", ""George Blyden Jackson"", ""George D. Jackson"", ""George Jackson""]",220,3291,26347476.0,5054000647,2024-02-21T22:18:06.134941
+5073784003,,Ellen D. Dillavou,"[""Ellen Dillavou"", ""E.D. Dillavou"", ""E. Dillavou"", ""Ellen D. Dillavou""]",107,3291,1283280774.0,5073784003,2024-02-21T01:55:25.263584
+5053627197,,William J. Millard,"[""W. Millard"", ""William J. Millard"", ""William Millard"", ""W. J. Millard""]",105,3290,2802216851.0,5053627197,2024-02-21T08:36:23.653089
+5015820034,,Reuben Gronau,"[""R. Gronau"", ""Reuben R. Gronau"", ""Reuben Gronau""]",107,3284,1321305853.0,5015820034,2024-02-21T18:06:14.947498
+5070405900,,T. Franklin Williams,"[""T. Williams"", ""T. Franklin Williams"", ""T. F. Williams"", ""TL Williams"", ""T.F Williams"", ""Timmons Williams""]",108,3279,5388228.0,5070405900,2024-02-21T03:48:11.712545
+5023293229,,S. Reiffers,"[""S. Reiffers"", ""Stoffer Reiffers""]",59,3276,4210146510.0,5023293229,2024-02-21T16:17:18.355723
+5034864240,,József Gulyás,"[""József Gulyás"", ""Joseph Gulyas"", ""Jozsef Gulyas"", ""J. Gulyás"", ""J. Gulyas"", ""J.R.R. Gulyas""]",52,3269,1307098950.0,5034864240,2024-02-21T02:13:34.424857
+5066938687,0000-0001-6661-3457,Gregory P. Gasic,"[""G. Gasic"", ""Gregory P. Gasic"", ""Gregory Gasic"", ""G. P. Gasic""]",56,3268,4210113153.0,5066938687,2024-02-21T03:48:57.352482
+5035625473,,Joseph S. Lappin,"[""J. S. Lappin"", ""Joseph Lappin"", ""Joseph Stephens Lappin"", ""Joseph S. Lappin"", ""Joe S. Lappin"", ""Joe Lappin""]",163,3264,200719446.0,5035625473,2024-02-21T10:08:31.823378
+5071502461,,Olive M. Mugenda,"[""Olive Mugenda"", ""O. Mugenda"", ""Olive M. Mugenda"", ""Olive Mwihaki Mugenda"", ""O. M. Mugenda""]",56,3264,173911158.0,5071502461,2024-02-21T00:55:01.523492
+5056696050,,Roger G. Clerc,"[""R Clerc"", ""Roger G. Clerc"", ""R. G. Clerc""]",26,3262,118019719.0,5056696050,2024-02-21T20:15:35.187117
+5066473720,,Pascale Leroy,"[""P. Pereau Leroy"", ""Pascal Leroy"", ""P.‐E. Leroy"", ""P.P. Leroy"", ""Pascale Leroy"", ""P. Leroy""]",160,3259,4210154739.0,5066473720,2024-02-21T23:11:24.222290
+5086444426,,Annette Adler,"[""Annette Adler"", ""A. Adler""]",29,3258,1174212.0,5086444426,2024-02-21T20:55:30.976925
+5003944262,,Areta Dobrjansky,"[""A Dobrjansky"", ""Areta Dobrjansky""]",20,3254,98704320.0,5003944262,2024-02-21T16:47:21.319562
+5006214269,,Simón Milstein,"[""Simón Milstein"", ""S. Milstein"", ""S. L. Milstein"", ""Simon Milstein"", ""Simön Milstein""]",61,3254,4210111131.0,5006214269,2024-02-21T01:17:48.229142
+5022557090,,Jensen T. C. Poon,"[""Jessica Poon"", ""Jensen Poon"", ""Jensen T. C. Poon"", ""J. Poon"", ""Jeff Poon"", ""Jensen Tung Chung Poon"", ""J. T. C. Poon"", ""Jessica Wai Ling Poon"", ""J.T. Poon"", ""Jensen T.P. Poon"", ""Jensen Tung‐Chung Poon"", ""Jensen T. Poon"", ""J Wl Poon""]",107,3253,4210108691.0,5022557090,2024-02-21T09:00:15.293289
+5089059738,,Randy Katz,"[""R. Katz"", ""R. J. Katz"", ""Robyn B. Katz"", ""Randy Katz""]",41,3253,185261750.0,5089059738,2024-02-21T01:19:07.437058
+5023779041,,Janet Woodcock‐Mitchell,"[""Janet L. Woodcock‐Mitchell"", ""Janet Woodcock‐Mitchell"", ""J. Woodcock‐Mitchell"", ""J Woodcockmitchell"", ""J. L. Woodcock‐Mitchell"", ""Jan Woodcock‐Mitchell""]",49,3249,111236770.0,5023779041,2024-02-21T13:24:50.798233
+5044032928,,Seymour R. Levin,"[""Seymour Levin"", ""S. R. Levin"", ""Seymour R. Levin"", ""S. Levin""]",101,3249,1174212.0,5044032928,2024-02-21T19:53:31.409536
+5061544462,,Diane K. Zhong,"[""Diane K. Zhong"", ""Diane Kai Ning Zhong""]",12,3249,201448701.0,5061544462,2024-02-21T06:08:11.105301
+5027135888,,Marjorie Flavin,"[""M. Flavin"", ""Marjorie Flavin"", ""Marjorie A. Flavin""]",38,3248,36258959.0,5027135888,2024-02-21T04:37:09.810346
+5059725315,,Alfin D. N. Vaz,"[""A. Vaz"", ""A. D. Vaz"", ""A. D. N. Vaz"", ""Alfin Vaz"", ""Alfin D. N. Vaz"", ""A. D N Vaz"", ""Alfin D. Vaz""]",75,3246,180857899.0,5059725315,2024-02-21T04:57:48.678045
+5070716103,,John L. Flowers,"[""John Flowers"", ""J. Flowers"", ""J. L. Flowers"", ""John L. Flowers""]",72,3241,126744593.0,5070716103,2024-02-21T16:44:31.142390
+5070899084,0000-0001-8098-2574,Tatjana Piotrowski,"[""T. Piotrowski"", ""Tatjana Piotrowski""]",71,3241,114131015.0,5070899084,2024-02-21T04:47:38.971480
+5072053758,,Yigal Lilach,"[""Yigal Lilach"", ""Y. Lilach""]",56,3240,193531525.0,5072053758,2024-02-21T07:49:17.294658
+5081616503,,Robin Walker,"[""R. M. Walker"", ""Robert Walker"", ""J.M.R. Walker"", ""R. A. Walker"", ""Robin Walker"", ""R. Walker""]",91,3238,184558857.0,5081616503,2024-02-21T06:03:21.485301
+5020386420,,Anne Gilchrist,"[""A. C. Gilchrist"", ""Anne C. Gilchrist"", ""Anne Gilchrist"", ""Anne Carol Gilchrist"", ""A. Gilchrist""]",28,3233,4210138932.0,5020386420,2024-02-21T09:10:41.301829
+5090421978,,I. Néeman,"[""I. Neeman"", ""I. Nèeman"", ""I. Néeman"", ""Itshak Neeman"", ""Itzhak Neeman"", ""Ishak Neéman"", ""Ishak Neeman"", ""I. Ne'eman"", ""I. NE'EMAN""]",77,3232,174306211.0,5090421978,2024-02-21T22:25:39.375530

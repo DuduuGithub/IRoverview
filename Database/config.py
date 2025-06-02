@@ -7,7 +7,7 @@ db = SQLAlchemy()
 
 # 数据库配置
 USERNAME = 'root'
-PASSWORD = '123456'
+PASSWORD = '0483'
 HOST = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'iroverview'

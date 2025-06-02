@@ -1,0 +1,501 @@
+work_id,descriptor_ui,descriptor_name,qualifier_ui,qualifier_name,is_major_topic
+4310960001,10937,Plant Growth Regulators,,,True
+4310960001,70658,Vigna,,,True
+4310960001,975,Antioxidants,,,False
+4310960001,10937,Plant Growth Regulators,494.0,pharmacology,False
+4310960001,11392,Proline,,,False
+2051136876,16466,CHO Cells,187.0,drug effects,True
+2051136876,20869,Gene Expression Profiling,,,True
+2051136876,11700,Putrescine,494.0,pharmacology,True
+2051136876,12333,"RNA, Messenger",32.0,analysis,True
+2051136876,818,Animals,,,False
+2051136876,15152,"Blotting, Northern",,,False
+2051136876,16466,CHO Cells,,,False
+2051136876,16466,CHO Cells,378.0,metabolism,False
+2051136876,2461,"Cell Line, Transformed",,,False
+2051136876,6224,Cricetinae,,,False
+2051136876,18076,"DNA, Complementary",,,False
+2051136876,18076,"DNA, Complementary",96.0,biosynthesis,False
+2051136876,4361,Drug Tolerance,,,False
+2051136876,15870,Gene Expression,,,False
+2051136876,11700,Putrescine,,,False
+2051136876,11700,Putrescine,633.0,toxicity,False
+2051136876,12333,"RNA, Messenger",,,False
+2051136876,12333,"RNA, Messenger",302.0,isolation & purification,False
+2051136876,15854,Up-Regulation,,,False
+2051139541,251,Adenosine Triphosphatases,378.0,metabolism,True
+2051139541,18840,HSP70 Heat-Shock Proteins,378.0,metabolism,True
+2051139541,251,Adenosine Triphosphatases,,,False
+2051139541,818,Animals,,,False
+2051139541,2966,Clathrin,378.0,metabolism,False
+2051139541,2966,Clathrin,,,False
+2051139541,3034,"Coated Pits, Cell-Membrane",378.0,metabolism,False
+2051139541,3034,"Coated Pits, Cell-Membrane",,,False
+2051139541,18699,Coated Vesicles,378.0,metabolism,False
+2051139541,18699,Coated Vesicles,,,False
+2051139541,4789,Enzyme Activation,,,False
+2051139541,18840,HSP70 Heat-Shock Proteins,,,False
+2051139541,6801,Humans,,,False
+2051139541,8956,"Models, Chemical",,,False
+2051143688,1315,Australia,,,False
+2051143688,49672,"History, 19th Century",,,False
+2051143688,49673,"History, 20th Century",,,False
+2051143688,11570,Psychiatry,,,False
+2051143688,11570,Psychiatry,266.0,history,False
+2051145395,329,Advertising,,,True
+2051145395,3906,Developing Countries,,,True
+2051145395,12907,Smoking,,,True
+2051145395,6801,Humans,,,False
+2051145999,242,Cyclic AMP,378.0,metabolism,True
+2051145999,818,Animals,,,False
+2051145999,15374,Biosensing Techniques,,,False
+2051145999,20013,Calcium Signaling,,,False
+2051145999,20013,Calcium Signaling,502.0,physiology,False
+2051145999,2451,Cell Compartmentation,,,False
+2051145999,242,Cyclic AMP,,,False
+2051145999,6801,Humans,,,False
+2051145999,13997,Time Factors,,,False
+2051148458,7239,Infections,209.0,etiology,True
+2051148458,6435,Renal Dialysis,9.0,adverse effects,True
+2051148458,6505,Hepatitis,517.0,prevention & control,False
+2051148458,6505,Hepatitis,,,False
+2051148458,6801,Humans,,,False
+2051148458,7239,Infections,,,False
+2051148458,6435,Renal Dialysis,,,False
+2051151286,3920,Diabetes Mellitus,,,True
+2051151286,11643,Publishing,,,True
+2051152183,4501,"Education, Medical",,,True
+2051152183,5260,Female,,,False
+2051152183,6801,Humans,,,False
+2051152183,7492,Iran,,,False
+2051152183,8297,Male,,,False
+2051152443,2025,Bufonidae,502.0,physiology,True
+2051152443,8954,"Models, Biological",,,True
+2051152443,9126,Muscle Relaxation,502.0,physiology,True
+2051152443,818,Animals,,,False
+2051152443,2025,Bufonidae,,,False
+2051152443,4558,Electric Stimulation,,,False
+2051152443,4594,Electrophysiology,,,False
+2051152443,66298,In Vitro Techniques,,,False
+2051152443,7211,Indoles,,,False
+2051152443,7211,Indoles,494.0,pharmacology,False
+2051152443,7700,Kinetics,,,False
+2051152443,23421,"Models, Animal",,,False
+2051152443,9126,Muscle Relaxation,,,False
+2051152443,9126,Muscle Relaxation,187.0,drug effects,False
+2051152443,9129,Muscle Tonus,,,False
+2051152443,9129,Muscle Tonus,187.0,drug effects,False
+2051152928,2751,Chlortetracycline,627.0,therapeutic use,True
+2051152928,8413,Mastitis,628.0,therapy,True
+2051152928,2751,Chlortetracycline,,,False
+2051152928,5260,Female,,,False
+2051152928,6801,Humans,,,False
+2051152928,8413,Mastitis,,,False
+2051162753,1377,Azaserine,633.0,toxicity,True
+2051162753,15317,Biogenic Polyamines,96.0,biosynthesis,True
+2051162753,2273,Carcinogens,633.0,toxicity,True
+2051162753,8099,Liver,187.0,drug effects,True
+2051162753,10179,Pancreas,187.0,drug effects,True
+2051162753,818,Animals,,,False
+2051162753,1377,Azaserine,,,False
+2051162753,15317,Biogenic Polyamines,,,False
+2051162753,2273,Carcinogens,,,False
+2051162753,8099,Liver,,,False
+2051162753,8099,Liver,378.0,metabolism,False
+2051162753,8297,Male,,,False
+2051162753,10179,Pancreas,,,False
+2051162753,10179,Pancreas,378.0,metabolism,False
+2051162753,51381,Rats,,,False
+2051162753,11917,"Rats, Inbred Lew",,,False
+2051162753,13997,Time Factors,,,False
+2051165229,4947,Esophagus,473.0,pathology,True
+2051165229,5764,Gastroesophageal Reflux,503.0,physiopathology,True
+2051165229,5764,Gastroesophageal Reflux,473.0,pathology,True
+2051165229,4947,Esophagus,,,False
+2051165229,5260,Female,,,False
+2051165229,5764,Gastroesophageal Reflux,,,False
+2051165229,6801,Humans,,,False
+2051165229,8297,Male,,,False
+2051173461,7602,Jungian Theory,,,True
+2051173461,8091,Literature,,,True
+2051173461,11574,Psychoanalytic Theory,,,True
+2051173461,14930,Women,523.0,psychology,True
+2051173461,4532,Ego,,,False
+2051173461,5260,Female,,,False
+2051173461,5783,Gender Identity,,,False
+2051173461,6801,Humans,,,False
+2051173461,9769,Object Attachment,,,False
+2051173461,11573,Psychoanalytic Interpretation,,,False
+2051173461,14930,Women,,,False
+2051177922,8505,"Medical Staff, Hospital",,,True
+2051177922,10561,Personnel Staffing and Scheduling,,,False
+2051177922,6113,United Kingdom,,,False
+2051194752,890,Anti-Infective Agents,627.0,therapeutic use,True
+2051194752,3428,Cross Infection,517.0,prevention & control,True
+2051194752,11183,Postoperative Complications,517.0,prevention & control,True
+2051194752,11292,Premedication,,,True
+2051194752,617,Aminoglycosides,,,False
+2051194752,617,Aminoglycosides,8.0,administration & dosage,False
+2051194752,890,Anti-Infective Agents,,,False
+2051194752,890,Anti-Infective Agents,9.0,adverse effects,False
+2051194752,2511,Cephalosporins,8.0,administration & dosage,False
+2051194752,2511,Cephalosporins,,,False
+2051194752,3428,Cross Infection,,,False
+2051194752,6801,Humans,,,False
+2051194752,9871,Operating Room Nursing,,,False
+2051194752,10406,Penicillins,,,False
+2051194752,10406,Penicillins,8.0,administration & dosage,False
+2051194752,11183,Postoperative Complications,,,False
+2051197174,3195,Computer Communication Networks,,,True
+2051197174,11872,"Radiology Department, Hospital",,,True
+2051197174,11873,Radiology Information Systems,,,True
+2051197174,6801,Humans,,,False
+2051198808,3140,Communicable Disease Control,331.0,legislation & jurisprudence,True
+2051198808,3219,Confidentiality,331.0,legislation & jurisprudence,True
+2051198808,18563,Disease Notification,331.0,legislation & jurisprudence,True
+2051198808,20408,Health Insurance Portability and Accountability Act,,,True
+2051198808,13333,Student Health Services,331.0,legislation & jurisprudence,True
+2051198808,14376,Tuberculosis,517.0,prevention & control,True
+2051198808,293,Adolescent,,,False
+2051198808,328,Adult,,,False
+2051198808,739,Anecdotes as Topic,,,False
+2051198808,3140,Communicable Disease Control,,,False
+2051198808,3219,Confidentiality,,,False
+2051198808,18563,Disease Notification,,,False
+2051198808,6801,Humans,,,False
+2051198808,16365,"Liability, Legal",,,False
+2051198808,10290,Parents,,,False
+2051198808,13333,Student Health Services,,,False
+2051198808,14376,Tuberculosis,,,False
+2051198808,14481,United States,,,False
+2051198808,14495,Universities,,,False
+2051200648,512,Alpha Particles,,,True
+2051200648,11851,Radioactivity,,,True
+2051200648,6801,Humans,,,False
+2051207645,6183,H-2 Antigens,235.0,genetics,True
+2051207645,8216,Lymphocytic Choriomeningitis,276.0,immunology,True
+2051207645,818,Animals,,,False
+2051207645,945,"Antigens, Differentiation, T-Lymphocyte",,,False
+2051207645,945,"Antigens, Differentiation, T-Lymphocyte",276.0,immunology,False
+2051207645,16827,CD8 Antigens,,,False
+2051207645,6183,H-2 Antigens,,,False
+2051207645,6239,Haplotypes,,,False
+2051207645,8216,Lymphocytic Choriomeningitis,,,False
+2051207645,8216,Lymphocytic Choriomeningitis,235.0,genetics,False
+2051207645,8285,Major Histocompatibility Complex,,,False
+2051207645,8297,Male,,,False
+2051207645,51379,Mice,,,False
+2051207645,8806,"Mice, Inbred AKR",,,False
+2051207645,8807,"Mice, Inbred BALB C",,,False
+2051207645,8809,"Mice, Inbred C3H",,,False
+2051207645,8808,"Mice, Inbred CBA",,,False
+2051211043,3625,Data Collection,379.0,methods,True
+2051211043,15404,Nursing Methodology Research,379.0,methods,True
+2051211043,884,"Anthropology, Cultural",,,False
+2051211043,3625,Data Collection,,,False
+2051211043,6801,Humans,,,False
+2051211043,7407,Interviews as Topic,,,False
+2051211043,7407,Interviews as Topic,379.0,methods,False
+2051211043,15404,Nursing Methodology Research,,,False
+2051211043,13850,Thinking,,,False
+2051211688,1921,Brain,601.0,surgery,True
+2051211688,1932,Brain Neoplasms,601.0,surgery,True
+2051211688,20820,Dyskinesias,601.0,surgery,True
+2051211688,4421,Dystonia,601.0,surgery,True
+2051211688,1921,Brain,,,False
+2051211688,1932,Brain Neoplasms,,,False
+2051211688,1932,Brain Neoplasms,175.0,diagnosis,False
+2051211688,20820,Dyskinesias,,,False
+2051211688,20820,Dyskinesias,175.0,diagnosis,False
+2051211688,4421,Dystonia,,,False
+2051211688,4421,Dystonia,175.0,diagnosis,False
+2051211688,5260,Female,,,False
+2051211688,6801,Humans,,,False
+2051211688,8875,Middle Aged,,,False
+2051211688,20127,Recovery of Function,,,False
+2051211688,20127,Recovery of Function,502.0,physiology,False
+2051211688,16896,Treatment Outcome,,,False
+2051214119,606,Amino Sugars,96.0,biosynthesis,True
+2051214119,1940,Breast,378.0,metabolism,True
+2051214119,2417,Cattle,378.0,metabolism,True
+2051214119,606,Amino Sugars,302.0,isolation & purification,False
+2051214119,606,Amino Sugars,737.0,chemistry,False
+2051214119,606,Amino Sugars,,,False
+2051214119,818,Animals,,,False
+2051214119,1940,Breast,,,False
+2051214119,2417,Cattle,,,False
+2051214119,5260,Female,,,False
+2051214119,5944,Glucosamine,,,False
+2051214119,5944,Glucosamine,493.0,pharmacokinetics,False
+2051214119,5944,Glucosamine,8.0,administration & dosage,False
+2051214119,7262,"Infusions, Intravenous",,,False
+2051214119,7601,Jugular Veins,,,False
+2051214119,7774,Lactation,378.0,metabolism,False
+2051214119,7774,Lactation,,,False
+2051214119,9682,Magnetic Resonance Spectroscopy,379.0,methods,False
+2051214119,9682,Magnetic Resonance Spectroscopy,,,False
+2051214119,8892,Milk,737.0,chemistry,False
+2051214119,8892,Milk,,,False
+2051214119,15394,Molecular Structure,,,False
+2051214119,21241,"Spectrometry, Mass, Electrospray Ionization",379.0,methods,False
+2051214119,21241,"Spectrometry, Mass, Electrospray Ionization",,,False
+2051215735,860,Hypoxia,209.0,etiology,True
+2051215735,9203,Myocardial Infarction,150.0,complications,True
+2051215735,208,Acute Disease,,,False
+2051215735,328,Adult,,,False
+2051215735,368,Aged,,,False
+2051215735,1769,Blood,,,False
+2051215735,2245,Carbon Dioxide,97.0,blood,False
+2051215735,2245,Carbon Dioxide,,,False
+2051215735,3325,Coronary Care Units,,,False
+2051215735,5260,Female,,,False
+2051215735,6333,Heart Failure,150.0,complications,False
+2051215735,6333,Heart Failure,,,False
+2051215735,6760,Hospitalization,,,False
+2051215735,6801,Humans,,,False
+2051215735,6863,Hydrogen-Ion Concentration,,,False
+2051215735,860,Hypoxia,,,False
+2051215735,8297,Male,,,False
+2051215735,8875,Middle Aged,,,False
+2051215735,9203,Myocardial Infarction,628.0,therapy,False
+2051215735,9203,Myocardial Infarction,401.0,mortality,False
+2051215735,9203,Myocardial Infarction,97.0,blood,False
+2051215735,9203,Myocardial Infarction,,,False
+2051215735,10100,Oxygen,97.0,blood,False
+2051215735,10100,Oxygen,,,False
+2051215735,10102,Oxygen Inhalation Therapy,,,False
+2051215735,10313,Partial Pressure,,,False
+2051215862,8320,Maltose,378.0,metabolism,True
+2051215862,9154,Mutation,,,True
+2051215862,3313,Zea mays,235.0,genetics,True
+2051215862,688,Amylose,235.0,genetics,False
+2051215862,688,Amylose,378.0,metabolism,False
+2051215862,688,Amylose,,,False
+2051215862,8320,Maltose,,,False
+2051215862,3313,Zea mays,378.0,metabolism,False
+2051215862,3313,Zea mays,,,False
+2051217301,199,Actins,737.0,chemistry,True
+2051217301,8540,Meiosis,,,True
+2051217301,8840,Microfilament Proteins,502.0,physiology,True
+2051217301,9687,Nuclear Proteins,502.0,physiology,True
+2051217301,199,Actins,,,False
+2051217301,818,Animals,,,False
+2051217301,80865,Formins,,,False
+2051217301,6801,Humans,,,False
+2051217301,8840,Microfilament Proteins,,,False
+2051217301,9419,Nerve Tissue Proteins,,,False
+2051217301,9687,Nuclear Proteins,,,False
+2051217715,9462,Neurology,592.0,standards,True
+2051217715,9985,Orthopedics,592.0,standards,True
+2051217715,13122,Spinal Diseases,628.0,therapy,True
+2051217715,6801,Humans,,,False
+2051217715,9462,Neurology,,,False
+2051217715,9985,Orthopedics,,,False
+2051217715,13122,Spinal Diseases,,,False
+2051217715,14944,World Health Organization,,,False
+2051221670,1854,Bone Marrow Cells,187.0,drug effects,True
+2051221670,5805,"Genes, MHC Class I",,,True
+2051221670,7376,Interleukin-2,494.0,pharmacology,True
+2051221670,7694,"Killer Cells, Natural",187.0,drug effects,True
+2051221670,71181,"ATP Binding Cassette Transporter, Subfamily B, Member 2",,,False
+2051221670,18528,ATP-Binding Cassette Transporters,,,False
+2051221670,18528,ATP-Binding Cassette Transporters,235.0,genetics,False
+2051221670,818,Animals,,,False
+2051221670,1854,Bone Marrow Cells,,,False
+2051221670,1854,Bone Marrow Cells,166.0,cytology,False
+2051221670,2452,Cell Count,,,False
+2051221670,2454,Cell Differentiation,,,False
+2051221670,2454,Cell Differentiation,187.0,drug effects,False
+2051221670,2478,"Cells, Cultured",,,False
+2051221670,5434,Flow Cytometry,,,False
+2051221670,7376,Interleukin-2,,,False
+2051221670,7694,"Killer Cells, Natural",166.0,cytology,False
+2051221670,7694,"Killer Cells, Natural",,,False
+2051221670,51379,Mice,,,False
+2051221670,8810,"Mice, Inbred C57BL",,,False
+2051221670,8817,"Mice, Mutant Strains",,,False
+2051221670,1613,beta 2-Microglobulin,235.0,genetics,False
+2051221670,1613,beta 2-Microglobulin,,,False
+2051224736,6548,"Hernia, Diaphragmatic",601.0,surgery,True
+2051224736,65630,"Hernias, Diaphragmatic, Congenital",,,True
+2051224736,6935,Hypercapnia,,,True
+2051224736,138,Acidosis,,,False
+2051224736,5260,Female,,,False
+2051224736,6548,"Hernia, Diaphragmatic",,,False
+2051224736,6548,"Hernia, Diaphragmatic",97.0,blood,False
+2051224736,6801,Humans,,,False
+2051224736,7040,Hypoventilation,,,False
+2051224736,7231,"Infant, Newborn",,,False
+2051224736,8297,Male,,,False
+2051224736,11182,Postoperative Care,,,False
+2051224736,11183,Postoperative Complications,,,False
+2051224736,12129,Respiratory Function Tests,,,False
+2051233559,7213,Indomethacin,494.0,pharmacology,True
+2051233559,9215,Myometrium,187.0,drug effects,True
+2051233559,14599,Uterus,187.0,drug effects,True
+2051233559,818,Animals,,,False
+2051233559,5260,Female,,,False
+2051233559,5865,Gestational Age,,,False
+2051233559,7213,Indomethacin,,,False
+2051233559,9215,Myometrium,,,False
+2051233559,11247,Pregnancy,,,False
+2051233559,11460,Prostaglandins F,494.0,pharmacology,False
+2051233559,11460,Prostaglandins F,,,False
+2051233559,11555,Pseudopregnancy,187.0,drug effects,False
+2051233559,11555,Pseudopregnancy,,,False
+2051233559,51381,Rats,,,False
+2051233559,14599,Uterus,,,False
+2051234024,14150,Antipsychotic Agents,494.0,pharmacology,True
+2051234024,6329,Heart Conduction System,187.0,drug effects,True
+2051234024,818,Animals,,,False
+2051234024,14150,Antipsychotic Agents,,,False
+2051234024,14150,Antipsychotic Agents,97.0,blood,False
+2051234024,2090,Butyrophenones,,,False
+2051234024,4285,Dogs,,,False
+2051234024,4305,"Dose-Response Relationship, Drug",,,False
+2051234024,6325,Heart Atria,,,False
+2051234024,6325,Heart Atria,187.0,drug effects,False
+2051234024,6329,Heart Conduction System,,,False
+2051234024,6352,Heart Ventricles,,,False
+2051234024,6352,Heart Ventricles,187.0,drug effects,False
+2051236087,17671,Platinum Compounds,627.0,therapeutic use,True
+2051236087,1749,Urinary Bladder Neoplasms,532.0,radiotherapy,True
+2051236087,17024,"Chemotherapy, Adjuvant",,,False
+2051236087,3131,Combined Modality Therapy,,,False
+2051236087,15653,Cystectomy,,,False
+2051236087,6801,Humans,,,False
+2051236087,9367,Neoplasm Staging,,,False
+2051236087,17671,Platinum Compounds,,,False
+2051236087,11379,Prognosis,,,False
+2051236087,18714,"Radiotherapy, Adjuvant",,,False
+2051236087,1749,Urinary Bladder Neoplasms,,,False
+2051236087,1749,Urinary Bladder Neoplasms,188.0,drug therapy,False
+2051236087,1749,Urinary Bladder Neoplasms,473.0,pathology,False
+2051236087,1749,Urinary Bladder Neoplasms,601.0,surgery,False
+2051236636,3042,Cocaine,494.0,pharmacology,True
+2051236636,3216,"Conditioning, Operant",187.0,drug effects,True
+2051236636,18765,Dopamine Uptake Inhibitors,494.0,pharmacology,True
+2051236636,818,Animals,,,False
+2051236636,3042,Cocaine,,,False
+2051236636,3214,"Conditioning, Classical",,,False
+2051236636,3214,"Conditioning, Classical",187.0,drug effects,False
+2051236636,3216,"Conditioning, Operant",,,False
+2051236636,3463,Cues,,,False
+2051236636,18765,Dopamine Uptake Inhibitors,,,False
+2051236636,5502,Food,,,False
+2051236636,8297,Male,,,False
+2051236636,51381,Rats,,,False
+2051236636,17207,"Rats, Sprague-Dawley",,,False
+2051247086,230,Adenocarcinoma,473.0,pathology,True
+2051247086,6392,"Hemangioma, Cavernous",473.0,pathology,True
+2051247086,16609,"Neoplasms, Second Primary",473.0,pathology,True
+2051247086,12004,Rectal Neoplasms,473.0,pathology,True
+2051247086,230,Adenocarcinoma,,,False
+2051247086,230,Adenocarcinoma,601.0,surgery,False
+2051247086,3113,Colonoscopy,,,False
+2051247086,6392,"Hemangioma, Cavernous",,,False
+2051247086,6801,Humans,,,False
+2051247086,8297,Male,,,False
+2051247086,8875,Middle Aged,,,False
+2051247086,16609,"Neoplasms, Second Primary",,,False
+2051247086,16609,"Neoplasms, Second Primary",601.0,surgery,False
+2051247086,12004,Rectal Neoplasms,,,False
+2051247086,12004,Rectal Neoplasms,601.0,surgery,False
+2051247600,2097,C-Reactive Protein,32.0,analysis,True
+2051247600,47549,"Coronary Artery Bypass, Off-Pump",,,True
+2051247600,20107,Troponin T,97.0,blood,True
+2051247600,368,Aged,,,False
+2051247600,15415,Biomarkers,,,False
+2051247600,2097,C-Reactive Protein,,,False
+2051247600,3627,"Data Interpretation, Statistical",,,False
+2051247600,5260,Female,,,False
+2051247600,6801,Humans,,,False
+2051247600,15850,Interleukin-6,97.0,blood,False
+2051247600,15850,Interleukin-6,,,False
+2051247600,8297,Male,,,False
+2051247600,8875,Middle Aged,,,False
+2051247600,9203,Myocardial Infarction,209.0,etiology,False
+2051247600,9203,Myocardial Infarction,,,False
+2051247600,11183,Postoperative Complications,209.0,etiology,False
+2051247600,11183,Postoperative Complications,,,False
+2051247600,11237,Predictive Value of Tests,,,False
+2051247600,11379,Prognosis,,,False
+2051247600,11446,Prospective Studies,,,False
+2051247600,51437,Renal Insufficiency,209.0,etiology,False
+2051247600,51437,Renal Insufficiency,,,False
+2051247600,12307,Risk Factors,,,False
+2051247600,13318,Stroke Volume,,,False
+2051247600,13997,Time Factors,,,False
+2051247600,20107,Troponin T,,,False
+2051247600,14409,Tumor Necrosis Factor-alpha,32.0,analysis,False
+2051247600,14409,Tumor Necrosis Factor-alpha,,,False
+2051252512,1921,Brain,503.0,physiopathology,True
+2051252512,1927,Brain Diseases,503.0,physiopathology,True
+2051252512,2560,Cerebrovascular Circulation,,,True
+2051252512,4569,Electroencephalography,,,True
+2051252512,367,Age Factors,,,False
+2051252512,1783,Blood Flow Velocity,,,False
+2051252512,1921,Brain,378.0,metabolism,False
+2051252512,1921,Brain,,,False
+2051252512,1927,Brain Diseases,,,False
+2051252512,4827,Epilepsy,503.0,physiopathology,False
+2051252512,4827,Epilepsy,,,False
+2051252512,6801,Humans,,,False
+2051252512,8606,Mental Processes,,,False
+2051252512,10100,Oxygen,378.0,metabolism,False
+2051252512,10100,Oxygen,,,False
+2051252512,12039,Regional Blood Flow,,,False
+2051252512,12890,Sleep,,,False
+2051253474,578,Amidines,494.0,pharmacology,True
+2051253474,2051,Burkitt Lymphoma,276.0,immunology,True
+2051253474,3713,Dendritic Cells,187.0,drug effects,True
+2051253474,10880,Piperidines,494.0,pharmacology,True
+2051253474,10880,Piperidines,737.0,chemistry,True
+2051253474,46988,Proteasome Endopeptidase Complex,737.0,chemistry,True
+2051253474,61988,Proteasome Inhibitors,494.0,pharmacology,True
+2051253474,18417,Th1 Cells,276.0,immunology,True
+2051253474,59016,Tumor Microenvironment,187.0,drug effects,True
+2051253474,578,Amidines,,,False
+2051253474,970,Antineoplastic Agents,494.0,pharmacology,False
+2051253474,970,Antineoplastic Agents,,,False
+2051253474,17209,Apoptosis,276.0,immunology,False
+2051253474,17209,Apoptosis,187.0,drug effects,False
+2051253474,17209,Apoptosis,,,False
+2051253474,15153,"Blotting, Western",,,False
+2051253474,2051,Burkitt Lymphoma,473.0,pathology,False
+2051253474,2051,Burkitt Lymphoma,188.0,drug therapy,False
+2051253474,2051,Burkitt Lymphoma,,,False
+2051253474,2454,Cell Differentiation,276.0,immunology,False
+2051253474,2454,Cell Differentiation,187.0,drug effects,False
+2051253474,2454,Cell Differentiation,,,False
+2051253474,49109,Cell Proliferation,187.0,drug effects,False
+2051253474,49109,Cell Proliferation,,,False
+2051253474,2478,"Cells, Cultured",,,False
+2051253474,16207,Cytokines,378.0,metabolism,False
+2051253474,16207,Cytokines,,,False
+2051253474,3713,Dendritic Cells,502.0,physiology,False
+2051253474,3713,Dendritic Cells,,,False
+2051253474,5434,Flow Cytometry,,,False
+2051253474,6801,Humans,,,False
+2051253474,8213,Lymphocyte Activation,187.0,drug effects,False
+2051253474,8213,Lymphocyte Activation,,,False
+2051253474,10880,Piperidines,,,False
+2051253474,46988,Proteasome Endopeptidase Complex,378.0,metabolism,False
+2051253474,46988,Proteasome Endopeptidase Complex,,,False
+2051253474,61988,Proteasome Inhibitors,,,False
+2051253474,18417,Th1 Cells,,,False
+2051253474,59016,Tumor Microenvironment,,,False
+2051253943,1792,Blood Platelets,32.0,analysis,True
+2051253943,8565,Membrane Proteins,32.0,analysis,True
+2051253943,1792,Blood Platelets,,,False
+2051253943,3720,Densitometry,,,False
+2051253943,3902,Detergents,,,False
+2051253943,4591,"Electrophoresis, Polyacrylamide Gel",,,False
+2051253943,6801,Humans,,,False
+2051253943,8565,Membrane Proteins,97.0,blood,False
+2051253943,8565,Membrane Proteins,,,False
+2051253943,8970,Molecular Weight,,,False
+2051253943,10455,Peptides,32.0,analysis,False
+2051253943,10455,Peptides,,,False
+2051253943,10766,Phosphorylation,,,False
+2051253943,12967,Sodium Dodecyl Sulfate,,,False

@@ -1,0 +1,501 @@
+id,ror,display_name,country_code,type,homepage_url,image_url,image_thumbnail_url,display_name_acronyms,display_name_alternatives,works_count,cited_by_count,works_api_url,updated_date
+4210162487,02npzsh43,Providence Health Foundation,US,healthcare,,,,[],[],9,31,4210162487,2023-09-21T00:37:36.613225
+4210152771,042rwda30,North Coast Marine Mammal Center,US,nonprofit,http://www.northcoastmmc.org/,,,"[""NMMC""]",[],2,24,4210152771,2023-09-21T05:19:25.705843
+4210164825,05kks9g21,Shramik Bharti,IN,nonprofit,http://www.shramikbharti.org.in/,,,[],[],1,21,4210164825,2023-09-21T02:47:34.208173
+4210097918,0114d3n76,ImunomedicA (Czechia),CZ,company,http://www.imunomedica.cz/,,,[],[],2,17,4210097918,2023-09-21T04:25:54.533432
+4210161410,04wgdyk95,Biopeak Corporation (Canada),CA,company,http://www.biopeak.com/,,,[],[],1,15,4210161410,2023-09-21T01:39:17.177912
+4210164812,05cxhm587,Channel Islands Marine & Wildlife Institute,US,nonprofit,http://cimwi.org/,,,"[""CIMWI""]",[],2,15,4210164812,2023-09-21T07:26:13.309249
+4210114395,0215ym372,Sense Textile (Netherlands),NL,company,?lang=en,,,[],[],1,14,4210114395,2023-09-21T00:42:46.726318
+4210097472,00zm06h90,Genservice,CZ,facility,en/,,,[],[],1,12,4210097472,2023-09-21T00:27:57.301428
+4210098670,0106g1z72,Quercus X-ray Technologies (United States),US,company,http://www.quercustech.com,,,[],[],1,10,4210098670,2023-09-21T06:12:46.494354
+4210124970,02xes6w96,Instituo CUF Porto,PT,healthcare,en/porto-instituto,,,[],[],2,10,4210124970,2023-09-21T00:34:44.857327
+4210107949,01h90nm51,Marine Discovery Centre,AU,other,index.html,,,[],[],2,5,4210107949,2023-09-21T06:31:46.745231
+4210088656,004yf8m37,Reaction35 (United States),US,company,http://www.reaction35.com/,,,[],[],1,0,4210088656,2023-09-21T01:42:19.527477
+4210093007,00eyegs12,Institut für Kompetenz und Begabung,DE,nonprofit,http://www.ikobe-ggmbh.de/,,,"[""IKOBE""]",[],11,0,4210093007,2023-09-21T02:31:07.799167
+4210097879,00zyzhx45,ELG Carbon Fibre (United Kingdom),GB,company,http://www.elgcf.com/,,,[],[],1,0,4210097879,2023-09-21T00:29:42.006539
+4210099053,00t5e6645,Debiopharm Group (Canada),CA,company,https://www.debiopharm.com/,,,[],[],1,0,4210099053,2023-09-21T03:45:11.194717
+4210100340,016wh5q48,Centro Universitario del Valle de Zacapu,MX,education,moodle/,,,[],[],4,0,4210100340,2023-09-21T03:49:58.058285
+4210101156,014m2qe90,Australian Aquaculture Support Services (Australia),AU,company,a/aquaculturesupportservices.com/www/our-company,,,[],[],0,0,4210101156,2023-09-21T02:36:31.840974
+4210107406,01m3xga44,Evergreen Community Charter School,US,education,https://www.evergreenccs.org/,,,"[""ECCS""]",[],0,0,4210107406,2023-09-21T01:18:43.799246
+4210111968,022wsx863,Miksike,EE,nonprofit,http://lefo.net/,,,"[""LeFo""]","[""Miksike LearningFolders""]",0,0,4210111968,2023-09-21T03:43:21.095556
+4210119380,02swpkm89,HIV Community Link,CA,nonprofit,https://hivcl.org/,,,[],"[""AIDS Calgary Awareness Association""]",0,0,4210119380,2023-09-21T07:03:08.914357
+4210119983,02jeqzx58,District of Columbia Public Education Fund,US,nonprofit,http://www.dcedfund.org/,,,"[""DCPS""]",[],0,0,4210119983,2023-09-21T02:52:09.652201
+4210121762,02sjwx878,Condensed Matter Physics Research Center,NP,facility,condensed/index.html,,,"[""CMPRC""]",[],0,0,4210121762,2023-09-21T07:15:56.035512
+4210165526,05t7j2034,Preble County Historical Society,US,archive,live/,,,"[""PCHS""]",[],0,0,4210165526,2023-09-21T00:19:38.824677
+4210087387,0043qss98,Federal Employee Education and Assistance Fund,US,nonprofit,https://feea.org/,,,"[""FEEA""]",[],3,11,4210087387,2023-09-02T11:01:45.653194
+4210106604,0115kmj57,Corrective Eye Center,US,healthcare,http://correctiveeye.com/,,,"[""CEC""]",[],1,7,4210106604,2023-09-02T11:01:22.230628
+4210100247,011bmks03,Community for Youth,US,nonprofit,http://communityforyouth.org/,,,"[""CfY""]",[],2,94,4210100247,2023-10-22T23:39:54.090026
+4210092124,00dsh2014,Placer School for Adults,US,education,https://placeronline.org/,,,"[""PSA""]",[],2,39,4210092124,2023-10-22T21:58:35.244496
+4210149933,0583z7951,Eckert Schools International,DE,education,en/home.html,,,[],[],1,27,4210149933,2023-10-22T21:47:14.225550
+4210123348,02seb1k33,Freight Transport Association,GB,other,https://fta.co.uk/,,,"[""FTA""]",[],3,22,4210123348,2023-10-22T21:51:39.306336
+4210138437,03h6c8g90,Vdlconsult,DE,company,http://www.intospace.de/,,,[],[],3,8,4210138437,2023-10-22T17:58:38.916427
+2801667355,00dtxmk25,Colorado Springs Fine Arts Center,US,archive,http://www.csfineartscenter.org/,w/index.php?title=Special:Redirect/file/Colorado%20Springs%20Fine%20Arts%20Center.JPG,w/index.php?title=Special:Redirect/file/Colorado%20Springs%20Fine%20Arts%20Center.JPG&width=300,"[""FAC""]",[],2,3,2801667355,2023-10-22T20:23:29.424036
+4210146543,04mkdzx81,American Bowen Academy,US,other,http://www.americanbowen.academy/,,,[],[],1,3,4210146543,2023-10-22T13:59:06.510030
+4210147817,05rmea943,International Society for Heart Research,US,other,http://www.ishrworld.org/,,,"[""ISHR""]",[],1,3,4210147817,2023-10-22T19:33:05.451462
+4210149911,03rc8sv47,Lutheran Archives Center at Philadelphia,US,archive,https://www.lacphila.org/,,,"[""LACAP""]",[],3,0,4210149911,2023-10-22T23:09:05.552306
+4210156056,057ch9j82,Great Plains Tribal Chairmen’s Health Board,US,healthcare,https://gptchb.org/,,,"[""GPTCHB"", ""AATCHB""]","[""Aberdeen Area Tribal Chairmen’s Health Board""]",72,4513,4210156056,2024-02-21T20:34:53.290403
+4210116000,025ct3y55,TechSource (United States),US,company,http://www.techsource-inc.com/,,,[],[],96,2485,4210116000,2024-02-21T02:56:44.553415
+4210109279,01vt38y66,PhosphorTech (United States),US,company,https://phosphortech.com/,,,[],[],104,2319,4210109279,2024-02-21T18:51:18.080310
+4210162502,00yebwb79,Universidad Privada Sergio Bernales,PE,education,,,,[],[],82,1907,4210162502,2024-02-21T04:30:51.250010
+4210140843,03y0dsd75,CatoSenteret,NO,nonprofit,https://www.catosenteret.no/,,,[],[],16,1781,4210140843,2024-02-21T03:16:39.459726
+4210107615,01p37tq51,Analytical Instrument Systems (United States),US,company,http://www.aishome.com/,,,"[""AIS""]",[],26,1347,4210107615,2024-02-21T09:02:24.460217
+2802810276,05rqmax46,High Desert Museum,US,archive,http://www.highdesertmuseum.org/,w/index.php?title=Special:Redirect/file/High%20Desert%20Museum%2C%20Oregon%20%282013%29%20-%2040.JPG,w/index.php?title=Special:Redirect/file/High%20Desert%20Museum%2C%20Oregon%20%282013%29%20-%2040.JPG&width=300,[],[],28,1022,2802810276,2024-02-21T03:15:29.597977
+4210114181,027w0yp05,William C. Tallent Outpatient Clinic,US,healthcare,locations/Knoxville.asp,,,[],"[""Knoxville VA Medical Center""]",53,1010,4210114181,2024-02-21T04:38:31.321392
+4210121575,02msz7b29,Zankli Medical Centre,NG,healthcare,http://zankli.com/,,,[],[],69,1006,4210121575,2024-02-21T05:55:40.234123
+116121188,02kb3q578,Dolby (Netherlands),NL,company,us/en/about/contact-us/dolby-offices-worldwide.html,w/index.php?title=Special:Redirect/file/Dolby%20logo%202019.svg,w/index.php?title=Special:Redirect/file/Dolby%20logo%202019.svg&width=300,[],"[""Dolby Labs""]",132,835,116121188,2024-02-21T02:51:10.208055
+4210125954,02mjj7x54,Sussex Police,GB,government,https://www.sussex.police.uk/,wikipedia/en/2/23/Sussex_Police_badge.svg,wikipedia/en/thumb/2/23/Sussex_Police_badge.svg/100px-Sussex_Police_badge.svg.png,[],[],32,818,4210125954,2024-02-21T07:05:47.298479
+4210097471,00zfafm43,APS Biocontrol (United Kingdom),GB,company,https://www.apsbiocontrol.com/,,,[],[],12,779,4210097471,2024-02-21T21:58:40.893208
+4210097820,00vnvj755,Simmetrix (United States),US,company,http://www.simmetrix.com/,,,[],[],42,771,4210097820,2024-02-21T07:24:05.382127
+4210101727,014yznv62,TiNi Alloy (United States),US,company,http://www.tinialloy.com/,,,[],[],30,747,4210101727,2024-02-21T03:14:45.675182
+4210099121,00x76st93,Universidad Católica de Costa Rica,CR,education,https://www.ucatolica.ac.cr/,,,[],"[""Catholic University of Costa Rica Anselmo Llorente and Lafuente""]",97,737,4210099121,2024-02-21T15:07:55.348752
+4210155164,05beaae04,European Crohn's and Colitis Organisation,AT,other,https://www.ecco-ibd.eu/,,,"[""ECCO""]",[],11,727,4210155164,2024-02-21T00:12:40.760172
+4210099737,01612ta13,Aboriginal Health and Medical Research Council of New South Wales,AU,government,http://www.ahmrc.org.au/,,,"[""AH&MRC""]","[""Aboriginal Health and Medical Research Council of NSW""]",46,696,4210099737,2024-02-21T07:16:15.186517
+4210109507,017fqk185,Microsoft (Ireland),IE,company,en-ie/,wikipedia/commons/3/30/Building92microsoft.jpg,wikipedia/commons/thumb/3/30/Building92microsoft.jpg/100px-Building92microsoft.jpg,[],[],44,689,4210109507,2024-02-21T04:51:51.713540
+4210146083,03r9dgm57,Alaska Native Health Board,US,other,http://www.anhb.org/,,,"[""ANHB""]",[],13,680,4210146083,2024-02-21T21:04:43.980396
+41810378,04rqs6380,College of Southern Idaho,US,education,http://www.csi.edu/,w/index.php?title=Special:Redirect/file/CSI-Tower.jpg,w/index.php?title=Special:Redirect/file/CSI-Tower.jpg&width=300,"[""CSI""]",[],46,673,41810378,2024-02-21T09:38:52.091471
+4210101238,0199wh953,Contech (Canada),CA,company,https://www.contech-inc.com/,,,[],[],26,636,4210101238,2024-02-21T00:30:54.991186
+4210134555,041n30849,Union zur Förderung von Oel- und Proteinpflanzen e.V.,DE,other,https://www.ufop.de/,,,"[""UFOP""]",[],568,625,4210134555,2024-02-21T12:53:19.577746
+4210158199,04s705w68,Nscrypt (United States),US,company,http://nscrypt.com/,,,[],[],27,621,4210158199,2024-02-21T01:07:53.047433
+4210139432,04shpes69,Span Diagnostics (India),IN,company,http://www.span.co.in/,,,[],[],36,617,4210139432,2024-02-21T00:10:03.136182
+4210132661,04j9qwe36,Danish Refugee Council,DK,nonprofit,http://www.drc.ngo/,wikipedia/commons/4/44/Drc-logo.png,wikipedia/commons/thumb/4/44/Drc-logo.png/100px-Drc-logo.png,"[""DRC""]","[""Dansk Flygtningehjælp""]",79,609,4210132661,2024-02-21T16:47:52.597974
+4210133279,03savhj63,Exocell (United States),US,company,http://www.exocell.com/,,,[],[],16,582,4210133279,2024-02-21T13:08:27.149106
+4210119079,02kfn1p21,Cybergenetics (United States),US,company,https://www.cybgen.com/,,,[],[],24,575,4210119079,2024-02-21T21:17:10.287613
+4210092315,00d4qwn05,Meridian (Russia),RU,company,http://www.meridian-realty.ru/,,,[],"[""Меридиан""]",52,567,4210092315,2024-02-21T03:03:42.244709
+4210105911,01jgs5r19,Universidad Privada de Pucallpa,PE,education,https://upp.edu.pe/,,,"[""UPP""]",[],37,564,4210105911,2024-02-21T03:39:27.811967
+4210123511,035yccj48,Kansas City Hospice and Palliative Care,US,nonprofit,https://www.kchospice.org/,,,[],[],30,554,4210123511,2024-02-21T07:41:07.938055
+4210087367,005yzhk58,Hassle Free Clinic,CA,healthcare,http://hasslefreeclinic.org/,,,[],[],30,553,4210087367,2024-02-21T11:58:32.334198
+4210124996,02sncd318,The Reed Institute,US,education,http://thereedinstitute.com/,,,[],[],30,536,4210124996,2024-02-21T07:39:03.148337
+200120152,0511q3e85,Gateway Community College,US,education,http://www.gatewayct.edu/,wikipedia/commons/a/a6/Gateway_Community_College_grand_opening_%%287889150408%%29.jpg,wikipedia/commons/thumb/a/a6/Gateway_Community_College_grand_opening_%%287889150408%%29.jpg/100px-Gateway_Community_College_grand_opening_%%287889150408%%29.jpg,"[""GCC""]","[""South Central Community College""]",61,504,200120152,2024-02-21T22:41:10.812350
+4210116545,01vbw9k90,Orihara Industrial (Japan),JP,company,http://www.orihara-ss.co.jp/,,,[],[],34,500,4210116545,2024-02-21T01:44:11.602461
+4210144892,03xg8x064,3D Systems (Israel),IL,company,https://www.3dsystems.com/,wikipedia/commons/7/7b/3D_Systems_Logo.png,wikipedia/commons/thumb/7/7b/3D_Systems_Logo.png/100px-3D_Systems_Logo.png,[],[],8,493,4210144892,2024-02-21T22:43:34.187877
+4210091457,00dw32w32,The Healthy Pizza Company,US,other,http://www.thehealthypizza.com/,,,[],[],4,489,4210091457,2024-02-21T09:15:49.467747
+4210101987,01797xg87,MEI Research (United States),US,company,http://meinergy.com/,,,[],[],1792,481,4210101987,2024-02-21T10:41:16.473320
+4210122891,03s4f5949,Techni (Norway),NO,company,http://www.techni.no/,,,[],[],65,481,4210122891,2024-02-21T16:54:25.294581
+4210148357,04gd7mk44,Aanderaa (Norway),NO,company,http://www.aanderaa.com/,,,[],[],35,470,4210148357,2024-02-21T22:22:57.092482
+4210164112,05s1j9511,dMetrics (United States),US,company,https://dmetrics.com/,,,[],[],23,470,4210164112,2024-02-21T21:34:47.832555
+4210111991,0247j5w40,NorthEast Ohio Neighborhood Health Services,US,healthcare,https://www.neonhealth.org/,,,"[""NEON""]",[],14,462,4210111991,2024-02-21T03:46:50.987554
+2801560603,04gacp295,Municipality of Anchorage,US,government,pages/default.aspx,w/index.php?title=Special:Redirect/file/Anchorage%20on%20an%20April%20evening.jpg,w/index.php?title=Special:Redirect/file/Anchorage%20on%20an%20April%20evening.jpg&width=300,[],[],23,461,2801560603,2024-02-21T05:10:40.510820
+4210100145,013cpfz63,Cel-Sci (United States),US,company,https://cel-sci.com/,,,[],[],35,427,4210100145,2024-02-21T16:08:11.893478
+4210133519,03pca8c78,H-Cubed (United States),US,company,http://h-cubed.com/,,,[],[],27,421,4210133519,2024-02-21T03:30:28.212518
+4210136723,047etja20,Everis (Spain),ES,company,global/en-US/home/Paginas/home.aspx,,,[],[],55,414,4210136723,2024-02-21T06:04:57.945223
+4210133372,03fd82c91,Rohm (Germany),DE,company,http://www.rohm.com/,,,[],[],27,407,4210133372,2024-02-21T04:22:29.136897
+2799394588,02awk5v34,Synergos Institute,US,nonprofit,http://www.synergos.org/,,,[],[],9,401,2799394588,2024-02-21T06:41:47.307199
+4210117328,02dxe8s77,National Hospital,PA,healthcare,http://www.hospitalnacional.com/,wikipedia/en/e/ee/Hospital_Nacional%2C_Panama_%28logo%29.jpg,wikipedia/en/thumb/e/ee/Hospital_Nacional%2C_Panama_%28logo%29.jpg/100px-Hospital_Nacional%2C_Panama_%28logo%29.jpg,[],"[""Hospital Nacional""]",68,392,4210117328,2024-02-21T06:00:39.383100
+4210132309,046vt0d34,Programme for Accessible Health Communication and Education,UG,nonprofit,http://www.pace.org.ug/,,,"[""PACE""]",[],10,375,4210132309,2024-02-21T03:29:39.081788
+2799386879,01ym21515,Darton State College,US,education,http://www.darton.edu/,w/index.php?title=Special:Redirect/file/Darton%20College%2C%20Albany.JPG,w/index.php?title=Special:Redirect/file/Darton%20College%2C%20Albany.JPG&width=300,[],"[""Albany Junior College""]",57,360,2799386879,2024-02-21T20:36:25.415524
+4210137047,03k52yd02,Imasonic,FR,company,Company/Identity.php,,,[],[],39,348,4210137047,2024-02-21T09:24:57.307270
+4210088546,004aekm03,South Carolina HIV/AIDS Council,US,nonprofit,http://schivaidscouncil.org/,,,"[""SCHAC""]",[],6,344,4210088546,2024-02-21T17:24:44.080515
+4210121731,029y62y23,URSA Institute,US,nonprofit,http://www.ursa-institute.org/,,,"[""UI""]",[],12,335,4210121731,2024-02-21T16:18:09.738451
+4210141802,046xx9480,Korea Counseling Graduate University,KR,education,english/portal.php,,,[],"[""한국상담대학원대학교""]",34,332,4210141802,2024-02-21T05:55:07.572671
+4210086530,001087p83,Phenox (Germany),DE,company,https://phenox.net/,,,[],[],17,326,4210086530,2024-02-21T18:34:39.472053
+2801310823,05mchsq43,Keweenaw Bay Ojibwa Community College,US,education,https://www.kbocc.edu/,wikipedia/en/c/c5/Keweenaw_Bay_Ojibwa_Community_College_seal.png,wikipedia/en/thumb/c/c5/Keweenaw_Bay_Ojibwa_Community_College_seal.png/100px-Keweenaw_Bay_Ojibwa_Community_College_seal.png,"[""KBOCC""]",[],25,325,2801310823,2024-02-21T02:00:53.248945
+4210125827,03atsav32,Crop Science Research Laboratory,US,facility,southeast-area/mississippi-state-ms/crop-science-research-laboratory/,,,[],[],15,310,4210125827,2024-02-21T01:05:29.859036
+4210145985,04f5a5m96,Apotex (India),IN,company,in/en,wikipedia/commons/2/2e/ApotexRichmondHill2.jpg,wikipedia/commons/thumb/2/2e/ApotexRichmondHill2.jpg/100px-ApotexRichmondHill2.jpg,[],[],26,308,4210145985,2024-02-21T23:33:36.937403
+4210140645,0372q3g13,oncgnostics (Germany),DE,company,http://www.oncgnostics.com/,,,[],[],27,305,4210140645,2024-02-21T11:07:12.243844
+4210091452,00deak765,Veidekke (Norway),NO,company,http://veidekke.no/,wikipedia/commons/4/48/Veidekke_logo.svg,wikipedia/commons/thumb/4/48/Veidekke_logo.svg/100px-Veidekke_logo.svg.png,[],[],31,297,4210091452,2024-02-21T06:19:09.865949
+4210129492,03ceqdn81,Semerane (United States),US,company,http://www.semerane.com/,,,[],[],8,297,4210129492,2024-02-21T17:19:49.784954
+4210146519,04jp86b51,Delta T Devices (United Kingdom),GB,company,https://www.delta-t.co.uk/,,,[],[],11,292,4210146519,2024-02-21T03:50:21.559436
+4210116816,02d4twb46,Sound Health Options,US,healthcare,http://www.soundhealthoptions.com/,,,[],[],22,289,4210116816,2024-02-21T06:39:18.818394
+2799443808,005he3989,Trinity School for Ministry,US,education,http://www.tsm.edu/,w/index.php?title=Special:Redirect/file/Trinity%20School%20for%20Ministry%20in%20the%20Spring.jpg,w/index.php?title=Special:Redirect/file/Trinity%20School%20for%20Ministry%20in%20the%20Spring.jpg&width=300,"[""TSM"", ""TESM""]","[""Trinity Episcopal School for Ministry""]",65,285,2799443808,2024-02-21T19:40:29.697807
+4210162988,05x9ajk82,Nokomis (United States),US,company,http://www.nokomisinc.com/,,,[],[],29,283,4210162988,2024-02-21T00:20:46.951574
+4210147717,0533m8w24,Advanced Simulation & Design (Germany),DE,company,https://www.asd-online.com/,,,"[""ASD""]",[],19,266,4210147717,2024-02-21T08:29:21.948079
+4210121657,02dm76w35,Minnesota Institute of Public Health,US,nonprofit,http://www.miph.org/,,,"[""MIPH""]",[],41,264,4210121657,2024-02-21T12:45:49.480306
+4210120042,02j787g88,Skin Science Institute,US,education,https://skinscienceinstitute.com/,,,[],[],6,261,4210120042,2024-02-21T20:37:06.682106
+4210085924,004vpqq08,Princeton Microwave Technology (United States),US,company,http://www.princetonmicrowave.com/,,,"[""PmT""]",[],31,260,4210085924,2024-02-21T12:45:42.044444
+4210117925,02f36qr48,University of Pharmacy Yangon,MM,education,http://www.uopygn.gov.mm/,,,"[""UOPY""]","[""ဆေးဝါး တက္ကသိုလ် ရန်ကုန်""]",19,251,4210117925,2024-02-21T06:30:16.648909
+4210158277,04whgpk43,Brijder,NL,nonprofit,https://www.brijder.nl/,,,[],"[""Brijder Verslavingszorg""]",23,250,4210158277,2024-02-21T12:11:29.732451
+71288437,01ysc1e93,Lower Columbia College,US,education,http://www.lowercolumbia.edu/,wikipedia/en/2/24/LowerColumbiaCollegeLogo.gif,wikipedia/en/thumb/2/24/LowerColumbiaCollegeLogo.gif/100px-LowerColumbiaCollegeLogo.gif,"[""LCC""]",[],57,250,71288437,2024-02-21T01:28:30.544822
+4210147974,03wgnxg62,Cytonics (United States),US,company,http://cytonics.com/,,,[],[],19,247,4210147974,2024-02-21T06:29:36.414185
+4210164667,05fh3jm54,Dayton T. Brown (United States),US,company,index,,,"[""DTB""]",[],50,244,4210164667,2024-02-21T16:40:49.622216
+4210156812,057aqdv46,Center for Reliable Energy Systems,US,facility,http://cresamericas.wpengine.com/,,,"[""CRES""]",[],108,241,4210156812,2024-02-21T09:35:04.758959
+4210135237,03d908h34,TrueBinding (United States),US,company,https://www.truebinding.com/,,,[],"[""Immutics""]",14,235,4210135237,2024-02-21T07:24:01.391639
+2801395546,01wm6bg59,West Shore Community College,US,education,http://www.westshore.edu/,wikipedia/en/f/f9/West_shore_seal.jpg,wikipedia/en/thumb/f/f9/West_shore_seal.jpg/100px-West_shore_seal.jpg,"[""WSCC""]",[],13,234,2801395546,2024-02-21T20:59:55.758239
+4210088666,003sjbp72,Waiward Steel (Canada),CA,company,http://www.waiward.com/,,,[],[],9,234,4210088666,2024-02-21T06:00:09.692339
+4210123072,032hxhk43,Polynt (Italy),IT,company,https://www.polynt.com/,,,[],[],14,234,4210123072,2024-02-21T18:58:41.089103
+3130723181,00701pv42,Wesford,FR,education,http://www.wes-sup.fr/,,,[],"[""Wesford Graduate Business School"", ""École Supérieure de Commerce Wesford""]",25,233,3130723181,2024-02-21T05:06:33.000742
+4210152588,04f6m0p71,AOSOL (Portugal),PT,company,http://www.aosol.pt/,,,[],[],6,233,4210152588,2024-02-21T03:27:05.777331
+4210114852,025g9s518,New England Anti-Vivisection Society,US,nonprofit,https://neavs.org/,,,"[""NEAVS""]",[],19,231,4210114852,2024-02-21T10:24:23.049488
+4210127175,03fw4bm79,Halocarbon (United States),US,company,https://www.halocarbon.com/,,,[],[],14,224,4210127175,2024-02-21T22:04:49.841839
+4210152710,04zvt5792,Four Elements Capital (United Kingdom),GB,company,http://www.4elementscapital.co.uk/,,,[],[],20,223,4210152710,2024-02-21T00:23:07.729447
+4210123396,02ykxax89,Kowa (United Kingdom),GB,company,http://www.kowapharmaceuticals.eu/,,,"[""KRE""]",[],16,217,4210123396,2024-02-21T05:21:53.216982
+4210098778,00xrtc164,Shetland Arts,GB,archive,https://www.shetlandarts.org/,,,[],"[""Shetland Arts Development Agency""]",45,212,4210098778,2024-02-21T21:17:00.089959
+2800932131,02zzkft25,Shigakukan University,JP,education,http://www.shigakukan.ac.jp/,,,[],"[""志學館大学""]",57,202,2800932131,2024-02-21T15:05:05.339498
+4210114353,01zrfm954,Mid Ohio Foodbank,US,nonprofit,https://www.midohiofoodbank.org/,,,[],[],6,199,4210114353,2024-02-21T22:20:33.626120
+4210138014,039fymv14,Malik Management (Switzerland),CH,company,en/,,,[],[],60,199,4210138014,2024-02-21T19:26:08.022358
+4210150195,04k6d6v57,CJ America (United States),US,company,https://cjamerica.com/,,,[],[],35,198,4210150195,2024-02-21T03:54:50.831643
+4210140439,04ge7a533,Digital Video (Italy),IT,company,https://www.digitalvideo.biz/,,,[],[],142,196,4210140439,2024-02-21T05:05:11.531349
+4210146538,04m8q0w70,BioTransformations (United Kingdom),GB,company,http://www.biotransformations.net/,,,[],[],83,196,4210146538,2024-02-21T23:53:39.301930
+4210109157,01vm25y95,Research Institute of Technical Glass,RU,facility,http://intg.org/,,,"[""NITS""]","[""Научно-исследовательский институт технического стекла""]",221,195,4210109157,2024-02-21T23:36:52.818347
+4210095602,00a6gz882,Renova Life (United States),US,company,http://www.renovalife.com/,,,"[""RLI""]",[],28,194,4210095602,2024-02-21T00:21:57.977343
+4210150952,04wk8me05,Global InfoTek (United States),US,company,http://www.globalinfotek.com/,,,"[""GITI""]",[],20,193,4210150952,2024-02-21T13:40:42.985021
+4210148894,03x4rma83,Aztec Systems (United States),US,company,https://aztecsystems.com/,,,[],[],113,192,4210148894,2024-02-21T23:32:28.610699
+4210100828,013ykv656,SEMI,FR,other,en/,,,[],[],21,191,4210100828,2024-02-21T04:21:55.204399
+4210103732,01bts4z81,Rhenovia (France),FR,company,https://www.rhenovia.com/,,,[],[],24,191,4210103732,2024-02-21T15:17:05.781400
+4210146923,03jcesj83,Tilde (Latvia),LV,company,http://www.tilde.com/,,,[],[],58,190,4210146923,2024-02-21T02:36:42.354007
+4210086420,000jc2g50,Stratacor (United States),US,company,http://stratacor-inc.com/,,,[],[],16,189,4210086420,2024-02-21T20:58:02.056745
+4210091693,00gwz0j29,Biotronics (United States),US,company,http://www.biotronics-inc.com/,,,[],[],20,188,4210091693,2024-02-21T04:52:45.081465
+4210115354,0299yrd21,Ferre Institute,US,nonprofit,http://www.ferre.org/,,,[],[],6,187,4210115354,2024-02-21T02:55:25.537287
+4210167235,01q3qwp65,Université de Notre-Dame du Kasai,CD,education,,,,[],[],22,187,4210167235,2024-02-21T12:57:43.667191
+4210106365,01kx4gj60,Varex Imaging (United States),US,company,https://www.vareximaging.com/,,,[],[],41,186,4210106365,2024-02-21T03:15:10.696472
+4210146150,058d17a16,Project Automation (Italy),IT,company,https://p-a.it/,,,[],[],28,186,4210146150,2024-02-21T05:00:31.058073
+4210103199,00sb06w67,HiTec Marketing,AT,company,http://www.hitec.at/,,,"[""HTM""]",[],38,183,4210103199,2024-02-21T20:13:16.402656
+891764251,05wg45912,Meritor (France),FR,company,ourcompany/reach/europe/default.aspx,,,[],[],97,182,891764251,2024-02-21T20:56:36.632605
+4210160636,053y7p194,Health & Development International,US,nonprofit,http://hdi.no/,,,"[""HDI""]",[],15,180,4210160636,2024-02-21T14:33:42.779569
+4210117752,023s0f257,42 Technology (United Kingdom),GB,company,http://www.42technology.com/,,,[],[],19,179,4210117752,2024-02-21T22:46:15.394631
+4210147653,04tnv7w23,École Supérieure Polytechnique d'Antsiranana,MG,education,https://www.esp-antsiranana.mg/,,,[],"[""ESP Antsiranana""]",24,179,4210147653,2024-02-21T03:29:41.706533
+4210095839,00rgeck60,Evonik (United Kingdom),GB,company,en,wikipedia/commons/c/c5/RellingHaus_II%2C_Essen.jpg,wikipedia/commons/thumb/c/c5/RellingHaus_II%2C_Essen.jpg/100px-RellingHaus_II%2C_Essen.jpg,[],[],24,178,4210095839,2024-02-21T10:39:45.550984
+4210112175,0243qcr03,Archetypon,GR,other,http://archetypon.net/,,,[],[],19,178,4210112175,2024-02-21T03:32:31.472703
+4210110592,01q00vp39,Nagoya University of Arts,JP,education,http://www.nua.ac.jp,wikipedia/commons/b/b5/Nagoya_university_of_arts_east.jpg,wikipedia/commons/thumb/b/b5/Nagoya_university_of_arts_east.jpg/100px-Nagoya_university_of_arts_east.jpg,"[""NUA""]","[""名古屋芸術大学""]",35,174,4210110592,2024-02-21T03:28:27.570091
+4210127690,047456960,Broome County Health Department,US,government,hd,,,[],[],19,174,4210127690,2024-02-21T17:43:36.324892
+4210160600,055bk1853,Unichem (Slovenia),SI,company,http://www.unichem.si/,,,[],[],32,174,4210160600,2024-02-21T19:28:28.613551
+4210103091,01fa9pv21,Coretek (United States),US,company,http://www.coretek.us/,,,[],[],10,172,4210103091,2024-02-21T17:46:19.627118
+4210162903,05ja6kg22,Quietmind Foundation,US,nonprofit,https://www.quietmindfdn.org/,,,[],[],14,170,4210162903,2024-02-21T07:55:28.742346
+4210121255,01xs14k38,Medacta (United States),US,company,https://www.medacta.com,,,[],[],10,169,4210121255,2024-02-21T00:39:36.371201
+4210147738,046228582,Innovative Medicines for Tuberculosis Foundation,CH,other,http://im4tb.org/,,,[],"[""iM4TB Foundation""]",5,169,4210147738,2024-02-21T00:02:25.728555
+4210089689,007vees71,Gyan Data (India),IN,company,http://www.gyandata.com/,,,[],[],27,167,4210089689,2024-02-21T15:15:53.470982
+4210095880,00s5ck612,Accessible Space,US,nonprofit,http://www.accessiblespace.org/,,,"[""ASI""]",[],2,167,4210095880,2024-02-21T23:07:13.224939
+4210113340,024b0tx86,Scuola Nazionale dell'Amministrazione,IT,education,http://www.sna.gov.it/,,,"[""SSPA"", ""SNA""]","[""Scuola Superiore della Pubblica Amministrazione""]",28,164,4210113340,2024-02-21T14:37:23.823804
+4210114041,024f0th47,Regenmedtx (United States),US,company,http://www.regenmedtx.com/,,,[],[],5,162,4210114041,2024-02-21T19:43:03.238932
+4210132505,02y8qpa51,JDA Software (Canada),CA,company,http://www.jda.com/,,,[],[],17,162,4210132505,2024-02-21T05:17:36.024978
+1339830613,019qrs910,Electronic Privacy Information Center,US,nonprofit,https://epic.org/,w/index.php?title=Special:Redirect/file/EPIC%20logo%202017.png,w/index.php?title=Special:Redirect/file/EPIC%20logo%202017.png&width=300,"[""EPIC""]",[],26,161,1339830613,2024-02-21T11:20:31.154088
+4210111602,020dbrn58,Lundbeck (Spain),ES,company,es,wikipedia/en/a/a9/Lundbeck.svg,wikipedia/en/thumb/a/a9/Lundbeck.svg/100px-Lundbeck.svg.png,[],[],18,161,4210111602,2024-02-21T11:51:28.569346
+4210111347,02t6xhx48,Photozig (United States),US,company,http://www.photozig.com/,,,[],[],6,159,4210111347,2024-02-21T02:15:18.489177
+4210114110,025qyhe63,Advanced Powder Solutions (United States),US,company,http://www.apowders.com/,,,"[""APS""]",[],9,159,4210114110,2024-02-21T07:44:13.744820
+4210127579,0310y6579,Rzeszów School of Engineering and Economics,PL,education,https://wsie.edu.pl/,,,"[""WSI-E""]","[""Wyższa Szkoła Inżynieryjno – Ekonomiczna z siedzibą w Rzeszowie""]",76,159,4210127579,2024-02-21T11:24:50.979886
+4210154030,04y5tkt43,BIG Direkt Gesund,DE,healthcare,https://www.big-direkt.de/,,,[],"[""Bundesinnungskrankenkasse Gesundheit""]",50,159,4210154030,2024-02-21T02:29:07.419526
+4210129508,03dewpe59,East Harlem School,US,education,https://www.eastharlemschool.org,,,[],[],18,158,4210129508,2024-02-21T22:29:26.904506
+4210148178,04c9me270,Milcord (United States),US,company,http://milcord.com/,,,[],[],14,158,4210148178,2024-02-21T22:47:53.853920
+4210086329,001msz730,Spectrum Associates (United States),US,company,https://www.spectrumct.com/,,,[],[],26,156,4210086329,2024-02-21T00:31:38.521653
+4210121135,02rs30x67,Melexis (Germany),DE,company,https://www.melexis.com/,,,[],[],93,156,4210121135,2024-02-21T21:04:10.244618
+4210139697,03xws5b35,Marnix Academie,NL,education,http://english.marnixacademie.nl/,,,[],[],33,156,4210139697,2024-02-21T00:32:07.275086
+4210162325,059n53q30,Doric Lenses (Canada),CA,company,http://doriclenses.com/,,,[],[],10,156,4210162325,2024-02-21T03:25:06.993982
+4210159026,05cj0xg89,Akademie Für Osteopathie,DE,nonprofit,http://osteopathie-akademie.de/,,,"[""AFO""]",[],12,154,4210159026,2024-02-21T12:50:25.382235
+3145131819,023y0xv72,Paul Revere Memorial Association,US,archive,https://www.paulreverehouse.org/,w/index.php?title=Special:Redirect/file/Paul%20Revere%E2%80%99s%20House%20%282006%29.jpg,w/index.php?title=Special:Redirect/file/Paul%20Revere%E2%80%99s%20House%20%282006%29.jpg&width=300,[],"[""Paul Revere House""]",29,153,3145131819,2024-02-21T05:00:15.303125
+4210091079,00bkjqa40,InnoLas Solutions (Germany),DE,company,https://www.innolas-solutions.de/,,,[],[],29,150,4210091079,2024-02-21T16:05:55.367551
+4210093190,00mq90977,Hordeum (Slovakia),SK,company,en/index.html,,,[],"[""Sládkovičovo Plant Breeding station""]",7,150,4210093190,2024-02-21T22:52:49.051981
+3130444996,03jjrt588,Zenith University College,GH,education,https://zucghana.org/,wikipedia/en/7/7a/Zenith_University_College_Logo.jpg,wikipedia/en/thumb/7/7a/Zenith_University_College_Logo.jpg/100px-Zenith_University_College_Logo.jpg,[],[],61,147,3130444996,2024-02-21T03:18:08.071246
+4210124079,032a11168,Arbeitsgemeinschaft Mauerziegel,DE,other,http://www.argemauerziegel.de/,,,[],"[""Arbeitsgemeinschaft Mauerziegel im Bundesverband der Deutschen Ziegelindustrie""]",51,145,4210124079,2024-02-21T17:11:26.211579
+4210103095,01fjxvf67,Southwest Center for Chronic Disease,US,healthcare,http://o6d.b63.myftpupload.com/,,,[],[],16,144,4210103095,2024-02-21T12:17:37.989118
+4210123849,035kh8h98,Measurement Technology Northwest (United States),US,company,http://www.mtnw-usa.com/,,,"[""MTNW ""]",[],17,143,4210123849,2024-02-21T16:14:24.683685
+4210091757,00dg4je56,Thermal-Lube (Canada),CA,company,http://thermal-lube.com/,,,[],[],5,142,4210091757,2024-02-21T03:28:11.164935
+4210111293,0219smt59,The Justice Research Center,US,other,http://thejrc.com/,,,"[""JRC""]",[],5,142,4210111293,2024-02-21T17:17:48.158348
+4210094890,00qxws716,InnoSportLab,NL,nonprofit,http://www.innosport.nl/,,,[],[],8,141,4210094890,2024-02-21T09:13:59.990109
+4210128710,031zzq071,Robert Bosch (United Kingdom),GB,company,en/com/home/index.php,wikipedia/commons/a/a0/BoschRenningen-pjt.jpg,wikipedia/commons/thumb/a/a0/BoschRenningen-pjt.jpg/100px-BoschRenningen-pjt.jpg,[],[],35,141,4210128710,2024-02-21T08:26:02.761063
+4210112958,022enjj11,Fent Innovative Software Solutions (Spain),ES,company,https://fentiss.com/,,,"[""FentISS""]",[],108,139,4210112958,2024-02-21T05:29:36.632093
+4210116661,02khzxe16,Instituto Superior de Comunicação Empresarial,PT,education,https://www.iscem.pt,,,"[""ISCEM""]",[],129,139,4210116661,2024-02-21T00:08:14.935959
+4210131165,02j078x28,Asociacion Industrial de Optica Color e Imagen,ES,nonprofit,https://www.aido.es,,,"[""AIDO""]","[""Asociacion Industrial De Optica Color E Imagen""]",20,139,4210131165,2024-02-21T12:51:12.015882
+4210161393,05rtd6p98,Gespag,AT,healthcare,https://www.gespag.at,,,[],"[""Oö. Gesundheits- und Spitals-AG""]",22,139,4210161393,2024-02-21T13:24:07.103037
+4210115994,024v03d05,Bradwell Community Hospital,GB,healthcare,services/bradwell-community-hospital,,,[],[],16,137,4210115994,2024-02-21T03:55:26.567158
+4210130403,03rx9np38,BlackBerry (United Kingdom),GB,company,home.html,wikipedia/commons/f/f0/BlackBerry_Limited_Waterloo_Campus.jpg,wikipedia/commons/thumb/f/f0/BlackBerry_Limited_Waterloo_Campus.jpg/100px-BlackBerry_Limited_Waterloo_Campus.jpg,[],"[""Research In Motion Limited""]",25,136,4210130403,2024-02-21T20:48:16.248681
+4210134483,03k83h416,Compass (Brazil),BR,company,web/,,,[],[],12,136,4210134483,2024-02-21T09:24:39.774038
+4210126044,034rrk963,Oledcomm (France),FR,company,https://www.oledcomm.net,,,[],[],46,135,4210126044,2024-02-21T03:21:17.143891
+4210150107,05r89fw56,Universidad del Valle de Puebla,MX,education,https://www.uvp.mx/,,,"[""UVP""]",[],82,134,4210150107,2024-02-21T18:33:27.504956
+4210147948,03zd66h19,Inprother (Denmark),DK,company,https://www.inprother.com/,,,[],[],22,131,4210147948,2024-02-21T21:56:02.342512
+4210133030,02ntw5v16,Korea Information & Communication Contractors Association,KR,nonprofit,index.jsp,,,"[""KICA""]","[""한국정보통신공사협회""]",6,128,4210133030,2024-02-21T20:02:21.412890
+4210165956,027ep7e51,Sutton Cottage Hospital,GB,healthcare,,,,[],[],12,128,4210165956,2024-02-21T09:47:11.084443
+4210101594,00xgq3z19,PeoplePower (United States),US,company,http://www.peoplepowerco.com/,,,[],[],13,127,4210101594,2024-02-21T20:11:23.501009
+4210096993,00p1j0r66,Colégio Metodista Bennett,BR,education,http://bennett.edu.br/,,,[],"[""Instituto Metodista Bennett""]",24,126,4210096993,2024-02-21T04:22:04.546493
+4210121367,02hqgsn65,Visual Dimension (Belgium),BE,company,http://www.visualdimension.be/,,,[],[],20,125,4210121367,2024-02-21T20:20:46.175162
+4210154842,04dyest60,Moulinex (France),FR,company,http://www.moulinex.fr/,wikipedia/commons/2/2e/Cr%C3%A8mekleurige_mixer_%E2%80%9CMoulinex%E2%80%9D_met_zes_hulpstukken%2C_objectnr_75480-A-G.JPG,wikipedia/commons/thumb/2/2e/Cr%C3%A8mekleurige_mixer_%E2%80%9CMoulinex%E2%80%9D_met_zes_hulpstukken%2C_objectnr_75480-A-G.JPG/100px-Cr%C3%A8mekleurige_mixer_%E2%80%9CMoulinex%E2%80%9D_met_zes_hulpstukken%2C_objectnr_75480-A-G.JPG,[],[],22,124,4210154842,2024-02-21T20:32:19.808828
+4210109946,014becm56,Meteolabor (Switzerland),CH,company,en/,,,[],[],5,123,4210109946,2024-02-21T02:30:18.192437
+4210156375,05bcrb290,Franklinton Gardens,US,nonprofit,https://franklintongardens.org/,,,[],[],3,123,4210156375,2024-02-21T07:38:22.597199
+4210128016,030dxd692,Kumamoto Prefectural Matsubase High School,JP,education,matsubasesh/,,,[],"[""熊本県立松橋高等学校""]",23,121,4210128016,2024-02-21T02:37:16.187408
+4210143346,04arjdq12,Sekal (Norway),NO,company,http://sekal.com/,,,[],[],28,121,4210143346,2024-02-21T11:57:21.358687
+4210095775,01jzg2v44,MKS Instruments (Germany),DE,company,https://www.mksinst.com/,,,[],[],23,120,4210095775,2024-02-21T23:28:31.500661
+4210102214,019h09n30,Positron Systems (United States),US,company,http://www.positronsystems.com/,,,[],[],34,120,4210102214,2024-02-21T05:55:35.917625
+4210104098,01bzmx018,Morgan Solar (Canada),CA,company,http://morgansolar.com/,wikipedia/en/7/7b/Morgan_Solar_Letterhead_Knockout.png,wikipedia/en/thumb/7/7b/Morgan_Solar_Letterhead_Knockout.png/100px-Morgan_Solar_Letterhead_Knockout.png,[],[],23,119,4210104098,2024-02-21T09:23:05.733098
+4210108062,01yk80k13,Hytron (Brazil),BR,company,http://www.hytron.com.br/,,,[],[],14,118,4210108062,2024-02-21T11:29:32.928293
+4210131810,04ezttg26,Radom (Czechia),CZ,company,?lang=en,,,[],[],120,118,4210131810,2024-02-21T06:40:31.007281
+2903420160,03nf8te12,Reading Public Library,US,archive,http://readingpubliclibrary.org/,wikipedia/en/c/ca/Reading_Public_Library_Main001.jpg,wikipedia/en/thumb/c/ca/Reading_Public_Library_Main001.jpg/100px-Reading_Public_Library_Main001.jpg,[],[],11,117,2903420160,2024-02-21T15:15:57.375944
+4210138653,0310pe913,Institute of World Civilizations,RU,education,http://www.imc-i.ru/,,,"[""IMC""]",[],66,114,4210138653,2024-02-21T17:00:41.748918
+4210092195,01bya3q34,SGL Carbon (Poland),PL,company,https://www.sglcarbon.com/,wikipedia/commons/8/87/Hauptverwaltung_SGL_Carbon.jpg,wikipedia/commons/thumb/8/87/Hauptverwaltung_SGL_Carbon.jpg/100px-Hauptverwaltung_SGL_Carbon.jpg,[],[],13,113,4210092195,2024-02-21T05:55:09.808413
+4210137160,037a1p293,Universitas Merdeka Pasuruan,ID,education,http://unmerpas.ac.id/,,,[],[],349,113,4210137160,2024-02-21T02:39:57.388745
+4210160443,054j84f79,St. Louis University High School,US,education,https://www.sluh.org,wikipedia/en/d/df/SLUHlogo.png,wikipedia/en/d/df/SLUHlogo.png,"[""SLUH""]",[],123,113,4210160443,2024-02-21T21:18:39.312675
+4210109790,01w8a9z74,Nanox (Brazil),BR,company,http://www.nanox.com.br/,,,[],[],6,111,4210109790,2024-02-21T04:07:43.018691
+4210113085,0269jcv25,Esensors (United States),US,company,https://eesensors.com,,,[],[],16,111,4210113085,2024-02-21T02:15:30.307300
+4210119448,02h9s3z30,Airflow Sciences (United States),US,company,http://www.airflowsciences.com/,wikipedia/commons/7/7e/ASC_logo_180dpi.png,wikipedia/commons/thumb/7/7e/ASC_logo_180dpi.png/100px-ASC_logo_180dpi.png,"[""ASC""]",[],20,111,4210119448,2024-02-21T03:23:34.443540
+4210130752,03ce0x006,RWP (Germany),DE,company,home.html,,,[],[],15,111,4210130752,2024-02-21T01:09:49.156792
+4210130776,03tnb9s98,Holo3,FR,facility,http://www.holo3.com/,,,[],[],17,111,4210130776,2024-02-21T04:24:33.837043
+2802477126,02ffb7k79,Imabari Meitoku Junior College,JP,education,http://www.meitan.ac.jp/,,,[],"[""今治明徳短期大学""]",10,110,2802477126,2024-02-21T03:27:21.949136
+4210096531,01m9bke74,"State Clinical Hospital ""Clinical Oncology Center No. 1",RU,healthcare,http://www.kkod.ru/,,,[],[],36,107,4210096531,2024-02-21T18:34:19.189419
+4210110051,01ztrqp26,Blue Pencil Group (United States),US,company,http://bluepencilgroup.com/,,,"[""BPG""]",[],35,107,4210110051,2024-02-21T00:03:10.190792
+4210109497,01k7x8h55,Centro Europa Ricerche,IT,facility,http://www.centroeuroparicerche.it/,,,"[""CER""]",[],23,103,4210109497,2024-02-21T09:42:28.912954
+4210137502,03jgd5t29,Astri Polska (Poland),PL,company,http://astripolska.pl/,,,[],[],21,103,4210137502,2024-02-21T16:58:02.663448
+4210139294,040tnnq16,Broward County Board,US,government,commission/Pages/default.aspx,,,[],[],17,101,4210139294,2024-02-21T17:34:00.166001
+4210108726,0212my482,Metroprojekt Praha (Czechia),CZ,company,en/,,,[],[],48,100,4210108726,2024-02-21T03:16:24.973584
+4210107131,01pv4sc22,KSE (United States),US,company,http://kse-online.com/,,,[],"[""Kessler Soils Engineering""]",9,99,4210107131,2024-02-21T04:15:53.697925
+4210139105,03a1a6r50,Trasys International (Belgium),BE,company,http://www.trasysinternational.com/,,,[],[],17,98,4210139105,2024-02-21T03:50:38.845161
+4210127306,034b4j008,Centice (United States),US,company,http://www.centice.com/,,,[],[],4,97,4210127306,2024-02-21T12:09:34.129542
+4210132009,030x94n68,KVC Health Systems,US,healthcare,https://www.kvc.org/,wikipedia/commons/4/44/KVC_Health_Systems_Logo_and_Tagline.png,wikipedia/commons/thumb/4/44/KVC_Health_Systems_Logo_and_Tagline.png/100px-KVC_Health_Systems_Logo_and_Tagline.png,[],[],12,97,4210132009,2024-02-21T06:20:19.168476
+4210100766,015z2kc86,Acconeer (Sweden),SE,company,http://acconeer.com/,,,[],[],9,96,4210100766,2024-02-21T04:26:15.423382
+2802909591,03f22z049,Exeter City Council,GB,government,index.aspx?articleid=10126,wikipedia/en/6/6f/Coat_of_Arms_of_Exeter.jpg,wikipedia/en/thumb/6/6f/Coat_of_Arms_of_Exeter.jpg/100px-Coat_of_Arms_of_Exeter.jpg,[],[],38,95,2802909591,2024-02-21T23:15:45.992596
+4210094534,007yc7a13,Brimatech (Austria),AT,company,https://www.brimatech.at/,,,[],[],8,95,4210094534,2024-02-21T02:34:05.817842
+4210104742,01hqeag92,Archäologischer Dienst des Kantons Bern,CH,government,erz/de/index/kultur/archaeologie.html#originRequestUrl=www.be.ch/archaeologie,,,[],[],12,94,4210104742,2024-02-21T12:42:28.276419
+2802309719,03afd3b65,Moraine Park Technical College,US,education,http://www.morainepark.edu/,w/index.php?title=Special:Redirect/file/MoraineParkTechnicalCollegeSign.jpg,w/index.php?title=Special:Redirect/file/MoraineParkTechnicalCollegeSign.jpg&width=300,"[""MPTC""]",[],18,93,2802309719,2024-02-21T02:59:43.903889
+2802583113,00crcaf72,American Vacuum Society,US,nonprofit,http://www.avs.org/,,,"[""AVS""]","[""Science and Technology of Materials, Interfaces, and Processing""]",16,93,2802583113,2024-02-21T06:08:14.881138
+4210086198,00recnr76,Centre for Democracy and Development,NG,nonprofit,https://www.cddwestafrica.org/,wikipedia/en/0/06/CDD_nu_logo25.jpg,wikipedia/en/thumb/0/06/CDD_nu_logo25.jpg/100px-CDD_nu_logo25.jpg,"[""CDD""]",[],39,93,4210086198,2024-02-21T04:40:54.081079
+4210088631,005z6d626,Catalyst for Payment Reform,US,nonprofit,http://www.catalyzepaymentreform.org/,,,"[""CPR""]",[],7,93,4210088631,2024-02-21T19:55:08.532542
+4210166538,05v4v2w58,Hebron Theological College,ZA,education,http://hebroncollege.co.za,,,"[""HTC""]",[],16,93,4210166538,2024-02-21T23:45:53.264120
+4210086776,001abtb92,NeoDynamics (Sweden),SE,company,http://www.neodynamics.se/,,,[],[],3,92,4210086776,2024-02-21T00:03:30.522861
+4210087657,002t0k030,Detec (Norway),NO,company,https://www.detec.no/,,,[],[],19,92,4210087657,2024-02-21T10:57:44.232354
+4210119771,02pdacs91,Becton Dickinson (Ireland),IE,company,http://www.bd.com/,wikipedia/en/f/fd/BD_%28company%29_logo.svg,wikipedia/en/thumb/f/fd/BD_%28company%29_logo.svg/100px-BD_%28company%29_logo.svg.png,"[""BD""]",[],10,92,4210119771,2024-02-21T07:37:30.686401
+4210156905,05ama3a60,Perceptive Innovations (United States),US,company,http://www.perceptive-innovations.com/,,,"[""PI2""]",[],16,92,4210156905,2024-02-21T09:54:47.256335
+4210129937,03kytw120,Pro Optica (Romania),RO,company,https://prooptica.ro/,,,[],[],39,90,4210129937,2024-02-21T15:08:41.467938
+4210130297,03j0zym75,Rajapark Institute,TH,education,http://www.rajapark.ac.th/,,,[],"[""สถาบันรัชต์ภาคย์""]",28,90,4210130297,2024-02-21T08:19:14.521629
+2800810323,05w0sqr84,Council for Agricultural Science and Technology,US,nonprofit,http://www.cast-science.org/,,,"[""CAST""]",[],5,89,2800810323,2024-02-21T03:39:58.859889
+4210122668,023aqyp35,SihuanPharm (China),CN,company,https://www.sihuanpharm.com/,,,[],[],12,89,4210122668,2024-02-21T03:35:28.072260
+4210123638,02d73fs96,ITI (United Kingdom),GB,company,https://www.iti-global.com/,,,[],"[""International TechneGroup""]",23,89,4210123638,2024-02-21T02:40:32.831854
+4210121979,035m9f342,Beth Johnson Foundation,GB,other,http://www.bjf.org.uk/,,,[],[],30,88,4210121979,2024-02-21T19:46:46.080798
+4210134978,047fbt408,Autronica Fire and Security (Norway),NO,company,Pages/Home.aspx,,,"[""AFS""]",[],7,88,4210134978,2024-02-21T02:41:44.381367
+4210114721,027shs254,Development Agency of Thessaloniki,GR,other,http://www.aneth.gr,,,"[""ΑΝΕΘ""]","[""Αναπτυξιακή Νομού Θεσσαλονίκης Α.Ε""]",5,87,4210114721,2024-02-21T09:49:35.444636
+4210162093,05ejn6z75,Metronome (United States),US,company,http://www.metronome-software.com/,,,[],[],8,87,4210162093,2024-02-21T17:25:07.380368
+2799493269,03z77se46,Hawaii Department of Human Services,US,government,http://humanservices.hawaii.gov/,,,[],[],8,86,2799493269,2024-02-21T00:51:10.281752
+4210147101,03w8zjq15,The Audio Recording Academy,CA,education,http://tara.ca/,,,"[""TARA""]",[],11,85,4210147101,2024-02-21T23:49:31.331195
+2801826830,01pqwyc94,Danish Film Institute,DK,education,http://www.dfi.dk/,w/index.php?title=Special:Redirect/file/Cinemateket%2001.jpg,w/index.php?title=Special:Redirect/file/Cinemateket%2001.jpg&width=300,[],"[""Det Danske Filminstitut""]",22,83,2801826830,2024-02-21T10:25:02.791094
+4210106594,010h1w694,Innovatech (Brazil),BR,company,http://www.innovatechmedical.com.br/,,,[],[],15,83,4210106594,2024-02-21T12:56:22.469980
+1121959,03s4hbs71,New England Board of Higher Education,US,nonprofit,http://www.nebhe.org/,wikipedia/en/6/6d/Nebhelogo.jpg,wikipedia/en/thumb/6/6d/Nebhelogo.jpg/99px-Nebhelogo.jpg,"[""NEBHE""]",[],34,82,1121959,2024-02-21T09:03:37.788042
+97061514,022598c22,University of Maryland University College Europe,DE,education,https://www.europe.umuc.edu/,w/index.php?title=Special:Redirect/file/Umuc-logo-acronym-rgb.png,w/index.php?title=Special:Redirect/file/Umuc-logo-acronym-rgb.png&width=300,"[""UMUC""]","[""UMUC Europe""]",35,79,97061514,2024-02-21T18:24:56.372405
+4210098311,00z72df47,Scientifica (United Kingdom),GB,company,https://www.scientifica.uk.com/,,,[],[],10,78,4210098311,2024-02-21T15:10:27.651823
+4210162835,05dnc4543,Senegal River Basin Development Authority,SN,other,http://www.portail-omvs.org/,,,"[""OMVS""]","[""Organisation Pour la Mise en Valeur du Fleuve Sénégal""]",17,78,4210162835,2024-02-21T16:14:37.528472
+4210091737,00cnk1752,W. L. Gore & Associates (Japan),JP,company,ja_jp/,wikipedia/commons/1/1f/W._L._Gore_%26_Associates_logo.svg,wikipedia/commons/thumb/1/1f/W._L._Gore_%26_Associates_logo.svg/100px-W._L._Gore_%26_Associates_logo.svg.png,[],"[""Gore""]",24,77,4210091737,2024-02-21T16:40:30.935824
+2799377475,05xet3f85,Interlochen Center for the Arts,US,nonprofit,http://www.interlochen.org/,w/index.php?title=Special:Redirect/file/The%20Commons%20at%20Interlochen%20Fine%20Arts%20School.jpg,w/index.php?title=Special:Redirect/file/The%20Commons%20at%20Interlochen%20Fine%20Arts%20School.jpg&width=300,[],[],47,76,2799377475,2024-02-21T08:40:24.235821
+4210150540,04m6gem67,Ministry of Education and Science of Georgia,GE,government,?lang=eng,wikipedia/commons/9/94/Greater_coat_of_arms_of_Georgia.svg,wikipedia/commons/thumb/9/94/Greater_coat_of_arms_of_Georgia.svg/100px-Greater_coat_of_arms_of_Georgia.svg.png,[],"[""საქართველოს განათლებისა და მეცნიერების სამინისტრო""]",12,76,4210150540,2024-02-21T20:22:29.721709
+4210120275,02vnvpc56,Jan Amos Komeński State School of Higher Vocational Education,PL,education,https://www.pwsz.edu.pl/,,,[],"[""Państwowa Wyższa Szkoła Zawodowa im. Jana Amosa Komeńskiego w Lesznie""]",45,75,4210120275,2024-02-21T12:48:46.739799
+4210124685,02s5hdd60,Cache Public Schools,US,education,http://www.cacheps.org/,,,[],[],10,75,4210124685,2024-02-21T08:27:03.722046
+4210094752,006exzm93,Morris Leslie Group (United Kingdom),GB,company,https://www.morrisleslie.com/,,,[],[],2,73,4210094752,2024-02-21T10:43:47.756681
+4210095898,00razdc11,Avantor (Poland),PL,company,https://www.avantorinc.com/,,,[],[],15,73,4210095898,2024-02-21T16:33:24.904216
+2800176349,00xp6a578,Northeastern Junior College,US,education,http://www.njc.edu/,wikipedia/commons/f/f0/Northeastern_Junior_College.JPG,wikipedia/commons/thumb/f/f0/Northeastern_Junior_College.JPG/100px-Northeastern_Junior_College.JPG,"[""NJC""]",[],9,70,2800176349,2024-02-21T18:27:59.355825
+4210161135,057766n30,Evoqua Water Technologies (United States),US,company,en,,,[],[],30,70,4210161135,2024-02-21T00:19:14.260279
+4210101566,015vhyq37,Mayer Brown (United Kingdom),GB,company,https://www.mayerbrown.com/,,,[],[],226,69,4210101566,2024-02-21T22:29:05.467932
+4210089230,00558ww90,Women in Sport,GB,nonprofit,https://www.womeninsport.org/,,,[],[],5,68,4210089230,2024-02-21T03:52:20.340906
+4210116216,02q3t9m57,National Law Institute University,IN,education,http://www.nliu.ac.in/,wikipedia/en/6/6d/National_Law_Institute_University_Logo.png,wikipedia/en/thumb/6/6d/National_Law_Institute_University_Logo.png/100px-National_Law_Institute_University_Logo.png,"[""NLIU""]",[],136,68,4210116216,2024-02-21T23:43:20.363135
+4210133502,03mq2kf66,Dr. Suat Seren Göğüs Hastalıkları Hastanesi,TR,healthcare,https://izmirgoguseah.saglik.gov.tr,,,[],[],25,68,4210133502,2024-02-21T05:15:33.543885
+4210109944,0147mxz16,Swedish Adrenaline (Sweden),SE,company,http://www.swedishadrenaline.com/,,,[],[],6,67,4210109944,2024-02-21T18:58:20.960309
+4210145721,044f89640,Agama Energy (South Africa),ZA,company,http://agama.co.za/,,,[],[],4,66,4210145721,2024-02-21T20:01:18.530885
+2944464671,02twc7963,Aerospace Valley,FR,nonprofit,en,w/index.php?title=Special:Redirect/file/LOGO%20AEROSPACE%20VALLEY%20Fond%20Clair.jpg,w/index.php?title=Special:Redirect/file/LOGO%20AEROSPACE%20VALLEY%20Fond%20Clair.jpg&width=300,[],[],27,65,2944464671,2024-02-21T02:28:15.230676
+4210126923,02pqkyr67,New Jersey Psychological Association,US,nonprofit,http://www.psychologynj.org/,,,"[""NJPA""]",[],9,65,4210126923,2024-02-21T19:54:04.104839
+4210146976,050564b76,Annaswamy Mudaliar General Hospital,IN,healthcare,http://annasawmyhospital.com/,,,"[""AMGH""]",[],22,65,4210146976,2024-02-21T04:01:31.930970
+4210163750,05w4kcm12,Emergence Tech Limited (United Kingdom),GB,company,,,,[],[],14,65,4210163750,2024-02-21T09:57:15.643205
+4210126339,02kwk6c15,International Management Institute,BE,education,http://www.timi.edu/,,,"[""IMI""]",[],15,64,4210126339,2024-02-21T06:37:36.205393
+4210164292,05k4hm954,Alstom (Poland),PL,company,poland/,,,[],[],31,63,4210164292,2024-02-21T13:02:06.497577
+4210098522,00gag9968,MFKK Invention and Research Center Services (Hungary),HU,company,http://www.mfkk.hu,,,[],[],6,62,4210098522,2024-02-21T09:37:51.720387
+4210117159,028zpwn78,Centre de Recherche et d’Information sur la Démocratie et l'Autonomie,FR,other,http://www.crida-fr.org/,,,"[""CRIDA""]",[],17,62,4210117159,2024-02-21T00:30:01.524671
+4210126974,02qb5bp07,Tornado Spectral Systems (Canada),CA,company,http://tornado-spectral.com/,,,"[""TSS""]",[],25,62,4210126974,2024-02-21T06:20:21.571434
+4210139077,04f6sbc78,Centro Universitario Fluminense,BR,education,http://www.uniflu.edu.br/,,,"[""UNIFLU""]",[],63,62,4210139077,2024-02-21T20:43:07.294549
+4210139760,0472sp635,Ballsbridge University,DM,education,http://www.acedu.org/,,,[],[],16,61,4210139760,2024-02-21T08:28:47.572949
+4210141075,04xjzws62,Electronics Development Corporation (United States),US,company,http://www.elecdev.com/,,,"[""EDC""]",[],7,61,4210141075,2024-02-21T01:21:24.773684
+2800849637,03btazg73,IEEE Industry Applications Society,US,other,http://ias.ieee.org/,,,"[""IAS""]",[],9,60,2800849637,2024-02-21T21:29:11.947710
+4210089866,007jkeb78,FocalCool (United States),US,company,http://www.focalcool.com/,,,[],[],17,60,4210089866,2024-02-21T01:47:46.092616
+4210120486,02jx81v73,Academic Software (United States),US,company,http://www.acsw.com/,,,"[""ASI""]",[],6,60,4210120486,2024-02-21T04:16:41.526247
+4210138020,04ky50w21,Murugappa (India),IN,company,http://www.murugappa.com/,wikipedia/en/4/44/Murugappa_Group_Logo.svg,wikipedia/en/thumb/4/44/Murugappa_Group_Logo.svg/100px-Murugappa_Group_Logo.svg.png,[],[],23,60,4210138020,2024-02-21T22:51:23.295081
+4210153532,052td7g28,Korea Peace Institute,KR,facility,http://www.koreapeace.or.kr,,,[],"[""한국 평화 연구소""]",16,60,4210153532,2024-02-21T02:38:18.076808
+4210161048,05kgk6p34,British Beet Research Organisation,GB,facility,https://bbro.co.uk/,,,"[""BBRO""]",[],10,60,4210161048,2024-02-21T19:07:13.317347
+4210115407,029tw8r50,Eyesense (Germany),DE,company,https://en.eyesense.com/,,,[],[],8,59,4210115407,2024-02-21T23:03:52.006469
+4210124342,03wx0vn75,CentrEau - Quebec Water Management Research Centre,CA,facility,accueil/,,,[],"[""CentrEau - Centre Québécois de Recherche sur la Gestion de l'Eau""]",26,59,4210124342,2024-02-21T17:16:12.958609
+4210089448,00caaxe50,Idex (Norway),NO,company,http://www.idex.no/,,,[],[],3,58,4210089448,2024-02-21T18:38:11.402368
+4210105679,01nfd5g36,SDI Engineering (United States),US,company,http://www.sdi-eng.com/,,,[],[],421,58,4210105679,2024-02-21T10:04:18.583446
+4210107267,01wcw8667,Wyższa Szkoła Przedsiębiorczości i Marketingu w Chrzanowie,PL,education,http://www.wspim.edu.pl/,,,"[""WSPiM""]",[],38,56,4210107267,2024-02-21T07:20:16.450615
+4210110455,01yykhb30,Sauk County Historical Society,US,nonprofit,https://saukcountyhistory.org/,,,[],[],5,56,4210110455,2024-02-21T10:25:55.632846
+4210133500,04b8c7j14,Association for Real Change,GB,nonprofit,https://arcuk.org.uk/,wikipedia/commons/b/b6/Association_for_Real_Change_logo.gif,wikipedia/commons/thumb/b/b6/Association_for_Real_Change_logo.gif/100px-Association_for_Real_Change_logo.gif,"[""ARC""]",[],10,56,4210133500,2024-02-21T03:49:45.825065
+4210148168,05mz4e808,N-Gene (United States),US,company,http://ngene.us/,,,[],[],10,56,4210148168,2024-02-21T04:18:21.390412
+2802459556,01b7m6y64,Citizens Budget Commission,US,nonprofit,http://www.cbcny.org/,,,"[""CBC""]",[],6,55,2802459556,2024-02-21T22:49:03.031331
+4210090475,00dmpd885,John Tiller Software (United States),US,company,http://www.johntillersoftware.com/,,,"[""JTS""]",[],12,55,4210090475,2024-02-21T10:40:12.702572
+4210107301,01nkqk925,Jain Vishva Bharati University,IN,education,http://jvbi.ac.in/,wikipedia/en/2/22/Jain_Vishva_Bharati_University_logo.jpg,wikipedia/en/thumb/2/22/Jain_Vishva_Bharati_University_logo.jpg/100px-Jain_Vishva_Bharati_University_logo.jpg,"[""JVBI""]","[""जैन विश्व भारती विश्वविद्यालय""]",36,55,4210107301,2024-02-21T23:44:51.351271
+4210118938,02a8fvh42,Useful Simple Trust,GB,nonprofit,https://www.usefulsimple.co.uk/,,,[],[],4,55,4210118938,2024-02-21T09:22:47.758321
+4210126523,02ykntn67,University Press of Mississippi,US,other,https://www.upress.state.ms.us,wikipedia/commons/f/fe/University_Press_of_Mississippi_logo.svg,wikipedia/commons/thumb/f/fe/University_Press_of_Mississippi_logo.svg/100px-University_Press_of_Mississippi_logo.svg.png,[],[],17,55,4210126523,2024-02-21T22:29:34.263281
+4210138680,04mgr5526,Svenska Aerogel (Sweden),SE,company,http://www.aerogel.se/,,,[],[],15,55,4210138680,2024-02-21T01:17:51.912921
+4210109566,01z55tz06,Oxsensis (United Kingdom),GB,company,https://oxsensis.com/,wikipedia/commons/e/ea/OxsensisLogo-small.jpg,wikipedia/commons/thumb/e/ea/OxsensisLogo-small.jpg/100px-OxsensisLogo-small.jpg,[],[],16,53,4210109566,2024-02-21T09:50:54.741704
+4210114475,025zfqq91,Baader Food Processing Machinery (Germany),DE,company,en/,,,[],"[""Nordischer Maschinenbau Rud. Baader GmbH und Co. KG""]",5,52,4210114475,2024-02-21T12:43:09.879892
+4210128121,02yqzaa38,Haute École des Arts du Rhin,FR,education,http://www.hear.fr/,wikipedia/commons/5/58/Haute_%C3%A9cole_des_arts_du_Rhin_01-2017_%284%29.jpg,wikipedia/commons/thumb/5/58/Haute_%C3%A9cole_des_arts_du_Rhin_01-2017_%284%29.jpg/100px-Haute_%C3%A9cole_des_arts_du_Rhin_01-2017_%284%29.jpg,"[""HEAR""]","[""École Supérieure des Arts Décoratifs de Strasbourg""]",33,52,4210128121,2024-02-21T23:52:13.850399
+4210136863,04jtk0f19,Instituto Superior de Estudios Psicológicos,ES,education,http://www.isep.es/,,,"[""ISEP""]",[],12,52,4210136863,2024-02-21T09:44:08.317749
+4210101505,010vm1c33,American Institute of Indian Studies,IN,other,https://www.indiastudies.org/,wikipedia/commons/a/a5/AIIS_headquarters.jpg,wikipedia/commons/thumb/a/a5/AIIS_headquarters.jpg/100px-AIIS_headquarters.jpg,"[""AIIS""]","[""अमेरिकन इंस्टीट्यूट ऑफ इंडियन स्टडीज""]",11,51,4210101505,2024-02-21T14:51:19.774215
+4210120021,02g517422,CytoDel (United States),US,company,https://www.cytodel.com/,,,[],[],6,50,4210120021,2024-02-21T07:15:44.710868
+4210147595,04j62df57,Atmospheric Observing Systems (United States),US,company,main.html,,,"[""AOS""]",[],30,50,4210147595,2024-02-21T07:40:28.465401
+2802247742,02kr5r375,Meridian International Center,US,nonprofit,http://www.meridian.org/,wikipedia/commons/3/38/Meridian_International_Center_Logo.jpg,wikipedia/commons/thumb/3/38/Meridian_International_Center_Logo.jpg/100px-Meridian_International_Center_Logo.jpg,[],[],8,49,2802247742,2024-02-21T00:06:00.899664
+4210101573,016jvwb81,Octoly (France),FR,company,https://www.octoly.com/,,,[],"[""Videoagency SAS""]",9,49,4210101573,2024-02-21T13:07:24.614052
+4210119268,029djx285,Front Edge Technology (United States),US,company,http://www.frontedgetechnology.com/,,,[],[],6,49,4210119268,2024-02-21T21:51:47.977744
+4210126035,034c5s198,NG Biotech (France),FR,company,http://ngbiotech.com/,,,[],[],10,49,4210126035,2024-02-21T05:21:18.864119
+4210129514,036cktz33,Inco Engineering (Czechia),CZ,company,http://www.incoengineering.cz/,,,[],[],39,49,4210129514,2024-02-21T08:19:05.945982
+2799564568,01crwqf21,Southeast Arkansas College,US,education,http://www.seark.edu/,wikipedia/en/1/15/SEARK_logo.png,wikipedia/en/thumb/1/15/SEARK_logo.png/100px-SEARK_logo.png,"[""SEARK""]","[""Arkansas Vocational-Technical School""]",9,48,2799564568,2024-02-21T04:49:03.718436
+4210092607,004x1qr23,Coast Community College District,US,education,Pages/home.aspx,,,"[""CCCD""]",[],11,48,4210092607,2024-02-21T14:38:47.843191
+4210127651,03t1bjt91,Universidad del Golfo,MX,education,https://www.unigolfo.edu.mx/,,,"[""UdelG""]",[],20,48,4210127651,2024-02-21T00:02:48.909000
+4210146880,05fg03x56,Optibase (Israel),IL,company,http://www.optibase-holdings.com/,,,[],[],6,47,4210146880,2024-02-21T10:49:47.519831
+4210126015,037m11k76,3d Scanners (United Kingdom),GB,company,https://3dscanners.co.uk/,,,[],[],10,46,4210126015,2024-02-21T06:40:36.604637
+4210164924,05h8jev84,JNCL-NCLIS,US,nonprofit,https://languagepolicy.org/,,,[],"[""Joint National Committee for Languages National Council for Languages and International Studies""]",14,46,4210164924,2024-02-21T10:10:17.244163
+4210146373,0483fxt86,Samarkand State Institute of Foreign Languages,UZ,education,https://samdchti.uz/,,,"[""SamSIFL""]","[""Samarqand davlat chet tillar instituti""]",819,44,4210146373,2024-02-21T04:26:05.038584
+4210100504,00j64zh12,Advanced Engines Development (United States),US,company,http://advanced-engines-corp.com/,,,"[""AED""]",[],10,43,4210100504,2024-02-21T06:08:57.016315
+4210110200,01zcb7j14,Nuance Communications (Belgium),BE,company,http://www.nuance.be/,,,[],[],8,43,4210110200,2024-02-21T18:16:28.069065
+4210147473,04hxzf837,ACTION,US,nonprofit,https://actioncouncil.org/,,,[],[],9,40,4210147473,2024-02-21T06:08:47.181990
+3015934314,02wy0xt13,European Council on Refugees and Exiles,BE,nonprofit,https://www.ecre.org/,wikipedia/en/5/5d/ECRE_logo.JPG,wikipedia/en/thumb/5/5d/ECRE_logo.JPG/100px-ECRE_logo.JPG,"[""ECRE""]",[],27,39,3015934314,2024-02-21T18:12:59.225790
+4210110629,02qvj8k32,Schweizerische Bundeskanzlei,CH,government,https://www.bk.admin.ch/,,,[],[],23,39,4210110629,2024-02-21T18:36:27.763588
+4210113041,023vnxa51,National Consumer Affairs Center of Japan,JP,other,ncac_index_e.html,,,"[""NCAC""]","[""国民生活センター""]",14,39,4210113041,2024-02-21T18:16:31.396277
+4210129114,02f0z8n98,National Library of Malaysia,MY,government,english.php,wikipedia/commons/7/74/Pnm.png,wikipedia/commons/thumb/7/74/Pnm.png/100px-Pnm.png,"[""PNM""]","[""Perpustakaan Negara Malaysia""]",136,38,4210129114,2024-02-21T18:33:06.553221
+4210120721,01zy5b076,Infobyte (Italy),IT,company,http://infobyte.it/,,,[],[],6,37,4210120721,2024-02-21T01:49:23.616332
+4210094069,00ma0s885,Teledyne Technologies (Australia),AU,company,http://teledyne.com/,,,[],[],8,36,4210094069,2024-02-21T03:09:25.531794
+4210127675,045ydbe97,Institutos Nacionais de Ciência e Tecnologia,BR,government,http://inct.cnpq.br/,,,"[""INCT""]",[],9,36,4210127675,2024-02-21T22:34:50.979855
+4210128735,037s2cq86,British Chambers of Commerce,GB,nonprofit,https://www.britishchambers.org.uk,,,"[""BCC""]",[],12,36,4210128735,2024-02-21T20:06:35.832422
+4210154997,05s075877,Movement for Freedom,BY,other,http://pyx.by/,,,[],"[""Движение «За Свободу»""]",5,36,4210154997,2024-02-21T06:32:25.676164
+4210143669,053vdc408,Subsea Chokes International (Norway),NO,company,http://www.subseachokes.com/,,,"[""SCI""]",[],61,35,4210143669,2024-02-21T07:19:40.992722
+2803027280,04p77ts85,Canadian Historical Association,CA,nonprofit,http://www.cha-shc.ca/,,,"[""CHA"", ""SHC""]","[""Société historique du Canada""]",110,34,2803027280,2024-02-21T05:00:04.318430
+4210093849,00ja9zg03,Gematik Gesellschaft für Telematikanwendungen der Gesundheitskarte,DE,nonprofit,https://www.gematik.de,,,[],"[""Gematik""]",10,34,4210093849,2024-02-21T10:57:12.994859
+4210089475,006q1m605,BlueInGreen (United States),US,company,https://www.blueingreen.com/,,,[],[],5,32,4210089475,2024-02-21T08:22:01.451419
+4210130137,039q7yt14,European Plastics Converters,BE,company,http://www.plasticsconverters.eu/,,,"[""EUPC""]",[],5,32,4210130137,2024-02-21T17:22:57.687522
+4210093917,00shhkw75,Airlan (Spain),ES,company,https://www.airlan.es/,,,[],[],11,31,4210093917,2024-02-21T04:19:06.114321
+4210096778,00vfzzr15,Ticon (Brazil),BR,company,en/,,,[],[],3,31,4210096778,2024-02-21T09:43:23.975922
+4210165894,05xg01v02,New Amsterdam Sciences (United States),US,company,https://newamsterdamsciences.com,,,"[""NAS""]",[],16,31,4210165894,2024-02-21T09:34:04.984814
+4210167140,04hj4ye31,Khorugh State University,TJ,education,,,,[],"[""Донишгоҳи давлатии Хоруғ ба номи М. Назаршоев""]",17,31,4210167140,2024-02-21T20:34:17.144586
+4210094445,00nhwjb64,Michelin (Japan),JP,company,https://www.michelinman.com/,wikipedia/commons/4/49/Michelin_siege_clermont.jpg,wikipedia/commons/thumb/4/49/Michelin_siege_clermont.jpg/100px-Michelin_siege_clermont.jpg,[],[],12,30,4210094445,2024-02-21T08:30:59.719155
+4210117261,02jk0vd24,Conservatorio di Musica Giuseppe Verdi,IT,other,http://www.consmilano.it/,,,[],[],18,30,4210117261,2024-02-21T03:37:18.176175
+4210150242,05de33361,STEM (Czechia),CZ,company,https://en.stem.cz/,,,[],[],3,30,4210150242,2024-02-21T18:40:53.042489
+4210154482,047gb2729,Agro Lab Plants (Brazil),BR,company,sitenglish/index.php,,,[],[],2,30,4210154482,2024-02-21T21:59:06.266605
+4210115808,0295yjh78,Rock and Roll Hall of Fame and Museum,US,archive,https://www.rockhall.com/,wikipedia/commons/6/67/Rock_and_Roll_Hall_of_Fame%2C_May_2016.jpg,wikipedia/commons/thumb/6/67/Rock_and_Roll_Hall_of_Fame%2C_May_2016.jpg/100px-Rock_and_Roll_Hall_of_Fame%2C_May_2016.jpg,[],[],9,28,4210115808,2024-02-21T17:07:47.088006
+4210130144,02ff3pb56,NetSmart (Greece),GR,company,index.php/en/,,,[],[],8,28,4210130144,2024-02-21T03:47:40.960058
+4210089699,014b0sj15,Kansas City Indian Center,US,nonprofit,http://www.kcindiancenter.org,,,[],[],3,27,4210089699,2024-02-21T03:15:35.263073
+4210090159,00amea583,Alexander College,CY,education,en/,,,"[""AC""]",[],22,27,4210090159,2024-02-21T18:37:37.372862
+4210146646,049wyn804,Data Fusion Research Center,CH,company,http://www.dfrc.ch/,,,"[""DFRC""]","[""DFRC AG""]",3,27,4210146646,2024-02-21T20:05:38.117438
+4210165570,05vh49697,Morrison Child and Family Services,US,nonprofit,http://www.morrisonkids.org/,,,[],[],2,27,4210165570,2024-02-21T18:08:51.647170
+1344001258,00fkkrz35,Adirondack Museum,US,archive,http://www.adkmuseum.org/,w/index.php?title=Special:Redirect/file/Adirondack%20Museum%20entrance.jpg,w/index.php?title=Special:Redirect/file/Adirondack%20Museum%20entrance.jpg&width=300,[],[],15,26,1344001258,2024-02-21T18:29:21.290342
+4210127692,04785as38,Christian County Public Schools,US,education,http://www.christian.kyschools.us/,,,[],[],11,26,4210127692,2024-02-21T23:56:24.375234
+4210150254,05e2hap84,Imperium (United States),US,company,http://www.imperiuminc.com/,,,[],[],19,26,4210150254,2024-02-21T15:03:23.812706
+2802586238,01fr0xp26,John B. Lacson Foundation Maritime University,PH,education,http://www.jblfmu.edu.ph/,wikipedia/en/d/d2/John_B._Lacson_Foundation_Maritime_University_logo.png,wikipedia/en/thumb/d/d2/John_B._Lacson_Foundation_Maritime_University_logo.png/100px-John_B._Lacson_Foundation_Maritime_University_logo.png,"[""JBLFMU""]","[""Iloilo Maritime Academy, John B. Lacson Colleges Foundation""]",53,24,2802586238,2024-02-21T16:53:32.424611
+4210099828,011mf7877,AŽD Praha (Czechia),CZ,company,https://www.azd.cz,,,[],"[""Automatizace železniční dopravy Praha""]",12,24,4210099828,2024-02-21T10:22:05.175170
+4210101021,00yyvga88,Small Enterprise Foundation,ZA,nonprofit,https://www.sef.co.za/,,,"[""SEF""]",[],6,24,4210101021,2024-02-21T21:20:03.242766
+4210142978,045t28w66,Pennsylvania Academy of Family Physicians and Foundation,US,nonprofit,Pages/Home.aspx,,,"[""PAFP""]",[],1,24,4210142978,2024-02-21T00:58:31.313381
+4210143746,04q8qbp45,Shoreditch Trust,GB,nonprofit,http://www.shoreditchtrust.org.uk/,,,[],[],26,24,4210143746,2024-02-21T02:27:11.623239
+4210112360,01w9gwk84,Charleston County Public Library,US,archive,https://www.ccpl.org/,,,"[""CCPL""]",[],16,22,4210112360,2024-02-21T01:50:18.953924
+4210138628,02yqvqf05,Tranby National Indigenous Adult Education and Training,AU,nonprofit,https://tranby.edu.au/,,,[],"[""Tranby""]",6,22,4210138628,2024-02-21T10:18:29.146741
+4210153579,05mk08g75,Sir John Deane's College,GB,education,http://www.sjd.ac.uk/,wikipedia/commons/5/5d/SJD_SFC_colour_stack.png,wikipedia/commons/thumb/5/5d/SJD_SFC_colour_stack.png/100px-SJD_SFC_colour_stack.png,[],"[""Sir John Deane's Grammar School""]",5,22,4210153579,2024-02-21T20:21:10.471518
+4210122920,02f8fjx04,Ashtabula County Mental Health & Recovery Services Board,US,healthcare,http://www.ashtabulamhrsboard.org/,,,[],"[""Ashtabula County MHRS Board""]",5,21,4210122920,2024-02-21T22:33:49.421366
+4210154385,053vrw097,Incogen (United States),US,company,http://www.incogen.com/,,,[],[],2,21,4210154385,2024-02-21T03:48:54.215259
+4210160177,053n55597,Evropský Polytechnický Institut,CZ,education,http://www.edukomplex.cz/,,,"[""EPI""]","[""Evropský polytechnický institut""]",8,21,4210160177,2024-02-21T22:05:42.054360
+4210121818,02k1g2k85,Sunwave Solutions (China),CN,company,http://www.sunwavesolutions.com/,,,[],[],14,20,4210121818,2024-02-21T08:22:04.728861
+4210131913,03c39xh37,Institute for applied Biology and Landscape Planning,DE,facility,http://www.bioplan-online.de/,,,[],"[""nstitut für angewandte Biologie und Landschaftsplanung""]",7,20,4210131913,2024-02-21T11:42:37.262914
+4210113910,01wtk7843,Chapel Haven Schleifer Center,US,nonprofit,https://www.chapelhaven.org/,,,[],"[""Chapel Haven""]",7,19,4210113910,2024-02-21T14:22:59.356853
+4210129268,03r9jhj30,Saratov State Conservatory named after L. V. Sobinov,RU,education,http://sarcons.ru/,wikipedia/commons/3/39/%D0%A1%D0%B0%D1%80%D0%B0%D1%82%D0%BE%D0%B2_%D0%9B%D0%B8%D0%BF%D0%BA%D0%B8_7.jpg,wikipedia/commons/thumb/3/39/%D0%A1%D0%B0%D1%80%D0%B0%D1%82%D0%BE%D0%B2_%D0%9B%D0%B8%D0%BF%D0%BA%D0%B8_7.jpg/100px-%D0%A1%D0%B0%D1%80%D0%B0%D1%82%D0%BE%D0%B2_%D0%9B%D0%B8%D0%BF%D0%BA%D0%B8_7.jpg,[],"[""Саратовская государственная консерватория имени Л. В. Собинова""]",137,19,4210129268,2024-02-21T09:46:25.588981
+4210139543,0329bem96,Malaysian Endocrine and Metabolic Society,MY,other,http://www.mems.my/,,,"[""MEMS""]",[],5,19,4210139543,2024-02-21T03:01:00.473000
+4210086150,00nm35319,St. Johnsbury Athenaeum,US,archive,http://www.stjathenaeum.org/,wikipedia/commons/9/9b/St._Johnsbury_Athenaeum%2C_VT.jpg,wikipedia/commons/thumb/9/9b/St._Johnsbury_Athenaeum%2C_VT.jpg/100px-St._Johnsbury_Athenaeum%2C_VT.jpg,[],[],16,18,4210086150,2024-02-21T07:33:17.791645
+4210133375,03fpcyw06,Synetics Systems Engineering Corp (United States),US,company,http://sseceng.com/,,,"[""SSEC""]",[],20,18,4210133375,2024-02-21T23:49:59.487458
+4210134716,03jbyh296,Left Hand Design (United States),US,company,http://lefthand.com/,,,"[""LHDC""]",[],5,18,4210134716,2024-02-21T12:43:40.957529
+4210156977,05mvyv273,Das Onkologische und Palliativmedizinische Netzwerk Landshut,DE,other,startseite/,,,[],[],12,18,4210156977,2024-02-21T10:43:45.495430
+2802477636,02edrav93,Vermont State Colleges,US,education,Pages/default.aspx,wikipedia/en/0/00/VSCsigillum.png,wikipedia/en/thumb/0/00/VSCsigillum.png/100px-VSCsigillum.png,"[""VSC""]",[],9,16,2802477636,2024-02-21T02:21:31.912731
+3129304926,04h1em726,Mount Washington College,US,education,,,,[],"[""Hesser College""]",8,16,3129304926,2024-02-21T04:27:46.488863
+4210119893,02b9ykk59,Lucas County Board of Developmental Disabilities,US,government,https://lucasdd.info/,,,[],[],3,16,4210119893,2024-02-21T16:39:55.718183
+4210120422,02ktcxy40,Kentucky Court of Justice,US,government,Pages/default.aspx,,,[],[],2,16,4210120422,2024-02-21T15:18:52.458797
+4210142508,03tmyjv73,Fiserv (United States),US,company,index.aspx,wikipedia/commons/8/89/Fiserv_logo.svg,wikipedia/commons/thumb/8/89/Fiserv_logo.svg/100px-Fiserv_logo.svg.png,[],[],15,16,4210142508,2024-02-21T01:38:04.956489
+2800952887,01s26xz84,Mesabi Range College,US,education,http://www.mesabirange.edu/,w/index.php?title=Special:Redirect/file/Mesabi%20Range%20College%E2%80%93Virginia.JPG,w/index.php?title=Special:Redirect/file/Mesabi%20Range%20College%E2%80%93Virginia.JPG&width=300,"[""MRC""]","[""Mesabi Range Community and Technical College""]",4,15,2800952887,2024-02-21T06:44:44.751678
+4210088005,008kw6k79,Ecoprogress (Czechia),CZ,company,http://www.ecoprogress.cz/,,,[],[],6,15,4210088005,2024-02-21T11:31:03.838364
+4210096721,00yd8v543,McQ (United States),US,company,http://www.mcqinc.com/,,,[],[],36,15,4210096721,2024-02-21T20:59:32.596058
+4210107868,01vy25d07,Neurotargeting (United States),US,company,http://www.neurotargeting.com/,,,[],[],5,15,4210107868,2024-02-21T09:52:28.118874
+4210131496,03sw09b87,SFC (South Korea),KR,company,http://www.sfcltd.co.kr,,,[],"[""SAM WOO LAMINEX CO""]",3,15,4210131496,2024-02-21T11:25:01.162086
+4210142929,052n05843,Osteotronix (United Kingdom),GB,company,http://www.acuitasmedical.com,,,[],"[""Acuitas Medical Ltd""]",8,15,4210142929,2024-02-21T09:56:31.431650
+4210123540,029pncr02,Appen (United States),US,company,https://appen.com/,,,[],"[""Appen Butler Hill""]",9,14,4210123540,2024-02-21T22:51:09.326057
+4210126842,043jbda17,Groupe de Musique Electroacoustique d'Albi,FR,facility,http://www.gmea.net/,,,"[""GMEA""]",[],9,14,4210126842,2024-02-21T03:52:50.580934
+4210112055,02vp0x259,Folklore Studies Association of Canada,CA,nonprofit,en/,,,"[""ACEF"", ""FSAC""]","[""Association Canadienne d'Ethnologie et de Folklore""]",4,13,4210112055,2024-02-21T09:25:33.866737
+4210125783,030sqdt03,BPM Consulting (Slovakia),SK,company,en/,,,[],[],18,13,4210125783,2024-02-21T02:15:00.891791
+4210135371,03y9sqg61,Estonian Evangelical Lutheran Church,EE,other,en/,wikipedia/commons/a/ab/Lutherrose.svg,wikipedia/commons/thumb/a/ab/Lutherrose.svg/100px-Lutherrose.svg.png,"[""EELK""]","[""Eesti Evangeelne Luterlik Kirik""]",1,13,4210135371,2024-02-21T12:56:58.913472
+4210151574,03v918835,Grainseed (United Kingdom),GB,company,http://www.grainseed.co.uk/,,,[],[],1,13,4210151574,2024-02-21T03:58:13.717697
+4210161946,0269ne204,Miami University Dolibois European Center,LU,education,,,,[],[],11,13,4210161946,2024-02-21T10:59:39.492968
+2801364140,045791j63,European Journalism Centre,NL,nonprofit,http://ejc.net/,,,"[""EJC""]",[],4,11,2801364140,2024-02-21T12:11:46.361382
+4210087121,002grtm11,Dakshina Bharat Hindi Prachar Sabha,IN,education,http://www.dbhpscentral.org/,wikipedia/en/3/3d/Dakshina_Bharat_Hindi_Prachar_Sabha_logo.png,wikipedia/en/thumb/3/3d/Dakshina_Bharat_Hindi_Prachar_Sabha_logo.png/100px-Dakshina_Bharat_Hindi_Prachar_Sabha_logo.png,[],[],14,11,4210087121,2024-02-21T19:13:10.375230
+4210133385,03h9eev95,Theo und Friedl Schöller-Stiftung,DE,nonprofit,https://www.schoeller-stiftungen.de/,,,[],[],2,11,4210133385,2024-02-21T10:28:19.655172
+1286907093,04jwmyw53,International Association of Machinists and Aerospace Workers,US,other,http://www.goiam.org/,wikipedia/en/5/5d/International_Association_of_Machinist.JPG,wikipedia/en/thumb/5/5d/International_Association_of_Machinist.JPG/100px-International_Association_of_Machinist.JPG,"[""IAM""]",[],14,10,1286907093,2024-02-21T07:35:29.610378
+4210103920,01e10rp58,Interfaith Worker Justice,US,nonprofit,http://www.iwj.org/,wikipedia/en/8/85/InterfaithWorkerJusticeLogo.png,wikipedia/en/thumb/8/85/InterfaithWorkerJusticeLogo.png/100px-InterfaithWorkerJusticeLogo.png,"[""IWF""]",[],7,10,4210103920,2024-02-21T12:43:58.846760
+4210114856,025s0zm80,MS Clinical Research (India),IN,company,http://mscr.in/,,,"[""MSCR""]",[],11,10,4210114856,2024-02-21T10:58:04.120891
+4210131764,03z2ts232,Swedish Film Institute,SE,education,en/,,,[],"[""Svenska Filminstitutet""]",12,10,4210131764,2024-02-21T13:18:14.772550
+4210159404,05mhp5f89,Af-cityplan (Czechia),CZ,company,en/,,,[],[],6,10,4210159404,2024-02-21T08:15:50.745901
+4210160098,05gvz8164,Chiba Prefectural Museum of Art,JP,archive,ART/english/index.html,,,[],[],2,10,4210160098,2024-02-21T03:25:05.597175
+4210105643,01ecdm936,Brighton Museum,GB,archive,brighton/,wikipedia/commons/e/e2/Brighton_Museum_and_Art_Gallery_%28IoE_Code_480508%29.jpg,wikipedia/commons/thumb/e/e2/Brighton_Museum_and_Art_Gallery_%28IoE_Code_480508%29.jpg/100px-Brighton_Museum_and_Art_Gallery_%28IoE_Code_480508%29.jpg,[],"[""Brighton Museum & Art Gallery""]",11,9,4210105643,2024-02-21T23:27:54.509237
+4210112793,02a5z7132,Research Institute for Policies on Pension and Aging,JP,facility,english/,,,"[""RIPPA""]","[""年金と高齢化に関する政策研究所""]",3,9,4210112793,2024-02-21T10:15:40.265295
+4210122425,02r728f83,ASV (United States),US,company,http://asvglobal.com/,,,[],"[""Autonomous Surface Vehicles""]",8,9,4210122425,2024-02-21T18:38:05.018287
+4210100123,011pv1j48,Greentronics (Romania),RO,company,http://www.greentronics.ro/,,,[],[],6,8,4210100123,2024-02-21T13:18:44.647049
+4210133933,03kcqne70,Instituto Departamental de Bellas Artes,CO,education,https://bellasartes.edu.co/,,,"[""IDBA""]",[],29,8,4210133933,2024-02-21T22:04:56.260344
+4210144155,0483kh086,Ukrainian Oil and Gas Institute,UA,facility,ru/,,,[],"[""Ukrainsky neftegazovy institut""]",16,8,4210144155,2024-02-21T20:12:25.677386
+4210166346,05tew7y65,Center for Research on Political Economy,SN,facility,http://www.crepol.org/,,,"[""CREPOL""]",[],23,8,4210166346,2024-02-21T03:20:16.233013
+4210093002,00ehvs489,Forschungsvereinigung Antriebstechnik,DE,facility,https://fva-net.de/,,,"[""FVA""]",[],2,6,4210093002,2024-02-21T06:07:00.740885
+4210116657,02k3baz05,Facoltà di Teologia di Lugano,CH,education,http://www.teologialugano.ch/,,,[],[],20,6,4210116657,2024-02-21T12:28:40.420099
+4210130742,03bxpek11,Colonial Society of Massachusetts,US,nonprofit,https://www.colonialsociety.org/,wikipedia/commons/8/80/87_Mt._Vernon_Street_-_Boston%2C_MA_-_DSC04641.JPG,wikipedia/commons/thumb/8/80/87_Mt._Vernon_Street_-_Boston%2C_MA_-_DSC04641.JPG/100px-87_Mt._Vernon_Street_-_Boston%2C_MA_-_DSC04641.JPG,[],[],5,6,4210130742,2024-02-21T10:50:22.796789
+4210135592,03r97zp68,Direcção dos Serviços da Reforma Jurídica e do Direito Internacional,CN,government,MainFrame.aspx?lang=zh-TW,,,"[""DSRJDI""]",[],8,6,4210135592,2024-02-21T06:17:18.345366
+3036916308,01kqsbg21,American Federation of Arts,US,nonprofit,http://www.afaweb.org/,wikipedia/en/a/a7/American_Federation_of_Arts_%%28logo%%29.jpg,wikipedia/en/thumb/a/a7/American_Federation_of_Arts_%%28logo%%29.jpg/100px-American_Federation_of_Arts_%%28logo%%29.jpg,"[""AFA""]",[],17,5,3036916308,2024-02-21T00:06:29.411877
+4210107635,01qvty264,Central Agency for Jewish Education,US,education,http://caje-miami.org/,,,"[""CAJE""]",[],9,5,4210107635,2024-02-21T08:45:40.214858
+4210113392,02bjbg379,Schunk (United Kingdom),GB,company,https://schunk.com,,,[],[],31,5,4210113392,2024-02-21T00:32:03.632607
+4210121580,02y114t67,Autogrid Systems (United States),US,company,http://www.auto-grid.com/,,,[],[],3,5,4210121580,2024-02-21T09:13:03.764664
+4210128488,031ew8w25,Milwaukee Institute of Art & Design,US,education,http://www.miad.edu/,wikipedia/commons/8/81/Milwaukee_Institute_of_Art_%26_Design_monogram.svg,wikipedia/commons/thumb/8/81/Milwaukee_Institute_of_Art_%26_Design_monogram.svg/100px-Milwaukee_Institute_of_Art_%26_Design_monogram.svg.png,"[""MIAD""]",[],16,5,4210128488,2024-02-21T09:35:23.158578
+4210140136,0436bye53,MineSense Technologies (Canada),CA,company,http://www.minesense.com/,,,[],[],6,5,4210140136,2024-02-21T01:20:01.960205
+4210132043,030j6jf89,Trusted Information Consulting (Poland),PL,company,http://www.ticons.pl/,,,"[""TICONS""]",[],8,4,4210132043,2024-02-21T17:50:48.994639
+4210142047,052gzq419,Hochschule für Jüdische Studien,DE,education,http://www.hfjs.eu/,,,"[""HfJS""]",[],69,4,4210142047,2024-02-21T18:17:28.468380
+4210161099,0568fdx82,Expanse (United States),US,company,https://www.expanse.co/,,,[],[],3,4,4210161099,2024-02-21T14:13:02.810917
+4210108067,01zgjgk72,Bexhill Museum,GB,archive,http://www.bexhillmuseum.co.uk/,wikipedia/commons/0/0a/Bexhill_Museum%2C_Egerton_Road%2C_Bexhill.jpg,wikipedia/commons/thumb/0/0a/Bexhill_Museum%2C_Egerton_Road%2C_Bexhill.jpg/100px-Bexhill_Museum%2C_Egerton_Road%2C_Bexhill.jpg,[],[],3,3,4210108067,2024-02-21T17:24:08.257250
+4210121502,02p6m2x11,The Piton Foundation,US,nonprofit,piton-foundation,,,[],[],2,3,4210121502,2024-02-21T20:24:53.345115
+4210140444,04gs2jh51,Mavi Innovations (Canada),CA,company,http://mavi-innovations.ca/,,,[],[],2,3,4210140444,2024-02-21T22:22:35.747271
+4210162538,05vfzkq36,National Association of Counties,US,other,http://www.naco.org/,wikipedia/en/1/1e/The_National_Association_of_Counties_Logo.png,wikipedia/en/thumb/1/1e/The_National_Association_of_Counties_Logo.png/100px-The_National_Association_of_Counties_Logo.png,"[""NACo""]",[],1,3,4210162538,2024-02-21T19:20:44.697045
+4210162609,04zwbxk42,Switchboard of Miami,US,nonprofit,http://switchboardmiami.org/,,,[],"[""Switchboard""]",14,3,4210162609,2024-02-21T05:09:37.423787
+4210093094,01e5xrj50,Elko Ep (Czechia),CZ,company,en,,,[],[],2,2,4210093094,2024-02-21T03:25:41.126095
+4210095263,00t5zf034,Associação Brasileira de Estatística,BR,other,~abe/site/,,,"[""ABE""]",[],1,2,4210095263,2024-02-21T22:19:26.921300
+4210115309,02999cg07,Nhà hàng bệnh viện Mỹ Đức,VN,healthcare,http://myduchospital.vn/,,,[],[],2,2,4210115309,2024-02-21T16:33:08.985793
+4210124023,038wz3345,European Association of Development Research and Training Institutes,DE,nonprofit,https://www.eadi.org/,,,"[""EADI""]","[""association Européenne des Instituts de Recherche et de Formation en Matière de Développement""]",5,2,4210124023,2024-02-21T23:53:56.241364
+4210124916,02zttjj06,Capnova (Denmark),DK,company,uk.aspx,,,[],[],2,2,4210124916,2024-02-21T05:17:21.922929
+4210128487,031dfcr56,Em Test ČR (Czechia),CZ,company,http://www.emtest.cz/,,,[],[],13,2,4210128487,2024-02-21T07:31:47.371496
+2799839705,05s2r4461,Federalist Society,US,other,http://www.fed-soc.org/,wikipedia/en/9/9b/Fedsoc_logo.png,wikipedia/en/thumb/9/9b/Fedsoc_logo.png/100px-Fedsoc_logo.png,[],"[""Federalist Society for Law and Public Policy Studies""]",10,1,2799839705,2024-02-21T04:52:09.061760
+4210092240,00gsd6w43,Scarborough Archaeological and Historical Society,GB,archive,https://www.sahs.org.uk,,,[],"[""The Scarborough and District Archaeological Society""]",2,1,4210092240,2024-02-21T21:48:56.235668
+4210103031,01a289t25,Bien-Air Medical Technologies (Switzerland),CH,company,https://bienair.com/,,,[],[],1,1,4210103031,2024-02-21T06:33:35.866147
+4210117268,02k22h248,Ekonomska Šola Novo Mesto,SI,education,http://www.esnm.si/,,,[],[],4,1,4210117268,2024-02-21T03:55:07.658550
+4210124447,02szgft37,Empo Praha (Czechia),CZ,company,http://www.empo.cz/,,,[],[],3,1,4210124447,2024-02-21T23:14:04.623406
+4210125837,03bqa6225,UAV Turbines (United States),US,company,http://www.uavturbines.com/,,,"[""UAVT""]",[],3,1,4210125837,2024-02-21T19:16:06.670234
+4210128185,039hfcg55,Parade Technologies (United States),US,company,https://www.paradetech.com/,,,[],[],2,1,4210128185,2024-02-21T16:59:21.227980
+4210141871,03z3d5x54,Valeo (Japan),JP,company,en,wikipedia/commons/2/2b/Valeo_Logo.svg,wikipedia/commons/thumb/2/2b/Valeo_Logo.svg/100px-Valeo_Logo.svg.png,[],[],4,1,4210141871,2024-02-21T10:59:55.670346
+4210143814,04jer6b34,Washington State Board of Education,US,government,http://www.sbe.wa.gov/,,,[],[],4,1,4210143814,2024-02-21T03:23:06.638794
+4210148512,04vjg0a23,National Center for Learning Disabilities,US,nonprofit,https://www.ncld.org/,,,"[""NCLD""]",[],6,1,4210148512,2024-02-21T09:50:54.904595
+4210153335,04gaydk29,Piql (Norway),NO,company,http://www.piql.com/,,,[],[],3,1,4210153335,2024-02-21T09:42:17.013279
+2801980683,015zf4p69,Jewish Publication Society,US,nonprofit,https://jps.org/,wikipedia/en/6/60/Jps-logo.jpg,wikipedia/en/thumb/6/60/Jps-logo.jpg/100px-Jps-logo.jpg,"[""JPS""]","[""Jewish Publication Society of America""]",7,0,2801980683,2024-02-21T20:04:13.338172
+4210087737,003ghjh61,Pragoprojekt (Czechia),CZ,company,http://www.pragoprojekt.cz,,,[],[],9,0,4210087737,2024-02-21T17:30:19.812883
+4210094496,00mktab21,Virtalis (United Kingdom),GB,company,https://www.virtalis.com/,,,[],[],1,0,4210094496,2024-02-21T03:28:12.921226
+4210098708,00xm1m223,The Washington Times (United States),US,company,https://www.washingtontimes.com/,wikipedia/en/e/e3/Washtimesfrontapril5.jpg,wikipedia/en/thumb/e/e3/Washtimesfrontapril5.jpg/100px-Washtimesfrontapril5.jpg,[],[],3,0,4210098708,2024-02-21T22:10:10.738440
+4210099426,00tqvk397,Czech Association of Fire Officers,CZ,other,?lang=en,,,"[""CAFO""]","[""Czech Fire Brigade Association"", ""Česká Asociace Hasičských Důstojníků""]",3,0,4210099426,2024-02-21T13:42:26.142983
+4210101223,0185gt671,The English Modern School,QA,education,http://www.englishmodernschool.net/,,,[],[],6,0,4210101223,2024-02-21T03:30:54.578228
+4210105621,01jb23d14,IMS Maxims (Ireland),IE,company,http://www.imsmaxims.com/,,,[],[],1,0,4210105621,2024-02-21T00:54:36.694297
+4210114136,025e2dr05,Fundación Cerebro y Mente,ES,other,http://www.cermente.com/,,,[],[],2,0,4210114136,2024-02-21T07:35:16.214576
+4210115968,01kjqa704,B'nai Jeshurun,US,other,https://www.bj.org/,,,[],[],15,0,4210115968,2024-02-21T13:27:46.273852
+4210121394,01wy67m98,Fundación Banco Santander,ES,nonprofit,en,,,[],[],2,0,4210121394,2024-02-21T21:08:35.703933
+4210121537,0254e9x24,Friends of Cumbria Archives,GB,archive,site/friendsofcumbriaarchives/,,,"[""FOCAS""]",[],10,0,4210121537,2024-02-21T04:41:35.436998
+4210122909,03tcfa010,Nevada Department of Employment Training and Rehabilitation,US,other,http://www.nvdetr.org/,,,[],[],3,0,4210122909,2024-02-21T09:13:03.814859
+4210127162,03f6vnx95,Comet System (Czechia),CZ,company,http://www.cometsystem.com/,,,[],[],1,0,4210127162,2024-02-21T07:15:47.737065
+4210130697,035hyrv04,Korean Association of Feminist Philosophers,KR,other,http://www.kafph.org,,,[],"[""Korean Women's Philosophy Research Society"", ""한국 여성 철학자 협회""]",0,0,4210130697,2024-02-21T02:55:38.115158
+4210133095,03hp60511,New North Citizens Council,US,government,http://www.newnorthcc.org/,,,"[""NNCC""]",[],4,0,4210133095,2024-02-21T10:46:14.081849
+4210146655,043w47745,Institute for the Application of Geospatial Technology,US,education,http://www.iagt.org/,,,"[""IAGT""]",[],2,0,4210146655,2024-02-21T10:53:15.934903
+4210154067,04k1dvq14,INFICON (Switzerland),CH,company,http://www.inficon.com/,wikipedia/commons/7/7f/INFICON_Balzers_Office.jpg,wikipedia/commons/thumb/7/7f/INFICON_Balzers_Office.jpg/100px-INFICON_Balzers_Office.jpg,[],"[""Instruments For Intelligent Control""]",1,0,4210154067,2024-02-21T10:42:06.762891
+4210159710,0543g9v76,Centre for Regional and International STI Studies and Support,GR,other,http://www.ceriss.eu/,,,"[""CERISS""]",[],1,0,4210159710,2024-02-21T06:33:11.424719
+4210136685,04254kj61,Social Science Education Consortium,US,other,http://www.soc-sci-ed-consortium.org/,,,"[""SSEC""]",[],4,75,4210136685,2023-11-25T00:43:37.498137
+4210153436,05fv11t10,Thorus Scisoft (Brazil),BR,company,?lang=en,,,[],[],2,11,4210153436,2023-11-25T09:29:45.747027
+4210097293,00snkpt73,Advanced Anti-Terror Technologies (United States),US,company,http://www.a2-t2.com/,,,[],"[""A2-T2""]",2,3,4210097293,2023-11-25T05:49:47.805560
+4210124419,02tr26h84,Koh-I-Noor (Czechia),CZ,company,en/,,,[],[],1,0,4210124419,2023-11-25T01:44:45.620631
+4210135294,033nhhq39,Medical Dispensing Systems (Netherlands),NL,company,http://www.medicaldispensing.nl/,,,[],[],3,0,4210135294,2023-11-25T06:33:30.109548
+4210155174,05c3qep79,C-RAD (Sweden),SE,company,https://c-rad.se/,,,[],[],1,0,4210155174,2023-11-25T06:39:55.659472
+4387156192,003x0zc53,Agencia Estatal de Investigación,,government,https://www.aei.gob.es/,wikipedia/commons/f/f2/Logotipo_de_la_Agencia_Estatal_de_Investigaci%C3%B3n.svg,wikipedia/commons/thumb/f/f2/Logotipo_de_la_Agencia_Estatal_de_Investigaci%C3%B3n.svg/100px-Logotipo_de_la_Agencia_Estatal_de_Investigaci%C3%B3n.svg.png,"[""AEI""]",[],0,0,4387156192,2023-11-25T01:17:45.381239
+4210113233,01zdgf096,Baptist Health Care,US,healthcare,https://www.ebaptisthealthcare.org/,,,[],[],34,449,4210113233,2024-02-09T17:20:41.704885
+4210099796,00zw38x02,Research Center of Maternal and Child Health Protection,AM,facility,en,,,"[""RCMCHP""]",[],21,349,4210099796,2024-02-09T22:36:47.853949
+4210147320,04nkwzq76,Anfomed Society for Applied Research in Medicine,DE,other,ANFO/DEFAULT.ASPX,,,[],[],12,306,4210147320,2024-02-09T03:22:35.170514
+4210088871,004z5ps61,Gesundheitszentrum Oberndorf,AT,healthcare,https://www.krankenhaus-oberndorf.at/,,,[],[],14,296,4210088871,2024-02-09T14:32:42.745326
+4210116493,02ph8mh81,Zenobia Therapeutics (United States),US,company,https://www.zenobiatherapeutics.com/,,,[],[],17,271,4210116493,2024-02-09T01:33:38.867515
+4210135440,03pq34j38,BMI Goring Hall Hospital,GB,healthcare,hospitals/bmi-goring-hall-hospital,,,[],[],9,235,4210135440,2024-02-09T02:23:16.839223
+4210109919,01nj3h423,APIM Therapeutics (Norway),NO,company,http://www.apimtherapeutics.com/,,,[],[],8,222,4210109919,2024-02-09T22:01:13.505038
+4210125231,029vb5696,Zimbabwe National Quality Assurance Program,ZW,healthcare,http://www.zinqap.org.zw/,,,"[""ZINQAP""]",[],19,215,4210125231,2024-02-09T04:38:12.135699
+4210154028,04y3y3z32,ScandiDos (Sweden),SE,company,http://www.scandidos.com/,,,[],[],15,194,4210154028,2024-02-09T21:24:16.271683
+4210130835,043ncwv78,IBM (Denmark),DK,company,dk-da/,wikipedia/commons/5/51/IBM_logo.svg,wikipedia/commons/thumb/5/51/IBM_logo.svg/100px-IBM_logo.svg.png,[],"[""International Business Machines Corporation""]",38,193,4210130835,2024-02-09T19:30:56.537713
+4210136199,04f5kwf34,Mediomics (United States),US,company,https://mediomics.com/,,,[],[],6,190,4210136199,2024-02-09T07:12:15.204907
+4210131703,02w4b7q15,Pharmaxis (United Kingdom),GB,company,http://www.pharmaxis.com.au/,,,[],[],8,177,4210131703,2024-02-09T23:43:41.667163
+4210107064,01n29bn70,Peregrine Falcon (United States),US,company,http://peregrinecorp.com/,,,[],[],6,164,4210107064,2024-02-09T20:25:25.383105
+4210150091,04psa8d07,Geary County Schools USD 475,US,education,https://www.usd475.org/,,,[],"[""USD 475""]",18,149,4210150091,2024-02-09T07:31:34.280786
+4210138581,04gw3cp30,Seminario Permanente de Investigación Agraria,PE,nonprofit,http://sepia.org.pe/,,,"[""SEPIA""]",[],55,143,4210138581,2024-02-09T08:04:04.468439
+4210129606,034dwy508,Ascension St. Clare's Hospital,US,healthcare,locations/wisconsin/weston-saint-clares-hospital,,,[],[],9,130,4210129606,2024-02-09T21:16:00.003820
+4210146257,05e58kh79,Nebraska Public Health Laboratory,US,facility,http://www.nphl.org/,,,"[""NPHL""]",[],8,119,4210146257,2024-02-09T23:30:38.337158
+4210128312,03wv11p67,InterveXion Therapeutics (United States),US,company,http://intervexion.com/,,,[],[],8,114,4210128312,2024-02-09T06:21:53.289619
+4210125311,03d01nv48,Therabel (France),FR,company,http://www.therabel.fr/,,,[],[],7,113,4210125311,2024-02-09T12:05:11.074029
+4210166464,05rnqd221,Institut für Prävention und Nachsorge,DE,other,http://ipn.eu/,,,"[""IPN""]",[],17,111,4210166464,2024-02-09T06:47:55.017892
+4210090755,00ag0hf75,Diagnostic and Prevention Research Institute for Human and Animal Diseases,RU,nonprofit,indexa9e4.html?id=55,,,"[""DPRI""]","[""Научно-исследовательский институт диагностики и профилактики болезней человека и животных""]",14,108,4210090755,2024-02-09T06:27:22.086464
+4210154686,0337f4c15,WCA Hospital,US,healthcare,,,,[],[],10,107,4210154686,2024-02-09T02:10:41.040378
+4210146670,044z70396,Broome Regional Aboriginal Medical Service,AU,healthcare,https://www.brams.org.au/,,,"[""BRAMS""]",[],36,105,4210146670,2024-02-09T19:30:01.599150
+4210154443,059ymwe78,Tangerine (United Kingdom),GB,company,https://tangerineuk.net/,wikipedia/commons/d/d2/Entrance_to_Valeo_Confectionery_Limited_geograph-7119720-by-Chris-Heaton.jpg,wikipedia/commons/thumb/d/d2/Entrance_to_Valeo_Confectionery_Limited_geograph-7119720-by-Chris-Heaton.jpg/100px-Entrance_to_Valeo_Confectionery_Limited_geograph-7119720-by-Chris-Heaton.jpg,[],[],8,102,4210154443,2024-02-09T22:02:39.750466
+4210106591,010a00062,TMG-BMC (Slovenia),SI,company,http://www.tmg-bodyevolution.com/,,,[],[],10,101,4210106591,2024-02-09T15:16:56.112301
+4210115050,027cjrx78,Vermont Program for Quality in Health Care,US,healthcare,https://www.vpqhc.org/,,,[],[],7,91,4210115050,2024-02-09T01:45:03.483086
+4210139606,030503z05,ONL Therapeutic (United States),US,company,https://www.onltherapeutics.com/,,,[],[],7,88,4210139606,2024-02-09T17:18:50.086356
+4210107238,01hyc1n91,Roche (Czechia),CZ,company,http://www.roche.cz/,wikipedia/commons/f/f5/Hoffmann-La_Roche_logo.svg,wikipedia/commons/thumb/f/f5/Hoffmann-La_Roche_logo.svg/100px-Hoffmann-La_Roche_logo.svg.png,[],[],8,86,4210107238,2024-02-09T05:23:22.745943
