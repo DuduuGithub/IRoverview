@@ -674,8 +674,8 @@ def load_posting_list(post_file, length, offset):
         # 使用生成器读取倒排列表，减少内存使用
         def read_doc_ids():
             for _ in range(posting_length):
-                # 读取文档ID（4字节）
-                doc_id_bytes = post_file.read(4)
+                # 读取文档ID（8字节）
+                doc_id_bytes = post_file.read(8)
                 if not doc_id_bytes:
                     logger.error(f"读取文档ID时出错，offset={post_file.tell()}")
                     break
@@ -717,8 +717,8 @@ def load_posting_list_with_tf(post_file, length, offset):
     # 读取倒排列表
     posting_list = []
     for _ in range(posting_length):
-        # 读取文档ID（4字节）
-        doc_id_bytes = post_file.read(4)
+        # 读取文档ID（8字节）
+        doc_id_bytes = post_file.read(8)
         if not doc_id_bytes:
             break
         doc_id = int.from_bytes(doc_id_bytes, byteorder='big')

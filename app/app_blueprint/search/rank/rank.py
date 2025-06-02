@@ -260,15 +260,33 @@ def combine_rankings(tfidf_ranked, time_ranked):
 
 """获取一个词项的倒排列表（包含词频）"""
 def load_posting_list_with_tf(post_file, length, offset):
-    post_file.seek(offset)
-    posting_list = []
-    for i in range(length):
-        # 读取文档ID和词频
-        posting = post_file.read(4)
-        docID = struct.unpack('I', posting)[0]
+    """从倒排文件中读取带词频的倒排列表"""
+    try:
+        post_file.seek(offset)
+        # 读取倒排列表长度（4字节）
+        length_bytes = post_file.read(4)
+        if not length_bytes:
+            return []
+        posting_length = int.from_bytes(length_bytes, byteorder='big')
         
-        tf_data = post_file.read(4)
-        tf = struct.unpack('I', tf_data)[0]
+        # 读取倒排列表
+        posting_list = []
+        for _ in range(posting_length):
+            # 读取文档ID（8字节）
+            doc_id_bytes = post_file.read(8)
+            if not doc_id_bytes:
+                break
+            doc_id = int.from_bytes(doc_id_bytes, byteorder='big')
+            
+            # 读取词频（4字节）
+            tf_bytes = post_file.read(4)
+            if not tf_bytes:
+                break
+            tf = int.from_bytes(tf_bytes, byteorder='big')
+            
+            posting_list.append((doc_id, tf))
         
-        posting_list.append((docID, tf))
-    return posting_list
+        return posting_list
+    except Exception as e:
+        print(f"读取倒排列表时发生错误: {str(e)}")
+        return []

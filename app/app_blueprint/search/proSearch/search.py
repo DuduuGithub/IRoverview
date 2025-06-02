@@ -483,9 +483,9 @@ def load_posting_list(post_file, length, offset):
     skip_enabled = skip_distance > 1
     
     for i in range(length):
-        # 读取文档ID并跳过词频
-        posting = post_file.read(BYTE_SIZE)
-        docID = struct.unpack('I', posting)[0]
+        # 读取文档ID（8字节）并跳过词频
+        posting = post_file.read(8)
+        docID = int.from_bytes(posting, byteorder='big')
         
         # 存储文档ID
         posting_list.append(docID)
@@ -497,7 +497,7 @@ def load_posting_list(post_file, length, offset):
             # 只是在内存中模拟跳表结构
             pass
         
-        post_file.read(BYTE_SIZE)  # 跳过词频数据
+        post_file.read(4)  # 跳过词频数据
     
     return posting_list
 
@@ -506,14 +506,15 @@ def load_posting_list_with_tf(post_file, length, offset):
     post_file.seek(offset)
     posting_list = []
     for i in range(length):
-        # 读取文档ID和词频
-        posting = post_file.read(BYTE_SIZE)
-        docID = struct.unpack('I', posting)[0]
+        # 读取文档ID（8字节）和词频
+        posting = post_file.read(8)
+        docID = int.from_bytes(posting, byteorder='big')
         
-        tf_data = post_file.read(BYTE_SIZE)
-        tf = struct.unpack('I', tf_data)[0]
+        tf_data = post_file.read(4)
+        tf = int.from_bytes(tf_data, byteorder='big')
         
         posting_list.append((docID, tf))
+    
     return posting_list
 
 """显示正确的命令用法"""

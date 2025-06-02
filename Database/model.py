@@ -40,8 +40,8 @@ class Concept(db.Model):
     description = Column(Text)
     works_count = Column(Integer, default=0)
     cited_by_count = Column(Integer, default=0)
-    image_url = Column(String(255))
-    image_thumbnail_url = Column(String(255))
+    image_url = Column(String(1000))
+    image_thumbnail_url = Column(String(1000))
     works_api_url = Column(String(255))
     updated_date = Column(Date)
 
@@ -54,9 +54,9 @@ class Institution(db.Model):
     display_name = Column(String(255))
     country_code = Column(String(2))
     type = Column(String(255))
-    homepage_url = Column(String(255))
-    image_url = Column(String(255))
-    image_thumbnail_url = Column(String(255))
+    homepage_url = Column(String(1000))
+    image_url = Column(String(1000))
+    image_thumbnail_url = Column(String(1000))
     display_name_acronyms = Column(JSON)
     display_name_alternatives = Column(JSON)
     works_count = Column(Integer, default=0)
@@ -255,7 +255,7 @@ class WorkMesh(db.Model):
     work_id = Column(String(255), primary_key=True)
     descriptor_ui = Column(String(255), primary_key=True)
     descriptor_name = Column(String(255))
-    qualifier_ui = Column(String(255), primary_key=True)
+    qualifier_ui = Column(String(255), primary_key=True, nullable=True, default=None)
     qualifier_name = Column(String(255))
     is_major_topic = Column(Boolean, default=False)
 
@@ -324,58 +324,21 @@ class DataImporter:
         file_path (str): CSV文件路径
         table_name (str): 目标表名，必须是已定义的模型表名之一
         skip_duplicates (bool): 是否跳过重复数据，默认为True
-        
-        使用要求：
-        1. CSV文件要求：
-           - 文件编码必须是UTF-8
-           - 列名必须与数据库表的字段名完全匹配
-           - 对于JSON类型的字段，CSV中的值必须是有效的JSON字符串
-           - 对于枚举类型的字段，值必须是预定义的枚举值之一
-        
-        2. 环境要求：
-           - 需要安装pandas库：pip install pandas
-           - 需要足够的数据库连接权限
-           - 需要足够的磁盘空间
-        
-        3. 数据量限制：
-           - 建议单次导入不超过1000条记录
-           - 如果数据量较大，建议分批导入
-        
-        错误处理：
-        1. 如果发生错误：
-           - 会自动回滚事务
-           - 记录错误信息到operation_logs表
-           - 抛出异常，包含详细的错误信息
-        
-        2. 可能出现的错误：
-           - 文件不存在或无法读取
-           - 文件格式不正确
-           - 数据类型不匹配
-           - 违反唯一约束
-           - 数据库连接错误
-        
-        使用示例：
-        ```python
-        importer = DataImporter(db)
-        try:
-            importer.import_csv('path/to/your/file.csv', 'authors', skip_duplicates=True)
-        except Exception as e:
-            print(f"导入失败: {str(e)}")
-        ```
-        
-        Returns:
-            None
-        
-        Raises:
-            ValueError: 当表名不存在时
-            FileNotFoundError: 当CSV文件不存在时
-            IntegrityError: 当违反数据库约束时
-            Exception: 其他可能的错误
         """
         try:
             import pandas as pd
             from sqlalchemy.exc import IntegrityError
             
+            # 表名到单数entity_type映射
+            table_to_entity_type = {
+                'authors': 'author',
+                'concepts': 'concept',
+                'institutions': 'institution',
+                'sources': 'source',
+                'topics': 'topic',
+                'works': 'work',
+            }
+
             # 读取CSV文件
             df = pd.read_csv(file_path)
             
@@ -385,58 +348,61 @@ class DataImporter:
                 raise ValueError(f"未知的表名: {table_name}")
             
             # 记录开始导入
+            self.logger = OperationLog()
             self.logger.operation_type = 'import'
-            self.logger.entity_type = table_name
+            self.logger.entity_type = table_to_entity_type.get(table_name, table_name.rstrip('s'))
             self.logger.operation_time = datetime.utcnow()
             self.logger.operator = 'system'
             self.logger.operation_status = 'success'
             self.logger.operation_details = f"开始导入文件: {file_path}"
             self.logger.affected_rows = 0
             
-            # 开始事务
-            with self.db.session.begin():
-                # 遍历数据行
-                for _, row in df.iterrows():
-                    try:
-                        # 创建模型实例
-                        instance = model_class()
-                        for column in model_class.__table__.columns:
-                            if column.name in df.columns:
-                                value = row[column.name]
-                                # 处理特殊类型
-                                if isinstance(column.type, (JSON,)):
-                                    if pd.isna(value):
+            # 开始新的事务
+            self.db.session.begin()
+            
+            # 遍历数据行
+            for _, row in df.iterrows():
+                try:
+                    # 创建模型实例
+                    instance = model_class()
+                    for column in model_class.__table__.columns:
+                        if column.name in df.columns:
+                            value = row[column.name]
+                            # 处理 nan 值
+                            if pd.isna(value):
+                                value = None
+                            # 处理特殊类型
+                            elif isinstance(column.type, (JSON,)):
+                                if isinstance(value, str):
+                                    try:
+                                        value = json.loads(value)
+                                    except:
                                         value = None
-                                    elif isinstance(value, str):
-                                        try:
-                                            value = json.loads(value)
-                                        except:
-                                            value = None
-                                setattr(instance, column.name, value)
-                        
-                        # 检查是否存在重复数据
-                        if skip_duplicates:
-                            primary_keys = [key.name for key in model_class.__table__.primary_key]
-                            filters = {key: getattr(instance, key) for key in primary_keys}
-                            exists = self.db.session.query(model_class).filter_by(**filters).first()
-                            if exists:
-                                continue
-                        
-                        # 添加到会话
-                        self.db.session.add(instance)
-                        self.logger.affected_rows += 1
-                        
-                    except IntegrityError as e:
-                        if skip_duplicates:
+                            setattr(instance, column.name, value)
+                    
+                    # 检查是否存在重复数据
+                    if skip_duplicates:
+                        primary_keys = [key.name for key in model_class.__table__.primary_key]
+                        filters = {key: getattr(instance, key) for key in primary_keys}
+                        exists = self.db.session.query(model_class).filter_by(**filters).first()
+                        if exists:
                             continue
-                        raise e
-                    except Exception as e:
-                        self.logger.error_message = str(e)
-                        raise e
-                
-                # 提交事务
-                self.db.session.commit()
-                
+                    
+                    # 添加到会话
+                    self.db.session.add(instance)
+                    self.logger.affected_rows += 1
+                    
+                except IntegrityError as e:
+                    if skip_duplicates:
+                        continue
+                    raise e
+                except Exception as e:
+                    self.logger.error_message = str(e)
+                    raise e
+            
+            # 提交事务
+            self.db.session.commit()
+            
         except Exception as e:
             # 回滚事务
             self.db.session.rollback()
@@ -445,8 +411,12 @@ class DataImporter:
             raise e
         finally:
             # 记录操作日志
-            self.db.session.add(self.logger)
-            self.db.session.commit()
+            try:
+                self.db.session.add(self.logger)
+                self.db.session.commit()
+            except Exception as e:
+                self.db.session.rollback()
+                print(f"记录操作日志失败: {str(e)}")
     
     def _get_model_class(self, table_name):
         """根据表名获取对应的模型类"""

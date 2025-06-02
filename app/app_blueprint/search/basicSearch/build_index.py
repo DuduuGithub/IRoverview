@@ -217,10 +217,10 @@ def build_inverted_index():
                 for doc_id, tf in posting_list:
                     # 确保 doc_id 是整数类型
                     doc_id_int = int(doc_id)
-                    # 写入文档ID（4字节）和词频（4字节）
-                    f.write(doc_id_int.to_bytes(4, byteorder='big'))
+                    # 写入文档ID（8字节）和词频（4字节）
+                    f.write(doc_id_int.to_bytes(8, byteorder='big'))
                     f.write(tf.to_bytes(4, byteorder='big'))
-                    current_offset += 8
+                    current_offset += 12  # 8字节docID + 4字节词频
         
         # 更新词典文件中的offset
         with open(dict_file, 'w', encoding='utf-8') as f:

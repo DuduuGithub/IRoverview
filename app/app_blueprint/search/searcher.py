@@ -304,6 +304,8 @@ def api_search():
         per_page = data.get('per_page', 10)
         count_only = data.get('count_only', False)  # 新增参数，仅用于统计
         
+        logger.info(f"收到搜索请求: keyword={keyword}, sort_method={sort_method}, page={page}, per_page={per_page}")
+        
         # 空关键词检查
         if not keyword:
             return jsonify({
@@ -315,6 +317,7 @@ def api_search():
         
         # 提取关键词，用于高亮
         keywords = extract_keywords_for_highlight(keyword)
+        logger.info(f"提取的关键词: {keywords}")
         
         # 获取日期范围（如果有）
         date_from = data.get('date_from', '')
@@ -322,8 +325,19 @@ def api_search():
         # 获取多选年份范围（如果有）
         year_ranges = data.get('year_ranges', [])
         
+        # 获取索引文件路径
+        index_dir = os.path.join(os.path.dirname(__file__), 'basicSearch', 'index')
+        dictionary_file = os.path.join(index_dir, 'dictionary.txt')
+        postings_file = os.path.join(index_dir, 'postings.bin')
+        
         # 执行搜索
-        work_ids = basic_search(query_text=keyword, use_db=True, sort_method=sort_method)
+        work_ids = basic_search(
+            query_text=keyword,
+            dictionary_file=dictionary_file,
+            postings_file=postings_file,
+            sort_method=sort_method
+        )
+        logger.info(f"搜索返回的work_ids: {work_ids}")
         
         # 如果有日期筛选或年份范围筛选，应用筛选
         if date_from or date_to or year_ranges:
@@ -372,11 +386,13 @@ def api_search():
                             filtered_ids.append(doc_id)
                 
                 work_ids = filtered_ids
+                logger.info(f"日期筛选后的work_ids: {work_ids}")
             except Exception as date_error:
-                print(f"日期筛选出错: {date_error}")
+                logger.error(f"日期筛选出错: {date_error}")
                 # 出错时不应用筛选
         
         total = len(work_ids)
+        logger.info(f"搜索结果总数: {total}")
         
         # 记录搜索会话
         session_id = record_search_session(keyword, total)
@@ -388,6 +404,7 @@ def api_search():
         start = (page - 1) * per_page
         end = start + per_page
         paginated_ids = work_ids[start:end] if start < len(work_ids) else []
+        logger.info(f"分页后的work_ids: {paginated_ids}")
         
         # 获取搜索结果
         works = []
@@ -395,6 +412,7 @@ def api_search():
         for i, work_id in enumerate(paginated_ids):
             work = Work.query.get(work_id)
             if work:
+                logger.info(f"找到作品: id={work.id}, title={work.title}")
                 # 获取作者
                 authorships = WorkAuthorship.query.filter_by(work_id=work.id).all()
                 authors = []
@@ -424,6 +442,7 @@ def api_search():
                     'url': f'/reader/document/{work.id}?session_id={session_id}'
                 }
                 works.append(result)
+                logger.info(f"添加结果: {result}")
                 
                 # 创建原始结果对象用于记录
                 raw_result = {
@@ -432,6 +451,8 @@ def api_search():
                     'query_text': keyword
                 }
                 raw_results.append(raw_result)
+            else:
+                logger.warning(f"未找到作品: id={work_id}")
         
         # 记录搜索结果
         if session_id and raw_results:
@@ -445,13 +466,15 @@ def api_search():
             except Exception as e:
                 logger.error(f"记录搜索结果失败: {str(e)}", exc_info=True)
         
-        return jsonify({
+        response_data = {
             'results': works,
             'total': total,
             'page': page,
             'per_page': per_page,
             'session_id': session_id
-        })
+        }
+        logger.info(f"返回响应: {response_data}")
+        return jsonify(response_data)
         
     except Exception as e:
         logger.error(f"搜索出错: {str(e)}", exc_info=True)

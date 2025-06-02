@@ -9,19 +9,25 @@ from Database.model import *
 from Database.config import db
 import Database.config 
 from sqlalchemy.sql import text
+from sqlalchemy import inspect
 
 def init_database():
+    print(0)
     with app.app_context():
         try:
-            # 删除所有表
-            db.drop_all()
-            db.session.commit()
-            
-            # 创建所有表
-            db.create_all()
-            db.session.commit()
-            print("数据库初始化完成！")
-            
+            #检查数据库是否已存在
+            inspector = inspect(db.engine)
+            if not inspector.has_table('works'):
+                # 删除所有表
+                db.drop_all()
+                db.session.commit()
+                
+                # 创建所有表
+                db.create_all()
+                db.session.commit()
+                print("数据库初始化完成！")
+            else:
+                print("数据库已存在，跳过初始化。")
         except Exception as e:
             print(f"数据库初始化失败: {str(e)}")
             db.session.rollback()
@@ -57,5 +63,5 @@ def index():
 
 if __name__ == '__main__':
     # 初始化数据库
-    # init_database()
+    init_database()
     app.run(debug=True)  # 这里的debug只控制Flask的调试模式，不影响SQL输出
