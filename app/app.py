@@ -11,13 +11,29 @@ import Database.config
 from sqlalchemy.sql import text
 from sqlalchemy import inspect
 
-def init_database():
-    print(0)
+def show_db_menu():
+    while True:
+        print("\n=== 请选择运行模式 ===")
+        print("1. 正常运行")
+        print("2. 重建数据库")
+        choice = input("\n请选择 (1-2): ").strip()
+        
+        if choice == "1":
+            return False
+        elif choice == "2":
+            confirm = input("警告：重建数据库将删除所有现有数据！确定要继续吗？(y/n): ").strip().lower()
+            if confirm == 'y':
+                return True
+            else:
+                continue
+        else:
+            print("无效的选择，请重试。")
+
+def init_database(rebuild=False):
+    print("\n正在初始化数据库...")
     with app.app_context():
         try:
-            #检查数据库是否已存在
-            inspector = inspect(db.engine)
-            if not inspector.has_table('works'):
+            if rebuild:
                 # 删除所有表
                 db.drop_all()
                 db.session.commit()
@@ -25,11 +41,11 @@ def init_database():
                 # 创建所有表
                 db.create_all()
                 db.session.commit()
-                print("数据库初始化完成！")
+                print("数据库重建完成！")
             else:
-                print("数据库已存在，跳过初始化。")
+                print("正常启动，保持现有数据库。")
         except Exception as e:
-            print(f"数据库初始化失败: {str(e)}")
+            print(f"数据库操作失败: {str(e)}")
             db.session.rollback()
             raise
 
@@ -62,6 +78,10 @@ def index():
     return redirect(url_for('searcher.search_page'))  # 修改为searcher蓝图的search_page路由
 
 if __name__ == '__main__':
+    # 显示运行模式选择菜单
+    rebuild_choice = show_db_menu()
+    
     # 初始化数据库
-    init_database()
+    init_database(rebuild=rebuild_choice)
+    
     app.run(debug=True)  # 这里的debug只控制Flask的调试模式，不影响SQL输出
