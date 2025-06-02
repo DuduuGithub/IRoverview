@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051291729",
+    "company_name": "2051291729"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A Wireless ZigBee Router with P-H-T Sensing for Health Monitoring\n\nAbstract: with the increase of the aging population, the health of the aging will become a global focus. Wireless body area network, which as a low-cost, convenient and easy to use health monitoring system is being widely researched and now it has gained very large advancement. In this paper, we introduced the design and development of a wireless router which also integrated atmospheric Pressure, Humidity and Temperature (P-H-T) sensing functions for the body area network to relay different kinds of physiological signals from a comparatively further place. The standout advantages of the wireless router we designed can be summarized as the following 4 points: 1. High network throughput rate: the network throughput rate could be as high as 73.6Kbytes/s when the data transmitted through three jumps; 2. Low packet loss rate: the packet loss rate is just 0.4% when date transmitted 50 meters through three jumps; 3. High transmission power: to enhance the wireless communication capability, wireless power amplifier is applied and the transmission power of the router can be up to 20dBm; 4. Multi-functions: besides the relay function, the router could also perform the P-H-T environment monitoring function. In this paper, we mainly introduced the design and implementation of the zigbee router, and then we described the experiments done on the network performance and the health and environment monitoring function. The designed zigbee router could also be used in other many applications such as elderly activity monitoring of the community, the forest fire detection, and so on.\n\n"
+      }
+    ]
+  }
+}

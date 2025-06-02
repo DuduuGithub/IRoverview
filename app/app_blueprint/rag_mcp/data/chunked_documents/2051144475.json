@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051144475",
+    "company_name": "2051144475"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Hydrodynamic Fluctuation Due to the Discontinuity of Flow Impedance\n\nAbstract: The flow velocity fluctuation generated behind a circular cylinder which is placed in a unidirectional stream has been measured by means of laser velocimetry. The variance of the fluctuation is proportional to the square of the mean flow rate and is found to reduce with going down the stream.\n\nKeywords: Optics, Physics, Mathematical analysis, Materials science, Turbulence, Geometry, Mathematics, Flow (mathematics), Mechanics\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 106,
+        "text": "Title: Hydrodynamic Fluctuation Due to the Discontinuity of Flow Impedance\n\nAbstract: The flow velocity fluctuation generated behind a circular cylinder which is placed in a unidirectional stream has been measured by means of laser velocimetry. The variance of the fluctuation is proportional to the square of the mean flow rate and is found to reduce with going down the stream.\n\nKeywords: Optics, Physics, Mathematical analysis, Materials science, Turbulence, Geometry, Mathematics, Flow (mathematics), Mechanics",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

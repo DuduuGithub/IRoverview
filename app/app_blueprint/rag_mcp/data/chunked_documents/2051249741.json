@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051249741",
+    "company_name": "2051249741"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Quantum bound states where the classical motion is unbounded\n\nAbstract: An example of bound quantum states occurring where the classical motion is unbounded is given. It consists of a void in an otherwise perfect array of hard sphere scattering centres. The Hamiltonian consists only of kinetic energy and an interpretation that the particle is bound in order to lower its kinetic energy is given, contrary to usual intuition. The calculation is also an unusual solid-state physics problem. The physical situations where this may be relevant are mentioned.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 101,
+        "text": "Title: Quantum bound states where the classical motion is unbounded\n\nAbstract: An example of bound quantum states occurring where the classical motion is unbounded is given. It consists of a void in an otherwise perfect array of hard sphere scattering centres. The Hamiltonian consists only of kinetic energy and an interpretation that the particle is bound in order to lower its kinetic energy is given, contrary to usual intuition. The calculation is also an unusual solid-state physics problem. The physical situations where this may be relevant are mentioned.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

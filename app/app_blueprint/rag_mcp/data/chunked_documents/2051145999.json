@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051145999",
+    "company_name": "2051145999"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Cyclic AMP: swing that message!\n\nKeywords: Combinatorics, Physics, Psychology, Chemistry, Acoustics, Mathematics, Computer science, Communication, Biology\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 35,
+        "text": "Title: Cyclic AMP: swing that message!\n\nKeywords: Combinatorics, Physics, Psychology, Chemistry, Acoustics, Mathematics, Computer science, Communication, Biology",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051267106",
+    "company_name": "2051267106"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Stability and Passivity of Complex Spatio-Temporal Switching Networks with Coupling Delays\n\nAbstract: In this paper, a new model of complex dynamical network is established. It is called a complex spatio-temporal switching network. That is, the subsystem of each node at different time interval corresponds to different switching mode. Based on passivity property, the stability and passivity of this kind of network with time-delay interconnections are addressed. An example and simulation results are included.\n\n"
+      }
+    ]
+  }
+}

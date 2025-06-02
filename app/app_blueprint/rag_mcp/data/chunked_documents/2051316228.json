@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051316228",
+    "company_name": "2051316228"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: AEROBIC DECONDITIONING AND RECOVERY FOLLOWING LONG DURATION FLIGHTS ONBOARD THE INTERNATIONAL SPACE STATION (ISS)\n\nAbstract: Previous observations of the cardiovascular responses to upright exercise stress following space flight are limited to short duration flights (Space Shuttle) or Skylab missions ranging from 28–84 d. To date, flight durations of ISS missions have ranged from 129–197 d. PURPOSE To determine if ISS sojourners exhibit aerobic deconditioning following flight and to document if recovery occurs 30 d following flight. METHODS ISS crewmembers (n=5) performed a cycle ergometer test to determine peak oxygen uptake (VO2pk) and heart rate (HR) 9 months prior to their missions. The NASA-IRB deemed the risk of performing maximal exercise testing early following flight exceeded the benefit; therefore a submaximal cycle ergometer test, the Physical Fitness Evaluation (PFE), was developed. The PFE tests were performed 45 d before launch (L-45), and 5 and 30 d after flight (R+5 and R+30). The PFE consists of 5 min stages at 25%, 50%, 75%, and 25% VO2pk. During the PFE, HR and VO2 were measured and data from the last min of the first 3 stages were used for subsequent analysis. The VO2 vs. HR relationship was quantified for each subject and test session using linear regression. The VO2 calculated to occur at peak HR for each test was used as a predictor of aerobic capacity (predVO2pk). The pre- vs. post flight data were analyzed using repeated-measures ANOVA. RESULTS On L-45, the crewmembers predVO2pk was 3.53 ± 0.75 L/min (Mean ± SD). On R+5, predVO2pk declined by 12.5% (3.09 ± 0.98 L/min, p = 0.01). By R+30, predVO2pk had returned to preflight levels (3.56 ± 0.87 L/min). CONCLUSION Despite performance of regular exercise (cycle ergometry and treadmill exercise) during flight, aerobic deconditioning is apparent on R+5. This reduction may be caused by a decrease in intravascular blood volume, exercise stroke volume, and/or cardiac output. Normalization of aerobic capacity appears complete by 30 days following flight.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 30,
+        "text": "Title: AEROBIC DECONDITIONING AND RECOVERY FOLLOWING LONG DURATION FLIGHTS ONBOARD THE INTERNATIONAL SPACE STATION (ISS)",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: Previous observations of the cardiovascular responses to upright exercise stress following space flight are limited to short duration flights (Space Shuttle) or Skylab missions ranging from 28–84 d. To date, flight durations of ISS missions have ranged from 129–197 d. PURPOSE To determine if ISS sojourners exhibit aerobic deconditioning following flight and to document if recovery occurs 30 d following flight. METHODS ISS crewmembers (n=5) performed a cycle ergometer test to determine peak oxygen uptake (VO2pk) and heart rate (HR) 9 months prior to their missions. The NASA-IRB deemed the risk of performing maximal exercise testing early following flight exceeded the benefit; therefore a submaximal cycle ergometer test, the Physical Fitness Evaluation (PFE), was developed. The PFE tests were performed 45 d before launch (L-45), and 5 and 30 d after flight (R+5 and R+30). The PFE consists of 5 min stages at 25%, 50%, 75%, and 25% VO2pk. During the PFE, HR and VO2 were measured and data from the last min of the first 3 stages were used for subsequent analysis. The VO2 vs. HR relationship was quantified for each subject and test session using linear regression. The VO2 calculated to occur at peak HR for each test was used as a predictor of aerobic capacity (predVO2pk). The pre-",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 223,
+        "text": "analysis. The VO2 vs. HR relationship was quantified for each subject and test session using linear regression. The VO2 calculated to occur at peak HR for each test was used as a predictor of aerobic capacity (predVO2pk). The pre- vs. post flight data were analyzed using repeated-measures ANOVA. RESULTS On L-45, the crewmembers predVO2pk was 3.53 ± 0.75 L/min (Mean ± SD). On R+5, predVO2pk declined by 12.5% (3.09 ± 0.98 L/min, p = 0.01). By R+30, predVO2pk had returned to preflight levels (3.56 ± 0.87 L/min). CONCLUSION Despite performance of regular exercise (cycle ergometry and treadmill exercise) during flight, aerobic deconditioning is apparent on R+5. This reduction may be caused by a decrease in intravascular blood volume, exercise stroke volume, and/or cardiac output. Normalization of aerobic capacity appears complete by 30 days following flight.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,845 @@
+import json
+import logging
+from typing import List, Tuple, Dict, Union
+from rank_bm25 import BM25Okapi
+import pickle
+from pathlib import Path
+import faiss
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
+import numpy as np
+from .reranking import LLMReranker, JinaReranker
+
+_log = logging.getLogger(__name__)
+
+class BM25Retriever:
+    def __init__(self, bm25_db_dir: Path, documents_dir: Path):
+        self.bm25_db_dir = bm25_db_dir
+        self.documents_dir = documents_dir
+        
+    def retrieve_by_company_name(self, company_name: str, query: str, top_n: int = 3, return_parent_pages: bool = False) -> List[Dict]:
+        document_path = None
+        for path in self.documents_dir.glob("*.json"):
+            with open(path, 'r', encoding='utf-8') as f:
+                doc = json.load(f)
+                if doc["metainfo"]["company_name"] == company_name:
+                    document_path = path
+                    document = doc
+                    break
+                    
+        if document_path is None:
+            raise ValueError(f"No report found with '{company_name}' company name.")
+            
+        # Load corresponding BM25 index
+        bm25_path = self.bm25_db_dir / f"{document['metainfo']['sha1_name']}.pkl"
+        with open(bm25_path, 'rb') as f:
+            bm25_index = pickle.load(f)
+            
+        # Get the document content and BM25 index
+        document = document
+        chunks = document["content"]["chunks"]
+        pages = document["content"]["pages"]
+        
+        # Get BM25 scores for the query
+        tokenized_query = query.split()
+        scores = bm25_index.get_scores(tokenized_query)
+        
+        actual_top_n = min(top_n, len(scores))
+        top_indices = sorted(range(len(scores)), key=lambda i: scores[i], reverse=True)[:actual_top_n]
+        
+        retrieval_results = []
+        seen_pages = set()
+        
+        for index in top_indices:
+            score = round(float(scores[index]), 4)
+            chunk = chunks[index]
+            parent_page = next(page for page in pages if page["page"] == chunk["page"])
+            
+            if return_parent_pages:
+                if parent_page["page"] not in seen_pages:
+                    seen_pages.add(parent_page["page"])
+                    result = {
+                        "score": score,
+                        "page": parent_page["page"],
+                        "text": parent_page["text"]
+                    }
+                    retrieval_results.append(result)
+            else:
+                result = {
+                    "score": score,
+                    "page": chunk["page"],
+                    "text": chunk["text"]
+                }
+                retrieval_results.append(result)
+        
+        return retrieval_results
+
+
+
+class VectorRetriever:
+    def __init__(self, vector_db_dir: Path, documents_dir: Path):
+        self.vector_db_dir = vector_db_dir
+        self.documents_dir = documents_dir
+        self.all_dbs = self._load_dbs()
+        self.llm = self._set_up_llm()
+
+    def _set_up_llm(self):
+        load_dotenv()
+        llm = OpenAI(
+            api_key=os.getenv("OPENAI_API_KEY"),
+            timeout=None,
+            max_retries=2
+            )
+        return llm
+    
+    @staticmethod
+    def set_up_llm():
+        load_dotenv()
+        llm = OpenAI(
+            api_key=os.getenv("OPENAI_API_KEY"),
+            timeout=None,
+            max_retries=2
+            )
+        return llm
+
+    def _load_dbs(self):
+        all_dbs = []
+        # Get list of JSON document paths
+        all_documents_paths = list(self.documents_dir.glob('*.json'))
+        vector_db_files = {db_path.stem: db_path for db_path in self.vector_db_dir.glob('*.faiss')}
+        
+        for document_path in all_documents_paths:
+            stem = document_path.stem
+            if stem not in vector_db_files:
+                _log.warning(f"No matching vector DB found for document {document_path.name}")
+                continue
+            try:
+                with open(document_path, 'r', encoding='utf-8') as f:
+                    document = json.load(f)
+            except Exception as e:
+                _log.error(f"Error loading JSON from {document_path.name}: {e}")
+                continue
+            
+            # Validate that the document meets the expected schema
+            if not (isinstance(document, dict) and "metainfo" in document and "content" in document):
+                _log.warning(f"Skipping {document_path.name}: does not match the expected schema.")
+                continue
+            
+            try:
+                vector_db = faiss.read_index(str(vector_db_files[stem]))
+            except Exception as e:
+                _log.error(f"Error reading vector DB for {document_path.name}: {e}")
+                continue
+                
+            report = {
+                "name": stem,
+                "vector_db": vector_db,
+                "document": document,
+                "document_id": document.get("metainfo", {}).get("document_id", stem)
+            }
+            all_dbs.append(report)
+        return all_dbs
+
+    @staticmethod
+    def get_strings_cosine_similarity(str1, str2):
+        llm = VectorRetriever.set_up_llm()
+        embeddings = llm.embeddings.create(input=[str1, str2], model="text-embedding-3-large")
+        embedding1 = embeddings.data[0].embedding
+        embedding2 = embeddings.data[1].embedding
+        similarity_score = np.dot(embedding1, embedding2) / (np.linalg.norm(embedding1) * np.linalg.norm(embedding2))
+        similarity_score = round(similarity_score, 4)
+        return similarity_score
+
+    def retrieve_by_company_name(self, company_name: str, query: str, llm_reranking_sample_size: int = None, top_n: int = 3, return_parent_pages: bool = False) -> List[Tuple[str, float]]:
+        target_report = None
+        for report in self.all_dbs:
+            document = report.get("document", {})
+            metainfo = document.get("metainfo")
+            if not metainfo:
+                _log.error(f"Report '{report.get('name')}' is missing 'metainfo'!")
+                raise ValueError(f"Report '{report.get('name')}' is missing 'metainfo'!")
+            if metainfo.get("company_name") == company_name:
+                target_report = report
+                break
+        
+        if target_report is None:
+            _log.error(f"No report found with '{company_name}' company name.")
+            raise ValueError(f"No report found with '{company_name}' company name.")
+        
+        document = target_report["document"]
+        vector_db = target_report["vector_db"]
+        chunks = document["content"]["chunks"]
+        pages = document["content"]["pages"]
+        
+        actual_top_n = min(top_n, len(chunks))
+        
+        embedding = self.llm.embeddings.create(
+            input=query,
+            model="text-embedding-3-large"
+        )
+        embedding = embedding.data[0].embedding
+        embedding_array = np.array(embedding, dtype=np.float32).reshape(1, -1)
+        distances, indices = vector_db.search(x=embedding_array, k=actual_top_n)
+    
+        retrieval_results = []
+        seen_pages = set()
+        
+        for distance, index in zip(distances[0], indices[0]):
+            distance = round(float(distance), 4)
+            chunk = chunks[index]
+            parent_page = next(page for page in pages if page["page"] == chunk["page"])
+            if return_parent_pages:
+                if parent_page["page"] not in seen_pages:
+                    seen_pages.add(parent_page["page"])
+                    result = {
+                        "score": distance,
+                        "page": parent_page["page"],
+                        "text": parent_page["text"]
+                    }
+                    retrieval_results.append(result)
+            else:
+                result = {
+                    "score": distance,
+                    "page": chunk["page"],
+                    "text": chunk["text"]
+                }
+                retrieval_results.append(result)
+            
+        return retrieval_results
+
+    def retrieve_all(self, company_name: str) -> List[Dict]:
+        target_report = None
+        for report in self.all_dbs:
+            document = report.get("document", {})
+            metainfo = document.get("metainfo")
+            if not metainfo:
+                continue
+            if metainfo.get("company_name") == company_name:
+                target_report = report
+                break
+        
+        if target_report is None:
+            _log.error(f"No report found with '{company_name}' company name.")
+            raise ValueError(f"No report found with '{company_name}' company name.")
+        
+        document = target_report["document"]
+        pages = document["content"]["pages"]
+        
+        all_pages = []
+        for page in sorted(pages, key=lambda p: p["page"]):
+            result = {
+                "score": 0.5,
+                "page": page["page"],
+                "text": page["text"]
+            }
+            all_pages.append(result)
+            
+        return all_pages
+
+    def retrieve_by_query(self, query: str, llm_reranking_sample_size: int = None, top_n: int = 5) -> List[Dict]:
+        """
+        根据查询检索所有文档中的相关内容
+        
+        Args:
+            query: 查询文本
+            llm_reranking_sample_size: LLM重排序样本大小
+            top_n: 返回结果数量
+            
+        Returns:
+            检索结果列表
+        """
+        if not self.all_dbs:
+            _log.error("没有可用的文档数据库")
+            raise ValueError("No document databases available")
+            
+        _log.info(f"执行向量检索，查询: '{query}'，top_n: {top_n}")
+            
+        # 获取查询的向量表示
+        _log.info("将查询转换为向量表示")
+        try:
+            embedding = self.llm.embeddings.create(
+                input=query,
+                model="text-embedding-3-large"
+            )
+            embedding = embedding.data[0].embedding
+            embedding_array = np.array(embedding, dtype=np.float32).reshape(1, -1)
+            _log.info(f"成功获取查询向量，维度: {len(embedding)}")
+        except Exception as e:
+            _log.error(f"获取向量表示失败: {str(e)}", exc_info=True)
+            raise
+        
+        all_results = []
+        
+        # 遍历所有文档，进行向量检索
+        for report in self.all_dbs:
+            try:
+                document = report["document"]
+                vector_db = report["vector_db"]
+                chunks = document["content"]["chunks"]
+                metainfo = document.get("metainfo", {})
+                document_id = metainfo.get("document_id", "")
+                
+                # 搜索向量相似度
+                distances, indices = vector_db.search(x=embedding_array, k=1)
+                distance = distances[0][0]
+                idx = indices[0][0]
+                
+                # 获取最相似的块内容
+                if 0 <= idx < len(chunks):
+                    chunk = chunks[idx]
+                    similarity = float(distance)
+                    
+                    # 应用相似度阈值过滤
+                    if similarity_threshold > 0 and similarity < similarity_threshold:
+                        _log.debug(f"[向量检索] 文档 '{document_id}' 的相似度分数 {similarity:.4f} 低于阈值 {similarity_threshold}，跳过")
+                        continue
+                    
+                    result = {
+                        "document_id": document_id,
+                        "score": similarity,
+                        "page": chunk.get("page", 0),
+                        "text": chunk.get("text", ""),
+                        "title": metainfo.get("title", ""),
+                        "source": metainfo.get("source", ""),
+                        "year": metainfo.get("year", ""),
+                        "authors": metainfo.get("authors", []),
+                        "metadata": metainfo,
+                        "id": f"doc_{len(all_results)}"  # 为Jina重排序添加唯一ID
+                    }
+                    all_results.append(result)
+            except Exception as e:
+                _log.warning(f"[向量检索] 处理文档时出错: {str(e)}")
+        
+        _log.info(f"[向量检索] 初始检索返回 {len(all_results)} 条结果")
+        
+        # 按相关度排序
+        all_results.sort(key=lambda x: x["score"], reverse=True)
+        _log.info(f"总共找到 {len(all_results)} 个结果")
+        
+        # 如果需要LLM重排序，应用重排序
+        if llm_reranking_sample_size and llm_reranking_sample_size > 0:
+            _log.info(f"使用LLM重排序，样本大小: {min(llm_reranking_sample_size, len(all_results))}")
+            reranker = LLMReranker()
+            sample_size = min(llm_reranking_sample_size, len(all_results))
+            all_results = reranker.rerank_documents(
+                query=query,
+                documents=all_results[:sample_size]
+            )
+            _log.info("LLM重排序完成")
+            
+        # 返回前top_n个结果
+        final_results = all_results[:top_n]
+        _log.info(f"返回排序后的前 {len(final_results)} 个结果")
+        return final_results
+
+    def retrieve_by_document_id(self, document_id: str, query: str, llm_reranking_sample_size: int = None, top_n: int = 3, return_parent_pages: bool = False) -> List[Dict]:
+        """
+        根据文档ID和查询检索相关内容
+        
+        Args:
+            document_id: 文档ID
+            query: 查询文本
+            llm_reranking_sample_size: LLM重排序样本大小
+            top_n: 返回结果数量
+            return_parent_pages: 是否返回父页面
+            
+        Returns:
+            检索结果列表
+        """
+        # 查找目标文档
+        target_report = None
+        for report in self.all_dbs:
+            if report["document_id"] == document_id:
+                target_report = report
+                break
+        
+        if target_report is None:
+            # 尝试用文件名匹配
+            for report in self.all_dbs:
+                if report["name"] == document_id:
+                    target_report = report
+                    break
+                    
+        if target_report is None:
+            _log.error(f"No document found with ID '{document_id}'.")
+            raise ValueError(f"No document found with ID '{document_id}'.")
+        
+        # 提取文档数据
+        document = target_report["document"]
+        vector_db = target_report["vector_db"]
+        chunks = document["content"]["chunks"]
+        pages = document["content"]["pages"]
+        metainfo = document.get("metainfo", {})
+        
+        actual_top_n = min(top_n, len(chunks))
+        
+        # 获取查询的向量表示
+        embedding = self.llm.embeddings.create(
+            input=query,
+            model="text-embedding-3-large"
+        )
+        embedding = embedding.data[0].embedding
+        embedding_array = np.array(embedding, dtype=np.float32).reshape(1, -1)
+        
+        # 执行向量检索
+        distances, indices = vector_db.search(x=embedding_array, k=actual_top_n)
+    
+        retrieval_results = []
+        seen_pages = set()
+        
+        for distance, index in zip(distances[0], indices[0]):
+            if 0 <= index < len(chunks):
+                chunk = chunks[index]
+                
+                # 获取相似度分数
+                similarity = float(distance)
+                
+                # 应用相似度阈值过滤
+                if similarity_threshold > 0 and similarity < similarity_threshold:
+                    continue
+                
+                if return_parent_pages:
+                    # 查找父页面
+                    page_number = chunk.get("page", 0)
+                    if page_number not in seen_pages:
+                        seen_pages.add(page_number)
+                        parent_page = next((p for p in pages if p.get("page") == page_number), None)
+                        
+                        if parent_page:
+                            result = {
+                                "document_id": document_id,
+                                "score": similarity,
+                                "page": page_number,
+                                "text": parent_page.get("text", ""),
+                                "title": metainfo.get("title", ""),
+                                "source": metainfo.get("source", ""),
+                                "year": metainfo.get("year", ""),
+                                "authors": metainfo.get("authors", []),
+                                "metadata": metainfo
+                            }
+                            retrieval_results.append(result)
+                else:
+                    # 返回块内容
+                    result = {
+                        "document_id": document_id,
+                        "score": similarity,
+                        "page": chunk.get("page", 0),
+                        "text": chunk.get("text", ""),
+                        "title": metainfo.get("title", ""),
+                        "source": metainfo.get("source", ""),
+                        "year": metainfo.get("year", ""),
+                        "authors": metainfo.get("authors", []),
+                        "metadata": metainfo
+                    }
+                    retrieval_results.append(result)
+        
+        # 如果需要LLM重排序，应用重排序
+        if llm_reranking_sample_size and llm_reranking_sample_size > 0 and len(retrieval_results) > 0:
+            reranker = LLMReranker()
+            sample_size = min(llm_reranking_sample_size, len(retrieval_results))
+            retrieval_results = reranker.rerank_documents(
+                query=query,
+                documents=retrieval_results[:sample_size]
+            )
+            
+        return retrieval_results
+
+
+class HybridRetriever:
+    def __init__(self, vector_db_dir: Path, documents_dir: Path, max_tokens=1048576, 
+                 use_llm_reranking=True, reranking_strategy="jina"):
+        self.vector_retriever = VectorRetriever(vector_db_dir, documents_dir)
+        self.bm25_retriever = BM25Retriever(vector_db_dir, documents_dir)
+        self.use_llm_reranking = use_llm_reranking
+        # 初始化合适的reranker
+        if reranking_strategy.lower() == "jina":
+            self.reranker = JinaReranker()
+            _log.info("使用Jina重排序引擎")
+        else:
+            self.reranker = LLMReranker()
+            _log.info("使用LLM重排序引擎")
+        self.reranking_strategy = reranking_strategy
+        _log.info("初始化混合检索器")
+        
+    def retrieve_by_query(
+        self, 
+        query: str, 
+        top_n: int = 50,
+        llm_reranking_sample_size: int = 100,
+        similarity_threshold: float = 0.0
+    ) -> List[Dict]:
+        """
+        根据查询检索文档
+        
+        Args:
+            query: 查询文本
+            top_n: 返回结果数量
+            llm_reranking_sample_size: LLM重排序样本大小
+            similarity_threshold: 相似度阈值，低于此值的结果将被过滤掉
+            
+        Returns:
+            检索结果列表
+        """
+        _log.info(f"[向量检索] 开始混合检索，查询: '{query}'")
+        
+        # 创建查询的向量嵌入
+        embedding = self.vector_retriever.llm.embeddings.create(
+            input=query,
+            model="text-embedding-3-large"
+        )
+        _log.info("[向量检索] 查询向量嵌入已生成")
+        
+        embedding = embedding.data[0].embedding
+        embedding_array = np.array(embedding, dtype=np.float32).reshape(1, -1)
+        
+        # 初始化结果
+        all_retrieval_results = []
+        _log.info(f"[向量检索] 从 {len(self.vector_retriever.all_dbs)} 个文档中检索内容")
+        
+        # 遍历所有文档，进行向量检索
+        for report in self.vector_retriever.all_dbs:
+            try:
+                document = report["document"]
+                vector_db = report["vector_db"]
+                chunks = document["content"]["chunks"]
+                metainfo = document.get("metainfo", {})
+                document_id = metainfo.get("document_id", "")
+                
+                # 搜索向量相似度
+                distances, indices = vector_db.search(x=embedding_array, k=1)
+                distance = distances[0][0]
+                idx = indices[0][0]
+                
+                # 获取最相似的块内容
+                if 0 <= idx < len(chunks):
+                    chunk = chunks[idx]
+                    similarity = float(distance)
+                    
+                    # 应用相似度阈值过滤
+                    if similarity_threshold > 0 and similarity < similarity_threshold:
+                        _log.debug(f"[向量检索] 文档 '{document_id}' 的相似度分数 {similarity:.4f} 低于阈值 {similarity_threshold}，跳过")
+                        continue
+                    
+                    result = {
+                        "document_id": document_id,
+                        "score": similarity,
+                        "page": chunk.get("page", 0),
+                        "text": chunk.get("text", ""),
+                        "title": metainfo.get("title", ""),
+                        "source": metainfo.get("source", ""),
+                        "year": metainfo.get("year", ""),
+                        "authors": metainfo.get("authors", []),
+                        "metadata": metainfo,
+                        "id": f"doc_{len(all_retrieval_results)}"  # 为Jina重排序添加唯一ID
+                    }
+                    all_retrieval_results.append(result)
+            except Exception as e:
+                _log.warning(f"[向量检索] 处理文档时出错: {str(e)}")
+        
+        _log.info(f"[向量检索] 初始检索返回 {len(all_retrieval_results)} 条结果")
+        
+        # 按相似度分数排序
+        all_retrieval_results.sort(key=lambda x: x["score"], reverse=True)
+        
+        # 记录原始向量检索结果分布
+        if all_retrieval_results:
+            scores = [r.get("score", 0) for r in all_retrieval_results]
+            min_score = min(scores) if scores else 0
+            max_score = max(scores) if scores else 0
+            avg_score = sum(scores) / len(scores) if scores else 0
+            _log.info(f"[向量检索] 原始检索结果分数分布：最小={min_score:.4f}, 最大={max_score:.4f}, 平均={avg_score:.4f}")
+            
+            # 详细记录前3条结果
+            _log.info("[向量检索] 原始检索前3条结果:")
+            for i, result in enumerate(all_retrieval_results[:3]):
+                _log.info(f"  [#{i+1}] 文档: {result.get('title', 'N/A')}, 分数: {result.get('score', 0):.4f}, 页码: {result.get('page', 'N/A')}")
+                text_preview = result.get('text', '')[:100] + '...' if len(result.get('text', '')) > 100 else result.get('text', '')
+                _log.info(f"      内容摘要: {text_preview}")
+        
+        # 执行重排序
+        if self.reranking_strategy == "llm" and self.use_llm_reranking:
+            _log.info("[重排序] 使用LLM重排序")
+            
+            # 限制LLM重排序样本大小
+            if llm_reranking_sample_size and llm_reranking_sample_size < len(all_retrieval_results):
+                _log.info(f"[重排序] 限制LLM重排序样本大小为 {llm_reranking_sample_size}")
+                reranking_candidates = all_retrieval_results[:llm_reranking_sample_size]
+            else:
+                reranking_candidates = all_retrieval_results
+                
+            # 使用LLM重排序
+            _log.info(f"[重排序] 对 {len(reranking_candidates)} 条结果进行LLM重排序")
+            llm_reranker = LLMReranker()
+            reranked_results = llm_reranker.rerank_documents(query, reranking_candidates)
+            
+            # 记录重排序结果分布
+            if reranked_results:
+                scores = [r.get("score", 0) for r in reranked_results]
+                min_score = min(scores) if scores else 0
+                max_score = max(scores) if scores else 0
+                avg_score = sum(scores) / len(scores) if scores else 0
+                _log.info(f"[重排序] LLM重排序结果分数分布：最小={min_score:.4f}, 最大={max_score:.4f}, 平均={avg_score:.4f}")
+                
+                # 详细记录前3条重排序结果
+                _log.info("[重排序] LLM重排序后前3条结果:")
+                for i, result in enumerate(reranked_results[:3]):
+                    _log.info(f"  [#{i+1}] 文档: {result.get('title', 'N/A')}, 分数: {result.get('score', 0):.4f}, 页码: {result.get('page', 'N/A')}")
+                    text_preview = result.get('text', '')[:100] + '...' if len(result.get('text', '')) > 100 else result.get('text', '')
+                    _log.info(f"      内容摘要: {text_preview}")
+            
+            # 应用相似度阈值过滤
+            if similarity_threshold > 0:
+                results_before = len(reranked_results)
+                reranked_results = [r for r in reranked_results if r.get("score", 0) >= similarity_threshold]
+                filtered_count = results_before - len(reranked_results)
+                _log.info(f"[重排序] 应用相似度阈值 {similarity_threshold} 后，剩余 {len(reranked_results)} 条结果，过滤掉 {filtered_count} 条")
+                
+                # 如果所有结果都被过滤掉，使用一个较低的阈值
+                if len(reranked_results) == 0 and results_before > 0:
+                    _log.warning(f"[重排序] 所有结果都被过滤掉了，尝试使用较低的阈值：{similarity_threshold/3}")
+                    reranked_results = [r for r in reranked_results if r.get("score", 0) >= similarity_threshold/3]
+                    _log.info(f"[重排序] 使用较低阈值后，保留了 {len(reranked_results)} 条结果")
+                
+            # 截取前top_n个结果
+            return reranked_results[:top_n]
+            
+        elif self.reranking_strategy == "jina":
+            _log.info("[重排序] 使用Jina重排序")
+            
+            # 使用Jina重排序
+            jina_reranker = JinaReranker()
+            
+            _log.info(f"[重排序] 对 {len(all_retrieval_results)} 条结果进行Jina重排序")
+            # 应用Jina重排序
+            rerank_response = jina_reranker.rerank(query, all_retrieval_results)
+            # 从返回的字典中提取results字段
+            reranked_results = rerank_response.get('results', [])
+            
+            # 记录分数分布信息
+            if reranked_results:
+                scores = [r.get("score", 0) for r in reranked_results]
+                min_score = min(scores) if scores else 0
+                max_score = max(scores) if scores else 0
+                avg_score = sum(scores) / len(scores) if scores else 0
+                _log.info(f"[重排序] Jina重排序结果分数分布：最小={min_score:.4f}, 最大={max_score:.4f}, 平均={avg_score:.4f}")
+                
+                # 详细记录前3条重排序结果
+                _log.info("[重排序] Jina重排序后前3条结果:")
+                for i, result in enumerate(reranked_results[:3]):
+                    doc_id = result.get('id', 'unknown')
+                    # 找到原始文档信息
+                    original_doc = next((d for d in all_retrieval_results if d.get('id') == doc_id), None)
+                    if original_doc:
+                        _log.info(f"  [#{i+1}] 文档: {original_doc.get('title', 'N/A')}, 分数: {result.get('score', 0):.4f}")
+                        text_preview = result.get('text', '')[:100] + '...' if len(result.get('text', '')) > 100 else result.get('text', '')
+                        _log.info(f"      内容摘要: {text_preview}")
+                    else:
+                        _log.info(f"  [#{i+1}] ID: {doc_id}, 分数: {result.get('score', 0):.4f}")
+            
+            # 应用相似度阈值过滤
+            if similarity_threshold > 0:
+                results_before = len(reranked_results)
+                reranked_results = [r for r in reranked_results if r.get("score", 0) >= similarity_threshold]
+                filtered_count = results_before - len(reranked_results)
+                _log.info(f"[重排序] 应用相似度阈值 {similarity_threshold} 后，剩余 {len(reranked_results)} 条结果，过滤掉 {filtered_count} 条")
+                
+                # 如果所有结果都被过滤掉，使用一个较低的阈值
+                if len(reranked_results) == 0 and results_before > 0:
+                    _log.warning(f"[重排序] 所有结果都被过滤掉了，尝试使用较低的阈值：{similarity_threshold/3}")
+                    reranked_results = [r for r in rerank_response.get('results', []) if r.get("score", 0) >= similarity_threshold/3]
+                    _log.info(f"[重排序] 使用较低阈值后，保留了 {len(reranked_results)} 条结果")
+                
+            # 截取前top_n个结果
+            return reranked_results[:top_n]
+        
+        else:
+            _log.info("[重排序] 不进行重排序，直接按原始分数排序")
+            # 不进行重排序，直接按原始分数排序
+            all_retrieval_results.sort(key=lambda x: x["score"], reverse=True)
+            
+            # 应用相似度阈值过滤
+            if similarity_threshold > 0:
+                results_before = len(all_retrieval_results)
+                all_retrieval_results = [r for r in all_retrieval_results if r["score"] >= similarity_threshold]
+                filtered_count = results_before - len(all_retrieval_results)
+                _log.info(f"[重排序] 应用相似度阈值 {similarity_threshold} 后，剩余 {len(all_retrieval_results)} 条结果，过滤掉 {filtered_count} 条")
+                
+                # 如果所有结果都被过滤掉，使用一个较低的阈值
+                if len(all_retrieval_results) == 0 and results_before > 0:
+                    _log.warning(f"[重排序] 所有结果都被过滤掉了，尝试使用较低的阈值：{similarity_threshold/3}")
+                    all_retrieval_results = [r for r in all_retrieval_results if r["score"] >= similarity_threshold/3]
+                    _log.info(f"[重排序] 使用较低阈值后，保留了 {len(all_retrieval_results)} 条结果")
+                
+            # 截取前top_n个结果
+            _log.info(f"[检索结果] 返回前 {top_n} 条结果，总共 {len(all_retrieval_results)} 条")
+            return all_retrieval_results[:top_n]
+        
+    def retrieve_by_document_id(
+        self, 
+        document_id: str, 
+        query: str, 
+        top_n: int = 50,
+        llm_reranking_sample_size: int = 100,
+        return_parent_pages: bool = False,
+        similarity_threshold: float = 0.0
+    ) -> List[Dict]:
+        """
+        根据文档ID和查询检索文档中的相关内容
+        
+        Args:
+            document_id: 文档ID
+            query: 查询文本
+            top_n: 返回结果数量
+            llm_reranking_sample_size: LLM重排序样本大小
+            return_parent_pages: 是否返回父页面
+            similarity_threshold: 相似度阈值，低于此值的结果将被过滤掉
+            
+        Returns:
+            检索结果列表
+        """
+        _log.info(f"按文档ID检索，ID: '{document_id}'，查询: '{query}'")
+        
+        embedding = self.vector_retriever.llm.embeddings.create(
+            input=query,
+            model="text-embedding-3-large"
+        )
+        embedding = embedding.data[0].embedding
+        embedding_array = np.array(embedding, dtype=np.float32).reshape(1, -1)
+        
+        # 查找匹配的文档
+        target_report = None
+        for report in self.vector_retriever.all_dbs:
+            report_doc_id = report.get("document_id", "")
+            if not report_doc_id:
+                metainfo = report.get("document", {}).get("metainfo", {})
+                report_doc_id = metainfo.get("document_id", report.get("name", ""))
+            
+            if str(report_doc_id) == str(document_id):
+                target_report = report
+                break
+        
+        if target_report is None:
+            _log.warning(f"未找到ID为 '{document_id}' 的文档")
+            return []
+        
+        # 获取文档内容和向量数据库
+        document = target_report["document"]
+        vector_db = target_report["vector_db"]
+        chunks = document["content"]["chunks"]
+        pages = document["content"]["pages"]
+        metainfo = document.get("metainfo", {})
+        
+        # 检索结果
+        actual_retrieve = min(llm_reranking_sample_size, len(chunks))
+        distances, indices = vector_db.search(x=embedding_array, k=actual_retrieve)
+        
+        retrieval_results = []
+        seen_pages = set()
+        
+        for distance, index in zip(distances[0], indices[0]):
+            if 0 <= index < len(chunks):
+                chunk = chunks[index]
+                
+                # 获取相似度分数
+                similarity = float(distance)
+                
+                # 应用相似度阈值过滤
+                if similarity_threshold > 0 and similarity < similarity_threshold:
+                    continue
+                
+                if return_parent_pages:
+                    # 查找父页面
+                    page_number = chunk.get("page", 0)
+                    if page_number not in seen_pages:
+                        seen_pages.add(page_number)
+                        parent_page = next((p for p in pages if p.get("page") == page_number), None)
+                        
+                        if parent_page:
+                            result = {
+                                "document_id": document_id,
+                                "score": similarity,
+                                "page": page_number,
+                                "text": parent_page.get("text", ""),
+                                "title": metainfo.get("title", ""),
+                                "source": metainfo.get("source", ""),
+                                "year": metainfo.get("year", ""),
+                                "authors": metainfo.get("authors", []),
+                                "metadata": metainfo
+                            }
+                            retrieval_results.append(result)
+                else:
+                    # 返回块内容
+                    result = {
+                        "document_id": document_id,
+                        "score": similarity,
+                        "page": chunk.get("page", 0),
+                        "text": chunk.get("text", ""),
+                        "title": metainfo.get("title", ""),
+                        "source": metainfo.get("source", ""),
+                        "year": metainfo.get("year", ""),
+                        "authors": metainfo.get("authors", []),
+                        "metadata": metainfo
+                    }
+                    retrieval_results.append(result)
+        
+        if not retrieval_results:
+            _log.warning(f"未找到与查询 '{query}' 相关的结果")
+            return []
+            
+        # 执行重排序
+        if self.reranking_strategy == "llm" and self.use_llm_reranking:
+            # 使用LLM重排序
+            llm_reranker = LLMReranker()
+            reranked_results = llm_reranker.rerank(query, retrieval_results)
+            
+            # 应用相似度阈值过滤
+            if similarity_threshold > 0:
+                reranked_results = [r for r in reranked_results if r["score"] >= similarity_threshold]
+                _log.info(f"应用相似度阈值 {similarity_threshold} 后，剩余 {len(reranked_results)} 条结果")
+                
+            # 截取前top_n个结果
+            return reranked_results[:top_n]
+            
+        elif self.reranking_strategy == "jina":
+            # 使用Jina重排序
+            jina_reranker = JinaReranker()
+            rerank_response = jina_reranker.rerank(query, retrieval_results)
+            # 从返回的字典中提取results字段
+            reranked_results = rerank_response.get('results', [])
+            
+            # 记录分数分布信息
+            if reranked_results:
+                scores = [r.get("score", 0) for r in reranked_results]
+                min_score = min(scores) if scores else 0
+                max_score = max(scores) if scores else 0
+                avg_score = sum(scores) / len(scores) if scores else 0
+                _log.info(f"Jina重排序结果分数分布：最小={min_score:.4f}, 最大={max_score:.4f}, 平均={avg_score:.4f}")
+            
+            # 应用相似度阈值过滤
+            if similarity_threshold > 0:
+                results_before = len(reranked_results)
+                reranked_results = [r for r in reranked_results if r.get("score", 0) >= similarity_threshold]
+                filtered_count = results_before - len(reranked_results)
+                _log.info(f"应用相似度阈值 {similarity_threshold} 后，剩余 {len(reranked_results)} 条结果，过滤掉 {filtered_count} 条")
+                
+                # 如果所有结果都被过滤掉，使用一个较低的阈值
+                if len(reranked_results) == 0 and results_before > 0:
+                    _log.warning(f"所有结果都被过滤掉了，尝试使用较低的阈值：{similarity_threshold/3}")
+                    reranked_results = [r for r in rerank_response.get('results', []) if r.get("score", 0) >= similarity_threshold/3]
+                    _log.info(f"使用较低阈值后，保留了 {len(reranked_results)} 条结果")
+                
+            # 截取前top_n个结果
+            return reranked_results[:top_n]
+        
+        else:
+            # 不进行重排序，直接按相似度分数排序
+            retrieval_results.sort(key=lambda x: x["score"], reverse=True)
+            
+            # 应用相似度阈值过滤
+            if similarity_threshold > 0:
+                retrieval_results = [r for r in retrieval_results if r["score"] >= similarity_threshold]
+                _log.info(f"应用相似度阈值 {similarity_threshold} 后，剩余 {len(retrieval_results)} 条结果")
+                
+            # 截取前top_n个结果
+            return retrieval_results[:top_n]

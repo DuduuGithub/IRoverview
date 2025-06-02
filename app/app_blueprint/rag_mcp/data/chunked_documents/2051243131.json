@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051243131",
+    "company_name": "2051243131"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Analysis of Correlation of Students′ Motives for Taking a Class in Fundamental Physics for Engineering with Student Evaluation on the Teaching and Exam Scores\n\nAbstract: Data on students′ motives for taking a class in fundamental physics for engineering in academic 2007 have been analyzed using principal-component analysis. It is found that the first and second components of the motive data can be interpreted as a comprehensive desire to learn physics and how passive students are when they decide to take the class, respectively. Correlation between the data on the motives and those on the student evaluation of the instruction is analyzed by multiple-regression analysis, revealing that the first principal component of the motive data significantly explains the evaluation. Furthermore, multiple-regression analysis shows a statistically significant but only weak correlation between the motive data and exam scores.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 159,
+        "text": "Title: Analysis of Correlation of Students′ Motives for Taking a Class in Fundamental Physics for Engineering with Student Evaluation on the Teaching and Exam Scores\n\nAbstract: Data on students′ motives for taking a class in fundamental physics for engineering in academic 2007 have been analyzed using principal-component analysis. It is found that the first and second components of the motive data can be interpreted as a comprehensive desire to learn physics and how passive students are when they decide to take the class, respectively. Correlation between the data on the motives and those on the student evaluation of the instruction is analyzed by multiple-regression analysis, revealing that the first principal component of the motive data significantly explains the evaluation. Furthermore, multiple-regression analysis shows a statistically significant but only weak correlation between the motive data and exam scores.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

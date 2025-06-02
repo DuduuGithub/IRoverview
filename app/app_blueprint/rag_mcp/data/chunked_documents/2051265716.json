@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051265716",
+    "company_name": "2051265716"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: General Expressions of Absorption Coefficient and Radiation Intensity in Plasma and Kirchhoff's Law\n\nAbstract: General expressions of absorption coefficient K(ω) and radiation intensity I(ω) in plasma are given from the discussions of the time variation in the number distribution function of incident photon, and in terms of these quantities Kirchhoff's law in plasma system is discussed. It is well known that this law represents a general relation which holds between K(ω) and I(ω), and that it does not depend on a particular process which results in the absorption or emission of photons, but only on the temperature. The formal aspects of this fact are given from general expressions of K(ω) and I(ω). Furthermore, using the close parallel discussion to photon case, it is shown that Landau damping of plasma oscillation may be interpreted as a new damping of plasmon distribution function due to the direct interaction with electron.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 187,
+        "text": "Title: General Expressions of Absorption Coefficient and Radiation Intensity in Plasma and Kirchhoff's Law\n\nAbstract: General expressions of absorption coefficient K(ω) and radiation intensity I(ω) in plasma are given from the discussions of the time variation in the number distribution function of incident photon, and in terms of these quantities Kirchhoff's law in plasma system is discussed. It is well known that this law represents a general relation which holds between K(ω) and I(ω), and that it does not depend on a particular process which results in the absorption or emission of photons, but only on the temperature. The formal aspects of this fact are given from general expressions of K(ω) and I(ω). Furthermore, using the close parallel discussion to photon case, it is shown that Landau damping of plasma oscillation may be interpreted as a new damping of plasmon distribution function due to the direct interaction with electron.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051165252",
+    "company_name": "2051165252"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Discrimination between Forsythia viridissima and Forsythia suspensa using SCAR marker\n\nAbstract: Forsythia Fructus (Oleaceae) is a herbal medicine [1] that is widely used for swelling, gonorrhea, diuresis and tuberculosis. Two species can be found in Forsythia Fructus: Forsythia viridissima and Forsythia suspensa. In this study, we developed SCAR (sequence characterized amplified regions) markers [2] that can discriminate Forsythia viridissima and Forsythia suspensa using the internal transcribed spacer (ITS) sequence. According to the results from the 25 collected samples, Forsythia viridissima (FV) and Forsythia suspensa (FS) showed 99% homology and were divided into two groups: FS and FV groups. We have developed FVf primer for Forsythia suspense and FSfr primer for Forsythia suspense. One fragment of 140bp was amplified from FVf primer, and two fragments of 200bp and 440bp were amplified from FSfr primer. The FVf and FSfr primer could be used for the quality assessment and accurate discrimination between Forsythia Fructus species.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 250,
+        "text": "Title: Discrimination between Forsythia viridissima and Forsythia suspensa using SCAR marker\n\nAbstract: Forsythia Fructus (Oleaceae) is a herbal medicine [1] that is widely used for swelling, gonorrhea, diuresis and tuberculosis. Two species can be found in Forsythia Fructus: Forsythia viridissima and Forsythia suspensa. In this study, we developed SCAR (sequence characterized amplified regions) markers [2] that can discriminate Forsythia viridissima and Forsythia suspensa using the internal transcribed spacer (ITS) sequence. According to the results from the 25 collected samples, Forsythia viridissima (FV) and Forsythia suspensa (FS) showed 99% homology and were divided into two groups: FS and FV groups. We have developed FVf primer for Forsythia suspense and FSfr primer for Forsythia suspense. One fragment of 140bp was amplified from FVf primer, and two fragments of 200bp and 440bp were amplified from FSfr primer. The FVf and FSfr primer could be used for the quality assessment and accurate discrimination between Forsythia Fructus species.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

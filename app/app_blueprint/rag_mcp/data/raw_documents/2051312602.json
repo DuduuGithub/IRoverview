@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051312602",
+    "company_name": "2051312602"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Effect of processing route on thermomechanical properties of low temperature firing ceramic for electronic packaging\n\nAbstract: Mechanical properties and thermal expansivities of two compositionally identical ceramics intended for use in 'low temperature cofired ceramic' (LTCC) technology were investigated. Both were based on a commercial MgCaTiO3 dielectric ceramic with the sintering temperature reduced by addition of ZnO-B2O3-SiO2, either in the glassy state or as separate glass forming oxides. Although in each case the additions were accompanied by decreases in elastic modulus, flexural strength, hardness, fracture toughness, and linear thermal expansivity, the values remained close to those for commercial LTCC materials. The route which involved mixing the separate oxides produced a slightly tougher material, which also had a thermal expansivity closer to the optimum value. The study demonstrates that an acceptable LTCC ceramic can be produced starting from glass forming oxides as sintering aids, thus avoiding the need for glass melting and comminution steps.\n\n"
+      }
+    ]
+  }
+}

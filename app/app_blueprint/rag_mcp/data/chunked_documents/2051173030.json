@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051173030",
+    "company_name": "2051173030"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A Study of Promotion of Public Policy Information Services: Focusing on a Model of a Specialized Educational Policy Information Center\n\nAbstract: 국내의 교육정책정보서비스를 제공하는 교육정책당국, 전문 연구기관과 전문사이트의 10개 웹사이트를 선정하여 내용분석법의 방법으로 이들이 제공하는 주요 정책정보의 종류, 분류체계, 검색시스템의 정보검색 기능 등을 중심으로 분석하였다. 비교 분석한 결과 제시된 문제점을 검토하여 표준화된 교육정책정보 분류체계 개발, 교육정책정보원의 메타데이터 표준화와 검색시스템의 편의성 제고, 정책당국 밀착형 맞춤서비스 제공, 분야별 정책정보 전문센터 운영, 정책분야 간 협력체제 구축을 개선점으로 제안하였다. 또한, 교육정책정보원, 교육정책정보시스템, 운영체제, 협력체제로 구성된 교육정책정보전문센터 모형을 제시하였다.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 217,
+        "text": "Title: A Study of Promotion of Public Policy Information Services: Focusing on a Model of a Specialized Educational Policy Information Center\n\nAbstract: 국내의 교육정책정보서비스를 제공하는 교육정책당국, 전문 연구기관과 전문사이트의 10개 웹사이트를 선정하여 내용분석법의 방법으로 이들이 제공하는 주요 정책정보의 종류, 분류체계, 검색시스템의 정보검색 기능 등을 중심으로 분석하였다. 비교 분석한 결과 제시된 문제점을 검토하여 표준화된 교육정책정보 분류체계 개발, 교육정책정보원의 메타데이터 표준화와 검색시스템의 편의성 제고, 정책당국 밀착형 맞춤서비스 제공, 분야별 정책정보 전문센터 운영, 정책분야 간 협력체제 구축을 개선점으로 제안하였다. 또한, 교육정책정보원, 교육정책정보시스템, 운영체제, 협력체제로 구성된 교육정책정보전문센터 모형을 제시하였다.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

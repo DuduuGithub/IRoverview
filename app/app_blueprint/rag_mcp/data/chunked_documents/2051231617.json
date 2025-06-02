@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051231617",
+    "company_name": "2051231617"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Switching behavior of lateral-structured zinc oxide-based memristive device\n\nAbstract: Lateral-structured zinc oxide (ZnO) based memristive device was studied. The effect of oxide and electrode size variations on the switching behavior was investigated. The lateral structure was formed by depositing the metal electrodes at the right and left ends of a glass substrate. The ZnO thin films were deposited right at the center of the metal coated substrate using sol-gel spin coating technique. The oxide and electrode widths were varied. It was observed that using the smallest oxide width in the combination with wide electrode size resulted in better memristive behavior. The values of both on and off resistances (R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">ON</inf> and R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">OFF</inf> ) were found to be decreased as the width of the electrode increasing. The hysteresis curve on the other hand became wider with the increases of electrode width. The R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">OFF</inf> /R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">ON</inf> ratio was calculated to be 1.044.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 294,
+        "text": "Title: Switching behavior of lateral-structured zinc oxide-based memristive device\n\nAbstract: Lateral-structured zinc oxide (ZnO) based memristive device was studied. The effect of oxide and electrode size variations on the switching behavior was investigated. The lateral structure was formed by depositing the metal electrodes at the right and left ends of a glass substrate. The ZnO thin films were deposited right at the center of the metal coated substrate using sol-gel spin coating technique. The oxide and electrode widths were varied. It was observed that using the smallest oxide width in the combination with wide electrode size resulted in better memristive behavior. The values of both on and off resistances (R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">ON</inf> and R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">OFF</inf> ) were found to be decreased as the width of the electrode increasing. The hysteresis curve on the other hand became wider with the increases of electrode width. The R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">OFF</inf> /R <inf xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">ON</inf> ratio was calculated to be 1.044.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

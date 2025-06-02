@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051326618",
+    "company_name": "2051326618"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Conceptions of Mathematics among Diploma in Actuarial Science Students\n\nAbstract: This study aims to identify students’ conceptions of mathematics in the Diploma in Actuarial Science programme. It focuses specifically on how Diploma in Actuarial Science students conceptualize aspects of mathematics such as the meaning of mathematics, the meaning of learning mathematics, and the use of mathematics in daily life. This study is based on the universal integrated perspective and uses the case study design. Findings show that the Diploma in Actuarial Science students used the universal integrated perspective to interpret the acquisition of mathematical knowledge but their understandings of mathematical concepts, process of learning mathematics, and proper usage of mathematical ideas are mostly at the surface level, rather then deep understanding.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 147,
+        "text": "Title: Conceptions of Mathematics among Diploma in Actuarial Science Students\n\nAbstract: This study aims to identify students’ conceptions of mathematics in the Diploma in Actuarial Science programme. It focuses specifically on how Diploma in Actuarial Science students conceptualize aspects of mathematics such as the meaning of mathematics, the meaning of learning mathematics, and the use of mathematics in daily life. This study is based on the universal integrated perspective and uses the case study design. Findings show that the Diploma in Actuarial Science students used the universal integrated perspective to interpret the acquisition of mathematical knowledge but their understandings of mathematical concepts, process of learning mathematics, and proper usage of mathematical ideas are mostly at the surface level, rather then deep understanding.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

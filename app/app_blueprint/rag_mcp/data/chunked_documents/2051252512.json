@@ -1,0 +1,44 @@
+{
+  "metainfo": {
+    "sha1_name": "2051252512",
+    "company_name": "2051252512"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Normal and abnormal relationship between the electroencephalogram (EEG) and the regional cerebral blood flow (rCBF)\n\nAbstract: The « cerebral activityand the cerebral metabolic rate of oxygen (CMRO2) are normally related resulting in a relation (coupling) between the EEG and the regional cerebral blood flow (rCBF) These couplings are illustrated by the changes in the EEG and in the CMRO2 or rCBF occurring during pharmacological activation or depression of the central nervous system, during mental activity, during grand mal seizure, during dementia and during various chronic cerebral diseases. Several other factors than the CMRO2, however, also influence the EEG or the rCBF. This is most clearly illustrated in instances of physiological and pathophysiological uncoupling. Physiological uncoupling occurs during slow waves sleep and during childhood where the EEG shows marked slowing, but where the rCBF and CMRO2 is normal or slightly increased. Pathophysiological uncoupling occurs in a variety of acute brain lesions (anoxic lesions, ischemic lesions, etc.). In some of these instances as in the phase following the epileptic grand mal seizure, only the EEG and rCBF show uncoupling whereas the EEG and CMRO2 still are coupled. Les relations qui existent normalement entre « activité cérébraleet consommation cérébrale d'oxygène (CMRO2) permettent également d'affirmer une relation (coupling) entre l'E.E.G. et la circulation cérébrale régionale (rCBF). Ainsi, des concordances entre modifications E.E.G. et modifications du débit sanguin cérébral régional peuvent s'observer sous l'effet d'une activation ou d'une dépression du système nerveux central par les drogues, au cours de l'activité mentale, au cours de crises épileptiques grand-mal, lors d'états démentiels ou de maladies cérébrales chroniques diverses. Cependant, des facteurs autres que le CMRO2 peuvent influencer l'E.E.G. ou le débit sanguin régional, en donnant en particulier naissance à des discordances, physiologiques ou physiopathologiques. Ainsi, au cours du sommeil à ondes lentes, et durant l'enfance, s'observe une discordance de type physiologique avec, d'une part ralentissement marqué de l'E.E.G., d'autre part consommation cérébrale en oxygène, débit sanguin cérébral régional normaux ou légèrement augmentés. Une discordance physiopathologique se note au cours d'affections cérébrales aiguës diverses (en particulier de type anoxique ou ischémique). Dans certains de ces cas, tout comme dans la phase post-critique grand-mal, seuls l'E.E.G. et le débit sanguin cérébral régional montrent des discordances alors que les modifications E.E.G. et la consommation en oxygène restent concordants.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 27,
+        "text": "Title: Normal and abnormal relationship between the electroencephalogram (EEG) and the regional cerebral blood flow (rCBF)",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 298,
+        "text": "Abstract: The « cerebral activityand the cerebral metabolic rate of oxygen (CMRO2) are normally related resulting in a relation (coupling) between the EEG and the regional cerebral blood flow (rCBF) These couplings are illustrated by the changes in the EEG and in the CMRO2 or rCBF occurring during pharmacological activation or depression of the central nervous system, during mental activity, during grand mal seizure, during dementia and during various chronic cerebral diseases. Several other factors than the CMRO2, however, also influence the EEG or the rCBF. This is most clearly illustrated in instances of physiological and pathophysiological uncoupling. Physiological uncoupling occurs during slow waves sleep and during childhood where the EEG shows marked slowing, but where the rCBF and CMRO2 is normal or slightly increased. Pathophysiological uncoupling occurs in a variety of acute brain lesions (anoxic lesions, ischemic lesions, etc.). In some of these instances as in the phase following the epileptic grand mal seizure, only the EEG and rCBF show uncoupling whereas the EEG and CMRO2 still are coupled. Les relations qui existent normalement entre « activité cérébraleet consommation cérébrale d'oxygène (CMRO2) permettent également d'affirmer une relation (coupling) entre l'E.E.G. et la circulation cérébrale régionale (rCBF). Ainsi, des concordances entre modifications",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 301,
+        "text": "cérébrale d'oxygène (CMRO2) permettent également d'affirmer une relation (coupling) entre l'E.E.G. et la circulation cérébrale régionale (rCBF). Ainsi, des concordances entre modifications E.E.G. et modifications du débit sanguin cérébral régional peuvent s'observer sous l'effet d'une activation ou d'une dépression du système nerveux central par les drogues, au cours de l'activité mentale, au cours de crises épileptiques grand-mal, lors d'états démentiels ou de maladies cérébrales chroniques diverses. Cependant, des facteurs autres que le CMRO2 peuvent influencer l'E.E.G. ou le débit sanguin régional, en donnant en particulier naissance à des discordances, physiologiques ou physiopathologiques. Ainsi, au cours du sommeil à ondes lentes, et durant l'enfance, s'observe une discordance de type physiologique avec, d'une part ralentissement marqué de l'E.E.G., d'autre part consommation cérébrale en oxygène, débit sanguin cérébral régional normaux ou légèrement augmentés. Une discordance physiopathologique se note au cours d'affections cérébrales aiguës diverses (en particulier de type anoxique ou ischémique). Dans certains de ces cas, tout comme dans la phase post-critique grand-mal, seuls l'E.E.G. et le débit sanguin cérébral régional montrent des discordances",
+        "id": 2,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 68,
+        "text": "(en particulier de type anoxique ou ischémique). Dans certains de ces cas, tout comme dans la phase post-critique grand-mal, seuls l'E.E.G. et le débit sanguin cérébral régional montrent des discordances alors que les modifications E.E.G. et la consommation en oxygène restent concordants.",
+        "id": 3,
+        "type": "content"
+      }
+    ]
+  }
+}

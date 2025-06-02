@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051191844",
+    "company_name": "2051191844"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Diagonal network analysis — a new technique for project managers\n\nAbstract: Owing to its numerical rather than visual presentation, numerical network analysis, a term used to encompass techniques such as the critical path method, has never really been accepted as a working tool in the building industry. To fill this gap, diagonal network analysis (DNA) was developed. The DNA chart displays in visual terms everything that numerical network analysis gives only in numerical terms, and shows overlapping of activities without having to construct complex ladders. An arrow programme need not be drawn first as the program does this for the user. The development of a program that could draw a DNA chart from input data simple enough for even a builder to understand is described.\n\n"
+      }
+    ]
+  }
+}

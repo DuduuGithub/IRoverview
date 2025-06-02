@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051211688",
+    "company_name": "2051211688"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Hemiballism–hemidystonia after parietal lobe tumour resection\n\nAbstract: The detection of high consequence pathogens, such as Yersinia pestis, is well established in biodefense laboratories for bioterror situations. Laboratory protocols are well established using specified culture media and a growth temperature of 37 °C for expression of specific antigens. Direct detection of Y. pestis protein markers, without prior culture, depends on their expression. Unfortunately protein expression can be impacted by the culture medium which cannot be predicted ahead of time. Furthermore, higher biomass yields are obtained at the optimal growth temperature (i.e. 28 °C–30 °C) and therefore are more likely to be used for bulk production. Analysis of Y. pestis grown on several types of media at 30 °C showed that several protein markers were found to be differentially detected in different media. Analysis of the identified proteins against a comprehensive database provided an additional level of organism identification. Peptides corresponding to variable regions of some proteins could separate large groups of strains and aid in organism identification. This work illustrates the need to understand variability of protein expression for detection targets. The potential for relating expression changes of known proteins to specific media factors, even in nutrient rich and chemically complex culture medium, may provide the opportunity to draw forensic information from protein profiles.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 273,
+        "text": "Title: Hemiballism–hemidystonia after parietal lobe tumour resection\n\nAbstract: The detection of high consequence pathogens, such as Yersinia pestis, is well established in biodefense laboratories for bioterror situations. Laboratory protocols are well established using specified culture media and a growth temperature of 37 °C for expression of specific antigens. Direct detection of Y. pestis protein markers, without prior culture, depends on their expression. Unfortunately protein expression can be impacted by the culture medium which cannot be predicted ahead of time. Furthermore, higher biomass yields are obtained at the optimal growth temperature (i.e. 28 °C–30 °C) and therefore are more likely to be used for bulk production. Analysis of Y. pestis grown on several types of media at 30 °C showed that several protein markers were found to be differentially detected in different media. Analysis of the identified proteins against a comprehensive database provided an additional level of organism identification. Peptides corresponding to variable regions of some proteins could separate large groups of strains and aid in organism identification. This work illustrates the need to understand variability of protein expression for detection targets. The potential for relating expression changes of known proteins to specific media factors, even in nutrient rich and chemically complex culture medium, may provide the opportunity to draw forensic information from protein profiles.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

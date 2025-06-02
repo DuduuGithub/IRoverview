@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051315922",
+    "company_name": "2051315922"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Drug-induced neurologic disorders in childhood\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 9,
+        "text": "Title: Drug-induced neurologic disorders in childhood",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

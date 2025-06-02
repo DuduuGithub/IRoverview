@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051307795",
+    "company_name": "2051307795"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Application of the light sword optical element in a case of presbyopia\n\nAbstract: The paper presents abilities of the Light Sword Optical Element (LSOE) for imaging with extended depth of focus. The LSOE belongs to the class of optical elements focusing incident light into a segment of the optical axis. The elements of this kind can be used as correctors of some defects of human eye accommodation, especially in a case of presbyopia. The paper illustrates imaging properties of the LSOE. In particular, the point spread functions of the LSOE are analysed numerically. Imaging properties of the LSOE are compared with properties of optical elements being potentially useful for presbyopia correction as axicons, bifocal lens and trifocal lens. The experimental results illustrating usefulness of the LSOE in a case of presbyopia are given.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 173,
+        "text": "Title: Application of the light sword optical element in a case of presbyopia\n\nAbstract: The paper presents abilities of the Light Sword Optical Element (LSOE) for imaging with extended depth of focus. The LSOE belongs to the class of optical elements focusing incident light into a segment of the optical axis. The elements of this kind can be used as correctors of some defects of human eye accommodation, especially in a case of presbyopia. The paper illustrates imaging properties of the LSOE. In particular, the point spread functions of the LSOE are analysed numerically. Imaging properties of the LSOE are compared with properties of optical elements being potentially useful for presbyopia correction as axicons, bifocal lens and trifocal lens. The experimental results illustrating usefulness of the LSOE in a case of presbyopia are given.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

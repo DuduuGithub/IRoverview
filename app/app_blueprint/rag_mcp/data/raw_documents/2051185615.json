@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051185615",
+    "company_name": "2051185615"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: &lt;title&gt;Dynamics of the domain wall motion in FLC display cell&lt;/title&gt;\n\nAbstract: The electric field initiates the director reorientation in the whole volume of FLC layer and eventually results in the motion of domain walls. Dynamics of the domain wall motion in helix free FLC cell is considered. The domain wall motion velocity depends on the frequency of electric field change and on the polar coefficient of anchoring energy W<sub>p</sub>. Increasing the frequency or the polar part ofthe anchoring energy (when the frequency is constant) gives rise to decrease of electrooptic response time 1/<sub>&#964;0.1-0.9</sub> by a factor 2-3 times. Due to this the electrooptical response time can be as small as 100 &#956;s when the electric field is about 4V/&#956;m. These parameters are most suitable to be used in an active matrix display (or micro-display) with the high resolution.\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051200648",
+    "company_name": "2051200648"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Scintillation Type Alpha‐Particle Detector\n\nAbstract: A portable scintillation detector for alpha-survey work is described. The instrument can detect as few as 16 alpha-counts (32 disintegrations) per minute because of the virtual elimination of spurious background. The upper limit of 50,000 counts per minute is not inherent and can be raised by appropriate circuit changes. The instrument is stable and is unaffected by most atmospheric conditions other than strong sunlight. Gamma-radiation up to 14,000 mr/hr gives no detectable response on this alpha-meter. The probe is the size of a GT type radio tube with a shield, allowing access to relatively small spaces. The sensitive area is about 1 in.×½ in. when a 931-A photo-multiplier is used.\n\n"
+      }
+    ]
+  }
+}

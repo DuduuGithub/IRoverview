@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051156755",
+    "company_name": "2051156755"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A note on optimized quadratic forms for generating Liapunov functions\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 14,
+        "text": "Title: A note on optimized quadratic forms for generating Liapunov functions",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

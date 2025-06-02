@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051246415",
+    "company_name": "2051246415"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The Koszul dual of a weakly Koszul module\n\nAbstract: We study the so-called weakly Koszul modules and characterise their Koszul duals. We show that the (adjusted) associated graded module of a weakly Koszul module exactly determines the homology modules of the Koszul dual. We give an example of a quasi-Koszul module which is not weakly Koszul.\n\n"
+      }
+    ]
+  }
+}

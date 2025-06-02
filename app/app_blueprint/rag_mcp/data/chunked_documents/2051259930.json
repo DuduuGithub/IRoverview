@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051259930",
+    "company_name": "2051259930"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Signification biologique de 410 microcytoses de découverte fortuite chez des adultes jeunes\n\nAbstract: Cette étude a exploré l’étiologie de 410 microcytoses retrouvées dans une population de 57 465 personnels militaires, d’âge moyen 25 ans, bénéficiant d’un bilan biologique lors d’une visite systématique. Elle a mis en évidence 179 carences martiales principalement chez le personnel féminin, soit 44 % des microcytoses. Une hémoglobinopathie documentée a été détectée chez 27 % de la population microcytaire, dont 63 % de β-thalassémies et 34 % de variants de l’hémoglobine (essentiellement des hémoglobines C et E, ainsi que des hémoglobines S probablement associées à une α-thalassémie mineure. Vingt-trois pour cent des microcytoses sont des pseudopolyglobulies faisant évoquer une α-thalassémie mineure. We have detected 410 microcytosis among biological tests of military people. These microcytosis are principally coumpounded by haemoglobin's abnormalities (minor thalassemia, sickle cell diseases, E haemoglobin cases and cases of C haemoglobin) and cases of iron deficiency, usually among women.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 274,
+        "text": "Title: Signification biologique de 410 microcytoses de découverte fortuite chez des adultes jeunes\n\nAbstract: Cette étude a exploré l’étiologie de 410 microcytoses retrouvées dans une population de 57 465 personnels militaires, d’âge moyen 25 ans, bénéficiant d’un bilan biologique lors d’une visite systématique. Elle a mis en évidence 179 carences martiales principalement chez le personnel féminin, soit 44 % des microcytoses. Une hémoglobinopathie documentée a été détectée chez 27 % de la population microcytaire, dont 63 % de β-thalassémies et 34 % de variants de l’hémoglobine (essentiellement des hémoglobines C et E, ainsi que des hémoglobines S probablement associées à une α-thalassémie mineure. Vingt-trois pour cent des microcytoses sont des pseudopolyglobulies faisant évoquer une α-thalassémie mineure. We have detected 410 microcytosis among biological tests of military people. These microcytosis are principally coumpounded by haemoglobin's abnormalities (minor thalassemia, sickle cell diseases, E haemoglobin cases and cases of C haemoglobin) and cases of iron deficiency, usually among women.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

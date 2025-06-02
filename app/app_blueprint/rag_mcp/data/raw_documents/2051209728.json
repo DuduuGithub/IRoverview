@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051209728",
+    "company_name": "2051209728"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A cryptographic approach to video watermarking based on compressive sensing, arnold transform, sum of absolute deviation and SVD\n\nAbstract: Video watermarking is relatively a new technology to ensure protection of intellectual property rights and to stop video piracy. The ownership information or watermark is normally hidden in the video sequences. In this paper, a novel video watermarking method is proposed to protect the ownership information in a robust way. This method encrypts the watermark by combining the strengths of Compressive Sensing and Arnold scrambling. The frames for watermark embedding are chosen by computing the Sum of Absolute Deviation between successive frames. The cipher watermark is then embedded into chosen frames based on SVD watermark embedding algorithm. The decryption stage performs SVD watermark extraction algorithm, Arnold inverse transform and L <sub xmlns:mml=\"1998/Math/MathML\" xmlns:xlink=\"1999/xlink\">1</sub> optimization for retrieval of watermark. Experimental results show that proposed method enhances the security of the ownership information embedded.\n\n"
+      }
+    ]
+  }
+}

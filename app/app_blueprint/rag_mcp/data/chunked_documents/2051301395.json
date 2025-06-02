@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051301395",
+    "company_name": "2051301395"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Delivering well-maintained highways\n\nAbstract: The highway network is the largest and most visible community asset for which local authorities are responsible. It is used daily by the majority of people and is fundamental to the economic, social and environmental wellbeing of the community. It helps to shape the character and quality of the local areas that it serves and makes an important contribution to wider local authority priorities, including regeneration, social inclusion, community safety, education and health. In order to fulfil its potential it is crucial that the highway network is maintained. Increasing traffic growth has brought increasingly widespread recognition of the importance of highway maintenance and the high value placed on it by users. However, this importance has not generally been reflected in levels of investment, and public concern has been increasing about the implications of this for safety and journey reliability. Recent increases in investment have been welcome but a sustained long-term programme that is efficiently managed and supported by effective technical and management systems is required. The 2005 edition of Well-maintained Highways: Code of Practice for Highway Maintenance Management, together with the updated Well-lit Highways: Code of Practice for Highway Lighting Management and the new Management of Highway Structures: A Code of Practice, provide the basis for these technical and management systems with detailed guidance on standards and procedures. The codes, so far as possible, seek to harmonise approaches in all parts of the UK and between national and local roads, support the new requirements for asset management and link national and local transport policies. For the first time, the code of practice for well-maintained highways includes the management of public rights of way as part of the highway asset. This paper summarises the key features of the code, highlighting areas considered to be of particular importance. Copies of all codes can be viewed on the website of the UK Roads Liaison Group ( www.ukroadsliaisongroup.org ).\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 8,
+        "text": "Title: Delivering well-maintained highways",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: The highway network is the largest and most visible community asset for which local authorities are responsible. It is used daily by the majority of people and is fundamental to the economic, social and environmental wellbeing of the community. It helps to shape the character and quality of the local areas that it serves and makes an important contribution to wider local authority priorities, including regeneration, social inclusion, community safety, education and health. In order to fulfil its potential it is crucial that the highway network is maintained. Increasing traffic growth has brought increasingly widespread recognition of the importance of highway maintenance and the high value placed on it by users. However, this importance has not generally been reflected in levels of investment, and public concern has been increasing about the implications of this for safety and journey reliability. Recent increases in investment have been welcome but a sustained long-term programme that is efficiently managed and supported by effective technical and management systems is required. The 2005 edition of Well-maintained Highways: Code of Practice for Highway Maintenance Management, together with the updated Well-lit Highways: Code of Practice for Highway Lighting Management and the new Management of Highway Structures: A Code of Practice, provide the basis for these technical and management systems with detailed guidance on standards and procedures. The codes, so far as possible, seek to harmonise approaches in all parts of the UK and between national and local roads, support the new requirements for asset management and link national and local transport policies. For the first time, the code of practice for",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 116,
+        "text": "codes, so far as possible, seek to harmonise approaches in all parts of the UK and between national and local roads, support the new requirements for asset management and link national and local transport policies. For the first time, the code of practice for well-maintained highways includes the management of public rights of way as part of the highway asset. This paper summarises the key features of the code, highlighting areas considered to be of particular importance. Copies of all codes can be viewed on the website of the UK Roads Liaison Group ( www.ukroadsliaisongroup.org ).",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

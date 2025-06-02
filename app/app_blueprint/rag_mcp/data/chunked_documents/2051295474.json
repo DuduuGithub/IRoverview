@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051295474",
+    "company_name": "2051295474"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Electron sources for MAPPER maskless lithography\n\nAbstract: MAPPER Lithography is developing a maskless lithography technology based on massively-parallel electron-beam writing in combination with high speed optical data transport for switching the electron beams. With 13,260 electron beams further on split in 49 sub beams, each sub beam delivering a current of 0.3nA on the wafer, a throughput of 10 wafers per hour (wph) is realized for 22nm node lithography. In total a current of 175μA on the wafer is required. By clustering several of these systems together high throughputs can be realized in a small footprint. This enables a highly cost-competitive alternative to double patterning and EUV.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 154,
+        "text": "Title: Electron sources for MAPPER maskless lithography\n\nAbstract: MAPPER Lithography is developing a maskless lithography technology based on massively-parallel electron-beam writing in combination with high speed optical data transport for switching the electron beams. With 13,260 electron beams further on split in 49 sub beams, each sub beam delivering a current of 0.3nA on the wafer, a throughput of 10 wafers per hour (wph) is realized for 22nm node lithography. In total a current of 175μA on the wafer is required. By clustering several of these systems together high throughputs can be realized in a small footprint. This enables a highly cost-competitive alternative to double patterning and EUV.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

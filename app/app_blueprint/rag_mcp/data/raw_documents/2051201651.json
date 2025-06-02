@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051201651",
+    "company_name": "2051201651"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: &lt;title&gt;Spectral measurements in gamma-irradiated optical fibers using attenuation and Raman spectroscopy&lt;/title&gt;\n\nAbstract: The results of detailed studies into the effects of gamma irradiation in commercially available pure silica core fibers are reported here. The absorption band centered around 630 nm was absent from the spectra of hydrogen-treated fiber. Theoretically predicted increase in attenuation due to hydroxyl (OH) ions was detected in samples exposed to high levels of radiation. The resonant fluorescence band centered around 645 nm, due to non-bridging oxygen hole centers (NBOHC), was observed in the Raman spectra of all low OH-content fibers, both un-irradiated and irradiated, but was absent from the spectra of the hydrogen enriched fibers. It would, therefore, appear that the hydrogen treatment was an effective technique in suppressing the formation of drawing and radiation induced NBOHC. Another radiation-induced fluorescence band centered at 540 nm was observed in a highly irradiated all silica (AS) fiber, and was tentatively assigned to the E'-centers. This particular band could be photobleached by 458 nm. The studies of the resonant fluorescence band detected in irradiated fibers, both plastic clad silica (PCS) and hard clad silica (HCS) fibers, were conducted using a tunable dye laser (600 nm - 650 nm). The results indicate that radiation induced NBOHC (RINBOHC) and drawing induced NBOHC (DINBOHC) are slightly different in nature.\n\n"
+      }
+    ]
+  }
+}

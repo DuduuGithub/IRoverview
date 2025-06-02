@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051272327",
+    "company_name": "2051272327"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Behandlung von Retinitis pigmentosa mit weiblichem Hormon (Menformon)\n\nAbstract: Drug Prescribing for Patients with Chronic Kidney Disease in General Practice: a Cross-Sectional Study\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 39,
+        "text": "Title: Behandlung von Retinitis pigmentosa mit weiblichem Hormon (Menformon)\n\nAbstract: Drug Prescribing for Patients with Chronic Kidney Disease in General Practice: a Cross-Sectional Study",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

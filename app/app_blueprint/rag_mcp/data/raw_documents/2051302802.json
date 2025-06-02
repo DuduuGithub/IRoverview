@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051302802",
+    "company_name": "2051302802"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: MAC Frame Design of Home Network Based On Low-Voltage PLC\n\nAbstract: Using a power line network as communication media to construct Smart Home System puts the burden on the communication system to ensure reliable communication within the constraints of the already existing protocols and devices. This paper presents the MAC frame structure which integrates all services in-home and satisfied the demand of system to transparently transport the data packets of existing applications. According to the feature of various types of applications we adopt different methods to improve the throughput of system and optimize the utilization of the PLC network. Analytical results are used to compare the performance of the proposed MAC frame scheme with other viable approaches. The results show that the proposed scheme is superior to these approaches.\n\n"
+      }
+    ]
+  }
+}

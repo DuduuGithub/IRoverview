@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051162753",
+    "company_name": "2051162753"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Dissimilar Effect of the Carcinogenic Agent Azaserine on Pancreatic and Hepatic Polyamine Metabolism in Rats\n\nAbstract: The present study was designed to investigate the effects of the carcinogenic agent azaserine on the induction of pancreatic and hepatic polyamine metabolism in rats. One single injection of 30 mg azaserine/kg body weight i.p. is known to induce adenoma and subsequently carcinoma, predominantly in the pancreas, after several months. Male Lewis rats were treated with either azaserine (30 mg/kg body weight i.p.) or saline and 5–10 animals per group were sacrificed 2, 6, 9, 12, 18, 24, and 48 h later. Furthermore, animals were simultaneously treated with the ornithine decarboxylase (ODC) inhibitor a-difluoromethylornithine (DFMO) or the polyamine oxidase inhibitor MDL 72527 and killed 6 and 12 h after azaserine injection. The azaserine-induced significant increase in pancreatic putrescine concentrations was accompanied by an increase in spermidine/spermine N1-acetyltransferase but unchanged ODC and was significantly inhibited by N, N′-bis(2,3-butadienyl)putrescine MDL 72527) but not by DFMO. S-Adenosylmethionine decarboxylase (SAM-DC) activity was significantly decreased in the pancreata of azaserine-treated animals compared to controls. In contrast, the azaserine-induced significant increase in hepatic putrescine was lower and transient, was accompanied by an increase in ODC and SAM-DC, and was completely inhibited by simultaneous DFMO treatment but not by MDL 72527. These data show completely different patterns of activation of polyamine metabolism in the pancreas and in the liver: Azaserine treatment forms putrescine in the liver by de novo synthesis via ODC only, while azaserine-induced pancreatic putrescine is exclusively produced by the intercon-version pathway via oxidation of N1-acetylspermidine.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 28,
+        "text": "Title: Dissimilar Effect of the Carcinogenic Agent Azaserine on Pancreatic and Hepatic Polyamine Metabolism in Rats",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: The present study was designed to investigate the effects of the carcinogenic agent azaserine on the induction of pancreatic and hepatic polyamine metabolism in rats. One single injection of 30 mg azaserine/kg body weight i.p. is known to induce adenoma and subsequently carcinoma, predominantly in the pancreas, after several months. Male Lewis rats were treated with either azaserine (30 mg/kg body weight i.p.) or saline and 5–10 animals per group were sacrificed 2, 6, 9, 12, 18, 24, and 48 h later. Furthermore, animals were simultaneously treated with the ornithine decarboxylase (ODC) inhibitor a-difluoromethylornithine (DFMO) or the polyamine oxidase inhibitor MDL 72527 and killed 6 and 12 h after azaserine injection. The azaserine-induced significant increase in pancreatic putrescine concentrations was accompanied by an increase in spermidine/spermine N1-acetyltransferase but unchanged ODC and was significantly inhibited by N, N′-bis(2,3-butadienyl)putrescine MDL 72527) but not by DFMO. S-Adenosylmethionine decarboxylase (SAM-DC) activity was significantly decreased in the pancreata of azaserine-treated animals compared to controls. In contrast, the azaserine-induced significant",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 163,
+        "text": "not by DFMO. S-Adenosylmethionine decarboxylase (SAM-DC) activity was significantly decreased in the pancreata of azaserine-treated animals compared to controls. In contrast, the azaserine-induced significant increase in hepatic putrescine was lower and transient, was accompanied by an increase in ODC and SAM-DC, and was completely inhibited by simultaneous DFMO treatment but not by MDL 72527. These data show completely different patterns of activation of polyamine metabolism in the pancreas and in the liver: Azaserine treatment forms putrescine in the liver by de novo synthesis via ODC only, while azaserine-induced pancreatic putrescine is exclusively produced by the intercon-version pathway via oxidation of N1-acetylspermidine.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

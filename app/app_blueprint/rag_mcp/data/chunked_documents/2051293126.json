@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051293126",
+    "company_name": "2051293126"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Erfassung von gesundheitlichen Störungen und Einschätzung toxischer Risiken durch chemische Produkte beim Menschen\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 21,
+        "text": "Title: Erfassung von gesundheitlichen Störungen und Einschätzung toxischer Risiken durch chemische Produkte beim Menschen",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

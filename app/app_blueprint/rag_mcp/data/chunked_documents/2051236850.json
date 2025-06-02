@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051236850",
+    "company_name": "2051236850"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The Robot Builder's Bonanza, 4th Edition (McComb, G.; 2011) [On the Shelf]\n\nAbstract: This book was first published in 1987 and has continued to be a popular handbook through each of its four iterations. It is written with a sense of humor and includes fascinating tidbits. For example, did you know that the word robot derived from a Czech novelist/playwright named Karel Capek who coined the word robata in a 1917 short story? The word robota in the Czech language means compulsory worker, and what distinguishes a robot from other machines is that it can perform some kind of function or work. McComb defines a robot as any device that mimics human or animal function. It can be autonomous, preprogrammed, or radio controlled. Eight carefully laid out sections provide a systematic guide to building a stable robot that can navigate, respond, and perform functions. One of the premises of the book is modularity, and the author encourages creative intermixing of different modules developed in the chapters.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 216,
+        "text": "Title: The Robot Builder's Bonanza, 4th Edition (McComb, G.; 2011) [On the Shelf]\n\nAbstract: This book was first published in 1987 and has continued to be a popular handbook through each of its four iterations. It is written with a sense of humor and includes fascinating tidbits. For example, did you know that the word robot derived from a Czech novelist/playwright named Karel Capek who coined the word robata in a 1917 short story? The word robota in the Czech language means compulsory worker, and what distinguishes a robot from other machines is that it can perform some kind of function or work. McComb defines a robot as any device that mimics human or animal function. It can be autonomous, preprogrammed, or radio controlled. Eight carefully laid out sections provide a systematic guide to building a stable robot that can navigate, respond, and perform functions. One of the premises of the book is modularity, and the author encourages creative intermixing of different modules developed in the chapters.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

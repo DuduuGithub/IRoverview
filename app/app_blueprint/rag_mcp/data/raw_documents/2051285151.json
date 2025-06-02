@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051285151",
+    "company_name": "2051285151"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Ordinal potential functions for network selection in heterogeneous wireless networks\n\nAbstract: We consider the distributed allocation of spectrum in a heterogeneous wireless network. We model this as a noncooperative game, where multiple players decide which channels to transmit on. When co-channel interference between players is symmetric and channel utilities are additive, we define a generalized ordinal potential function for the game which is motivated by the energy function in Ising models. This guarantees convergence of best-response dynamics, and does not depend on the level of interference between players or on the price imposed on each channel.\n\n"
+      }
+    ]
+  }
+}

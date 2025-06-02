@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051300166",
+    "company_name": "2051300166"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Polymerization of allyl compound bearing perfluoroisopropenyl group\n\nAbstract: Abstract The investigation on the radical polymerization reactivity of 4-pentenoyloxypentafluoropropene [CH2 CH–CH2CH2–COOC(CF3) CF2] (PPF) was carried out since cyclopolymerization of perfluoroisopropenyl vinylacetate [CH2 CH–CH2–COOC(CF3) CF2] takes place under radical polymerization condition to produce the polymer possessing 5-membered-ring structure in main chain. The soluble polymer of PPF yielded by allyl polymerization bearing 1.8 × 104 ( DP ¯ = 78 ) as the highest molecular weight initiated with di-tert-butyl peroxide was produced instead of cyclized polymer bearing 6-membered-ring structure. The polymer possesses perfluoroisopropenyl groups in side chains.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 201,
+        "text": "Title: Polymerization of allyl compound bearing perfluoroisopropenyl group\n\nAbstract: Abstract The investigation on the radical polymerization reactivity of 4-pentenoyloxypentafluoropropene [CH2 CH–CH2CH2–COOC(CF3) CF2] (PPF) was carried out since cyclopolymerization of perfluoroisopropenyl vinylacetate [CH2 CH–CH2–COOC(CF3) CF2] takes place under radical polymerization condition to produce the polymer possessing 5-membered-ring structure in main chain. The soluble polymer of PPF yielded by allyl polymerization bearing 1.8 × 104 ( DP ¯ = 78 ) as the highest molecular weight initiated with di-tert-butyl peroxide was produced instead of cyclized polymer bearing 6-membered-ring structure. The polymer possesses perfluoroisopropenyl groups in side chains.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

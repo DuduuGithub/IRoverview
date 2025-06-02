@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051175437",
+    "company_name": "2051175437"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: ISABEL: a novel approach to the reduction of medical error\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 14,
+        "text": "Title: ISABEL: a novel approach to the reduction of medical error",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

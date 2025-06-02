@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051296201",
+    "company_name": "2051296201"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Extração e teores de 2-tridecanona e 2-undecanona em genótípos de tomateiro\n\nAbstract: Desenvolveu-se metodologia de extração dos compostos 2-tridecanona (2-T) e 2-undecanona (2-U), em tomateiro (Lycopersicon spp utilizando-se folhas de uma cultivar comercial fortificada com os referidos aleloquímicos, sendo os extratos analisados por cromatografia gasosa. Para a extração, testaram-se: clorofórmio; clorofórmio mais extrator de Butt; e extrator de Butt. Os três métodos propiciaram recuperação dos compostos acima de 80%, tendo sido selecionado o primeiro por ser mais prático e utilizar menor volume de solvente. Os genótipos submetidos à extração foram: Lycopersicon hirsutum f. glabratum (PI 134417), L. esculentum ('Santa Cruz Kada AG-373') e 22 híbridos F1l(RC1) [(PI 134417 L. esculentum) x PI 134417]. Dentre os híbridos analisados, em apenas seis foram detectados o 2-T e o 2-U e em outros quatro híbridos apenas o 2-T. No híbrido com maior concentração de aleloquímicos foram encontrados 351 ppm de 2-T e 62 ppm de 2-U. Em L. esculentum, os aleloquímicos não foram detectados, enquanto que na PI 134417, as concentrações de 2-T e 2-U foram, respectivamente, 1902 e 473 ppm.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 28,
+        "text": "Title: Extração e teores de 2-tridecanona e 2-undecanona em genótípos de tomateiro",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: Desenvolveu-se metodologia de extração dos compostos 2-tridecanona (2-T) e 2-undecanona (2-U), em tomateiro (Lycopersicon spp utilizando-se folhas de uma cultivar comercial fortificada com os referidos aleloquímicos, sendo os extratos analisados por cromatografia gasosa. Para a extração, testaram-se: clorofórmio; clorofórmio mais extrator de Butt; e extrator de Butt. Os três métodos propiciaram recuperação dos compostos acima de 80%, tendo sido selecionado o primeiro por ser mais prático e utilizar menor volume de solvente. Os genótipos submetidos à extração foram: Lycopersicon hirsutum f. glabratum (PI 134417), L. esculentum ('Santa Cruz Kada AG-373') e 22 híbridos F1l(RC1) [(PI 134417 L. esculentum) x PI 134417]. Dentre os híbridos analisados, em apenas seis foram detectados o 2-T e o 2-U e em outros quatro híbridos apenas o 2-T. No híbrido com maior concentração de aleloquímicos foram encontrados 351 ppm de 2-T e 62 ppm de 2-U. Em L. esculentum, os aleloquímicos não foram detectados,",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 80,
+        "text": "No híbrido com maior concentração de aleloquímicos foram encontrados 351 ppm de 2-T e 62 ppm de 2-U. Em L. esculentum, os aleloquímicos não foram detectados, enquanto que na PI 134417, as concentrações de 2-T e 2-U foram, respectivamente, 1902 e 473 ppm.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

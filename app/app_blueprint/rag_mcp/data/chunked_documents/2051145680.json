@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051145680",
+    "company_name": "2051145680"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Galium Aparine as a Remedy for Chronic Ulcers\n\nKeywords: Dermatology, Botany, Medicine, Biology\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 25,
+        "text": "Title: Galium Aparine as a Remedy for Chronic Ulcers\n\nKeywords: Dermatology, Botany, Medicine, Biology",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051263880",
+    "company_name": "2051263880"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: VLF amplitude perturbations in the Antarctic due to the nuclear explosion of July 9, 1962\n\nAbstract: Broadband VLF magnetic tape recordings were obtained at Byrd, South Pole, and Cape Hallet in the Antarctic and onboard the U.S.N.S. ‘Eltanin’ near Valparaiso, Chile, during the Starfish high-altitude nuclear event of July 9, 1962. Amplitudes of selected VLF transmitter signals are presented, confirming the existence of disturbed ionospheric conditions over a wide geographical area. Comparison of signal perturbations on various pairs of paths from common transmitters provides evidence of disturbed conditions at L values greater than 6.\n\n"
+      }
+    ]
+  }
+}

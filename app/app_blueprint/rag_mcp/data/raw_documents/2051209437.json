@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051209437",
+    "company_name": "2051209437"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The impact of process parameters on gold elimination from soldered connector assemblies\n\nAbstract: Gold coatings are used on connector structures to maintain suitable solderability of the underlying Ni coating layer as well as to prevent surface corrosion during service. However, the likelihood of Au embrittlement in connector solder joints must be minimized by eliminating much of the Au plating from the surfaces using a hot solder dipping or “wicking” procedure prior to final assembly. It was observed that Au removal was most effective by using a double wicking process. Also, a higher soldering temperature improved the efficiency of the Au removal process. A longer soldering time during the wicking process did not appear to offer an appreciable improvement in Au removal. Because the wicking procedure was a manual process, it was found to be operator dependent.\n\n"
+      }
+    ]
+  }
+}

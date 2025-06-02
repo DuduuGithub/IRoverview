@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051228712",
+    "company_name": "2051228712"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Avoir la peau du réel\n\nAbstract: « On ira toujours davantage dans le sens cartésien, c’est-à-dire d’opérer sur le corps, de le décomposer comme une machine ». Ici Lacan nous donne appui pour affronter le rapport au corps, exposé par l’anatomiste allemand Gunther von Hagens. Ne se contentant pas de disséquer pour son laboratoire, il a entrepris une oeuvre d’élévation du cadavre au rang d’objet d’art et de science. Ce qu’il appelle des « plastinats », interpellent le sujet dans son rapport au regard, interroge quant à sa jouissance à voir le spectacle du cadavre mit en scène. Face au succès de telles exhibitions, on se demandera à quelle logique obéit l’exposition, quel discours elle véhicule, et quels sont les effets possibles sur la subjectivité moderne.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 185,
+        "text": "Title: Avoir la peau du réel\n\nAbstract: « On ira toujours davantage dans le sens cartésien, c’est-à-dire d’opérer sur le corps, de le décomposer comme une machine ». Ici Lacan nous donne appui pour affronter le rapport au corps, exposé par l’anatomiste allemand Gunther von Hagens. Ne se contentant pas de disséquer pour son laboratoire, il a entrepris une oeuvre d’élévation du cadavre au rang d’objet d’art et de science. Ce qu’il appelle des « plastinats », interpellent le sujet dans son rapport au regard, interroge quant à sa jouissance à voir le spectacle du cadavre mit en scène. Face au succès de telles exhibitions, on se demandera à quelle logique obéit l’exposition, quel discours elle véhicule, et quels sont les effets possibles sur la subjectivité moderne.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

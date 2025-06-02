@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051240898",
+    "company_name": "2051240898"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Controlling the Diameter Size of Carbon Nanofilaments by the Cyclic on/off Modulation of C<sub>2</sub>H<sub>2</sub>/H<sub>2</sub>/SF<sub>6</sub>Flow in a Thermal Chemical Vapor Deposition System\n\nAbstract: 탄소나노필라멘트의 직경크기를 조절하기 위하여 증착 반응초기에 <TEX>$SF_6$</TEX>를 증착원료기체(<TEX>$C_2H_2$</TEX>, <TEX>$H_2$</TEX>)에 주입하였다. 증착 원료 기체와 <TEX>$SF_6$</TEX>를 열화학기상증착시스템에서 시간에 따라 싸이클릭 유량 변조시켰다. 싸이클릭 유량 변조 프로세스와 기판의 온도에 따라 기판위에 증착된 탄소나노필라멘트들의 특성을 조사하였다. 싸이클릭 에칭기간에 <TEX>$SF_6$</TEX>를 투입하자 탄소나노필라멘트의 직경크기는 급격히 감소하였다. 이러한 탄소나노필라멘트 직경의 크기 감소 원인은 <TEX>$SF_6$</TEX> 기체의 주입에 따른 에칭능력 향상에 기인하는 것으로 이해되었다. To control the diameter size of the carbon nanofilaments (CNFs), SF6 was incorporated in the source gases (<TEX>$C_2H_2/H_2$</TEX>) during the initial deposition stage. The source gases and <TEX>$SF_6$</TEX> were manipulated as the cyclic on/off modulation of <TEX>$C_2H_2/H_2/SF_6$</TEX> flow in a thermal chemical vapor deposition system. The characteristics of the CNFs formation on the substrate were investigated according to the different cyclic modulation processes and the substrate temperatures. By <TEX>$SF_6\\;+\\;H_2$</TEX> flow injection during the cycling etching interval time, the diameter size of CNFs was extremely decreased. The cause for the decrease in the diameter size of the individual CNFs by the cyclic on/off modulation process of <TEX>$C_2H_2/H_2/SF_6$</TEX> flow was discussed in association with the slightly enhanced etching ability by the incorporation of <TEX>$SF_6$</TEX>.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 62,
+        "text": "Title: Controlling the Diameter Size of Carbon Nanofilaments by the Cyclic on/off Modulation of C<sub>2</sub>H<sub>2</sub>/H<sub>2</sub>/SF<sub>6</sub>Flow in a Thermal Chemical Vapor Deposition System",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: 탄소나노필라멘트의 직경크기를 조절하기 위하여 증착 반응초기에 <TEX>$SF_6$</TEX>를 증착원료기체(<TEX>$C_2H_2$</TEX>, <TEX>$H_2$</TEX>)에 주입하였다. 증착 원료 기체와 <TEX>$SF_6$</TEX>를 열화학기상증착시스템에서 시간에 따라 싸이클릭 유량 변조시켰다. 싸이클릭 유량 변조 프로세스와 기판의 온도에 따라 기판위에 증착된 탄소나노필라멘트들의 특성을 조사하였다. 싸이클릭 에칭기간에 <TEX>$SF_6$</TEX>를 투입하자 탄소나노필라멘트의 직경크기는 급격히 감소하였다. 이러한 탄소나노필라멘트 직경의 크기 감소 원인은 <TEX>$SF_6$</TEX> 기체의 주입에 따른 에칭능력 향상에 기인하는 것으로 이해되었다. To control the diameter size of the carbon nanofilaments (CNFs), SF6 was incorporated in the source gases (<TEX>$C_2H_2/H_2$</TEX>)",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 247,
+        "text": "기인하는 것으로 이해되었다. To control the diameter size of the carbon nanofilaments (CNFs), SF6 was incorporated in the source gases (<TEX>$C_2H_2/H_2$</TEX>) during the initial deposition stage. The source gases and <TEX>$SF_6$</TEX> were manipulated as the cyclic on/off modulation of <TEX>$C_2H_2/H_2/SF_6$</TEX> flow in a thermal chemical vapor deposition system. The characteristics of the CNFs formation on the substrate were investigated according to the different cyclic modulation processes and the substrate temperatures. By <TEX>$SF_6\\;+\\;H_2$</TEX> flow injection during the cycling etching interval time, the diameter size of CNFs was extremely decreased. The cause for the decrease in the diameter size of the individual CNFs by the cyclic on/off modulation process of <TEX>$C_2H_2/H_2/SF_6$</TEX> flow was discussed in association with the slightly enhanced etching ability by the incorporation of <TEX>$SF_6$</TEX>.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051247086",
+    "company_name": "2051247086"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Rectal cancer developing in the setting of a cavernous hemangioma of the rectosigmoid colon\n\nAbstract: A 45-year-old man had intermittent hematochezia and anemia since age 11. For many years he was diagnosed as having ulcerative colitis, then later was treated for hemorrhoids. Eventually, he was diagnosed with a cavernous hemangioma of the rectum based on magnetic resonance imaging and colonoscopy findings. He was managed conservatively for many years with iron infusions and, when needed, blood transfusions. When the patient began experiencing an increase in the amount of rectal bleeding 5 years after his last colonoscopy, a repeat colonoscopy was performed, which revealed the hemangioma and a 3-cm, polypoid mass in the distal rectum. EUS confirmed that the polypoid mass involved only the superficial layers but abutted the hemangioma. Because of the concern that endoscopic removal of the polypoid mass could cause severe bleeding, our patient was referred to surgery. The hemangioma and the mass were removed surgically, and the mass was found to be a T1 adenocarcinoma (Fig. 1; Video 1, available online at www.giejournal.org).\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 259,
+        "text": "Title: Rectal cancer developing in the setting of a cavernous hemangioma of the rectosigmoid colon\n\nAbstract: A 45-year-old man had intermittent hematochezia and anemia since age 11. For many years he was diagnosed as having ulcerative colitis, then later was treated for hemorrhoids. Eventually, he was diagnosed with a cavernous hemangioma of the rectum based on magnetic resonance imaging and colonoscopy findings. He was managed conservatively for many years with iron infusions and, when needed, blood transfusions. When the patient began experiencing an increase in the amount of rectal bleeding 5 years after his last colonoscopy, a repeat colonoscopy was performed, which revealed the hemangioma and a 3-cm, polypoid mass in the distal rectum. EUS confirmed that the polypoid mass involved only the superficial layers but abutted the hemangioma. Because of the concern that endoscopic removal of the polypoid mass could cause severe bleeding, our patient was referred to surgery. The hemangioma and the mass were removed surgically, and the mass was found to be a T1 adenocarcinoma (Fig. 1; Video 1, available online at www.giejournal.org).",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

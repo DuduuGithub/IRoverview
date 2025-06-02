@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051298689",
+    "company_name": "2051298689"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Method for Tracking Core-Contributed Publications\n\nAbstract: Accurately tracking core-contributed publications is an important and often difficult task. Many core laboratories are supported by programmatic grants (such as Cancer Center Support Grant and Clinical Translational Science Awards) or generate data with instruments funded through S10, Major Research Instrumentation, or other granting mechanisms. Core laboratories provide their research communities with state-of-the-art instrumentation and expertise, elevating research. It is crucial to demonstrate the specific projects that have benefited from core services and expertise. We discuss here the method we developed for tracking core contributed publications.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 120,
+        "text": "Title: Method for Tracking Core-Contributed Publications\n\nAbstract: Accurately tracking core-contributed publications is an important and often difficult task. Many core laboratories are supported by programmatic grants (such as Cancer Center Support Grant and Clinical Translational Science Awards) or generate data with instruments funded through S10, Major Research Instrumentation, or other granting mechanisms. Core laboratories provide their research communities with state-of-the-art instrumentation and expertise, elevating research. It is crucial to demonstrate the specific projects that have benefited from core services and expertise. We discuss here the method we developed for tracking core contributed publications.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

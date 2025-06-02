@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051166298",
+    "company_name": "2051166298"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Enhanced Liquid Jet Impingement Boiling\n\nAbstract: In a previous study, it was shown that water jet impinging on structured-porous surface is a highly efficient way in dissipating high heat flux with small surface temperature increase. As an extension, this work studies jet impingement boiling on a plain surface and a porous surface using HFE-7000 as the working fluid. The effects of jet Reynolds number and jet inlet subcooling on heat transfer performance were explored with atmospheric experiments. The results show that, for plain surface, neither flow rate nor subcooling has significant effects on heat transfer performance when boiling is fully established; for porous surface, the effects of subcooling and jet Reynolds are more pronounced. In addition, CHF was reached during all experiments. Correlation was developed that can satisfactorily predict CHF for HFE-7000 jet impingement on plain copper surface.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 183,
+        "text": "Title: Enhanced Liquid Jet Impingement Boiling\n\nAbstract: In a previous study, it was shown that water jet impinging on structured-porous surface is a highly efficient way in dissipating high heat flux with small surface temperature increase. As an extension, this work studies jet impingement boiling on a plain surface and a porous surface using HFE-7000 as the working fluid. The effects of jet Reynolds number and jet inlet subcooling on heat transfer performance were explored with atmospheric experiments. The results show that, for plain surface, neither flow rate nor subcooling has significant effects on heat transfer performance when boiling is fully established; for porous surface, the effects of subcooling and jet Reynolds are more pronounced. In addition, CHF was reached during all experiments. Correlation was developed that can satisfactorily predict CHF for HFE-7000 jet impingement on plain copper surface.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051178999",
+    "company_name": "2051178999"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Iosephus Ant Iq. 9, 17\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 15,
+        "text": "Title: Iosephus Ant Iq. 9, 17",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

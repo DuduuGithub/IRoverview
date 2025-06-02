@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051293967",
+    "company_name": "2051293967"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Einfluß der dynamischen Einwirkungen des Schüttguts auf die konstruktiven Zuverlässigkeiten der Stahlbetonsilos.\n\nAbstract: Abstract Es werden ausgewählte Messungen des Schüttgutdrucks und des Spannungszustands in Stahlbeton‐Silowänden dargestellt und Beispiele von Druckschwankungen mit ihren Frequenzen und Amplituden angeführt. Der Charakter der Verformungs‐ änderungen von Stahlbetonwänden, hervorgerufen durch Änderung der breiten‐ parallelen Innenkräfte, wird erläutert. Nach Beispielen der Spannungsunter‐ suchungen im Beton und in der Wandbewehrung, die der Bestimmung des Spannungsverhältnisses dienen, werden Beispiele aus Untersuchungen angegeben, die den Einfluß der geringzyklischen, vorzeichenveränderlichen Belastungen auf die Rißbildung der Stahlbeton‐Silowände bestimmen.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 183,
+        "text": "Title: Einfluß der dynamischen Einwirkungen des Schüttguts auf die konstruktiven Zuverlässigkeiten der Stahlbetonsilos.\n\nAbstract: Abstract Es werden ausgewählte Messungen des Schüttgutdrucks und des Spannungszustands in Stahlbeton‐Silowänden dargestellt und Beispiele von Druckschwankungen mit ihren Frequenzen und Amplituden angeführt. Der Charakter der Verformungs‐ änderungen von Stahlbetonwänden, hervorgerufen durch Änderung der breiten‐ parallelen Innenkräfte, wird erläutert. Nach Beispielen der Spannungsunter‐ suchungen im Beton und in der Wandbewehrung, die der Bestimmung des Spannungsverhältnisses dienen, werden Beispiele aus Untersuchungen angegeben, die den Einfluß der geringzyklischen, vorzeichenveränderlichen Belastungen auf die Rißbildung der Stahlbeton‐Silowände bestimmen.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

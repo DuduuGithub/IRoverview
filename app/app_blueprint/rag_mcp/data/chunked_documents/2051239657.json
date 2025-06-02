@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051239657",
+    "company_name": "2051239657"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Some Characterizations of Quaternionic Rectifying Curves in the semi_Euclidean Space E^2_4\n\nAbstract: The notion of rectifying curve in the Euclidean space is introduced by Chen as a curve whose position vector always lies in its rectifying plane spanned by the tangent and the binormal vector field t and n_2 of the curve. In this study, we have obtained some characterizations of semi-real spatial quaternionic rectifying curves in R_1^3. Moreover, by the aid of these characterizations, we have investigated semi real quaternionic rectifying curves in semi-quaternionic space Q_v.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 130,
+        "text": "Title: Some Characterizations of Quaternionic Rectifying Curves in the semi_Euclidean Space E^2_4\n\nAbstract: The notion of rectifying curve in the Euclidean space is introduced by Chen as a curve whose position vector always lies in its rectifying plane spanned by the tangent and the binormal vector field t and n_2 of the curve. In this study, we have obtained some characterizations of semi-real spatial quaternionic rectifying curves in R_1^3. Moreover, by the aid of these characterizations, we have investigated semi real quaternionic rectifying curves in semi-quaternionic space Q_v.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

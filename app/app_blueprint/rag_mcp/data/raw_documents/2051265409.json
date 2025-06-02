@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051265409",
+    "company_name": "2051265409"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: An Image-Text Approach for Extracting Experimental Evidence of Protein-Protein Interactions in the Biomedical Literature\n\nAbstract: Proteins are complex biological polymers that mediate virtually all cellular functions. Typically these functions are modulated by protein-protein interactions (PPI). Tremendous efforts have been made by life scientists to detect PPIs through different experimental approaches and document the results through publications. On the informatics front, however, there lacks an effective means for retrieving PPI information from published literatures. In this work we present a novel framework for identifying experimental methods employed for analyzing PPI from biomedical articles. Different from state-of-the-art approaches based only on text, we explore using the combination of attributes from figures, figure captions, and text within figures for identifying PPI experimental methods. Our work is motivated by the observation that biomedical figures often constitute direct evidence of experimental results and therefore provide complementary information to texts. We start with automatically extracting unimodal panels (subfigures) and their associated subcaptions and then classifying the subfigure into different types using a proposed hierarchical image taxonomy. Next, we combine the subfigure types with text-based features to form a hybrid feature descriptor and use it for PPI method classification. We further construct a dataset starting from a set of 2,256 documents provided by the molecular interaction database MINT. Here we show that our new approach outperforms the text-only solution for associating figures with PPI methods.\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051273410",
+    "company_name": "2051273410"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Boundary matters: Impact of finite boundary to packet delay performance in mobile data networks\n\nAbstract: Although the research of mobile data networks has gained significant attention lately, little have been done to study the impact of finite network boundary in such networks. To understand how finite cell boundary affects the delay performance, we analyze the delay problem from the packet movement point of view. We first divide the network scenarios into three categories based on the value of the expected packet propagation speed v and derive the upper and lower bounds for their expected packet delay, respectively. Then, we show that the packet delay scales linearly when v <; 0, while it scales quadratically for the cases v > 0 and v = 0 when the boundary effect is absent. Simulation results verify our analysis and show that the boundary effect in fact increases the delay performance for both v > 0 and v = 0.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 179,
+        "text": "Title: Boundary matters: Impact of finite boundary to packet delay performance in mobile data networks\n\nAbstract: Although the research of mobile data networks has gained significant attention lately, little have been done to study the impact of finite network boundary in such networks. To understand how finite cell boundary affects the delay performance, we analyze the delay problem from the packet movement point of view. We first divide the network scenarios into three categories based on the value of the expected packet propagation speed v and derive the upper and lower bounds for their expected packet delay, respectively. Then, we show that the packet delay scales linearly when v <; 0, while it scales quadratically for the cases v > 0 and v = 0 when the boundary effect is absent. Simulation results verify our analysis and show that the boundary effect in fact increases the delay performance for both v > 0 and v = 0.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

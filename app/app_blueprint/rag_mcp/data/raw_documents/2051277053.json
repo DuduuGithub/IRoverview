@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051277053",
+    "company_name": "2051277053"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Associative memory for patterns with different bias\n\nAbstract: A neural network model for the storage of patterns with different biases is considered analytically. When introducing an optimized external field the model reaches the theoretically maximal storage capacity in the limit of strong bias. The information processing abilities were calculated in the strongly diluted approximation, and a version of the model with nonlinear synapses was dealt with. In addition, models from literature which store biased patterns by a doubling procedure were analysed, and it is shown that their capacity is far below the theoretical limit.\n\n"
+      }
+    ]
+  }
+}

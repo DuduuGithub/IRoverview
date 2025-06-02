@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051290104",
+    "company_name": "2051290104"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The magnetospheric boundary motion during the main phase of the moderate magnetic storm (case study)\n\nAbstract: Abstract As a result of ICME interaction with magnetosphere the negative sudden impulse Si and substorm event were followed. The simultaneous plasma and magnetic field measurements near the magnetospheric boundary (INTERBALL-1), in the nearest magnetotail (GOES 8, 9), in the middle tail (GEOTAIL), in solar wind (WIND), and ground based data were compared to trace the time sequence of events. It was shown that negative sudden impulse Si was observed by ground stations and at geosynchronous altitudes. The character of magnetic field variations that were observed by GOES 9 permit to suggest that compression/expansion wave was propagated inside the magnetosphere. The time sequence of events observed during substorm development pointed that substorm has begun from auroral breakup. The cross current disruption in the nearest tail and neutral line formation in the middle tail occurred almost simultaneously, but some time after auroral breakup. It is possible that both processes associated with releasing of stored energy during substorm were occurred independently in this substorm event. By using an empirical magnetopause model [Shue et al., 1998. Magnetopause location under extreme solar wind conditions. J. Geophys. Res. 103, 17691], the amplitude of magnetopause motion was evaluated. During substorm evolution the amplitude of the magnetopause motion was ∼ 2 –3 Re. The excitation of Kelvin-Helmholtz instability can explain only a few magnetopause crossings.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 21,
+        "text": "Title: The magnetospheric boundary motion during the main phase of the moderate magnetic storm (case study)",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: Abstract As a result of ICME interaction with magnetosphere the negative sudden impulse Si and substorm event were followed. The simultaneous plasma and magnetic field measurements near the magnetospheric boundary (INTERBALL-1), in the nearest magnetotail (GOES 8, 9), in the middle tail (GEOTAIL), in solar wind (WIND), and ground based data were compared to trace the time sequence of events. It was shown that negative sudden impulse Si was observed by ground stations and at geosynchronous altitudes. The character of magnetic field variations that were observed by GOES 9 permit to suggest that compression/expansion wave was propagated inside the magnetosphere. The time sequence of events observed during substorm development pointed that substorm has begun from auroral breakup. The cross current disruption in the nearest tail and neutral line formation in the middle tail occurred almost simultaneously, but some time after auroral breakup. It is possible that both processes associated with releasing of stored energy during substorm were occurred independently in this substorm event. By using an empirical magnetopause model [Shue et al., 1998. Magnetopause location under extreme solar wind conditions. J. Geophys. Res. 103, 17691], the amplitude of magnetopause motion was evaluated. During substorm evolution the amplitude of the magnetopause motion was ∼ 2 –3 Re. The excitation of Kelvin-Helmholtz instability can explain only a few",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 52,
+        "text": "17691], the amplitude of magnetopause motion was evaluated. During substorm evolution the amplitude of the magnetopause motion was ∼ 2 –3 Re. The excitation of Kelvin-Helmholtz instability can explain only a few magnetopause crossings.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

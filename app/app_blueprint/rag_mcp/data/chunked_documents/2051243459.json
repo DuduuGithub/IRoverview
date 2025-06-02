@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051243459",
+    "company_name": "2051243459"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Physics instruction in European medical schools\n\nAbstract: The aim of this study was to explore the curricula of medical schools in Europe in order to establish a formal representation of physics in the study of medicine. Information on the curricular representation of physics was gathered from the Internet presentations of medical schools. It was intended to explore at least 25% of medical schools in each country. Curricula from 96 medical schools from 31 European countries were investigated. The formal representation of physics ranges from two courses with 195 h of instruction to absence from the curricula. The ratio of physics instruction in different medical schools is at least 1:6. These wide differences suggest the need to estimate the optimal range of physics instruction during studies of medicine. Since 26% of 96 medical schools do not mention obligatory physics courses in their curricula, it would be of interest to explore whether they have some form of physics instruction and the proportion of that instruction. The need to estimate the minimal physics instruction in such medical schools is implied.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 203,
+        "text": "Title: Physics instruction in European medical schools\n\nAbstract: The aim of this study was to explore the curricula of medical schools in Europe in order to establish a formal representation of physics in the study of medicine. Information on the curricular representation of physics was gathered from the Internet presentations of medical schools. It was intended to explore at least 25% of medical schools in each country. Curricula from 96 medical schools from 31 European countries were investigated. The formal representation of physics ranges from two courses with 195 h of instruction to absence from the curricula. The ratio of physics instruction in different medical schools is at least 1:6. These wide differences suggest the need to estimate the optimal range of physics instruction during studies of medicine. Since 26% of 96 medical schools do not mention obligatory physics courses in their curricula, it would be of interest to explore whether they have some form of physics instruction and the proportion of that instruction. The need to estimate the minimal physics instruction in such medical schools is implied.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

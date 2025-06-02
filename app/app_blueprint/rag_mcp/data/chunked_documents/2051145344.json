@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051145344",
+    "company_name": "2051145344"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A neighborhood in which the Van Der Waerden permanent conjecture is valid\n\nAbstract: We show that if A is n ×n doubly stochasticn > 2, and if then per is the Euclidean norm; Jn is the n×n matrix whose entries are all n −\n\nKeywords: Combinatorics, Physics, Composite material, Political science, Materials science, Law, Geometry, Mathematics, Quantum mechanics\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 87,
+        "text": "Title: A neighborhood in which the Van Der Waerden permanent conjecture is valid\n\nAbstract: We show that if A is n ×n doubly stochasticn > 2, and if then per is the Euclidean norm; Jn is the n×n matrix whose entries are all n −\n\nKeywords: Combinatorics, Physics, Composite material, Political science, Materials science, Law, Geometry, Mathematics, Quantum mechanics",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

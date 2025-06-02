@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051199660",
+    "company_name": "2051199660"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Prominence ratios for irregular computer and business equipment noise spectra containing discrete tones\n\nAbstract: It has been noted that there are certain limitations in current methods for quantifying the subjective responses to computer and business equipment noise spectra containing discrete tones. Specifically, these difficulties arise when the noise spectra contain unusual spectral irregularities, such as when two tones occur closely together within a single critical band or when noise spectra include very steeply sloping noise bands. The present authors have recently introduced the concept of prominence ratio as a potentially useful index of subjective responses to computer and business equipment spectra containing pure-tone components with unusual spectral irregularities. For the present study, 30 subjects were presented with tape-recorded sounds of laboratory spectra as well as various computer and business equipment spectra containing closely spaced tones centered at unusual spectral irregularities. Subjects rated these sounds for their levels of loudness, tonal prominence, and annoyance. The research data are discussed with special attention to the usefulness of the prominence ratio for describing computer and business equipment spectra containing closely spaced discrete tones and spectral irregularities.\n\n"
+      }
+    ]
+  }
+}

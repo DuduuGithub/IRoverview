@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051275672",
+    "company_name": "2051275672"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: <i>Onofre</i>, a New Genus of Jumping Spider from Brazil (Araneae, Salticidae)\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 30,
+        "text": "Title: <i>Onofre</i>, a New Genus of Jumping Spider from Brazil (Araneae, Salticidae)",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

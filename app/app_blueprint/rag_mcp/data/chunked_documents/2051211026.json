@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051211026",
+    "company_name": "2051211026"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Relative ion yields for SIMS analysis of trace elements in metallic Fe, Fe-Si alloy, and FeSi\n\nAbstract: The ion yields of a number of siderophile trace elements dissolved in Fe, Fe-Si alloy, and FeSi have been measured using secondary ion mass spectroscopy. Ion yields are a complex function of ionisation potential, energy distribution, oxide bond strength, and matrix material. The exact nature of secondary ion yield is poorly understood, yet there are regular trends throughout the ion yield pattern across the periodic table. Metal standards were constructed that consisted of a matrix metal (Fe, Fe83Si17, and FeSi) doped with 10 trace elements at a nominal concentration of 1 wt% each. The standards were quantitatively analysed by electron microprobe, and the exact concentrations were used to calibrate the count rates measured by the ion microprobe. The count rates for Si and Fe increased with increasing silicon concentration despite the corresponding decrease in Fe concentration. Similarly, the O count rate also increased with increasing Si concentration despite the fact that the only implanted oxygen was that of the primary beam, which remained constant throughout the analyses. The presence of Si in the metal matrix appears to enhance the overall ionisation of Fe and O. The ion yields, relative to Fe, of the trace elements themselves vary linearly with Si concentration. They also show an overall decrease in the range of ion yields in the Si-rich metals. Comparing the ion yields for the metals to SRM610 silicate glass shows a strong relationship with the first ionisation potential of these elements. In and Ga form the most extreme end with considerably higher ion yields in metal than in silicate glass. Zn, for some unknown reason, does not appear to conform to this trend in ionisation. The relative ion yields obtained in this study may be used in the future analysis of trace elements in Fe meteorites and metal-silicate partitioning experiments.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 24,
+        "text": "Title: Relative ion yields for SIMS analysis of trace elements in metallic Fe, Fe-Si alloy, and FeSi",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: The ion yields of a number of siderophile trace elements dissolved in Fe, Fe-Si alloy, and FeSi have been measured using secondary ion mass spectroscopy. Ion yields are a complex function of ionisation potential, energy distribution, oxide bond strength, and matrix material. The exact nature of secondary ion yield is poorly understood, yet there are regular trends throughout the ion yield pattern across the periodic table. Metal standards were constructed that consisted of a matrix metal (Fe, Fe83Si17, and FeSi) doped with 10 trace elements at a nominal concentration of 1 wt% each. The standards were quantitatively analysed by electron microprobe, and the exact concentrations were used to calibrate the count rates measured by the ion microprobe. The count rates for Si and Fe increased with increasing silicon concentration despite the corresponding decrease in Fe concentration. Similarly, the O count rate also increased with increasing Si concentration despite the fact that the only implanted oxygen was that of the primary beam, which remained constant throughout the analyses. The presence of Si in the metal matrix appears to enhance the overall ionisation of Fe and O. The ion yields, relative to Fe, of the trace elements themselves vary linearly with Si concentration. They also show an overall decrease in the range of ion yields in the Si-rich metals. Comparing the ion yields for the metals to SRM610 silicate glass shows a strong relationship with the first ionisation potential of these elements. In and Ga form the most extreme",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 114,
+        "text": "an overall decrease in the range of ion yields in the Si-rich metals. Comparing the ion yields for the metals to SRM610 silicate glass shows a strong relationship with the first ionisation potential of these elements. In and Ga form the most extreme end with considerably higher ion yields in metal than in silicate glass. Zn, for some unknown reason, does not appear to conform to this trend in ionisation. The relative ion yields obtained in this study may be used in the future analysis of trace elements in Fe meteorites and metal-silicate partitioning experiments.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

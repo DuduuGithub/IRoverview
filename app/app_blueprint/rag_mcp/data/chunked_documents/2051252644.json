@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051252644",
+    "company_name": "2051252644"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Water to the Dead Sea\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 7,
+        "text": "Title: Water to the Dead Sea",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

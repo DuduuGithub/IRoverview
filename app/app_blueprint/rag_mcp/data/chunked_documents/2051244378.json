@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051244378",
+    "company_name": "2051244378"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Le duo « Corps et âme » en question ? Anthropologie moderne et trichotomie\n\nAbstract: L'anthropologie concerne sans doute la métaphysique, mais aussi les disciplines les plus diverses : sciences naturelles, psycho-biologie, psychologie, phénoménologie, psychanalyse, sociologie, etc.. Si l'on s'en tient à l'une de ces disciplines, la vision de l'homme n'est que partielle et par le fait fausse. Est-il possible de structurer ensemble ces différentes visions de l'homme en respectant leur problématique ? Qu'en est-il alors du problème âme et corps ?\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 128,
+        "text": "Title: Le duo « Corps et âme » en question ? Anthropologie moderne et trichotomie\n\nAbstract: L'anthropologie concerne sans doute la métaphysique, mais aussi les disciplines les plus diverses : sciences naturelles, psycho-biologie, psychologie, phénoménologie, psychanalyse, sociologie, etc.. Si l'on s'en tient à l'une de ces disciplines, la vision de l'homme n'est que partielle et par le fait fausse. Est-il possible de structurer ensemble ces différentes visions de l'homme en respectant leur problématique ? Qu'en est-il alors du problème âme et corps ?",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

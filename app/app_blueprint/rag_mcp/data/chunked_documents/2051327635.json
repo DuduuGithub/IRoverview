@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051327635",
+    "company_name": "2051327635"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Time Series Stock Prices Prediction Based On Fuzzy Model\n\nAbstract: 본 논문은 일별 및 주별로 시계열 주가를 예측할 수 있는 퍼지 모델을 구성하는 방법을 제안한다. 전통적인 시계열 분석으로 주가를 예측하는 것은 어렵지만 퍼지 모델은 비선형적인 주가 데이터의 특성을 잘 기술할 수 있는 장점을 갖고 있다. 주가 예측 모델에 사용될 입력 정보를 결정하는 데는 상당한 수고가 필요한데, 본 논문에서는 전통적인 캔들 스틱 차트의 정보를 입력변수로 고려한다. 주가 예측 퍼지 모델은 사다리꼴 멤버쉽함수를 갖는 전건부와 비선형식인 후건부로 된 퍼지 규칙으로 구성된다. 차분 진화를 통해 퍼지 모델은 최적화된다. 일별 및 주별로 코스피 지수의 시가, 고가, 저가 및 종가를 예측하는 모델을 만들고 그 성능을 평가한다. In this paper an approach to building fuzzy models for predicting daily and weekly stock prices is presented. Predicting stock prices with traditional time series analysis has proven to be difficult. Fuzzy logic based models have advantage of expressing the input-output relation linguistically, which facilitates the understanding of the system behavior. In building a stock prediction model we bear a burden of selecting most effective indicators for the stock prediction. In this paper information used in traditional candle stick-chart analysis is considered as input variables of our fuzzy models. The fuzzy rules have the premises and the consequents composed of trapezoidal membership functions and nonlinear equations, respectively. DE(Differential Evolution) identifies optimal fuzzy rules through an evolutionary process. The fuzzy models to predict daily and weekly open, high, low, and close prices of KOSPI(KOrea composite Stock Price Index) are built, and their performances are demonstrated.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 12,
+        "text": "Title: Time Series Stock Prices Prediction Based On Fuzzy Model",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: 본 논문은 일별 및 주별로 시계열 주가를 예측할 수 있는 퍼지 모델을 구성하는 방법을 제안한다. 전통적인 시계열 분석으로 주가를 예측하는 것은 어렵지만 퍼지 모델은 비선형적인 주가 데이터의 특성을 잘 기술할 수 있는 장점을 갖고 있다. 주가 예측 모델에 사용될 입력 정보를 결정하는 데는 상당한 수고가 필요한데, 본 논문에서는 전통적인 캔들 스틱 차트의 정보를 입력변수로 고려한다. 주가 예측 퍼지 모델은 사다리꼴 멤버쉽함수를 갖는 전건부와 비선형식인 후건부로 된 퍼지 규칙으로 구성된다. 차분 진화를 통해 퍼지 모델은 최적화된다. 일별 및 주별로 코스피 지수의 시가, 고가, 저가 및 종가를 예측하는 모델을 만들고 그 성능을 평가한다. In this paper an approach to building fuzzy models for predicting daily and weekly stock prices is presented. Predicting stock prices with traditional time series analysis has proven to be difficult. Fuzzy logic based models have advantage of expressing the input-output relation linguistically, which facilitates the understanding of the system behavior. In building a stock prediction model we bear a burden of selecting most effective indicators for the stock prediction. In this paper",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 145,
+        "text": "difficult. Fuzzy logic based models have advantage of expressing the input-output relation linguistically, which facilitates the understanding of the system behavior. In building a stock prediction model we bear a burden of selecting most effective indicators for the stock prediction. In this paper information used in traditional candle stick-chart analysis is considered as input variables of our fuzzy models. The fuzzy rules have the premises and the consequents composed of trapezoidal membership functions and nonlinear equations, respectively. DE(Differential Evolution) identifies optimal fuzzy rules through an evolutionary process. The fuzzy models to predict daily and weekly open, high, low, and close prices of KOSPI(KOrea composite Stock Price Index) are built, and their performances are demonstrated.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051161801",
+    "company_name": "2051161801"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Satellites: the evolution from TV broadcasting to multimedia\n\nAbstract: Digital television will fundamentally change the way in which we record, store, distribute, receive and consume television. The arrival of satellite television has changed television in terms of choice: from two or three channels, viewers can now have a choice of 50 or so channels. The satellite and cable industries presently plan multiplex pay-per-view, also known as near-video-on-demand or stagger-casting. Digital receivers with the necessary built-in intelligence will shortly be able to re-compose the incoming streams in a way which is invisible to the user and which creates a service that appears to be interactive to the user. We call this dynamic multimedia. New plans for new multimedia satellite global networks may by pass traditional telephone networks completely, with a superhighway direct to the home. Major new multimedia satellite networks are being planned, that will deliver TV, video on demand, telephony and superhighway access direct to the home, via an interactive USAT dish. Hughes Galaxy proposes a global network of 20 interconnected GEO satellites, with intersatellite links and onboard processing. Bill Gates' Teledesic proposes similar services, with a Gigalink of 1.2 Gb/s.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 246,
+        "text": "Title: Satellites: the evolution from TV broadcasting to multimedia\n\nAbstract: Digital television will fundamentally change the way in which we record, store, distribute, receive and consume television. The arrival of satellite television has changed television in terms of choice: from two or three channels, viewers can now have a choice of 50 or so channels. The satellite and cable industries presently plan multiplex pay-per-view, also known as near-video-on-demand or stagger-casting. Digital receivers with the necessary built-in intelligence will shortly be able to re-compose the incoming streams in a way which is invisible to the user and which creates a service that appears to be interactive to the user. We call this dynamic multimedia. New plans for new multimedia satellite global networks may by pass traditional telephone networks completely, with a superhighway direct to the home. Major new multimedia satellite networks are being planned, that will deliver TV, video on demand, telephony and superhighway access direct to the home, via an interactive USAT dish. Hughes Galaxy proposes a global network of 20 interconnected GEO satellites, with intersatellite links and onboard processing. Bill Gates' Teledesic proposes similar services, with a Gigalink of 1.2 Gb/s.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

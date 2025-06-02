@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051330486",
+    "company_name": "2051330486"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Acid-catalyzed rearrangements in a crowded aromatic system\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 14,
+        "text": "Title: Acid-catalyzed rearrangements in a crowded aromatic system",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

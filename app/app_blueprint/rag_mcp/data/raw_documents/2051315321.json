@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051315321",
+    "company_name": "2051315321"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Optimizing transmission strategy in single-user MIMO systems under the influence of antenna mutual coupling\n\nAbstract: This paper is concerned with a study of an optimal transmission scheme in a single-user MIMO system influenced by an antenna mutual coupling effect. Using the transmitting and receiving mutual impedances, a “coupled power” concept is introduced. This concept is applied to work out an optimal transmission scheme when a non-negligible mutual coupling between antenna elements exists. Numerical results illustrate that the proposed transmission strategy leads to gaining an extra capacity. A practical antenna design including a suitable choice of antenna elements separation is discussed for the case of a semi-correlated uplink channel.\n\n"
+      }
+    ]
+  }
+}

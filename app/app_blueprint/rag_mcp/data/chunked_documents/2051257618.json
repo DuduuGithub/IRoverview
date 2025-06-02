@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051257618",
+    "company_name": "2051257618"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: FRCT based efficient image compression for texture images\n\nAbstract: In this paper different Image compression techniques particularly for texture images are discussed. A texture image can be conceived as repetition of different patterns and spatially the pixels are connected in predefined shapes. So the better way of compressing these texture images is by suitable image compression techniques. Both Finite Radon Transform (FRAT) and Discrete Cosine Transform (DCT) are well suited for this. Applying the DCT on the Radon domain gives the new transformation which is Finite Radon Cosine Transformation (FRCT). The properties of both DCT and FRAT are been exploited in this new transformation. Image quality is measured objectively, using peak signal-to-noise ratio (PSNR). A comparison with a Wavelet transform, DCT and Finite Ridgelet Transform (FRIT) based compression systems are given. The results show that by applying the DCT on the Radon domain (FRAT) one gets high PSNR compared to other transforms for a given compression ratio.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 212,
+        "text": "Title: FRCT based efficient image compression for texture images\n\nAbstract: In this paper different Image compression techniques particularly for texture images are discussed. A texture image can be conceived as repetition of different patterns and spatially the pixels are connected in predefined shapes. So the better way of compressing these texture images is by suitable image compression techniques. Both Finite Radon Transform (FRAT) and Discrete Cosine Transform (DCT) are well suited for this. Applying the DCT on the Radon domain gives the new transformation which is Finite Radon Cosine Transformation (FRCT). The properties of both DCT and FRAT are been exploited in this new transformation. Image quality is measured objectively, using peak signal-to-noise ratio (PSNR). A comparison with a Wavelet transform, DCT and Finite Ridgelet Transform (FRIT) based compression systems are given. The results show that by applying the DCT on the Radon domain (FRAT) one gets high PSNR compared to other transforms for a given compression ratio.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

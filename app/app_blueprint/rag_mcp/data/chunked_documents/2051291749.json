@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051291749",
+    "company_name": "2051291749"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Flow analysis for the nacelle of an advanced ducted propeller at high angle of attack and at cruise with boundary layer control\n\nAbstract: An axisymmetric panel code and a three dimensional Navier-Stokes code (used as an inviscid Euler code) were verified for low speed, high angle of attack flow conditions. A three dimensional Navier-Stokes code (used as an inviscid code), and an axisymmetric Navier-Stokes code (used as both viscous and inviscid code) were also assessed for high Mach number cruise conditions. The boundary layer calculations were made by using the results from the panel code or Euler calculation. The panel method can predict the internal surface pressure distributions very well if no shock exists. However, only Euler and Navier-Stokes calculations can provide a good prediction of the surface static pressure distribution including the pressure rise across the shock. Because of the high CPU time required for a three dimensional Navier-Stokes calculation, only the axisymmetric Navier-Stokes calculation was considered at cruise conditions. The use of suction and tangential blowing boundary layer control to eliminate the flow separation on the internal surface was demonstrated for low free stream Mach number and high angle of attack cases. The calculation also shows that transition from laminar flow to turbulent flow on the external cowl surface can be delayed by using suction boundary layer control at cruise flow conditions. The results were compared with experimental data where possible.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 289,
+        "text": "Title: Flow analysis for the nacelle of an advanced ducted propeller at high angle of attack and at cruise with boundary layer control\n\nAbstract: An axisymmetric panel code and a three dimensional Navier-Stokes code (used as an inviscid Euler code) were verified for low speed, high angle of attack flow conditions. A three dimensional Navier-Stokes code (used as an inviscid code), and an axisymmetric Navier-Stokes code (used as both viscous and inviscid code) were also assessed for high Mach number cruise conditions. The boundary layer calculations were made by using the results from the panel code or Euler calculation. The panel method can predict the internal surface pressure distributions very well if no shock exists. However, only Euler and Navier-Stokes calculations can provide a good prediction of the surface static pressure distribution including the pressure rise across the shock. Because of the high CPU time required for a three dimensional Navier-Stokes calculation, only the axisymmetric Navier-Stokes calculation was considered at cruise conditions. The use of suction and tangential blowing boundary layer control to eliminate the flow separation on the internal surface was demonstrated for low free stream Mach number and high angle of attack cases. The calculation also shows that transition from laminar flow to turbulent flow on the external cowl surface can be delayed by using suction boundary layer control at cruise flow conditions. The results were compared with experimental data where possible.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

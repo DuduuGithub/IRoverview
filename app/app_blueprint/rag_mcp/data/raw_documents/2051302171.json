@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051302171",
+    "company_name": "2051302171"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Determination of Gafac in complex solution matrices\n\nAbstract: A new analytic method is described for determining the concentration of Gafac Re-610 (trademark of the GAF Corporation, New York, NY) in multicomponent solutions. This method utilizes a simple methylene chloride extraction to separate the Gafac from interfering chemical species, such as cupric sulfate. The ultraviolet absorbance of the methylene chloride extract is then measured at 276 nm and is shown to be proportional to the concentration of Gafac over the range of 1–170 ppm. However, this relationship is nonlinear except for concentrations less than 15 ppm. The limit of detection is 0.6 ppm and the relative precision at the 10-ppm level is ±6%. Experiments to optimize and characterize various aspects of the analytical procedure are described, including determining the absorptivity of Gafac, measuring the distribution ratio, calculating extraction efficiencies, optimizing the extraction pH, and evaluating selected spectral interferences.\n\n"
+      }
+    ]
+  }
+}

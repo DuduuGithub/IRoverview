@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051296403",
+    "company_name": "2051296403"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Dutch proposal for children's right to euthanasia withdrawn\n\nAbstract: The Dutch government has withdrawn proposed euthanasia legislation for children aged 12–16 years. The so-called “child paragraph” in a pending bill gave children within this age-group, in a situation of hopeless suffering, the right to choose euthanasia, even if their parents opposed this wish. The paragraph is part of the proposed comprehensive euthanasia and physician-assisted-suicide legislation that was presented in parliament last year.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 96,
+        "text": "Title: Dutch proposal for children's right to euthanasia withdrawn\n\nAbstract: The Dutch government has withdrawn proposed euthanasia legislation for children aged 12–16 years. The so-called “child paragraph” in a pending bill gave children within this age-group, in a situation of hopeless suffering, the right to choose euthanasia, even if their parents opposed this wish. The paragraph is part of the proposed comprehensive euthanasia and physician-assisted-suicide legislation that was presented in parliament last year.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

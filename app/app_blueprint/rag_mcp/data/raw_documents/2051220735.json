@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051220735",
+    "company_name": "2051220735"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Grouping ID based device trigger mechanism for 3GPP MTC communications\n\nAbstract: Third Generation Partnership Project (3GPP) proposed the Machine Type Communication (MTC) communications technology for machines or devices to communicate with each other without human intervention. The characteristics of MTC communications are different from that of conventional Human-to-Human (H2H) communications. The execution of an MTC device is task-based and triggered by the MTC application server. In most of scenarios, the time period for an MTC to perform a task is short. The number of MTC devices is expected to be several magnitudes higher than the number of H2H communication device. In MTC communications networks, an MTC device is addressed by its Mobile Subscriber ISDNs (MSISDNs) that is also used to address the H2H devices. Due to that huge number of MTC devices may coexist in the network, it is a challenge that the number of MSISDNs may insufficient to support both MTC communications and H2H communications. In this paper, we propose a grouping ID based device trigger mechanism for 3GPP MTC communications to resolve the issue “insufficient number of MSISDN.” Simulation experiments are conducted to investigate the performances of the mechanism.\n\n"
+      }
+    ]
+  }
+}

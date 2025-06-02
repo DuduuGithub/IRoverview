@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051302395",
+    "company_name": "2051302395"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Appendix. History of species used and Dr. Thom's diagnoses of species\n\nAbstract: Section I. Monoverticillata-stricta. Subsection 1. Sclerotigena . None. Subsection 2. Stricta-floccosa . (i) Ad. 74, Ad. 79, Ad. 80. These three species were isolated at Ardeer, Ad. 74 from a distilled-water container, Ad. 79 and Ad. 80 from different samples of mouldy dextrin solution. “Ad. 74 and Ad. 80 in our cultures are practically identical, with a slight difference in appearance in Ad. 79. I have put them together and placed them in the group with P. spinulosum or, in deference to the belief that Dr. Wehmer’s Citromyces Pfefferianus belonged somewhere in this group, P. Pfefferianum series. Our notes indicate that they approach P. viridi-dorsum Biourge, which, in our cultures from the transfer he furnished us, belongs here. These three species are much more characteristic of the P. Pfefferianum series than Ad. 71 and Ad. 73 ( q.v .).\"\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 257,
+        "text": "Title: Appendix. History of species used and Dr. Thom's diagnoses of species\n\nAbstract: Section I. Monoverticillata-stricta. Subsection 1. Sclerotigena . None. Subsection 2. Stricta-floccosa . (i) Ad. 74, Ad. 79, Ad. 80. These three species were isolated at Ardeer, Ad. 74 from a distilled-water container, Ad. 79 and Ad. 80 from different samples of mouldy dextrin solution. “Ad. 74 and Ad. 80 in our cultures are practically identical, with a slight difference in appearance in Ad. 79. I have put them together and placed them in the group with P. spinulosum or, in deference to the belief that Dr. Wehmer’s Citromyces Pfefferianus belonged somewhere in this group, P. Pfefferianum series. Our notes indicate that they approach P. viridi-dorsum Biourge, which, in our cultures from the transfer he furnished us, belongs here. These three species are much more characteristic of the P. Pfefferianum series than Ad. 71 and Ad. 73 ( q.v .).\"",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

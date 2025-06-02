@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051151957",
+    "company_name": "2051151957"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: PERINEAL URETHROTOMY\n\nAbstract: BALTIMORE. PROFESSOR OF ANATOMY AND CLINICAL SURGERY IN THE UNIVERSITY OF MATYLAND. Read before the Medical and Chirurgical Faculty of Maryland, April 25, 1887.\n\nKeywords: Surgery, Medicine\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 64,
+        "text": "Title: PERINEAL URETHROTOMY\n\nAbstract: BALTIMORE. PROFESSOR OF ANATOMY AND CLINICAL SURGERY IN THE UNIVERSITY OF MATYLAND. Read before the Medical and Chirurgical Faculty of Maryland, April 25, 1887.\n\nKeywords: Surgery, Medicine",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

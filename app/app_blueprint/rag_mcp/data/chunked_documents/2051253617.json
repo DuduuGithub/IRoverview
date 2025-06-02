@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051253617",
+    "company_name": "2051253617"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Simulation for power generation related to variable wind speed using Matlab\n\nAbstract: This manuscript presents simulation for power generation related to variable wind speed using Matlab. A mathematical equation of the wind power system also proved. The power generation is done by using permanent magnet synchronous generator. The system is directly connected to the permanent magnet synchronous generator with gearbox as intermediate in between them. Also the system is at variable wind speed type. This generator is connected to grid or standalone load by means of diode rectifier, DC bus, an IGBT inverter and second order low pass filter. The model is simulated using MATLAB/ SIMULINK software.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 125,
+        "text": "Title: Simulation for power generation related to variable wind speed using Matlab\n\nAbstract: This manuscript presents simulation for power generation related to variable wind speed using Matlab. A mathematical equation of the wind power system also proved. The power generation is done by using permanent magnet synchronous generator. The system is directly connected to the permanent magnet synchronous generator with gearbox as intermediate in between them. Also the system is at variable wind speed type. This generator is connected to grid or standalone load by means of diode rectifier, DC bus, an IGBT inverter and second order low pass filter. The model is simulated using MATLAB/ SIMULINK software.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051214037",
+    "company_name": "2051214037"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Equilibrium-Turbulent Boundary Layer Prediction for a Proposed Prandtl Mixing Length Distribution\n\nAbstract: The momentum equation is solved numerically for a suggested ramp variation of the Prandtl mixing length across an equilibrium-turbulent boundary layer. The predictions of several important boundary-layer functions are compared with the equilibrium experimental data. Comparisons are also made with some recent universal recommendations for turbulent boundary layers since the equilibrium experimental data are limited. Good agreement is found between the predictions, the experimental data, and the recommendations.\n\n"
+      }
+    ]
+  }
+}

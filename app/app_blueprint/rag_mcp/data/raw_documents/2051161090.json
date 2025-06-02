@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051161090",
+    "company_name": "2051161090"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Interaction of baseband and envelope solitary wave solutions of the nonlinear Klein-Gordon equation with dispersion\n\nAbstract: The interaction of solitary wave solutions of the nonlinear Klein-Gordon equation for baseband and envelope propagation is numerically studied by introducing them from linear nondispersive semi-infinite regions into a finite nonlinear dispersive region which can be modeled by a cubically nonlinear Klein-Gordon equation. In both baseband and envelope cases the solitary wave solutions are unstable upon mutual interaction. Envelope propagation has less distortion after interaction, but instability in baseband case can be easily removed by incorporating a small amount of a fifth-order saturating nonlinearity in the system.\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051235712",
+    "company_name": "2051235712"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Theory of Extended Pseudopotentials\n\nAbstract: Extended pseudopotential V p ' is defined as superposition of a pseudopotential in a usual sense, and an attractive potential which originates from orthogonalization procedure to higher-lying states. The pseudo-Hamiltonian with V p ' is shown to generate the same valence levels as the real Hamiltonian does, and spurious non-valence levels as well. A particular form of V p ' is proposed, which is obtained from the constraint that none of the non-valence levels should lie in the valence region. It is shown that, with the particular V p ' , the core-coupled non-valence states have complex eigenvalues. The theory enables us to work with only in a restricted energy region of interest. Applications and limitations of the theory are discussed.\n\n"
+      }
+    ]
+  }
+}

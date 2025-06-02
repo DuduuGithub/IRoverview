@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051205938",
+    "company_name": "2051205938"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Isospin-symmetry-breaking effects in nuclear β decay\n\nAbstract: Precisely measured ft values of Jπ = 0+ → 0+ β decays of isospin T = 1 nuclei are used to set stringent limits on physics beyond the standard model. In order to use the measured ft values for these purposes, one must first apply theoretical corrections for isospin-symmetry-breaking and radiative effects. In recent years, the nuclear-structure-dependent isospin-symmetry-breaking calculations have been placed under intense scrutiny; concurrently, experimental work has measured these corrections in cases where they are relatively large. The present status of comparisons of experiment to theory is reviewed.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 141,
+        "text": "Title: Isospin-symmetry-breaking effects in nuclear β decay\n\nAbstract: Precisely measured ft values of Jπ = 0+ → 0+ β decays of isospin T = 1 nuclei are used to set stringent limits on physics beyond the standard model. In order to use the measured ft values for these purposes, one must first apply theoretical corrections for isospin-symmetry-breaking and radiative effects. In recent years, the nuclear-structure-dependent isospin-symmetry-breaking calculations have been placed under intense scrutiny; concurrently, experimental work has measured these corrections in cases where they are relatively large. The present status of comparisons of experiment to theory is reviewed.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

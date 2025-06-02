@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051277462",
+    "company_name": "2051277462"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Vibrio em amostras de água de viveiros de cultivo do camarão marinho Litopenaeus vannamei, no Ceará-Brasil\n\nAbstract: The present study analyzed 24 samples of water from ponds of a shrimp farm in Ceara (Brazil) rearing Litopenaeus vannamei. Vibrio diversity was determined from the Most Probable Number (MPN) of vibrios, the number of isolated and phenotyped Vibrio strains. MPN values ranged from 43 x 104 to 11 x 1013 MPN/100mL. The 55 Vibrio strains isolated belonged to 7 species: V. cholerae (21,8%), V. harveyi (20%), V. parahaemolyticus (16,4%) e V. anguillarum (12,8%).\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 177,
+        "text": "Title: Vibrio em amostras de água de viveiros de cultivo do camarão marinho Litopenaeus vannamei, no Ceará-Brasil\n\nAbstract: The present study analyzed 24 samples of water from ponds of a shrimp farm in Ceara (Brazil) rearing Litopenaeus vannamei. Vibrio diversity was determined from the Most Probable Number (MPN) of vibrios, the number of isolated and phenotyped Vibrio strains. MPN values ranged from 43 x 104 to 11 x 1013 MPN/100mL. The 55 Vibrio strains isolated belonged to 7 species: V. cholerae (21,8%), V. harveyi (20%), V. parahaemolyticus (16,4%) e V. anguillarum (12,8%).",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

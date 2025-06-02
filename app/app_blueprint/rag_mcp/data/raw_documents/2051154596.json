@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051154596",
+    "company_name": "2051154596"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: High Efficiency Liquid-type Cooling and Packaging Technology for a Miscellaneous Application of Microprocessors\n\nAbstract: A new liquid cooling system with compact packaging and high operation efficiency for a miscellaneous application of microprocessors is designed, fabricated and tested. To enhance the efficiency of heat absorption, the feasible cold-plate and pin-fan cooling structures with multi-channels are arranged and realized to reduce flow impedance by increasing surface cooling contact area and inducing high speed eddy flow for exchanging heat quickly. Numerical simulations of computational fluid dynamics by finite element methods indicate that the innovation patterns can significantly increase liquid cooling effect and the increase packaging performance. Experiment results show that proposed cooling and packaging technologies has good heat transfer characteristic and is feasible for applications. The best operation results and the best aspects of the developed systems are analyzed to challenge limited pressure drop and good thermal resistance is 0.182 with better uniformity that would be applied for miscellaneous microprocessor applications.\n\nKeywords: Electrical engineering, Physics, Engineering, Finite element method, Aerospace engineering, Embedded system, Materials science, Computer science, Optoelectronics, Mechanics, Structural engineering, Mechanical engineering\n\n"
+      }
+    ]
+  }
+}

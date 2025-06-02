@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051247890",
+    "company_name": "2051247890"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: La RM nelle sequele dei traumi cranici\n\nAbstract: Given the higher sensitivity of MRI and the recent advances in faster imaging techniques the purpose of the study was to obtain MRI findings in 70 patients who had suffered from a head injury with transient consciousness loss or prolonged coma at least 24 months before entering the study. Multiplanar MRI offers invaluable advantages in the identification of the precise location of the sequelae of cranial traumas. In case of hemorrhagic lesions, the information capacity of CT progressively diminishes in relation to the absorption of the edema and bleeding, whereas MRI increases its sensitivity due to the paramagnetic properties of hemoglobin by-products. MRI allows the identification of a larger amount of small lesions, particularly those located at critical sites, as corpus callosum, temporal and frontal tips cortical surface. Using Fluid Attenuated Inversion Recovery (FLAIR) pulse sequences, a better delineation of cortical and subcortical lesions is permitted, with remarkable improvement of sensitivity when compared with conventional Spin-Echo images. Finally, adopting MRI has important implications from a medico-legal standpoint.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 226,
+        "text": "Title: La RM nelle sequele dei traumi cranici\n\nAbstract: Given the higher sensitivity of MRI and the recent advances in faster imaging techniques the purpose of the study was to obtain MRI findings in 70 patients who had suffered from a head injury with transient consciousness loss or prolonged coma at least 24 months before entering the study. Multiplanar MRI offers invaluable advantages in the identification of the precise location of the sequelae of cranial traumas. In case of hemorrhagic lesions, the information capacity of CT progressively diminishes in relation to the absorption of the edema and bleeding, whereas MRI increases its sensitivity due to the paramagnetic properties of hemoglobin by-products. MRI allows the identification of a larger amount of small lesions, particularly those located at critical sites, as corpus callosum, temporal and frontal tips cortical surface. Using Fluid Attenuated Inversion Recovery (FLAIR) pulse sequences, a better delineation of cortical and subcortical lesions is permitted, with remarkable improvement of sensitivity when compared with conventional Spin-Echo images. Finally, adopting MRI has important implications from a medico-legal standpoint.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

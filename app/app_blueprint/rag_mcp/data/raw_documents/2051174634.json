@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051174634",
+    "company_name": "2051174634"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Tailoring the shape of flux guide reader for ultrahigh density magnetic recording\n\nAbstract: We report on a study of shape effect on the flux guide (FG) reader output at an ultrahigh recording density, using micromagnetic simulations. A FG with a sharp, protruding reading edge is ineffective in magnetization reversal but is less susceptible to adjacent track interference. By using an FG with an acute, tapered angle and an elongated spade shape, a reversible magnetization can be achieved and the amplitude of the readback signal can be improved. The findings indicate that the shape of the FG can be tailored for effective control of the magnetoresistance signal for ultrahigh data storage density in hard disk drives.\n\n"
+      }
+    ]
+  }
+}

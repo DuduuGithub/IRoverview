@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051187688",
+    "company_name": "2051187688"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: SPIN-FLUCTUATION THERMOPOWER IN Pd-Ni ALLOYS\n\nAbstract: The anomalous peaks at <v 20K in the thermopower, S, of paramagnetic Pd-Ni alloys have been investigated further by an experimental study of S in dilute (Pd99Ni1),_ Pt alloys in the temperature 1.5K to 30K. It is found that as x is increased from 0 to 1 % the pronounced (negative) peak in S virtually disappears. This result con be simply explained by a change in the diffusion component of S as the dominant electron-scatterer changes from Ni to Pt, and weighs heavily against the idea of paramagnon drag.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 148,
+        "text": "Title: SPIN-FLUCTUATION THERMOPOWER IN Pd-Ni ALLOYS\n\nAbstract: The anomalous peaks at <v 20K in the thermopower, S, of paramagnetic Pd-Ni alloys have been investigated further by an experimental study of S in dilute (Pd99Ni1),_ Pt alloys in the temperature 1.5K to 30K. It is found that as x is increased from 0 to 1 % the pronounced (negative) peak in S virtually disappears. This result con be simply explained by a change in the diffusion component of S as the dominant electron-scatterer changes from Ni to Pt, and weighs heavily against the idea of paramagnon drag.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

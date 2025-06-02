@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051264944",
+    "company_name": "2051264944"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Pneumadin-evoked intracellular free Ca2+ responses in rat aortic smooth muscle cells: effect of dexamethasone\n\nAbstract: The direct vascular effect of pneumadin (PN) was determined by studying the changes in intracellular free calcium ([Ca2+]i) levels in cultured rat aortic smooth muscle cells maintained between the second and fifth passages. PN evoked a rapid, concentration-dependent, biphasic increase in [Ca2+]i. The [Ca2+]i level rose from a basal value of 108 nM to a maximum increase in peak value of 170 nM. Although the level of maximal [Ca2+]i response evoked by PN was less than with other vasoactive agonists, it was more potent (ec50 0.5 nM) than even endothelin-1 (ec50 3.1 nM). At concentrations > 100 nM, [Ca2+]i elevations induced by PN above basal levels were no longer observed. Pretreatment with dexamethasone (100 nM for 24 hr) resulted in a significant increase (P < 0.01) in the peak [Ca2+]i response (310 nM) to PN. However, the biphasic pattern in the peak [Ca2+]i responses encountered with increasing concentrations of PN remained unaffected. The exaggerated [Ca2+]i response to PN was abolished by preincubation of cells with either the glucocorticoid antagonist mifepristone (RU 486) or the protein synthesis inhibitor cycloheximide. Inclusion of either an AT1 antagonist (losartan), a V1 selective vasopressin antagonist (d(Ch2)5 Tyr (Me) AVP), or an α-adrenoceptor antagonist (phentolamine) failed to affect the increases in [Ca2+]i induced by PN. PN-evoked increases in inositol 1,4,5-trisphosphate levels paralleled the [Ca2+]i changes. These data suggest that PN increases Ca2+ mobilization in rat aortic smooth muscle cells via activation of phospholipase C coupled receptors. This effect is up-regulated by dexamethasone.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 29,
+        "text": "Title: Pneumadin-evoked intracellular free Ca2+ responses in rat aortic smooth muscle cells: effect of dexamethasone",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: The direct vascular effect of pneumadin (PN) was determined by studying the changes in intracellular free calcium ([Ca2+]i) levels in cultured rat aortic smooth muscle cells maintained between the second and fifth passages. PN evoked a rapid, concentration-dependent, biphasic increase in [Ca2+]i. The [Ca2+]i level rose from a basal value of 108 nM to a maximum increase in peak value of 170 nM. Although the level of maximal [Ca2+]i response evoked by PN was less than with other vasoactive agonists, it was more potent (ec50 0.5 nM) than even endothelin-1 (ec50 3.1 nM). At concentrations > 100 nM, [Ca2+]i elevations induced by PN above basal levels were no longer observed. Pretreatment with dexamethasone (100 nM for 24 hr) resulted in a significant increase (P < 0.01) in the peak [Ca2+]i response (310 nM) to PN. However, the biphasic pattern in the peak [Ca2+]i responses encountered with increasing concentrations of PN remained unaffected. The exaggerated [Ca2+]i response to PN was abolished by preincubation of cells with either the glucocorticoid antagonist mifepristone (RU 486) or the protein synthesis inhibitor cycloheximide. Inclusion of",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 184,
+        "text": "exaggerated [Ca2+]i response to PN was abolished by preincubation of cells with either the glucocorticoid antagonist mifepristone (RU 486) or the protein synthesis inhibitor cycloheximide. Inclusion of either an AT1 antagonist (losartan), a V1 selective vasopressin antagonist (d(Ch2)5 Tyr (Me) AVP), or an α-adrenoceptor antagonist (phentolamine) failed to affect the increases in [Ca2+]i induced by PN. PN-evoked increases in inositol 1,4,5-trisphosphate levels paralleled the [Ca2+]i changes. These data suggest that PN increases Ca2+ mobilization in rat aortic smooth muscle cells via activation of phospholipase C coupled receptors. This effect is up-regulated by dexamethasone.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

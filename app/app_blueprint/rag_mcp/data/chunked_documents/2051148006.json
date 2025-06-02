@@ -1,0 +1,44 @@
+{
+  "metainfo": {
+    "sha1_name": "2051148006",
+    "company_name": "2051148006"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Is topical kohl ophthalmic application associated with neonatal aseptic or bacterial conjunctivitis?\n\nAbstract: Background: Aseptic conjunctivitis is a recognized type of neonatal conjunctivitis which is commonly attributed to noninfective etiological agents such as chemicals, among which prophylactics used in the prevention of ophthalmia neonatorum (ON) are themselves well documented agents of aseptic neonatal conjunctivitis. In Nigeria, routine use of prophylactics in the prevention of ON remains uncommon. However, certain ophthalmic care practices with potentials for aseptic ON abound in the various communities. This study was, therefore, undertaken with a view of evaluating the role of kohl in conjunctivitis among newborns aged 0-28 days. Materials and Methods: A retrospective review of 123 neonates who presented with features of ON to the Ahmadu Bello University Teaching Hospital Zaria was conducted. Information regarding the use of kohl and the results of microscopy, culture and sensitivity evaluation of their conjunctival swabs and scrapings were extracted among others. Results: Thirty-one (25.2%) of the reviewed 123 neonates who presented with features of ON had sterile cultures of specimens obtained from their conjunctivae. Fifty-eight (47.2%) had kohl applied, while none received prophylaxis for ON. Kohl application was not significantly associated with culture isolation (P = 0.41). Conclusion: There was the prevalent use of kohl in newborns with ophthalmia. The study did not find enough evidence associating use of kohl in the etiology of ON and, therefore, calls for more extensive studies to investigate the possible relationship to enable informed policy articulation on its use or otherwise in the newborns.\n\nKeywords: Surgery, Pathology, Dermatology, Pediatrics, Medicine\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 19,
+        "text": "Title: Is topical kohl ophthalmic application associated with neonatal aseptic or bacterial conjunctivitis?",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 298,
+        "text": "Abstract: Background: Aseptic conjunctivitis is a recognized type of neonatal conjunctivitis which is commonly attributed to noninfective etiological agents such as chemicals, among which prophylactics used in the prevention of ophthalmia neonatorum (ON) are themselves well documented agents of aseptic neonatal conjunctivitis. In Nigeria, routine use of prophylactics in the prevention of ON remains uncommon. However, certain ophthalmic care practices with potentials for aseptic ON abound in the various communities. This study was, therefore, undertaken with a view of evaluating the role of kohl in conjunctivitis among newborns aged 0-28 days. Materials and Methods: A retrospective review of 123 neonates who presented with features of ON to the Ahmadu Bello University Teaching Hospital Zaria was conducted. Information regarding the use of kohl and the results of microscopy, culture and sensitivity evaluation of their conjunctival swabs and scrapings were extracted among others. Results: Thirty-one (25.2%) of the reviewed 123 neonates who presented with features of ON had sterile cultures of specimens obtained from their conjunctivae. Fifty-eight (47.2%) had kohl applied, while none received prophylaxis for ON. Kohl application was not significantly associated with culture isolation (P = 0.41). Conclusion: There was the prevalent use of kohl in newborns with ophthalmia. The study did not find enough evidence associating use of kohl in the etiology of ON and,",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 77,
+        "text": "associated with culture isolation (P = 0.41). Conclusion: There was the prevalent use of kohl in newborns with ophthalmia. The study did not find enough evidence associating use of kohl in the etiology of ON and, therefore, calls for more extensive studies to investigate the possible relationship to enable informed policy articulation on its use or otherwise in the newborns.",
+        "id": 2,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 13,
+        "text": "Keywords: Surgery, Pathology, Dermatology, Pediatrics, Medicine",
+        "id": 3,
+        "type": "content"
+      }
+    ]
+  }
+}

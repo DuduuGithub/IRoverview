@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051169992",
+    "company_name": "2051169992"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Towards the evolution of a language for creative design\n\nAbstract: To explore the possibility of evolving grounded artificial languages for creative design, this paper presents an approach to evolving mappings between spatial relations between simple shapes and artificial utterances. An implementation of this approach is presented, which combines Holographic Reduced Representations (HRR) and Self-Organizing Map (SOM). The results from experiments with this implementation have shown that the transformation between artificial language and design concepts can be realised and the hybrid computational system could be utilised in curious design agents for the evolution of artificial language in computational language games.\n\n"
+      }
+    ]
+  }
+}

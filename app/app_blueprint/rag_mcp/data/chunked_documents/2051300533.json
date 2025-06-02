@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051300533",
+    "company_name": "2051300533"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Periodically Corrugated Transmission Line Design for Crosstalk Reduction\n\nAbstract: 본 논문에서는 주기적인 요철 모양의 구조를 이용하여 인접해 있는 선로 간의 누화(crosstalk) 감소 효과를 갖는 전송 선로를 제안한다. 요철 모양의 전송 선로는 인접한 선로 간의 유도성 커플링과 용량성 커플링의 크기를 동일하게 조절이 가능하다. 따라서 유도성과 용량성의 커플링이 서로 상쇄되기 때문에 누화 감소 효과를 갖는다. 요철 모양의 전송 선로는 비유전율이 3.38이며, 두께가 0.508 mm인 RO4003 기판 위에 설계하였다. 전산모의 실험 결과, 일반적인 전송 선로와 주기 간격이 A=1 mm인 요철 모양 전송 선로의 far-end 누화는 30 GHz까지 각각 최대 -3.6 dB와 -22 dB 값을 가진다. 측정 결과, 일반적인 전송 선로와 A=1 mm인 요철 모양 전송 선로의 far-end 누화는 30 GHz까지 각각 최대 -6.3 dB와 -20.5 dB 값을 가진다. In this paper, a periodically corrugated transmission line is proposed. The proposed transmission line can reduce crosstalk between transmission lines. The corrugated transmission line can adjust the amount of inductive coupling and capacitive coupling equally. Thus, the crosstalk is effectively reduced because the inductive coupling and capacitive coupling cancel each other. The corrugated transmission line is fabricated on RO4003 substrate with a dielectric constant of 3.38 and a thickness of 0.508 mm. The simulated far-end crosstalks of conventional transmission line and corrugated transmission line with a period of A=1 mm have maximum values of -3.6 dB and -22 dB, respectively, up to 30 GHz. Measurement results showed that far-end crosstalks of the conventional and corrugated transmission line have maximum values of -6.3 dB and -20.5 dB, respectively, up to 30 GHz.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 14,
+        "text": "Title: Periodically Corrugated Transmission Line Design for Crosstalk Reduction",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: 본 논문에서는 주기적인 요철 모양의 구조를 이용하여 인접해 있는 선로 간의 누화(crosstalk) 감소 효과를 갖는 전송 선로를 제안한다. 요철 모양의 전송 선로는 인접한 선로 간의 유도성 커플링과 용량성 커플링의 크기를 동일하게 조절이 가능하다. 따라서 유도성과 용량성의 커플링이 서로 상쇄되기 때문에 누화 감소 효과를 갖는다. 요철 모양의 전송 선로는 비유전율이 3.38이며, 두께가 0.508 mm인 RO4003 기판 위에 설계하였다. 전산모의 실험 결과, 일반적인 전송 선로와 주기 간격이 A=1 mm인 요철 모양 전송 선로의 far-end 누화는 30 GHz까지 각각 최대 -3.6 dB와 -22 dB 값을 가진다. 측정 결과, 일반적인 전송 선로와 A=1 mm인 요철 모양 전송 선로의 far-end 누화는 30 GHz까지 각각 최대 -6.3 dB와 -20.5 dB 값을 가진다. In this paper, a periodically corrugated transmission line is proposed. The proposed transmission line can reduce crosstalk between transmission lines. The corrugated transmission",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 215,
+        "text": "각각 최대 -6.3 dB와 -20.5 dB 값을 가진다. In this paper, a periodically corrugated transmission line is proposed. The proposed transmission line can reduce crosstalk between transmission lines. The corrugated transmission line can adjust the amount of inductive coupling and capacitive coupling equally. Thus, the crosstalk is effectively reduced because the inductive coupling and capacitive coupling cancel each other. The corrugated transmission line is fabricated on RO4003 substrate with a dielectric constant of 3.38 and a thickness of 0.508 mm. The simulated far-end crosstalks of conventional transmission line and corrugated transmission line with a period of A=1 mm have maximum values of -3.6 dB and -22 dB, respectively, up to 30 GHz. Measurement results showed that far-end crosstalks of the conventional and corrugated transmission line have maximum values of -6.3 dB and -20.5 dB, respectively, up to 30 GHz.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

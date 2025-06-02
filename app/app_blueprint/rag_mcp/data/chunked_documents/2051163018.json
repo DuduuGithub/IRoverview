@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051163018",
+    "company_name": "2051163018"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Media, Health Workers, and Policy Makers' Relationship and Their Impact on Antimalarial Policy Adoption: A Population Genetics Perspective\n\nAbstract: Drug resistance negatively impacts malaria treatments, making treatment policy revision unavoidable. So far, studies relating sociopolitical and technical issues on policy change with malaria parasite genetic change are lacking. We have quantified the effect of malaria treatment policy on drug pressure and the influence of the media, policy makers, and health worker relationship on parasite population genetic change in Kilombro/Ulanga district. Cross-sectional surveys of asymptomatic infections conducted before, during and after the switch from chloroquine to sulphadoxine/pyrimethamine were used for genetic analysis of SP resistance genes in 4,513 asymptomatic infections identified, and their frequency change was compared with retrospective study of the documented process of policy change. Highly significant changes of dhfr and dhps resistance alleles occurred within one year of switch to SP first line, followed by a decline of their rate of selection caused by reduction of SP usage, as a result of negative media reports on SP usage and lack of adequate preparations.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 221,
+        "text": "Title: Media, Health Workers, and Policy Makers' Relationship and Their Impact on Antimalarial Policy Adoption: A Population Genetics Perspective\n\nAbstract: Drug resistance negatively impacts malaria treatments, making treatment policy revision unavoidable. So far, studies relating sociopolitical and technical issues on policy change with malaria parasite genetic change are lacking. We have quantified the effect of malaria treatment policy on drug pressure and the influence of the media, policy makers, and health worker relationship on parasite population genetic change in Kilombro/Ulanga district. Cross-sectional surveys of asymptomatic infections conducted before, during and after the switch from chloroquine to sulphadoxine/pyrimethamine were used for genetic analysis of SP resistance genes in 4,513 asymptomatic infections identified, and their frequency change was compared with retrospective study of the documented process of policy change. Highly significant changes of dhfr and dhps resistance alleles occurred within one year of switch to SP first line, followed by a decline of their rate of selection caused by reduction of SP usage, as a result of negative media reports on SP usage and lack of adequate preparations.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

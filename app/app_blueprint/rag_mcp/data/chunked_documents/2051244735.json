@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051244735",
+    "company_name": "2051244735"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Bifurcation control for the Zakharov–Kusnetsov equation\n\nAbstract: We consider the bifurcation control for the forced Zakharov?Kusnetsov (ZK) equation by means of delay feedback linear control terms. Using a perturbation method, we obtain two slow flow equations on the amplitude and phase of the response as well as external force?response and frequency?response curves for the fundamental resonance. We observe in the resonance response for the uncontrolled system a saddle?center bifurcation, jumps and hysteresis phenomena and, using energy considerations, we show the existence of closed orbits of the slow flow equations. A limit cycle corresponds to a two-period quasi-periodic modulated motion for the ZK equation and we demonstrate that, in certain cases, a second low frequency appears in addition to the forcing frequency and then stable two-period quasi-periodic motions are present with amplitudes depending on the initial conditions. The value of the low frequency depends on the amplitude of the external excitation. Subsequently, we compare the uncontrolled and controlled systems and, to reduce the amplitude peak of the fundamental resonance and to remove saddle?center bifurcations and two-period quasi-periodic motions, we find appropriate choices of the feedback gains and time delay.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 257,
+        "text": "Title: Bifurcation control for the Zakharov–Kusnetsov equation\n\nAbstract: We consider the bifurcation control for the forced Zakharov?Kusnetsov (ZK) equation by means of delay feedback linear control terms. Using a perturbation method, we obtain two slow flow equations on the amplitude and phase of the response as well as external force?response and frequency?response curves for the fundamental resonance. We observe in the resonance response for the uncontrolled system a saddle?center bifurcation, jumps and hysteresis phenomena and, using energy considerations, we show the existence of closed orbits of the slow flow equations. A limit cycle corresponds to a two-period quasi-periodic modulated motion for the ZK equation and we demonstrate that, in certain cases, a second low frequency appears in addition to the forcing frequency and then stable two-period quasi-periodic motions are present with amplitudes depending on the initial conditions. The value of the low frequency depends on the amplitude of the external excitation. Subsequently, we compare the uncontrolled and controlled systems and, to reduce the amplitude peak of the fundamental resonance and to remove saddle?center bifurcations and two-period quasi-periodic motions, we find appropriate choices of the feedback gains and time delay.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

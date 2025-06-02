@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051294899",
+    "company_name": "2051294899"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: An isotropic PML for the FDTD solver\n\nAbstract: An isotropic perfectly matched layer is proposed in this paper, which is used in truncating boundary around computational region. Making use of refraction enhancement scheme in optics, we get a matching medium layer named as anti-reflection. It is capable of propagating the wave through the imaginary medium completely. Numerical experiment has been proved that the method is efficient by applying to the finite-difference time-domain solver.\n\n"
+      }
+    ]
+  }
+}

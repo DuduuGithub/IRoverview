@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051139566",
+    "company_name": "2051139566"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Predicting the present with search engine data\n\nAbstract: Many businesses now have almost real time data available about their operations. This data can be helpful in contemporaneous prediction (\"nowcasting\") of various economic indicators. We illustrate how one can use Google search data to nowcast economic metrics of interest, and discuss some of the ramifications for research and policy.\n\nKeywords: Data mining, Macroeconomics, Meteorology, Economics, Geography, Data science, Computer science\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 94,
+        "text": "Title: Predicting the present with search engine data\n\nAbstract: Many businesses now have almost real time data available about their operations. This data can be helpful in contemporaneous prediction (\"nowcasting\") of various economic indicators. We illustrate how one can use Google search data to nowcast economic metrics of interest, and discuss some of the ramifications for research and policy.\n\nKeywords: Data mining, Macroeconomics, Meteorology, Economics, Geography, Data science, Computer science",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

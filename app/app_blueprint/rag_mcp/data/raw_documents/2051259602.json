@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051259602",
+    "company_name": "2051259602"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A modified RC-FDTD algorithm for plasmonics in Drude dispersive media nanostructures\n\nAbstract: A widespread approach in the FDTD analysis of dispersive media is the Recursive Convolution (RC) method. In the Drude version it shows a not so good accuracy in describing the electromagnetic field in the plasmonic resonance regions. We propose here a modified RC algorithm which, by minimizing the time truncation error, guarantees a better accuracy of the solution. We test the modified RC algorithm proposed by analyzing the behavior of Au and Ag noble metal nanospheres exposed to an optical plane wave with respect to the analytical solution.\n\n"
+      }
+    ]
+  }
+}

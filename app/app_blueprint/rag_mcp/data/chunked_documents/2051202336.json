@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051202336",
+    "company_name": "2051202336"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Material selection for the titan reversed-field pinch reactor\n\nAbstract: The operating conditions of a compact, high neutron wall loading fusion reactor severely limit the choices for structural, shield, insulator and breeder materials. In particular, the response of plasma-facing materials to radiation, thermal and pressure stresses, and their compatibility with coolants are of primary concern. Material selection issues were investigated for the compact, high mass power density TITAN reactor design study. In this paper the major findings regarding material performance are summarized. The retention of mechanical strength at relatively high temperatures, low thermal stresses, and compatibility with liquid lithium make vanadium-based alloys a promising material for structural components. The thermal creep behavior of V-3Ti-1Si and V-15Cr-5Ti alloys has been approximated. In addition, irradiation behavior including the effects of helium generation and coolant compatibility issues were investigated which led to the choice of V-3Ti-1Si as the primary structural material candidate for the liquid-lithium-cooled TITAN-I. For the water-cooled TITAN-II reactor, ferritic alloys are favored among structural material candidates. Depending on the choice of lithium salt dissolved in water, the radiolytic effects and corrosion characteristics of the aqueous breeding solution may be severe. LiOH and LiNO 3 have been identified as the most viable salts; however, the radiolytic and corrosion behavior of these salts in aqueous solutions differ substantially. The radiolytic behavior of the aqueous salt solutions has been examined and various molecular decomposition product yields were estimated for the TITAN-II irradiation conditions. Insulator material issues of concern include irradiation induced swelling and radiation-induced conductivity. Both issues have been investigated and operating temperatures for minimum swelling and dielectric breakdown strength have been identified for spinel (MgO-Al 2 O 3 ). The high heat flux and sputtering/erosion issues limit the choice of the materials for the divertor target plate. Mechanical properties of various tungsten-rhenium alloys have been investigated. A highly ductile W-Re alloy containing 26 atomic percent rhenium was identified as a viable plasma-facing material.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 11,
+        "text": "Title: Material selection for the titan reversed-field pinch reactor",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: The operating conditions of a compact, high neutron wall loading fusion reactor severely limit the choices for structural, shield, insulator and breeder materials. In particular, the response of plasma-facing materials to radiation, thermal and pressure stresses, and their compatibility with coolants are of primary concern. Material selection issues were investigated for the compact, high mass power density TITAN reactor design study. In this paper the major findings regarding material performance are summarized. The retention of mechanical strength at relatively high temperatures, low thermal stresses, and compatibility with liquid lithium make vanadium-based alloys a promising material for structural components. The thermal creep behavior of V-3Ti-1Si and V-15Cr-5Ti alloys has been approximated. In addition, irradiation behavior including the effects of helium generation and coolant compatibility issues were investigated which led to the choice of V-3Ti-1Si as the primary structural material candidate for the liquid-lithium-cooled TITAN-I. For the water-cooled TITAN-II reactor, ferritic alloys are favored among structural material candidates. Depending on the choice of lithium salt dissolved in water, the radiolytic effects and corrosion characteristics of the aqueous breeding solution may be severe. LiOH and LiNO 3 have been identified as the most viable salts; however, the radiolytic and corrosion behavior of these salts in aqueous solutions differ substantially. The radiolytic behavior of the aqueous salt solutions has been examined and various molecular decomposition product yields were estimated for the",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 163,
+        "text": "have been identified as the most viable salts; however, the radiolytic and corrosion behavior of these salts in aqueous solutions differ substantially. The radiolytic behavior of the aqueous salt solutions has been examined and various molecular decomposition product yields were estimated for the TITAN-II irradiation conditions. Insulator material issues of concern include irradiation induced swelling and radiation-induced conductivity. Both issues have been investigated and operating temperatures for minimum swelling and dielectric breakdown strength have been identified for spinel (MgO-Al 2 O 3 ). The high heat flux and sputtering/erosion issues limit the choice of the materials for the divertor target plate. Mechanical properties of various tungsten-rhenium alloys have been investigated. A highly ductile W-Re alloy containing 26 atomic percent rhenium was identified as a viable plasma-facing material.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

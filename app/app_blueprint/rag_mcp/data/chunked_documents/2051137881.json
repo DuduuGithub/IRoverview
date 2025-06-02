@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051137881",
+    "company_name": "2051137881"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A Bayesian framework for perceptually motivated audio signal enhancement\n\nAbstract: Spurred by the success of perceptual models in audio coding applications, researchers have begun to address audio signal enhancement in a similar manner. Here a statistical model-based approach is presented that uses cost functions based on auditory perception. As noise reduction inevitably occurs at the expense of signal resolution, why not take advantage of human perception in order to optimize this trade-off? By mathematically incorporating the notion of perceived signal quality, Bayesian risk theory does just that. The Bayesian paradigm is shown to provide an ideal framework within which to formalize such an approach, as it is rigorous, powerful, and generalizable. At the same time it allows the incorporation not only of psychoacoustic optimality criteria, but also of additional nonperceptual prior information such as that concerning audio signal behavior in time and frequency. Importantly, it also permits sequential estimation for real-time noise reduction. Audio examples and the corresponding noise reduction software may be found at ∼pjw47. [Material by the first author is based upon work supported by a U.S. National Science Foundation graduate research fellowship.]\n\nKeywords: Statistics, Image (mathematics), Artificial intelligence, Psychology, Neuroscience, Programming language, Perception, Mathematics, Computer science\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 257,
+        "text": "Title: A Bayesian framework for perceptually motivated audio signal enhancement\n\nAbstract: Spurred by the success of perceptual models in audio coding applications, researchers have begun to address audio signal enhancement in a similar manner. Here a statistical model-based approach is presented that uses cost functions based on auditory perception. As noise reduction inevitably occurs at the expense of signal resolution, why not take advantage of human perception in order to optimize this trade-off? By mathematically incorporating the notion of perceived signal quality, Bayesian risk theory does just that. The Bayesian paradigm is shown to provide an ideal framework within which to formalize such an approach, as it is rigorous, powerful, and generalizable. At the same time it allows the incorporation not only of psychoacoustic optimality criteria, but also of additional nonperceptual prior information such as that concerning audio signal behavior in time and frequency. Importantly, it also permits sequential estimation for real-time noise reduction. Audio examples and the corresponding noise reduction software may be found at ∼pjw47. [Material by the first author is based upon work supported by a U.S. National Science Foundation graduate research fellowship.]\n\nKeywords: Statistics, Image (mathematics), Artificial intelligence, Psychology, Neuroscience, Programming language, Perception, Mathematics, Computer science",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

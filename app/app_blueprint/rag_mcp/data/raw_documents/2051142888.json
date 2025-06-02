@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051142888",
+    "company_name": "2051142888"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Rateless codes with unequal error protection based on improved weighted selection\n\nAbstract: In this paper, we propose to generate rateless codes with unequal error protection (UEP) property based on an improved weighted-selection approach. By selecting input symbols of different importance through Bernoulli experiments when generating an output symbol, the error in degree splitting suffered by the conventional UEP method can be avoided. Then by analyzing our proposed method and the conventional method on BIAWGN channel based on the EXtrinsic Information Transfer (EXIT) chart with Gaussian approximation, we prove that the improved method has better UEP performance than the conventional method. Finally the simulation results verify the efficiency of our proposed method.\n\nKeywords: Epistemology, Algorithm, Channel (broadcasting), Engineering, Philosophy, Aerospace engineering, Artificial intelligence, Set (abstract data type), Programming language, Computer science, Telecommunications, Selection (genetic algorithm)\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051259539",
+    "company_name": "2051259539"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: High-quality electron beams from field-induced ionization injection in the strong blow-out regime of beam-driven plasma accelerators\n\nAbstract: We use three-dimensional (3D) simulations with the particle-in-cell (PIC) code OSIRIS to demonstrate the theoretical production of high-quality electron bunches in beam-driven plasma wakefield accelerators (PWFA) by means of field-induced ionization injection. In these simulations, two realistic scenarios for PWFA have been considered: the FLASHForward project at DESY and the FACET experiment at SLAC. These two examples illustrate two different strategies for injection. The first one uses the transverse electric fields of the beam to induce injection, and the second constitutes a new method which utilizes only the wakefields to enable ionization and trapping of high quality electron bunches into beam driven plasma wakes. The produced bunches feature multi-kA peak currents, ~1μm transverse normalized emittances, uncorrelated energy spreads of ≤1% on a GeV-energy scale, and few femtosecond bunch lengths.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 212,
+        "text": "Title: High-quality electron beams from field-induced ionization injection in the strong blow-out regime of beam-driven plasma accelerators\n\nAbstract: We use three-dimensional (3D) simulations with the particle-in-cell (PIC) code OSIRIS to demonstrate the theoretical production of high-quality electron bunches in beam-driven plasma wakefield accelerators (PWFA) by means of field-induced ionization injection. In these simulations, two realistic scenarios for PWFA have been considered: the FLASHForward project at DESY and the FACET experiment at SLAC. These two examples illustrate two different strategies for injection. The first one uses the transverse electric fields of the beam to induce injection, and the second constitutes a new method which utilizes only the wakefields to enable ionization and trapping of high quality electron bunches into beam driven plasma wakes. The produced bunches feature multi-kA peak currents, ~1μm transverse normalized emittances, uncorrelated energy spreads of ≤1% on a GeV-energy scale, and few femtosecond bunch lengths.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

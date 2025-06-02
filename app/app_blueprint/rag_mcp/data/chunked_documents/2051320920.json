@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051320920",
+    "company_name": "2051320920"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Childbearing and child development: Demographic and psychosocial trends.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 15,
+        "text": "Title: Childbearing and child development: Demographic and psychosocial trends.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

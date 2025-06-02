@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051233150",
+    "company_name": "2051233150"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Structural certification and superconducting properties in artificially layered Bi2Sr2Can−1CunO4+2n/Bi2Sr2Cań−1CuńO4+2ń superlattice\n\nAbstract: Bi2Sr2Can−1CunO4+2n/Bi2Sr2Cań−1CuńO4+2ń superlattices have been synthesized by sequential sputter deposition technique. A formation of the superstructure was confirmed by observing oscillatory patterns of the Laue function term in X-ray diffraction. Superconducting properties (Tc, dimensionality) were investigated by measuring hole numbers and angle dependence of resistivity in magnetic fields. It was found that the Tc in the (n,ń)=(3,4) superlattice was as high as an average of the Tc in n=3 and n=4 monophasic films. The anglular dependence of resistivity on magnetic field was found in the (3,4) superlattice was quite similar to that had been found in the n=2 film. These results suggest that the holes are re-distributed among CuO2 layers in the (3,4) superlattice.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 247,
+        "text": "Title: Structural certification and superconducting properties in artificially layered Bi2Sr2Can−1CunO4+2n/Bi2Sr2Cań−1CuńO4+2ń superlattice\n\nAbstract: Bi2Sr2Can−1CunO4+2n/Bi2Sr2Cań−1CuńO4+2ń superlattices have been synthesized by sequential sputter deposition technique. A formation of the superstructure was confirmed by observing oscillatory patterns of the Laue function term in X-ray diffraction. Superconducting properties (Tc, dimensionality) were investigated by measuring hole numbers and angle dependence of resistivity in magnetic fields. It was found that the Tc in the (n,ń)=(3,4) superlattice was as high as an average of the Tc in n=3 and n=4 monophasic films. The anglular dependence of resistivity on magnetic field was found in the (3,4) superlattice was quite similar to that had been found in the n=2 film. These results suggest that the holes are re-distributed among CuO2 layers in the (3,4) superlattice.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

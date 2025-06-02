@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051165970",
+    "company_name": "2051165970"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Field performance and fruit quality of a range of strawberry cultivars grown in mid Canterbury\n\nAbstract: Abstract The field performance of five University of California strawberry cultivars: ‘Aiko’, ‘Brighton’, ‘Cruz’, and ‘Pajaro’; and four cultivars currently grown in New Zealand: ‘Sequoia’, ‘Ostara’, ‘Tioga’, and ‘Redgauntlet’, were evaluated in mid Canterbury in a 3-year field trial. Yield, fruit size, the chemical properties relating to fruit quality, and leaf nutrient concentrations were measured and compared. Of the Californian cultivars, ‘Aiko’ and ‘Brighton’ produced the highest total yields over the 3-year period. Their yields were similar to those of ‘Tioga’ and ‘Sequoia’ and higher than those of ‘Ostara’ and ‘Redgauntlet’. ‘Aiko’, however, produced a low yield in the first season. ‘Brighton’, like ‘Ostara’, produced its crop over a prolonged period whereas ‘Aiko’, like ‘Redgauntlet’, produced a second crop in late summer. Accordingly in Canterbury, ‘Brighton’, with its large fruit, is becoming popular for the gate sales market whereas ‘Aiko’ is replacing ‘Redgauntlet’ as a processing and fresh export cultivar.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 274,
+        "text": "Title: Field performance and fruit quality of a range of strawberry cultivars grown in mid Canterbury\n\nAbstract: Abstract The field performance of five University of California strawberry cultivars: ‘Aiko’, ‘Brighton’, ‘Cruz’, and ‘Pajaro’; and four cultivars currently grown in New Zealand: ‘Sequoia’, ‘Ostara’, ‘Tioga’, and ‘Redgauntlet’, were evaluated in mid Canterbury in a 3-year field trial. Yield, fruit size, the chemical properties relating to fruit quality, and leaf nutrient concentrations were measured and compared. Of the Californian cultivars, ‘Aiko’ and ‘Brighton’ produced the highest total yields over the 3-year period. Their yields were similar to those of ‘Tioga’ and ‘Sequoia’ and higher than those of ‘Ostara’ and ‘Redgauntlet’. ‘Aiko’, however, produced a low yield in the first season. ‘Brighton’, like ‘Ostara’, produced its crop over a prolonged period whereas ‘Aiko’, like ‘Redgauntlet’, produced a second crop in late summer. Accordingly in Canterbury, ‘Brighton’, with its large fruit, is becoming popular for the gate sales market whereas ‘Aiko’ is replacing ‘Redgauntlet’ as a processing and fresh export cultivar.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

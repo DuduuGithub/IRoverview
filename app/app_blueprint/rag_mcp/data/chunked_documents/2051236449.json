@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051236449",
+    "company_name": "2051236449"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Developmental Bouldering<i>for Elementary School Student</i>\n\nAbstract: (2004). Developmental Bouldering for Elementary School Student. Strategies: Vol. 18, No. 1, pp. 7-9.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 51,
+        "text": "Title: Developmental Bouldering<i>for Elementary School Student</i>\n\nAbstract: (2004). Developmental Bouldering for Elementary School Student. Strategies: Vol. 18, No. 1, pp. 7-9.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

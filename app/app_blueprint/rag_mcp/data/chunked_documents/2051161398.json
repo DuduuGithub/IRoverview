@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051161398",
+    "company_name": "2051161398"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A New Relation Connecting Vibrationai Constant and Electronegativity in the Case of Diatomic Molecules\n\nAbstract: Abstract The electronegativity was defined by Pauling1 as a measure of the power of an atom in the molecule to attract electrons to itself. This concept of electronegativity has undergone radical changes. Recent calculations of electronegativity show2,3 that it is a complex quantity including an important atomic term depending on the charge and hybridization of the atom, and a molecular term depending on the length and the nature of the bonds in the molecule. In a molecular group of the type A-B, B is a halogen atom, say chlorine and A stands for different atoms of a subgroup of the periodic table. Since the nature of the bonds in the molecule AB and the electronegativity of halogen atom, B, is constant for a molecular group, the electronegativity, X, of atom A may be related to the dissociation energy and bond length which in its turn is related to the vibrational constant,ωe, and the reduced mass, μ, of the molecule AB.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 231,
+        "text": "Title: A New Relation Connecting Vibrationai Constant and Electronegativity in the Case of Diatomic Molecules\n\nAbstract: Abstract The electronegativity was defined by Pauling1 as a measure of the power of an atom in the molecule to attract electrons to itself. This concept of electronegativity has undergone radical changes. Recent calculations of electronegativity show2,3 that it is a complex quantity including an important atomic term depending on the charge and hybridization of the atom, and a molecular term depending on the length and the nature of the bonds in the molecule. In a molecular group of the type A-B, B is a halogen atom, say chlorine and A stands for different atoms of a subgroup of the periodic table. Since the nature of the bonds in the molecule AB and the electronegativity of halogen atom, B, is constant for a molecular group, the electronegativity, X, of atom A may be related to the dissociation energy and bond length which in its turn is related to the vibrational constant,ωe, and the reduced mass, μ, of the molecule AB.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

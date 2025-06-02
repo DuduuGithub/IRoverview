@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051322580",
+    "company_name": "2051322580"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Advancements in Downhole Drilling Tool Placement for Highly Deviated Wells and ERD Applications\n\nAbstract: Abstract With the discovery of shale plays around the world, there has been an increase in the prevalence of highly deviated wells and extended reach drilling. Both highly deviated wells and extended reach drilling present drilling challenges; modeling is required at various stages of the well and several considerations must be taken into account. In addition, detailed torque and drag analysis along with a comprehensive analysis of hydraulics programs must be performed to ensure the down hole equipment used for the application meets the challenging requirements. One of the most important considerations that should be taken into account is jar placement. The intricacies of jar placement are typically misunderstood and often over-looked. Good, sound technical recommendations on jar placement are generally hard to come by. Yet, legitimate technical advice on jar placement can ultimately ensure the use of optimal operational guidelines when drilling in highly deviated wells and using extended reach drilling. In these instances, conventional jar placement knowledge does not always apply. Highly deviated wells and extended reach drilling present unique drilling challenges such as the possibility of getting stuck in two different sections of the well bore. Computer modeling is currently used to predict any down hole loads that would hinder the operation of a drilling jar used in such an instance. This paper provides an analysis of jar placement in highly deviated wells and promotes the use of two drilling jars in the drill string. In addition, consideration is given to jar placement calculations which are further discussed in order to provide optimal impact and impulse result recommendations. A set of operational guidelines also has been included, ensuring that optimal results are obtained when using two jars in the drill string.\n\n"
+      }
+    ]
+  }
+}

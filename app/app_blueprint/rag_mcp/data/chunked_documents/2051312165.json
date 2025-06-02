@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051312165",
+    "company_name": "2051312165"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Warfarin in vulnerable older adults with atrial fibrillation\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 14,
+        "text": "Title: Warfarin in vulnerable older adults with atrial fibrillation",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

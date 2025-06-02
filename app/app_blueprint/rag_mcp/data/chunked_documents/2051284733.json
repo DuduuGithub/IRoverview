@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051284733",
+    "company_name": "2051284733"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Production‐induced changes in reservoir stress state: Applications to reservoir management\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 16,
+        "text": "Title: Production‐induced changes in reservoir stress state: Applications to reservoir management",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}
