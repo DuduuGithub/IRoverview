@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051138418",
+    "company_name": "2051138418"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The Principle of Plasma Boundary Identification on HL-2A Tokamak\n\nAbstract: Plasma boundary identification is a basic task for studies on equilibrium and confinement in a divertor tokamak. With the progress on the experiments after engineering experiments, the boundary identification becomes an important issue for HL-2A. In order to satisfy the requirements of preciseness, simplified measurements and quickness, the filament current method instead of solving the equilibrium equations is used to identify plasma boundary on HL-2A. The involved principle, mathematics and the progresses, which have been made with this method, are given.\n\nKeywords: Identification (biology), Physics, Mathematical analysis, Nuclear physics, Mathematics, Botany, Plasma, Biology\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 142,
+        "text": "Title: The Principle of Plasma Boundary Identification on HL-2A Tokamak\n\nAbstract: Plasma boundary identification is a basic task for studies on equilibrium and confinement in a divertor tokamak. With the progress on the experiments after engineering experiments, the boundary identification becomes an important issue for HL-2A. In order to satisfy the requirements of preciseness, simplified measurements and quickness, the filament current method instead of solving the equilibrium equations is used to identify plasma boundary on HL-2A. The involved principle, mathematics and the progresses, which have been made with this method, are given.\n\nKeywords: Identification (biology), Physics, Mathematical analysis, Nuclear physics, Mathematics, Botany, Plasma, Biology",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

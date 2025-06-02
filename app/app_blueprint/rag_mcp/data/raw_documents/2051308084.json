@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051308084",
+    "company_name": "2051308084"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: An on-line fault diagnosis scheme for linear processor arrays\n\nAbstract: Abstract A data-driven method for error detection and fault diagnosis in processor arrays is proposed under the assumption that data streams can only be inserted and observed through the boundary processors. The method consists of attaching tags to data streams, thereby allowing the data items to carry their own control and error information. Our goal is to detect the malfunction of a specific processor at a specific time step. A tag, which initially contains control information to activate a testing process, is changed to indicate the occurrence of an error by a checking processor detecting an inconsistency. To pinpoint a faulty processor, the front-end computer must go through the reverse process of identifying the processor that detected and signalled the inconsistency. Using two data streams, we can control every processor in the array and locate the faulty one. The resulting processor array is regular in structure, and the number of bits used to encode the control and error information is independent of the size of the array, thus leading to efficiency and scalability.\n\n"
+      }
+    ]
+  }
+}

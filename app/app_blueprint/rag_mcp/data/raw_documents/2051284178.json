@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051284178",
+    "company_name": "2051284178"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The mRNA for GST Pi from FRHK rhesus monkey kidney cells codes for an enzyme with activity towards 1-chloro-2,4-dinitrobenzene in spite of an I68F mutation\n\nAbstract: A cDNA library was constructed from mRNA of the rhesus monkey kidney cell line, FRHK, and the cDNA sequence for an FRHK glutathione S-transferase (GST) Pi was determined using a RACE method. This represents the first full-length monkey GST Pi sequence to be cloned and determined. The similarity to the human GST Pi was found to be extensive (more than 97%), the deduced protein differing only in six amino acids (aa) positions. FRHK GST Pi was expressed in bacteria and a recombinant protein was purified which demonstrated significant activity towards the substrates 1-chloro-2,4-dinitrobenzene (CDNB) and 1,2-epoxy-3-para-nitrophenoxypropane. Western blots also showed significant amounts of protein, both in the FRHK cells and transformed bacteria. The FRHK GST Pi was found to contain a phenylalanine at aa position 68, a position which is otherwise invariably occupied by an isoleucine in the GST Pi, Alpha, Mu and Beta class enzymes investigated. An isoleucine in this position is thus not essential for activity in the FRHK enzyme, unlike the human GST pi, where the exchange of Ile68 to a tyrosine (Manoharan, T.H, Gulick, A.M., Puchalski, R.B., Servais, A.L., Fahl, W.E., 1992. J. Biol. Chem., 267, 18940-18945), resulted in total loss of activity. Phe68 was mutated to Ile in the FRHK GST Pi enzyme to determine whether the wild type amino acid conferred an impaired catalytic site. The resulting mutant did not show any changes in activity towards CDNB, clearly demonstrating that isoleucine at position 68 is not essential. Thus, the first monkey GST Pi enzyme has been characterized, an enzyme with many similarities to the human forms although it differs in an otherwise conserved residue at aa position 68. This difference does not appear to affect the function of the FRHK GST Pi.\n\n"
+      }
+    ]
+  }
+}

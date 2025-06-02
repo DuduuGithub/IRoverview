@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051221393",
+    "company_name": "2051221393"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The extension of binaural crosscorrelation modelling by a mechanism of lateral inhibition\n\nAbstract: To model the stationary and dynamic behavior of the binaural system we present an extension of the well-known binaural crosscorrelation models which is based on a lateral inhibition mechanism along the crosscorrelation axis. The running interaural crosscorrelation is calculated by counting spike coincidences in frequency bands. The resulting neural activity distribution is fed into the lateral inhibition mechanism. The required EE and EI gates can be combined in different ways to optimize the performance of the model. A wide field of psychoacoustic lateralization and localization data can be explained very effectively. For Example, interaural phase as well as interaural level differences are evaluated in order to model lateralization as well as time-intensity trading. For nonstationary signals the model can explain the law of the first wavefront and related psychoacoustic effects. The model parameters are matched to the psychoacoustic data by choosing optimal time constants of the spike firing process, the spike coincidence window, and the inhibition mechanism. Some model results will be presented graphically in the form of “neural activity patterns.” [Work supported by the Deutsche Forschungsgemeinschaft.]\n\n"
+      }
+    ]
+  }
+}

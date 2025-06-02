@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051222757",
+    "company_name": "2051222757"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: as novas tecnologias podem ser coadjuvantes no processo de cumprimento dos objetivos de desenvolvimento do milênio da onu\n\nAbstract: ResumenQuedo demostrado que el Informe del Desenvolvimiento Humano - IDH/2001 presenta datos que revelan las muchas formas de exclusion a que estan sometidos millares de individuos en diversos continentes; sin embargo, la adopcion de una perspectiva extremamente optimista acerca de la posibilidad de utilizar las nuevas tecnologias en favor del bienestar social se mostro fragil por no detenerse en los obstaculos –de democratizacion del acceso a esas nuevas tecnologias– constituidos por la creciente concentracion de la riqueza y del poder, por un lado, y por la expansion de las desigualdades, por otro. Resumo Demonstrou-se que o Relatorio do Desenvolvimento Humano - RDH/2001 levanta dados reveladores das muitas faces das exclusoes a que estao submetidos milhares de individuos em diversos continentes, todavia, a adocao de uma perspectiva extremamente otimista acerca da possibilidade de direcionar as novas tecnologias em favor do bem-estar social revelou-se fragil por nao se ater aos empecilhos–de democratizacao do acesso as novas tecnologias– que estao assentados na crescente concentracao de riqueza e de poder, de um lado, e na expansao das desigualdades, de outro.AbstractIt was demonstrated that the Human Development Report - HDR/2001 shows data that reveal the several faces of exclusion to which millions of individuals in different continents are submitted. However, the adoption of an extremely positive perspective about the possibility of guiding new technologies in aid of the social welfare was considered fragile for not considering the impediments –of the democratization of acess to new tecnologies– which are placed in the increasing concentration of wealth and power on one side, and in the expansion inequalities, on the other.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 25,
+        "text": "Title: as novas tecnologias podem ser coadjuvantes no processo de cumprimento dos objetivos de desenvolvimento do milênio da onu",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: ResumenQuedo demostrado que el Informe del Desenvolvimiento Humano - IDH/2001 presenta datos que revelan las muchas formas de exclusion a que estan sometidos millares de individuos en diversos continentes; sin embargo, la adopcion de una perspectiva extremamente optimista acerca de la posibilidad de utilizar las nuevas tecnologias en favor del bienestar social se mostro fragil por no detenerse en los obstaculos –de democratizacion del acceso a esas nuevas tecnologias– constituidos por la creciente concentracion de la riqueza y del poder, por un lado, y por la expansion de las desigualdades, por otro. Resumo Demonstrou-se que o Relatorio do Desenvolvimento Humano - RDH/2001 levanta dados reveladores das muitas faces das exclusoes a que estao submetidos milhares de individuos em diversos continentes, todavia, a adocao de uma perspectiva extremamente otimista acerca da possibilidade de direcionar as novas tecnologias em favor do bem-estar social revelou-se fragil por nao se ater aos empecilhos–de democratizacao do acesso as novas tecnologias– que estao assentados na crescente concentracao de riqueza e de poder, de um lado, e na expansao das desigualdades, de outro.AbstractIt was demonstrated that the Human Development Report - HDR/2001 shows data that reveal the several faces of exclusion to which millions of individuals in different continents are submitted. However, the adoption of an extremely positive perspective about the possibility",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 104,
+        "text": "de outro.AbstractIt was demonstrated that the Human Development Report - HDR/2001 shows data that reveal the several faces of exclusion to which millions of individuals in different continents are submitted. However, the adoption of an extremely positive perspective about the possibility of guiding new technologies in aid of the social welfare was considered fragile for not considering the impediments –of the democratization of acess to new tecnologies– which are placed in the increasing concentration of wealth and power on one side, and in the expansion inequalities, on the other.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

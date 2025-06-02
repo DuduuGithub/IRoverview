@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051167109",
+    "company_name": "2051167109"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Effects of a transition zone on free oscillations of the Earth\n\nAbstract: Reference Earth models have internal boundaries across which elastic parameters are discontinuous. Frequencies of free oscillations are perturbed if the abrupt boundary is replaced by a transition zone in which elastic parameters change gradually. The frequency perturbation is explicitly expressed in terms of radial eigenfunctions of reference models and elastic parameters in the transition zone. The effects may be observable for the inner core boundary.\n\n"
+      }
+    ]
+  }
+}

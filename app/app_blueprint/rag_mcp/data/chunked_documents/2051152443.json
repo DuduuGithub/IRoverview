@@ -1,0 +1,44 @@
+{
+  "metainfo": {
+    "sha1_name": "2051152443",
+    "company_name": "2051152443"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A new linearly-combined bi-exponential model for kinetic analysis of the isometric relaxation process of Bufo gastrocnemius under electric stimulation in vitro\n\nAbstract: There was a slow-relaxing tail of skeletal muscles in vitro upon the inhibition of Ca(2+)-pump by cyclopiazonic acid (CPA). Herein, a new linearly-combined bi-exponential model to resolve this slow-relaxing tail from the fast-relaxing phase was investigated for kinetic analysis of the isometric relaxation process of Bufo gastrocnemius in vitro, in comparison to the single exponential model and the classical bi-exponential model. During repetitive stimulations at a 2-s interval by square pulses of a 2-ms duration at 12 V direct currency (DC), the isometric tension of Bufo gastrocnemius was recorded at 100 Hz. The relaxation curve with tensions falling from 90% of the peak to the 15th datum before next stimulation was analyzed by three exponential models using a program in MATLAB 6.5. Both the goodness of fit and the distribution of the residuals for the best fitting supported the comparable validity of this new bi-exponential model for kinetic analysis of the relaxation process of the control muscles. After CPA treatment, however, this new bi-exponential model showed an obvious statistical superiority for kinetic analysis of the muscle relaxation process, and it gave the estimated rest tension consistent to that by experimentation, whereas both the classical bi-exponential model and the single exponential model gave biased rest tensions. Moreover, after the treatment of muscles by CPA, both the single exponential model and the classical bi-exponential model yielded lowered relaxation rates, nevertheless, this new bi-exponential model had relaxation rates of negligible changes except much higher rest tensions. These results suggest that this novel linearly-combined bi-exponential model is desirable for kinetic analysis of the relaxation process of muscles with altered Ca(2+)-pumping activity.\n\nKeywords: Physics, Internal medicine, Mathematical analysis, Chemistry, Mathematics, Medicine\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 33,
+        "text": "Title: A new linearly-combined bi-exponential model for kinetic analysis of the isometric relaxation process of Bufo gastrocnemius under electric stimulation in vitro",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: There was a slow-relaxing tail of skeletal muscles in vitro upon the inhibition of Ca(2+)-pump by cyclopiazonic acid (CPA). Herein, a new linearly-combined bi-exponential model to resolve this slow-relaxing tail from the fast-relaxing phase was investigated for kinetic analysis of the isometric relaxation process of Bufo gastrocnemius in vitro, in comparison to the single exponential model and the classical bi-exponential model. During repetitive stimulations at a 2-s interval by square pulses of a 2-ms duration at 12 V direct currency (DC), the isometric tension of Bufo gastrocnemius was recorded at 100 Hz. The relaxation curve with tensions falling from 90% of the peak to the 15th datum before next stimulation was analyzed by three exponential models using a program in MATLAB 6.5. Both the goodness of fit and the distribution of the residuals for the best fitting supported the comparable validity of this new bi-exponential model for kinetic analysis of the relaxation process of the control muscles. After CPA treatment, however, this new bi-exponential model showed an obvious statistical superiority for kinetic analysis of the muscle relaxation process, and it gave the estimated rest tension consistent to that by experimentation, whereas both the classical bi-exponential model and the single exponential model gave biased rest tensions. Moreover, after the treatment of muscles by CPA, both the single exponential model and the classical bi-exponential",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 112,
+        "text": "gave the estimated rest tension consistent to that by experimentation, whereas both the classical bi-exponential model and the single exponential model gave biased rest tensions. Moreover, after the treatment of muscles by CPA, both the single exponential model and the classical bi-exponential model yielded lowered relaxation rates, nevertheless, this new bi-exponential model had relaxation rates of negligible changes except much higher rest tensions. These results suggest that this novel linearly-combined bi-exponential model is desirable for kinetic analysis of the relaxation process of muscles with altered Ca(2+)-pumping activity.",
+        "id": 2,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 15,
+        "text": "Keywords: Physics, Internal medicine, Mathematical analysis, Chemistry, Mathematics, Medicine",
+        "id": 3,
+        "type": "content"
+      }
+    ]
+  }
+}

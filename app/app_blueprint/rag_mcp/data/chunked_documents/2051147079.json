@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051147079",
+    "company_name": "2051147079"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The GINSENG Middleware for Performance Control in Sensor Networks\n\nAbstract: For many applications guided by sensor networks, such as production automation and health monitoring, an efficient data processing with performance assurance is crucial, especially for metrics such as delay and reliability. Current middleware approaches do not allow complex event processing or performance monitoring. Therefore, this paper presents the GINSENG middleware architecture that provides a 3-tier data processing framework to exploit the benefits of publish/subscribe systems, event stream processing and business rule processing. Furthermore, it provides the performance control, i.e. monitoring metrics and improvement methods, both of the underlying sensor network and the middleware itself. Finally, it supports the constraints of industrial environments by allowing for the distributed middleware deployment and data processing.\n\nKeywords: Operating system, Distributed computing, Physics, Engineering, Embedded system, Computer network, Computer security, Computer science, Quantum mechanics, Mechanical engineering, Process (computing)\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 185,
+        "text": "Title: The GINSENG Middleware for Performance Control in Sensor Networks\n\nAbstract: For many applications guided by sensor networks, such as production automation and health monitoring, an efficient data processing with performance assurance is crucial, especially for metrics such as delay and reliability. Current middleware approaches do not allow complex event processing or performance monitoring. Therefore, this paper presents the GINSENG middleware architecture that provides a 3-tier data processing framework to exploit the benefits of publish/subscribe systems, event stream processing and business rule processing. Furthermore, it provides the performance control, i.e. monitoring metrics and improvement methods, both of the underlying sensor network and the middleware itself. Finally, it supports the constraints of industrial environments by allowing for the distributed middleware deployment and data processing.\n\nKeywords: Operating system, Distributed computing, Physics, Engineering, Embedded system, Computer network, Computer security, Computer science, Quantum mechanics, Mechanical engineering, Process (computing)",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

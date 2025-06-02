@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051224736",
+    "company_name": "2051224736"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Prolonged postoperative hypercapnia in congenital diaphragmatic hernia\n\nAbstract: Abstract Respiratory functions were examined in 4 newborn infants operated upon for congenital diaphragmatic hernia. Three cases operated before 18 days of age showed moderate respiratory acidosis, with little or no base deficit preoperatively. Following surgery, a high respiratory rate continued for several days, but the PaCO 2 fell rapidly to nearly normal range within 24–48 hours, indicating an improvement in the ventilation, specifically by overfunction of the contralateral lung. In a 32-day-old infant, preoperative PaCO 2 was 72 mm. Hg, the highest in this series, but her pH was 7.30, indicating some metabolic compensation for the hypercapnia. Postoperatively, her respiratory rate was abnormally low for several days, and the PaCO 2 remained high during this period. On the basis of a hyperventilation test, adaptation to chronic hypercapnia seems to be the probable mechanism.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 211,
+        "text": "Title: Prolonged postoperative hypercapnia in congenital diaphragmatic hernia\n\nAbstract: Abstract Respiratory functions were examined in 4 newborn infants operated upon for congenital diaphragmatic hernia. Three cases operated before 18 days of age showed moderate respiratory acidosis, with little or no base deficit preoperatively. Following surgery, a high respiratory rate continued for several days, but the PaCO 2 fell rapidly to nearly normal range within 24–48 hours, indicating an improvement in the ventilation, specifically by overfunction of the contralateral lung. In a 32-day-old infant, preoperative PaCO 2 was 72 mm. Hg, the highest in this series, but her pH was 7.30, indicating some metabolic compensation for the hypercapnia. Postoperatively, her respiratory rate was abnormally low for several days, and the PaCO 2 remained high during this period. On the basis of a hyperventilation test, adaptation to chronic hypercapnia seems to be the probable mechanism.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

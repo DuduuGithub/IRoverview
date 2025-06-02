@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051260671",
+    "company_name": "2051260671"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Polymer composites for temperature and current sensors\n\nAbstract: The electrical resistivity of polymer composites is studied as a function of temperature. The initial resistivity (rho) of thermoplastic or thermoset containing a metallic filler is in the range of 1 - 10 (DOT) 10<SUP>-2</SUP> (Omega) (DOT)cm. Around curing temperature of epoxies, the resistivity increases by eight to twelve orders of magnitude. For thermoplastic polymers, however, the transition temperature is related to the melting temperature at which a strong volume increase occurs. Hence, the choice of polymer and its processing determine the transition temperature from a conducting state to an insulating state. For a variety of polymers we have observed transitions between 80 degree(s)C and 200 degree(s)C. Due to a sharp and strong transition at a predetermined temperature, such materials can be used as temperature sensors. Since the resistivity of the cold state is low, they can also carry rather high currents. The balance between heating and cooling determines then a critical value for the current. Thus, the materials can also serve as a current sensors.\n\n"
+      }
+    ]
+  }
+}

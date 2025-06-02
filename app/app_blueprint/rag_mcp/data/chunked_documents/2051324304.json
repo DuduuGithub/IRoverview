@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051324304",
+    "company_name": "2051324304"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Peshkov transducer in superfluid<mml:math xmlns:mml=\"1998/Math/MathML\" display=\"inline\"><mml:mrow><mml:mmultiscripts><mml:mrow><mml:mi mathvariant=\"normal\">He</mml:mi></mml:mrow><mml:mprescripts /><mml:mrow /><mml:mrow><mml:mn>3</mml:mn></mml:mrow><mml:mrow /><mml:mrow /></mml:mmultiscripts></mml:mrow></mml:math>\n\nAbstract: The function of Peshkov transducers in $^{3}\\mathrm{He}$ is studied theoretically. Two unexpected findings are reported: (i) No second-sound resonances can be detected if the resonator does not possess a thermal link to the helium bath. (ii) The relative strength of different resonance modes depends sensitively on the position of this thermal link.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 206,
+        "text": "Title: Peshkov transducer in superfluid<mml:math xmlns:mml=\"1998/Math/MathML\" display=\"inline\"><mml:mrow><mml:mmultiscripts><mml:mrow><mml:mi mathvariant=\"normal\">He</mml:mi></mml:mrow><mml:mprescripts /><mml:mrow /><mml:mrow><mml:mn>3</mml:mn></mml:mrow><mml:mrow /><mml:mrow /></mml:mmultiscripts></mml:mrow></mml:math>\n\nAbstract: The function of Peshkov transducers in $^{3}\\mathrm{He}$ is studied theoretically. Two unexpected findings are reported: (i) No second-sound resonances can be detected if the resonator does not possess a thermal link to the helium bath. (ii) The relative strength of different resonance modes depends sensitively on the position of this thermal link.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

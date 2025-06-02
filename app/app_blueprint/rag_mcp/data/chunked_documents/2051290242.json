@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051290242",
+    "company_name": "2051290242"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Selective growth of carbon nanotubes on the substrate dependently active iron nano-particles\n\nAbstract: We propose a selective growth of carbon nanotubes (CNTs) on the substrate dependently active iron nano-particle (Fe-NP) catalysts. Fe-NPs synthesized by thermal decomposition of iron pentacarbonyl-oleic acid complex were used as catalysts for the growth of CNTs. While the Fe-NPs deposited on the metal substrate maintain their catalytic property for the growth of CNTs, those deposited on the silicon oxide substrate transform to oxidized state resulting in losing their catalytic property. Although all the Fe-NPs might be oxidized even on the metal patterns, oxidized Fe-NPs deposited only on the metal line would be reduced selectively by the hydrogen gas used as carrier gas in this CVD system. Consequently, CNTs were grown only at the Fe-NPs on the metal substrate selectively. Therefore, we could grow CNTs selectively by patterning the substrate without additional patterning process for the catalyst layer.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 207,
+        "text": "Title: Selective growth of carbon nanotubes on the substrate dependently active iron nano-particles\n\nAbstract: We propose a selective growth of carbon nanotubes (CNTs) on the substrate dependently active iron nano-particle (Fe-NP) catalysts. Fe-NPs synthesized by thermal decomposition of iron pentacarbonyl-oleic acid complex were used as catalysts for the growth of CNTs. While the Fe-NPs deposited on the metal substrate maintain their catalytic property for the growth of CNTs, those deposited on the silicon oxide substrate transform to oxidized state resulting in losing their catalytic property. Although all the Fe-NPs might be oxidized even on the metal patterns, oxidized Fe-NPs deposited only on the metal line would be reduced selectively by the hydrogen gas used as carrier gas in this CVD system. Consequently, CNTs were grown only at the Fe-NPs on the metal substrate selectively. Therefore, we could grow CNTs selectively by patterning the substrate without additional patterning process for the catalyst layer.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051245757",
+    "company_name": "2051245757"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Trollope and the Magazines: Gendered Issues in Mid-Victorian Britain (review)\n\nAbstract: Mark Turner's exploration of Anthony Trollope's connections with mid-Victorian periodicals reflects the recent academic emphasis on intertextuality, gender studies, and material culture. Turner uses Trollope's serial fiction to define and differentiate the demographics of the Cornhill Magazine, Good Words, the Fortnightly Review, and Saint Pauls. The inclusion of Good Words in this list may seem odd, since Trollope's fiction did not actually make it into this magazine, but it works: The story of why Rachel Ray was rejected in 1863 broadens our conception of Victorian readership.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 141,
+        "text": "Title: Trollope and the Magazines: Gendered Issues in Mid-Victorian Britain (review)\n\nAbstract: Mark Turner's exploration of Anthony Trollope's connections with mid-Victorian periodicals reflects the recent academic emphasis on intertextuality, gender studies, and material culture. Turner uses Trollope's serial fiction to define and differentiate the demographics of the Cornhill Magazine, Good Words, the Fortnightly Review, and Saint Pauls. The inclusion of Good Words in this list may seem odd, since Trollope's fiction did not actually make it into this magazine, but it works: The story of why Rachel Ray was rejected in 1863 broadens our conception of Victorian readership.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

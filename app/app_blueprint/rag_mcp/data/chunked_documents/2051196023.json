@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051196023",
+    "company_name": "2051196023"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Testing Reading Comprehension: Multiple-choice V. Short-answer Questions\n\nAbstract: Testing Reading Comprehension: Multiple-choice V. Short-answer Questions Get access STELLA STATHMANN STELLA STATHMANN Search for other works by this author on: Oxford Academic Google Scholar ELT Journal, Volume XXXIII, Issue 4, July 1979, Pages 304–306, 10.1093/elt/XXXIII.4.304 Published: 01 July 1979\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 105,
+        "text": "Title: Testing Reading Comprehension: Multiple-choice V. Short-answer Questions\n\nAbstract: Testing Reading Comprehension: Multiple-choice V. Short-answer Questions Get access STELLA STATHMANN STELLA STATHMANN Search for other works by this author on: Oxford Academic Google Scholar ELT Journal, Volume XXXIII, Issue 4, July 1979, Pages 304–306, 10.1093/elt/XXXIII.4.304 Published: 01 July 1979",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051295302",
+    "company_name": "2051295302"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Implementación de sistemas de inteligencia tecnológica desde la perspectiva de la complejidad\n\nAbstract: En la actualidad la tecnologia juega un papel muy importante en el desarrollo y competitividad de las organizaciones y por tanto se requiere de su adecuado manejo. La gestion tecnologica se ha fortalecido integrando nuevos conceptos como el de inteligencia tecnologica (IT), la cual en la practica es aplicada en una forma sistematica. El objetivo del presente articulo se centra en el analisis de los referentes conceptuales de la IT, asi como de su implementacion. Se evidencia que se requiere de una vision que admita el dinamismo para la generacion de conocimiento y su utilizacion en los procesos productivos. Se definen retos observados en diferentes contextos para lograr mayor eficiencia en la generacion de direccionamiento estrategico de la variable tecnologica con ayuda de la inteligencia. Como opcion a estos se realiza una revision de la teoria de la complejidad, la cual puede proveer un marco analitico y conceptual para el estudio de los sistemas, como los involucrados en la inteligencia, donde las interacciones constituyen el aspecto fundamental para su comprension. Como resultado de este trabajo se plantean posibles aportes desde la complejidad a los sistemas de IT, postulando consideraciones para la implementacion mas dinamica de ellos.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 268,
+        "text": "Title: Implementación de sistemas de inteligencia tecnológica desde la perspectiva de la complejidad\n\nAbstract: En la actualidad la tecnologia juega un papel muy importante en el desarrollo y competitividad de las organizaciones y por tanto se requiere de su adecuado manejo. La gestion tecnologica se ha fortalecido integrando nuevos conceptos como el de inteligencia tecnologica (IT), la cual en la practica es aplicada en una forma sistematica. El objetivo del presente articulo se centra en el analisis de los referentes conceptuales de la IT, asi como de su implementacion. Se evidencia que se requiere de una vision que admita el dinamismo para la generacion de conocimiento y su utilizacion en los procesos productivos. Se definen retos observados en diferentes contextos para lograr mayor eficiencia en la generacion de direccionamiento estrategico de la variable tecnologica con ayuda de la inteligencia. Como opcion a estos se realiza una revision de la teoria de la complejidad, la cual puede proveer un marco analitico y conceptual para el estudio de los sistemas, como los involucrados en la inteligencia, donde las interacciones constituyen el aspecto fundamental para su comprension. Como resultado de este trabajo se plantean posibles aportes desde la complejidad a los sistemas de IT, postulando consideraciones para la implementacion mas dinamica de ellos.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

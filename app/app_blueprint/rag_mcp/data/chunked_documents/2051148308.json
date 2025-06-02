@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051148308",
+    "company_name": "2051148308"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Use of laser pulses with electric discharges for atomic absorption analysis\n\nKeywords: Optics, Physics, Absorption (acoustics), Composite material, Atomic physics, Materials science, Optoelectronics, Laser, Quantum mechanics\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 47,
+        "text": "Title: Use of laser pulses with electric discharges for atomic absorption analysis\n\nKeywords: Optics, Physics, Absorption (acoustics), Composite material, Atomic physics, Materials science, Optoelectronics, Laser, Quantum mechanics",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

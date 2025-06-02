@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051154505",
+    "company_name": "2051154505"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Rethinking Value in the Knowledge Economy\n\nAbstract: The emerging business model of value creation includes both social and environmental capital as well as human, structural, and customer capital.\n\nKeywords: Statistics, Business, Economics, Value (mathematics), Mathematics, Market economy\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 55,
+        "text": "Title: Rethinking Value in the Knowledge Economy\n\nAbstract: The emerging business model of value creation includes both social and environmental capital as well as human, structural, and customer capital.\n\nKeywords: Statistics, Business, Economics, Value (mathematics), Mathematics, Market economy",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

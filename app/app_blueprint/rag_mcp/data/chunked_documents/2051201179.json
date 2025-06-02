@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051201179",
+    "company_name": "2051201179"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Information on African political systems : The African National Integration Project data bank\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 15,
+        "text": "Title: Information on African political systems : The African National Integration Project data bank",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

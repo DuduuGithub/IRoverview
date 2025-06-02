@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051267942",
+    "company_name": "2051267942"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Analysis of Stinky Components in Natural Rubber Latex\n\nAbstract: The reason for the natural rubber latex giving out stink during long-term storage or transportation was studied. The stinky component in the latex detected by gas chromatography-mass spectrometry was phenol, the generated content of which increases as the storage temperature rising. It is most possible that the phenol was generated from the decomposition of the inwall coating of iron bucket which loading the natural rubber latex in the strong alkaline during the long-term and high-temperature storage.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 104,
+        "text": "Title: Analysis of Stinky Components in Natural Rubber Latex\n\nAbstract: The reason for the natural rubber latex giving out stink during long-term storage or transportation was studied. The stinky component in the latex detected by gas chromatography-mass spectrometry was phenol, the generated content of which increases as the storage temperature rising. It is most possible that the phenol was generated from the decomposition of the inwall coating of iron bucket which loading the natural rubber latex in the strong alkaline during the long-term and high-temperature storage.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

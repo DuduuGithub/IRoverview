@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051251186",
+    "company_name": "2051251186"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The Problem with the United Nations\n\nAbstract: The Board of Trustees and members of the National Committee on American Foreign Policy mourn the untimely death of Robert Hugh Flynn, the son of our beloved chairman, William J. Flynn. To Bill and Peg and to the Flynn family we extend our heartfelt condolences.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 63,
+        "text": "Title: The Problem with the United Nations\n\nAbstract: The Board of Trustees and members of the National Committee on American Foreign Policy mourn the untimely death of Robert Hugh Flynn, the son of our beloved chairman, William J. Flynn. To Bill and Peg and to the Flynn family we extend our heartfelt condolences.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051225573",
+    "company_name": "2051225573"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Analysis of ACPW-to-Microstrip Transition with ANN-MRTD Method\n\nAbstract: This paper combines artificial neural network technique with the MRTD method (ANN-MRTD) and give detailed illustration of this method. The MRTD equation is embedded into training algorithms of the artificial neural network. A novel asymmetrical coplanar waveguide (ACPW) to microstrip transition is proposed, different center frequency of transition can be obtained by adjusting dimension of ACPW. The transition is analyzed with ANN-MRTD method, and the results are provided. The correctness and effectiveness of ANN-MRTD method are verified by the results.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 129,
+        "text": "Title: Analysis of ACPW-to-Microstrip Transition with ANN-MRTD Method\n\nAbstract: This paper combines artificial neural network technique with the MRTD method (ANN-MRTD) and give detailed illustration of this method. The MRTD equation is embedded into training algorithms of the artificial neural network. A novel asymmetrical coplanar waveguide (ACPW) to microstrip transition is proposed, different center frequency of transition can be obtained by adjusting dimension of ACPW. The transition is analyzed with ANN-MRTD method, and the results are provided. The correctness and effectiveness of ANN-MRTD method are verified by the results.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

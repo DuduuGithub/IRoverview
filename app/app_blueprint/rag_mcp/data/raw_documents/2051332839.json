@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051332839",
+    "company_name": "2051332839"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Retrospective spectrum access protocol: A payoff-based learning algorithm for cognitive radio networks\n\nAbstract: Decentralized cognitive radio networks (CRN) require efficient channel access protocols to enable cognitive secondary users (SUs) to access the primary channels in an opportunistic way without any coordination. In this paper, we develop a distributed retrospective spectrum access protocol that can orient the network towards a socially efficient and fair equilibrium state. With the developed protocol, each SU j chooses a channel to select based on the experienced payoff in past Hj periods. Each SU is thus supposed to be equipped with bounded memory and should make its decision based on only local observations. In that sense, the SUs behavioral rules are said to be payoff-based. The protocol also models a natural human decision making behavior of striking a balance between exploring a new choice and retrospectively exploiting past successful choices. With both analytical demonstration and numerical evaluation, we illustrate the two noteworthy features of our solution: (1) the entirely distributed implementation requiring only local observations and (2) the guaranteed statistical convergence to the equilibrium state within a bounded delay.\n\n"
+      }
+    ]
+  }
+}

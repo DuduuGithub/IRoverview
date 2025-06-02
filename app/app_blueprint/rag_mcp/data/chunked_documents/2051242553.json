@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051242553",
+    "company_name": "2051242553"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Variation in the Organisation of Gravel-Dominated Coastal Systems: Evidence from Nova Scotia and Southern England\n\nAbstract: Over the last two decades, a model of coastal gravel barrier evolution dependent on paraglacial reworking of limited, point-sourced glacigenic deposition has been proposed based on the Holocene evolution of the Nova Scotia Atlantic shoreline. Essential controls in this sequence were dependent on relative sea-level rise rate, sediment supply, basement structure and wave climate. Key in this sequence was the move from drift-aligned to swash-aligned barriers as a one-way process, with an emphasis that such swash alignment induced relative stability of barrier in the face of wave climate variability. Contemporary evidence from Nova Scotia following an extreme event and inferred environmental reconstruction of the gravel dominated barriers of southern England, suggest that swash-alignment is not as stable as hitherto identified, and that reversals from swash to drift-alignment and quick breakdown by extreme storm need to be considered as part of the potential sequence of gravel barrier evolution.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 206,
+        "text": "Title: Variation in the Organisation of Gravel-Dominated Coastal Systems: Evidence from Nova Scotia and Southern England\n\nAbstract: Over the last two decades, a model of coastal gravel barrier evolution dependent on paraglacial reworking of limited, point-sourced glacigenic deposition has been proposed based on the Holocene evolution of the Nova Scotia Atlantic shoreline. Essential controls in this sequence were dependent on relative sea-level rise rate, sediment supply, basement structure and wave climate. Key in this sequence was the move from drift-aligned to swash-aligned barriers as a one-way process, with an emphasis that such swash alignment induced relative stability of barrier in the face of wave climate variability. Contemporary evidence from Nova Scotia following an extreme event and inferred environmental reconstruction of the gravel dominated barriers of southern England, suggest that swash-alignment is not as stable as hitherto identified, and that reversals from swash to drift-alignment and quick breakdown by extreme storm need to be considered as part of the potential sequence of gravel barrier evolution.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

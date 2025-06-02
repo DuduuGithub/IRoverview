@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051184425",
+    "company_name": "2051184425"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Controlling Executive Compensation through the Tax Code\n\nAbstract: This article analyzes Internal Revenue Code § 162(m), which in general denies public companies a deduction for annual non-performance-based compensation in excess of $1,000,000 paid to senior executive officers. Congress enacted § 162(m) with the intent to reduce the overall level of executive compensation and to influence the composition of executive compensation in favor of components that are more sensitive to firm performance. Notably, § 162(m) represents the most direct Congressional effort to influence executive compensation design. In light of recent events, Congress is being called upon to once again address the perceived problem of overgenerous executive pay packages. Accordingly, it is an opportune time to study the impact of § 162(m). This article predicts the likely effects of § 162(m) under the two currently prevailing (but opposing) views of how executive compensation arrangements are negotiated in the public company context, ultimately concluding that the provision is likely ineffective under either view. In addition to predicting the likely effect of § 162(m), the article discusses the empirical studies of its impact since its enactment almost fifteen years ago. Finally, the article describes some of the unintended incidental effects of the provision, such as its discouragement of certain compensation components that are arguably more efficient than the components typically used by public companies.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 272,
+        "text": "Title: Controlling Executive Compensation through the Tax Code\n\nAbstract: This article analyzes Internal Revenue Code § 162(m), which in general denies public companies a deduction for annual non-performance-based compensation in excess of $1,000,000 paid to senior executive officers. Congress enacted § 162(m) with the intent to reduce the overall level of executive compensation and to influence the composition of executive compensation in favor of components that are more sensitive to firm performance. Notably, § 162(m) represents the most direct Congressional effort to influence executive compensation design. In light of recent events, Congress is being called upon to once again address the perceived problem of overgenerous executive pay packages. Accordingly, it is an opportune time to study the impact of § 162(m). This article predicts the likely effects of § 162(m) under the two currently prevailing (but opposing) views of how executive compensation arrangements are negotiated in the public company context, ultimately concluding that the provision is likely ineffective under either view. In addition to predicting the likely effect of § 162(m), the article discusses the empirical studies of its impact since its enactment almost fifteen years ago. Finally, the article describes some of the unintended incidental effects of the provision, such as its discouragement of certain compensation components that are arguably more efficient than the components typically used by public companies.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

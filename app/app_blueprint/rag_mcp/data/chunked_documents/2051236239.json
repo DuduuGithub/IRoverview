@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051236239",
+    "company_name": "2051236239"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Noise mapping: A comparison of predicted and measured levels.\n\nAbstract: In the United States, there are no national regulations requiring noise mapping in cities, and the noise mapping that is conducted is a consequence of local planning and policy bodies responding to or anticipating public demand. The production of oil and natural gas in urban environments has caused local governments surrounding Shreveport, LA, to utilize noise mapping and field measurements to assist in the development of a new noise ordinance. Over 1800 square miles surrounding the city was mapped considering air, rail, and road noise sources. Ten, multi-day measurement locations were strategically selected within the model area. A comparison of predicted and measured sound pressure levels is presented for consideration of future noise mapping methods and procedures.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 149,
+        "text": "Title: Noise mapping: A comparison of predicted and measured levels.\n\nAbstract: In the United States, there are no national regulations requiring noise mapping in cities, and the noise mapping that is conducted is a consequence of local planning and policy bodies responding to or anticipating public demand. The production of oil and natural gas in urban environments has caused local governments surrounding Shreveport, LA, to utilize noise mapping and field measurements to assist in the development of a new noise ordinance. Over 1800 square miles surrounding the city was mapped considering air, rail, and road noise sources. Ten, multi-day measurement locations were strategically selected within the model area. A comparison of predicted and measured sound pressure levels is presented for consideration of future noise mapping methods and procedures.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

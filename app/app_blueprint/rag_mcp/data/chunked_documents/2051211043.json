@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051211043",
+    "company_name": "2051211043"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: How Will I Collect Data? Methods for Exploratory Studies\n\nAbstract: In summary, level I methods offer the investigator a way to navigate previously uncharted waters. They allow the investigator to answer questions about the phenomenon of interest from the point of view of the subjects. These methods are increasingly finding favor with nurse researchers.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 65,
+        "text": "Title: How Will I Collect Data? Methods for Exploratory Studies\n\nAbstract: In summary, level I methods offer the investigator a way to navigate previously uncharted waters. They allow the investigator to answer questions about the phenomenon of interest from the point of view of the subjects. These methods are increasingly finding favor with nurse researchers.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051153866",
+    "company_name": "2051153866"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Comparison of two viscoplastic flow laws as applied to a problem of crack growth\n\nAbstract: Abstract The finite element method is incorporated in the study of the mechanical response of an advanced nickel-based superalloy IN-100 with inelastic time-dependent material behavior at 1350°F (732°C). The material's time-dependent plastic deformation (viscoplasticity) is analytically modeled by both the Bodner-Partom equations and the Malvern overstress flow law. The Bodner-Partom constitutive equations involve the use of nine material parameters which are determined from a complex procedure. Various forms of the Malvern overstress flow law are studied since this flow law uses only a few material parameters which are easily determined from uniaxial experimental data. Both the Malvern and Bodner-Partom constitutive equations are formulated in multiaxial from in a two-dimensional finite element program incorporating the constant strain triangle. The program is applied to the analysis of a center crack plate of IN-100 under a monotonic tension load. The residual force method is utilized to handle variations in material stiffness due to time-dependent plastic deformation. A Hybrid Experimental Numerical (HEN) procedure is used in order to track crack opening displacement near the crack tip. This HEN procedure controls the crack growth rate in the finite element model by following the experimental displacement rates accurately. Thus, crack growth predictions become a byproduct of both the rate sensitive model and the near field experimental displacement rates. The predictions of the two constitutive models are compared with respect to total plastic work and effective stress profiles in addition to crack growth rate.\n\nKeywords: Physics, Geology, Engineering, Finite element method, Political science, Materials science, Law, Geometry, Mathematics, Flow (mathematics), Mechanics, Structural engineering\n\n"
+      }
+    ]
+  }
+}

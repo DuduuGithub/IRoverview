@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051328980",
+    "company_name": "2051328980"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Management of Vyanga (facial melanosis) with Arjuna Twak Lepa and Panchanimba Churna\n\nAbstract: Vyanga is one of the Kshudraroga, characterized by the presence of Niruja (painless) and Shavavarna Mandalas (bluish-black patches) on face. It is one of the most common diseases as regards the face is concerned. On the basis of clinical features, it can be compared with facial melanosis, one of the hyper pigmented disorders. Drugs with Rakta Prasadaka, Twak Prasadaka and Varnyakara properties are helpful in the management of Vyanga, that pacifies aggregated Doshas and help in Raktashodhana (blood purification).To evaluate the efficacy of Arjunatwak Lepa and Panchanimba Churna in Vyanga.In this study, the trial drugs used were Arjunatwak Churna for Lepa (tropical application) and Panchanimba Churna for oral administration. A total 30 patients of Vyanga were selected from outpatient department and inpatient department of Shalakya Tantra Department and allotted randomly in two groups. In group-A, the patients were treated with external application of Arjunatwak Churna and Madhu for 21 days, while in group-B, patients received Panchanimba Churna orally for 21 days in addition to Arjunatwak Churna for Lepa. Effect of therapy on chief complaint i.e., bluish-black pigmentation in Group A was 60% relief, while in Group B 80% relief was found.The clinical study has shown that combined therapy gives better results than topical treatment.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 25,
+        "text": "Title: Management of Vyanga (facial melanosis) with Arjuna Twak Lepa and Panchanimba Churna",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: Vyanga is one of the Kshudraroga, characterized by the presence of Niruja (painless) and Shavavarna Mandalas (bluish-black patches) on face. It is one of the most common diseases as regards the face is concerned. On the basis of clinical features, it can be compared with facial melanosis, one of the hyper pigmented disorders. Drugs with Rakta Prasadaka, Twak Prasadaka and Varnyakara properties are helpful in the management of Vyanga, that pacifies aggregated Doshas and help in Raktashodhana (blood purification).To evaluate the efficacy of Arjunatwak Lepa and Panchanimba Churna in Vyanga.In this study, the trial drugs used were Arjunatwak Churna for Lepa (tropical application) and Panchanimba Churna for oral administration. A total 30 patients of Vyanga were selected from outpatient department and inpatient department of Shalakya Tantra Department and allotted randomly in two groups. In group-A, the patients were treated with external application of Arjunatwak Churna and Madhu for 21 days, while in group-B, patients received Panchanimba Churna orally for 21 days in addition to Arjunatwak Churna for Lepa. Effect of therapy on chief complaint i.e., bluish-black pigmentation in Group A was 60% relief, while in Group B 80% relief was found.The clinical",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 62,
+        "text": "21 days in addition to Arjunatwak Churna for Lepa. Effect of therapy on chief complaint i.e., bluish-black pigmentation in Group A was 60% relief, while in Group B 80% relief was found.The clinical study has shown that combined therapy gives better results than topical treatment.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

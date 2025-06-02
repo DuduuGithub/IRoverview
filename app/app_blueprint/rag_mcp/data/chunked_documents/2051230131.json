@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051230131",
+    "company_name": "2051230131"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Quantum chemical study of the intramolecular transfer of hydrogen in o- methylacetophenone and 1- alkylanthraquinones\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 30,
+        "text": "Title: Quantum chemical study of the intramolecular transfer of hydrogen in o- methylacetophenone and 1- alkylanthraquinones",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

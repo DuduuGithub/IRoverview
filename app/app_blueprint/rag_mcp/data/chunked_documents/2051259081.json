@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051259081",
+    "company_name": "2051259081"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A reflection on the role of the council of economic advisers\n\nAbstract: August 9, 1986 will be the fortieth anniversary of the Council of Economic Advisers. This anniversary should be an occasion for reflection, by both economists and politicians, about the historical and current role of this unique institution. 1 A. Any evaluation of the Council should be based on a recognition of its distinctive characteristics and history. 1. The CEA is a unique institution. Only in the United States, among the major western governments, is there a full-time staff of economists assigned to the office of the president or prime minister. Only in the United States do economists, other than those who head a major agency, participate in the cabinet-level policy reviews. Only economics, among the many professions, is directly represented in these reviews. 2. The primary role of the CEA is to contribute to the cabinet-level policy reviews. The Council is sometimes described as economic adviser to the President, but this is somewhat misleading. Presidents have a habit of choosing their own advisers, whatever the formal structure of the government. Only a few of the Council chairmen had a close relation with the President--including Arthur Burns with Eisenhower, Walter Heller with Johnson, and Alan Greenspan with Ford--but the effectiveness of the Council has not proved to be dependent on this relationship. A chairman's contact with the President is usually limited to periodic briefings on the economy and as an informal member of the cabinet. Most of the work of the Council is presented to the several forums responsible for the presidential policy\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 13,
+        "text": "Title: A reflection on the role of the council of economic advisers",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: August 9, 1986 will be the fortieth anniversary of the Council of Economic Advisers. This anniversary should be an occasion for reflection, by both economists and politicians, about the historical and current role of this unique institution. 1 A. Any evaluation of the Council should be based on a recognition of its distinctive characteristics and history. 1. The CEA is a unique institution. Only in the United States, among the major western governments, is there a full-time staff of economists assigned to the office of the president or prime minister. Only in the United States do economists, other than those who head a major agency, participate in the cabinet-level policy reviews. Only economics, among the many professions, is directly represented in these reviews. 2. The primary role of the CEA is to contribute to the cabinet-level policy reviews. The Council is sometimes described as economic adviser to the President, but this is somewhat misleading. Presidents have a habit of choosing their own advisers, whatever the formal structure of the government. Only a few of the Council chairmen had a close relation with the President--including Arthur Burns with Eisenhower, Walter Heller with Johnson, and Alan Greenspan with Ford--but the effectiveness of the Council has not proved to be dependent on this relationship. A chairman's contact with the President is usually limited to periodic briefings on the economy and as an informal member of the cabinet. Most of the work of the Council is presented to the",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 57,
+        "text": "of the Council has not proved to be dependent on this relationship. A chairman's contact with the President is usually limited to periodic briefings on the economy and as an informal member of the cabinet. Most of the work of the Council is presented to the several forums responsible for the presidential policy",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

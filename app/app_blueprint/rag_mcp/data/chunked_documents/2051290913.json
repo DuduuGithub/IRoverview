@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051290913",
+    "company_name": "2051290913"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Broadcast routing in Wireless Sensor Networks with Dynamic Power Management\n\nAbstract: In a wireless sensor network (WSN), nodes are power constrained. As a consequence, protocols must be energy efficient to prolong the network lifetime. Network simulators are usually used to develop and analyze WSN protocols. However, most simulators employ the linear battery model to simplify the simulation process, leading to wrong conclusions about the network lifetime, because this model does not take into account the battery capacity recovery effect. In this work we consider a more realistic battery model (i.e., Rakhmatov-Vrudhula battery model) when applying the dynamic power management with scheduled switching modes (DPM-SSM) approach to a blind flooding protocol (i.e., FLOOD). The battery model is implemented in the network simulator NS2, and the FLOOD protocol is modified to use the DPM-SSM technique. Extensive simulation results show that the FLOOD protocol can still achieve good performance results while saving up to 30% on energy consumption.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 207,
+        "text": "Title: Broadcast routing in Wireless Sensor Networks with Dynamic Power Management\n\nAbstract: In a wireless sensor network (WSN), nodes are power constrained. As a consequence, protocols must be energy efficient to prolong the network lifetime. Network simulators are usually used to develop and analyze WSN protocols. However, most simulators employ the linear battery model to simplify the simulation process, leading to wrong conclusions about the network lifetime, because this model does not take into account the battery capacity recovery effect. In this work we consider a more realistic battery model (i.e., Rakhmatov-Vrudhula battery model) when applying the dynamic power management with scheduled switching modes (DPM-SSM) approach to a blind flooding protocol (i.e., FLOOD). The battery model is implemented in the network simulator NS2, and the FLOOD protocol is modified to use the DPM-SSM technique. Extensive simulation results show that the FLOOD protocol can still achieve good performance results while saving up to 30% on energy consumption.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

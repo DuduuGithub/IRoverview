@@ -1,0 +1,30 @@
+{
+  "metainfo": {
+    "sha1_name": "2051317677",
+    "company_name": "2051317677"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Valence isomerization of quadricyclane-norbornadiene derivatives via triplet state. Correlation of the mechanism with triplet conformation of the olefinic moiety\n\nAbstract: The mechanism of the valence isomerization between methyl 5-aryl-tetracyclo[3.2.0.02,704,6]-heptane-1-carboxylate (1) and methyl 3-aryl-bicyclo[2.2.1]hepta-2,5-diene-2-carboxylate (2) under the triplet sensitization in benzene has been studied by pulse radiolysis and stationary experiments. The valence isomerization proceeds via a 1,3-biradical intermediate favorably to 1 for the phenyl derivatives where the most stable conformation of the corresponding olefinic analogue is a twisted form. In the case of 1-naphthyl derivatives where the conformation of the olefinic analogue is a planar form, an adiabatic cycloreversion of 1 to 2 takes place. An equilibrium state between a 1,3-biradical intermediate and a triplet state with a structure of norbornadiene is estimated for 2-naphthyl derivatives. Correlation of the mechanism for the valence isomerization with the conformation of corresponding olefinic analogue has been discussed on the basis of the potential energy surfaces for the isomerization.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 40,
+        "text": "Title: Valence isomerization of quadricyclane-norbornadiene derivatives via triplet state. Correlation of the mechanism with triplet conformation of the olefinic moiety",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 267,
+        "text": "Abstract: The mechanism of the valence isomerization between methyl 5-aryl-tetracyclo[3.2.0.02,704,6]-heptane-1-carboxylate (1) and methyl 3-aryl-bicyclo[2.2.1]hepta-2,5-diene-2-carboxylate (2) under the triplet sensitization in benzene has been studied by pulse radiolysis and stationary experiments. The valence isomerization proceeds via a 1,3-biradical intermediate favorably to 1 for the phenyl derivatives where the most stable conformation of the corresponding olefinic analogue is a twisted form. In the case of 1-naphthyl derivatives where the conformation of the olefinic analogue is a planar form, an adiabatic cycloreversion of 1 to 2 takes place. An equilibrium state between a 1,3-biradical intermediate and a triplet state with a structure of norbornadiene is estimated for 2-naphthyl derivatives. Correlation of the mechanism for the valence isomerization with the conformation of corresponding olefinic analogue has been discussed on the basis of the potential energy surfaces for the isomerization.",
+        "id": 1,
+        "type": "content"
+      }
+    ]
+  }
+}

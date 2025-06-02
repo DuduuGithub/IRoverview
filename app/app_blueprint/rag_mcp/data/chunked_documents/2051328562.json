@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051328562",
+    "company_name": "2051328562"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A Characteristic Basis Function (CBF) approach for the electromagnetic radiation by large conducting structure with apertures\n\nAbstract: An extension of the Characteristic Basis Function Method (CBFM) for handling radiating problems involving structures with apertures (slots) is presented. Specifically, it is shown that the problem can be solved by replacing the slots with PEC and by applying the CBFM to the entire structure, using appropriate magnetic current densities as sources. These magnetic current densities are obtained by solving a local problem, using any suitable code, e.g., the Finite Element Method (FEM) or the Finite Difference Time Domain (FDTD) technique. The proposed procedure exploits the localization properties of the CBFM.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 147,
+        "text": "Title: A Characteristic Basis Function (CBF) approach for the electromagnetic radiation by large conducting structure with apertures\n\nAbstract: An extension of the Characteristic Basis Function Method (CBFM) for handling radiating problems involving structures with apertures (slots) is presented. Specifically, it is shown that the problem can be solved by replacing the slots with PEC and by applying the CBFM to the entire structure, using appropriate magnetic current densities as sources. These magnetic current densities are obtained by solving a local problem, using any suitable code, e.g., the Finite Element Method (FEM) or the Finite Difference Time Domain (FDTD) technique. The proposed procedure exploits the localization properties of the CBFM.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

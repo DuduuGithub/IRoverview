@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051250235",
+    "company_name": "2051250235"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The punishing factors for convex pairs are $2^{n-1}$\n\nAbstract: Let $\\Omega$ and $\\Pi$ be two simply connected proper subdomains of the complex plane $\\mathbb{C}$. We are concerned with the set $A(\\Omega,\\Pi)$ of functions $f: \\Omega\\longrightarrow\\Pi$ holomorphic on $\\Omega$ and we prove estimates for $|f^{(n)}(z)|, f \\in A(\\Omega,\\Pi), z \\in \\Omega$, of the following type. Let $\\lambda\\_{\\Omega}(z)$ and $\\lambda\\_{\\Pi}(w)$ denote the density of the Poincaré metric with curvature $K=-4$ of $\\Omega$ at $z$ and of $\\Pi$ at $w$, respectively. Then for any pair $(\\Omega,\\Pi)$ of convex domains, $f \\in A(\\Omega,\\Pi), z \\in \\Omega$, and $n\\geq 2$ the inequality $$ \\frac{|f^{(n)}(z)|}{n!}\\leq 2^{n-1}\\frac{(\\lambda\\_{\\Omega}(z))^n}{\\lambda\\_{\\Pi}(f(z))} $$ is valid. The constant $2^{n-1}$ is best possible for any pair $(\\Omega,\\Pi)$ of convex domains. For any pair $(\\Omega,\\Pi)$, where $\\Omega$ is convex and $\\Pi$ linearly accessible, $f,z,n$ as above, we prove $$ \\frac{|f^{(n)}(z)|}{(n+1)!}\\leq 2^{n-2}\\frac{(\\lambda\\_{\\Omega}(z))^n}{\\lambda\\_{\\Pi}(f(z))}. $$ The constant $2^{n-2}$ is best possible for certain admissible pairs $(\\Omega,\\Pi)$. These considerations lead to a new, nonanalytic, characterization of bijective convex functions $h:\\Delta\\to\\Omega$ not using the second derivative of $h$.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 17,
+        "text": "Title: The punishing factors for convex pairs are $2^{n-1}$",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 298,
+        "text": "Abstract: Let $\\Omega$ and $\\Pi$ be two simply connected proper subdomains of the complex plane $\\mathbb{C}$. We are concerned with the set $A(\\Omega,\\Pi)$ of functions $f: \\Omega\\longrightarrow\\Pi$ holomorphic on $\\Omega$ and we prove estimates for $|f^{(n)}(z)|, f \\in A(\\Omega,\\Pi), z \\in \\Omega$, of the following type. Let $\\lambda\\_{\\Omega}(z)$ and $\\lambda\\_{\\Pi}(w)$ denote the density of the Poincaré metric with curvature $K=-4$ of $\\Omega$ at $z$ and of $\\Pi$ at $w$, respectively. Then for any pair $(\\Omega,\\Pi)$ of convex domains, $f \\in A(\\Omega,\\Pi), z \\in \\Omega$, and $n\\geq 2$ the inequality $$ \\frac{|f^{(n)}(z)|}{n!}\\leq 2^{n-1}\\frac{(\\lambda\\_{\\Omega}(z))^n}{\\lambda\\_{\\Pi}(f(z))} $$ is valid. The constant $2^{n-1}$ is best possible for any pair $(\\Omega,\\Pi)$ of convex domains. For any pair $(\\Omega,\\Pi)$, where $\\Omega$ is convex and $\\Pi$ linearly accessible, $f,z,n$ as",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 160,
+        "text": "is best possible for any pair $(\\Omega,\\Pi)$ of convex domains. For any pair $(\\Omega,\\Pi)$, where $\\Omega$ is convex and $\\Pi$ linearly accessible, $f,z,n$ as above, we prove $$ \\frac{|f^{(n)}(z)|}{(n+1)!}\\leq 2^{n-2}\\frac{(\\lambda\\_{\\Omega}(z))^n}{\\lambda\\_{\\Pi}(f(z))}. $$ The constant $2^{n-2}$ is best possible for certain admissible pairs $(\\Omega,\\Pi)$. These considerations lead to a new, nonanalytic, characterization of bijective convex functions $h:\\Delta\\to\\Omega$ not using the second derivative of $h$.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

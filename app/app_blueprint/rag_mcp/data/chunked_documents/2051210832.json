@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051210832",
+    "company_name": "2051210832"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Application of Ant Colony Algorithm\n\nAbstract: This paper mainly considers the application of the ant colony in our life. The principle of ant colony optimization, improves the performance of ant colony algorithm, and the global searching ability of the algorithm. We introduce a new adaptive factor in order to avoid falling into local optimal solution. With the increase the number of interations, this factor will benefit the ant search the edge with lower pheromone concentration and avoid the excessive accumulation of pheromone.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 96,
+        "text": "Title: Application of Ant Colony Algorithm\n\nAbstract: This paper mainly considers the application of the ant colony in our life. The principle of ant colony optimization, improves the performance of ant colony algorithm, and the global searching ability of the algorithm. We introduce a new adaptive factor in order to avoid falling into local optimal solution. With the increase the number of interations, this factor will benefit the ant search the edge with lower pheromone concentration and avoid the excessive accumulation of pheromone.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

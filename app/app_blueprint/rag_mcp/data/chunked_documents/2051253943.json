@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051253943",
+    "company_name": "2051253943"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Detection of transiently phosphorylated membrane proteins by protein blotting through a nonionic detergent layer\n\nAbstract: A rapid approach for detecting tentative membrane proteins which are transiently phosphorylated/dephosphorylated is described. Cell fractionation is unnecessary, as are other manipulations of sample preparation during which artifactual modifications or sample loss might occur. The method is shown to be useful for the detection of such phosphorylation during cellular response to the binding of specific ligand. Two-dimensional sodium dodecyl sulfate polyacrylamide gel electrophoresis was performed successively through gels of different sieving sizes. These “primary” gels were then subjected to “detergent blotting,” a variation of electroblotting in which polyacrylamide gel containing the nonionic detergent Nonidet-P40 (secondary gel) was inserted between the primary gel and a Zeta-Probe membrane. Phosphorylated interleukin 2 receptors were selectively retained in the secondary gel. Upon stimulation of human platelets with thrombin, at least 11 polypeptides were found to be rapidly phosphorylated/dephosphorylated using the method. Among them, five phosphorylated polypeptides were trapped in the secondary gel, suggesting that they might be membrane proteins. This technique should be useful to rapidly screen transiently phosphorylated/dephosphorylated membrane proteins which might be involved in membrane transductional signaling.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 286,
+        "text": "Title: Detection of transiently phosphorylated membrane proteins by protein blotting through a nonionic detergent layer\n\nAbstract: A rapid approach for detecting tentative membrane proteins which are transiently phosphorylated/dephosphorylated is described. Cell fractionation is unnecessary, as are other manipulations of sample preparation during which artifactual modifications or sample loss might occur. The method is shown to be useful for the detection of such phosphorylation during cellular response to the binding of specific ligand. Two-dimensional sodium dodecyl sulfate polyacrylamide gel electrophoresis was performed successively through gels of different sieving sizes. These “primary” gels were then subjected to “detergent blotting,” a variation of electroblotting in which polyacrylamide gel containing the nonionic detergent Nonidet-P40 (secondary gel) was inserted between the primary gel and a Zeta-Probe membrane. Phosphorylated interleukin 2 receptors were selectively retained in the secondary gel. Upon stimulation of human platelets with thrombin, at least 11 polypeptides were found to be rapidly phosphorylated/dephosphorylated using the method. Among them, five phosphorylated polypeptides were trapped in the secondary gel, suggesting that they might be membrane proteins. This technique should be useful to rapidly screen transiently phosphorylated/dephosphorylated membrane proteins which might be involved in membrane transductional signaling.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051247930",
+    "company_name": "2051247930"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A note on Demiray’s solution to the perturbed Burgers’ equation\n\nAbstract: The travelling wave ‘solution’ to the perturbed Burgers’ equation given by Demiray [Applied Mathematical Modelling 26 (2002) 37] is incorrect; an explanation as to why this is so is given.\n\n"
+      }
+    ]
+  }
+}

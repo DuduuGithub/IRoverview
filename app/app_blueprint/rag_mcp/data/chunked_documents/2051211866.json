@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051211866",
+    "company_name": "2051211866"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Thermodynamics of ion association: transition metal complexes of N-isobutyroyl-l-lysine\n\nAbstract: Calorimetric measurements have been made at 25°C in aqueous 0.1 M NaClO4 for the formation of the mono- and bis-N-isobutyroyl-l-lysine complexes with copper(II), nickel(II), cobalt(II) and zinc(II). These data have been used in conjunction with previously determined stability constants, to calculate ΔG, ΔH and ΔS values for both protonation and metal complexation. These are discussed in terms of the nature of the metal ligand binding. All thermodynamic data are in agreement with the formation of glycine-like mono- and bis-chelates involving the α-amino and carboxyl groups.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 164,
+        "text": "Title: Thermodynamics of ion association: transition metal complexes of N-isobutyroyl-l-lysine\n\nAbstract: Calorimetric measurements have been made at 25°C in aqueous 0.1 M NaClO4 for the formation of the mono- and bis-N-isobutyroyl-l-lysine complexes with copper(II), nickel(II), cobalt(II) and zinc(II). These data have been used in conjunction with previously determined stability constants, to calculate ΔG, ΔH and ΔS values for both protonation and metal complexation. These are discussed in terms of the nature of the metal ligand binding. All thermodynamic data are in agreement with the formation of glycine-like mono- and bis-chelates involving the α-amino and carboxyl groups.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

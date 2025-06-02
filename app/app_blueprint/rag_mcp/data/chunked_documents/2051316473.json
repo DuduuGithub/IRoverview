@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051316473",
+    "company_name": "2051316473"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The application of OR techniques for the prediction and understanding of damages caused by seismic events\n\nAbstract: This paper analyses factors that account for differences in the damages suffered by buildings in an earthquake. Various OR techniques and identification techniques have been used. This study allows a better understanding of the role that local intensity of the earthquake and epicentre play, and a suitable statistical model of the phenomen is formulated and tested. More important, it is shown that this statistical model may be reinterpreted as a causal model in structural engineering, and various aspects of this representation are discussed.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 114,
+        "text": "Title: The application of OR techniques for the prediction and understanding of damages caused by seismic events\n\nAbstract: This paper analyses factors that account for differences in the damages suffered by buildings in an earthquake. Various OR techniques and identification techniques have been used. This study allows a better understanding of the role that local intensity of the earthquake and epicentre play, and a suitable statistical model of the phenomen is formulated and tested. More important, it is shown that this statistical model may be reinterpreted as a causal model in structural engineering, and various aspects of this representation are discussed.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

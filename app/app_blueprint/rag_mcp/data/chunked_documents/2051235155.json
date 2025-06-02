@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051235155",
+    "company_name": "2051235155"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Los derechos sociales y las políticas públicas: una psicología social entre la autoorganización social y el ejercicio de la ciudadanía\n\nAbstract: Our presentation is twofold: to expose the complex articulation between public policies in Buenos Aires City and the main trends in housing and food; and analyze their relationships with practices and representations of different levels of responsibility officers and agents, about de recipients of those policies. The qualitative research is based on document analysis, interviews and observational strategies. The analysis showed us a paradoxical relationship between the dismantling of the welfare state from the ‘90s economic recession and changes in public policies related to housing, according to international agreements. In the implementation of these policies we detected a marked tension between three types of staff concepts and relative positions about beneficiaries, ranging from a strong interactional commitment to a beneficiary communities conceptualization as a source of risk and a non community nature.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 178,
+        "text": "Title: Los derechos sociales y las políticas públicas: una psicología social entre la autoorganización social y el ejercicio de la ciudadanía\n\nAbstract: Our presentation is twofold: to expose the complex articulation between public policies in Buenos Aires City and the main trends in housing and food; and analyze their relationships with practices and representations of different levels of responsibility officers and agents, about de recipients of those policies. The qualitative research is based on document analysis, interviews and observational strategies. The analysis showed us a paradoxical relationship between the dismantling of the welfare state from the ‘90s economic recession and changes in public policies related to housing, according to international agreements. In the implementation of these policies we detected a marked tension between three types of staff concepts and relative positions about beneficiaries, ranging from a strong interactional commitment to a beneficiary communities conceptualization as a source of risk and a non community nature.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051151295",
+    "company_name": "2051151295"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Traffic policing in distributed infocommunication systems with service oriented architecture\n\nAbstract: This work represents a mathematical model of traffic policing based on a token bucket algorithm for a distributed infocommunication system with Service Oriented Architecture (SOA). The efficiency of the algorithm in SOA systems with extremely high input traffic is studied. The analysis of dependency of algorithm performance on such parameters as Committed Information Rate (CIR), Committed Burst Size (CBS) and Excess Burst Size (EBS) is done.\n\nKeywords: Distributed computing, World Wide Web, Art, Visual arts, Artificial intelligence, Economics, Service (business), Computer network, Computer science\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 132,
+        "text": "Title: Traffic policing in distributed infocommunication systems with service oriented architecture\n\nAbstract: This work represents a mathematical model of traffic policing based on a token bucket algorithm for a distributed infocommunication system with Service Oriented Architecture (SOA). The efficiency of the algorithm in SOA systems with extremely high input traffic is studied. The analysis of dependency of algorithm performance on such parameters as Committed Information Rate (CIR), Committed Burst Size (CBS) and Excess Burst Size (EBS) is done.\n\nKeywords: Distributed computing, World Wide Web, Art, Visual arts, Artificial intelligence, Economics, Service (business), Computer network, Computer science",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

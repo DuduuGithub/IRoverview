@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051202427",
+    "company_name": "2051202427"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Untersuchungen Über das Auftreten von Krankheiten in Freilandpopulationen des Maikäfer-Engerlings\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 23,
+        "text": "Title: Untersuchungen Über das Auftreten von Krankheiten in Freilandpopulationen des Maikäfer-Engerlings",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

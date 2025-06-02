@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "4310960001",
+    "company_name": "4310960001"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Toxicity assessment of metribuzin and its amelioration through plant growth regulators in Vigna radiata (L.) R. Wilczek.\n\nKeywords: Horticulture, Enzyme, Chemistry, In vitro, Antioxidant, Biochemistry, Botany, Agronomy, Biology\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 61,
+        "text": "Title: Toxicity assessment of metribuzin and its amelioration through plant growth regulators in Vigna radiata (L.) R. Wilczek.\n\nKeywords: Horticulture, Enzyme, Chemistry, In vitro, Antioxidant, Biochemistry, Botany, Agronomy, Biology",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

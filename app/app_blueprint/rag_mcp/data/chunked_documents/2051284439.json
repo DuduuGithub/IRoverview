@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051284439",
+    "company_name": "2051284439"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Traumatologia Ocular y Oftalmologia Laboral\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 13,
+        "text": "Title: Traumatologia Ocular y Oftalmologia Laboral",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

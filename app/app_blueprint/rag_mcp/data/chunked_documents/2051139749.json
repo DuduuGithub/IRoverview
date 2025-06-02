@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051139749",
+    "company_name": "2051139749"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: &lt;title&gt;Investigation into surfactant-aided matrix-assisted laser desorption/ionization-mass spectrometry for peptide mapping&lt;/title&gt;\n\nAbstract: Matrix-assisted laser desorption/ionization time-of-flight mass spectrometry (MALDI-TOFMS) is a popular analytical tool for the analysis of large biomolecules such as proteins, oligonucleotides and oligosaccharides. This method has proven to be extremely useful for the analysis of water soluble proteins. However, analysis of hydrophobic proteins using MALDI-MS has been more of a challenge. The difficulty arises due to the limited solubility of these compounds in the aqueous solutions used to prepare the MALDI matrix. This study has investigated the effect of surfactants on the MALDI-MS data obtained from hydrophobic peptides and tryptic digests of hydrophobic and hydrophilic proteins. The surfactant sodium dodecylsulfate was found to improve the information content obtained during MALDI-MS analysis of such molecules. Preliminary results which examine the applicability of surfactant-aided MALDI-TOFMS for the characterization of proteolytic digests of proteins will be presented, and the potential use of this analytical strategy in a proteomics-based examination of intrinsic membrane proteins will be discussed.\n\nKeywords: Gene, Adsorption, Organic chemistry, Aqueous solution, Chemistry, Chromatography, Biochemistry\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 289,
+        "text": "Title: &lt;title&gt;Investigation into surfactant-aided matrix-assisted laser desorption/ionization-mass spectrometry for peptide mapping&lt;/title&gt;\n\nAbstract: Matrix-assisted laser desorption/ionization time-of-flight mass spectrometry (MALDI-TOFMS) is a popular analytical tool for the analysis of large biomolecules such as proteins, oligonucleotides and oligosaccharides. This method has proven to be extremely useful for the analysis of water soluble proteins. However, analysis of hydrophobic proteins using MALDI-MS has been more of a challenge. The difficulty arises due to the limited solubility of these compounds in the aqueous solutions used to prepare the MALDI matrix. This study has investigated the effect of surfactants on the MALDI-MS data obtained from hydrophobic peptides and tryptic digests of hydrophobic and hydrophilic proteins. The surfactant sodium dodecylsulfate was found to improve the information content obtained during MALDI-MS analysis of such molecules. Preliminary results which examine the applicability of surfactant-aided MALDI-TOFMS for the characterization of proteolytic digests of proteins will be presented, and the potential use of this analytical strategy in a proteomics-based examination of intrinsic membrane proteins will be discussed.\n\nKeywords: Gene, Adsorption, Organic chemistry, Aqueous solution, Chemistry, Chromatography, Biochemistry",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

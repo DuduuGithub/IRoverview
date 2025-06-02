@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051296703",
+    "company_name": "2051296703"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: NANOSCALE FIELD IONIZATION SENSORS: A REVIEW\n\nAbstract: So far, one of the most promising applications of nanoscale science and technology has been in the area of field emission. The electric field amplification effects associated with sharp nanostructure tips can be used to significantly reduce the emission voltages. Another equally promising area that also takes advantage of the field amplification effects is the area of field ionization. The extremely high electrical fields generated near the vicinity of sharp nanostructure tips can be used to ionize chemical or biological species at a fraction of the voltage of a traditional ionizer. In this article we review two of the very first reported papers related to nanoscale field ionization published by our group at the Rensselaer Polytechnic Institute. The first paper describes a carbon nanotube gas ionizer, which shows potential for gas sensing applications. The second paper describes an ultra low-power gas ionizer featuring β-phase Tungsten nanorod electrodes. We end with a review of the major challenges that must be overcome to develop nanoscale ionization sensors.\n\n"
+      }
+    ]
+  }
+}

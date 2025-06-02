@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051281403",
+    "company_name": "2051281403"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Mechanische Harnleitervereinigungen und Zwischenschaltung homologer Harnleitertransplantate im Experiment\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 25,
+        "text": "Title: Mechanische Harnleitervereinigungen und Zwischenschaltung homologer Harnleitertransplantate im Experiment",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

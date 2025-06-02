@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051156384",
+    "company_name": "2051156384"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Image Inpainting System Model Based on Evaluation\n\nAbstract: Image segmentation algorithm and inpainting algorithm are the key ingredients in the process of inpainting after studying many image-inpainting algorithms. Therefore, analyzing, comparing and verifying the segment algorithm and inpainting algorithms, the system model which owns segment and repair evaluation function is constructed, so it can optimize the segmentation algorithms and the inpainting algorithms; finally make the inpainting result better. There is segmentation module and inpainting module in the system model, the former is to segment damaged area, and the latter is to repair image. They adopt expert system, which extract image characteristics and optimize segmentation algorithms and inpainting algorithms by heuristic rules in the knowledge database, evaluate the result of the inpainting which can feedback the heuristic rules for selecting better algorithms, finally adopt the best segmentation and inpainting algorithm. System model synthesizes two key ingredients of segmentation and inpainting, so that it can enhance the inpainting effect, and that the system will be constructed actually need to further study and to carry out.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 209,
+        "text": "Title: Image Inpainting System Model Based on Evaluation\n\nAbstract: Image segmentation algorithm and inpainting algorithm are the key ingredients in the process of inpainting after studying many image-inpainting algorithms. Therefore, analyzing, comparing and verifying the segment algorithm and inpainting algorithms, the system model which owns segment and repair evaluation function is constructed, so it can optimize the segmentation algorithms and the inpainting algorithms; finally make the inpainting result better. There is segmentation module and inpainting module in the system model, the former is to segment damaged area, and the latter is to repair image. They adopt expert system, which extract image characteristics and optimize segmentation algorithms and inpainting algorithms by heuristic rules in the knowledge database, evaluate the result of the inpainting which can feedback the heuristic rules for selecting better algorithms, finally adopt the best segmentation and inpainting algorithm. System model synthesizes two key ingredients of segmentation and inpainting, so that it can enhance the inpainting effect, and that the system will be constructed actually need to further study and to carry out.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

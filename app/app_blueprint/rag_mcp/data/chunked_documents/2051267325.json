@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051267325",
+    "company_name": "2051267325"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Real-time per-pixel rendering with stroke textures\n\nAbstract: For stroke-based renderings, stroke textures are composed of individual strokes in order to cover surface regions. In this paper, we present a real-time rendering technique based on stroke textures which allows interactive variation of the stroke style. This is done by encoding texture look-ups into stroke textures and defining the stroke style in single-stroke textures. At runtime the choice of strokes and stroke style is made using the per-pixel programmability of today's graphics hardware.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 103,
+        "text": "Title: Real-time per-pixel rendering with stroke textures\n\nAbstract: For stroke-based renderings, stroke textures are composed of individual strokes in order to cover surface regions. In this paper, we present a real-time rendering technique based on stroke textures which allows interactive variation of the stroke style. This is done by encoding texture look-ups into stroke textures and defining the stroke style in single-stroke textures. At runtime the choice of strokes and stroke style is made using the per-pixel programmability of today's graphics hardware.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

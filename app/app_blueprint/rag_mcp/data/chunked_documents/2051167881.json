@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051167881",
+    "company_name": "2051167881"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Le monastère de la Théotokos au Sinaï. Origines; épiclèse; mosaïque de la Transfiguration Homélie inédite d'Anas-tase le Sinaïte sur la Transfiguration (étude critique)\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 53,
+        "text": "Title: Le monastère de la Théotokos au Sinaï. Origines; épiclèse; mosaïque de la Transfiguration Homélie inédite d'Anas-tase le Sinaïte sur la Transfiguration (étude critique)",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

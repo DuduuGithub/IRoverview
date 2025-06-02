@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051259767",
+    "company_name": "2051259767"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A compression scheme of secret sharing\n\nAbstract: A secret sharing is a scheme to protect the data for security, in which the source data is divided into n shares and the source data is reconstructed from any k shares but no knowledge of the source data is not revealed from k - 1 shares. This algorithm is called (k, n) threshold scheme. In this study, we propose a scheme to compress the data of the (2, 5) threshold secret sharing, in which the source data is divided into five secret shared data in the first step and each shared data is compressed in the second step. This scheme has a merit such that the original source information is not revealed in the compression step, since the original source data is converted to the protected data in the initial step. The compression and decompression adopt a method used in distributed video coding which is based on error correction encoding and decoding. Any two compressed shares reconstruct the lossless source data assuming the ideal decoding. The compressed shares reconstruct the lossy source data assuming the non-ideal decoding. In such a case, using more than three compressed shares enhances the quality of the data reconstruction. Computer simulations show the validity of the scheme.\n\n"
+      }
+    ]
+  }
+}

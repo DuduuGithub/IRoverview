@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051304276",
+    "company_name": "2051304276"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: 12-(4-Chlorophenyl)-9,9-dimethyl-9,10-dihydro-8<i>H</i>-benzo[<i>a</i>]xanthen-11(12<i>H</i>)-one\n\nAbstract: The title compound, C(25)H(21)ClO(2), was synthesized via the three-component coupling of 4-chloro-benzaldehyde, 2-naphthol and 5,5-dimethyl-cyclo-hexane-1,3-dione. The pyran ring adopts a boat conformation, while the cyclo-hexenone ring is in an envelope conformation. The 4-chloro-phenyl ring is almost perpendicular to the pyran ring [dihedral angle = 87.39 (1)°]. In the crystal, mol-ecules are connected by inter-molecular C-H⋯O hydrogen bonds.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 200,
+        "text": "Title: 12-(4-Chlorophenyl)-9,9-dimethyl-9,10-dihydro-8<i>H</i>-benzo[<i>a</i>]xanthen-11(12<i>H</i>)-one\n\nAbstract: The title compound, C(25)H(21)ClO(2), was synthesized via the three-component coupling of 4-chloro-benzaldehyde, 2-naphthol and 5,5-dimethyl-cyclo-hexane-1,3-dione. The pyran ring adopts a boat conformation, while the cyclo-hexenone ring is in an envelope conformation. The 4-chloro-phenyl ring is almost perpendicular to the pyran ring [dihedral angle = 87.39 (1)°]. In the crystal, mol-ecules are connected by inter-molecular C-H⋯O hydrogen bonds.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

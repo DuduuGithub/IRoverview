@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051279740",
+    "company_name": "2051279740"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The extension of Î±-d-1,3-branch linkages by 1,3-Î±-d-glucan synthase from<i>Streptococcus sobrinus</i>\n\nAbstract: In the presence of an acceptor, 1,3-α-d-glucan synthase of Streptococcus sobrinus synthesizes water-insoluble glucans from sucrose. Under such conditions, 1,3-α-d-glucoside linkages were extended without any change in the glucose-residue number between the 1,3,6-branch points on the acceptor. From these results, the mechanisms of water-insoluble-glucan formation were proposed as follows: (i) the attachment of an acceptor to the glucan binding sites of 1,3-α-d-glucan synthase occurs during the initiation of the reaction, and concurrently determines the positions of the branched portions of 1,3,6 on the acceptor, and (ii) the 1,3-α-d-glucoside linkage extends from these positions.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 228,
+        "text": "Title: The extension of Î±-d-1,3-branch linkages by 1,3-Î±-d-glucan synthase from<i>Streptococcus sobrinus</i>\n\nAbstract: In the presence of an acceptor, 1,3-α-d-glucan synthase of Streptococcus sobrinus synthesizes water-insoluble glucans from sucrose. Under such conditions, 1,3-α-d-glucoside linkages were extended without any change in the glucose-residue number between the 1,3,6-branch points on the acceptor. From these results, the mechanisms of water-insoluble-glucan formation were proposed as follows: (i) the attachment of an acceptor to the glucan binding sites of 1,3-α-d-glucan synthase occurs during the initiation of the reaction, and concurrently determines the positions of the branched portions of 1,3,6 on the acceptor, and (ii) the 1,3-α-d-glucoside linkage extends from these positions.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

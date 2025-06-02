@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051307772",
+    "company_name": "2051307772"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Art Reference Libraries and Medicine\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 7,
+        "text": "Title: Art Reference Libraries and Medicine",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

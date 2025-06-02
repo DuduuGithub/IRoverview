@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051279359",
+    "company_name": "2051279359"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Wavelength shift of the reflectivity peak of Bragg reflector structures\n\nAbstract: We discuss the wavelength for maximum reflectivity of a Bragg reflector that has both index and absorption modulation. We show there that the blue shift away from the Bragg wavelength can be no larger than that given by the wavelength of maximum coupling, which we derive analytically. For gratings with fewer layers, the blue shift will be smaller than this maximum value. In typical semiconductor Bragg reflectors, this shift may be as much as 32 nm.\n\n"
+      }
+    ]
+  }
+}

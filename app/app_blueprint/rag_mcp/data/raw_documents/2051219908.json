@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051219908",
+    "company_name": "2051219908"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A New Channel Estimation Method Based on Pilot-aided and Local Adaptive Least Squares Support Vector Regression in Software Radio OFDM System\n\nAbstract: In order to increase the transmission efficiency of OFDM system, considering the special structure of software radio OFDM system, this paper present a local adaptive least squares support vector regression (LS_SVM) formulation specifically adapted to a pilots-based OFDM signal,and proposes a new method for channel estimation with pilot assisted symbol modulation expectation. The simulation result shows that the new method can reduce the complexity and iteration times, and it has also still lower BER compared to traditional method.\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051178226",
+    "company_name": "2051178226"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Analysis of Fast Injection Response Characteristics Between Solenoid and Piezo-Driven Injector\n\nAbstract: 고압 인젝터의 성능은 디젤 연소엔진의 동력, 배출물, 연료소모와 직접적인 관계가 있다. 본 논문에서는 솔레노이드 코일과 피에조 세라믹으로 구동되는 커먼레일 디젤 분사용 인젝터의 응답 특성을 AMESim 코드를 사용하여 상대 비교 연구를 수행하였다. 따라서 연료압력, 분공경을 주요 해석변수로 설정하였다. 본 연구를 수행한 결과, 솔레노이드 구동 인젝터에 비해 피에조 구동 인젝터가 상대적으로 더 빠른 응답성과 더 높은 제어성을 가짐을 알 수 있었으며, 특히 다단분사 적용시, 이런 결과가 매우 효과적임을 확인할 수 있었다.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 197,
+        "text": "Title: Analysis of Fast Injection Response Characteristics Between Solenoid and Piezo-Driven Injector\n\nAbstract: 고압 인젝터의 성능은 디젤 연소엔진의 동력, 배출물, 연료소모와 직접적인 관계가 있다. 본 논문에서는 솔레노이드 코일과 피에조 세라믹으로 구동되는 커먼레일 디젤 분사용 인젝터의 응답 특성을 AMESim 코드를 사용하여 상대 비교 연구를 수행하였다. 따라서 연료압력, 분공경을 주요 해석변수로 설정하였다. 본 연구를 수행한 결과, 솔레노이드 구동 인젝터에 비해 피에조 구동 인젝터가 상대적으로 더 빠른 응답성과 더 높은 제어성을 가짐을 알 수 있었으며, 특히 다단분사 적용시, 이런 결과가 매우 효과적임을 확인할 수 있었다.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

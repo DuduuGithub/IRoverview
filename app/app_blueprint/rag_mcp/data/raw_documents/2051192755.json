@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051192755",
+    "company_name": "2051192755"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: An hybrid scheduling algorithm for Wireless Sensor Networks\n\nAbstract: Wireless Sensor Networks are attracting during last decades more interest in both civil and military fields. This interest combined with recent advanced in microelectronics drive the Wireless Sensor Networks in the front of the stage. They are emerging as a key solution to monitor remote and/or hostile environments. However, they still faced various challenges among which, power management is one of the most remarkable. In this paper, we focus on power management problem and propose an Hybrid Scheduling Algorithm (HSA) for densely deployed Wireless Sensor Networks. The proposed solution is composed with two main phases: an initialization phase with where nodes execute a random scheduling technique and stabilization phase with an adaptive scheduling scenario. Our algorithm ensures a fast network availability with almost a representative number of sentinel (active nodes) from the network deployment. This also guarantee a consequent reduction of network overhead due to initialization informations exchanged. The algorithm presented here are also confirmed by simulations and obtained results show that our scheme can significantly reduce the energy consumption.\n\n"
+      }
+    ]
+  }
+}

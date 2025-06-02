@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051311799",
+    "company_name": "2051311799"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Highly sensitive frequency discriminator for wide IF linewidth FSK demodulation\n\nAbstract: A new and highly-sensitive delay-and-multiply discriminator with an electrical sensitivity of –25 dBm is presented. The applicability of frequency discriminators in wide linewidth systems is discussed, and experiments with single-filter (SF) and discriminator demodulation in systems which are otherwise identical are compared. The receiver sensitivity is 3.4dB better, and the receiver is much more robust to the laser FM response with the discriminator than with the SF demodulator.\n\n"
+      }
+    ]
+  }
+}

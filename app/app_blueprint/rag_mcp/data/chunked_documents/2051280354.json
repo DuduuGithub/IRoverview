@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051280354",
+    "company_name": "2051280354"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The Concept of “Direct Mechanical Ventricular Assistance” in the Treatment of Left-Ventricular Failure - Part 2: Results of the New Intrathoracic Implantable Multi-Chamber Pump System (IMPS) in an Animal Study\n\nAbstract: An assist device was developed which is able to support the pumping function of the heart by direct application of pressure to the left ventricle. The goal of this animal study in pigs was to determine whether it is possible to maintain sufficient blood circulation with the aid of the new system when the heart is fibrillating or its capacity has been greatly reduced. Following sternotomy complete invasive monitoring was installed. The intrathoracic implantable mechanical multi-chamber pump system (IMPS) was placed around the left ventricle. By means of the beta-blocker carazolol, systolic left-ventricular pressure (LVPsys), cardiac output, heart rate, and left-ventricular dp/dtmax (LVdp/dtmax) were gradually lowered and the pump system was tested intermittently. Then the heart was fibrillated and the system was tested again. When cardiac output, LVdp/dtmax, and systolic blood pressure were reduced by approximately 50% IMPS was able to increase LVPsys by 83% (IMPS) on: 96 +/- 9 mmHg vs. IMPS off: 63 +/- 6 mmHg), and the blood pressure in the carotid artery by 86% (IMPS on: 95/40 +/-15 mmHg vs. IMPS off: 69/38 +/- 9 mmHg). The mean cardiac output was 64% (IMPS on: 4.3 L/min vs. IMPS off: 3.9L/min); in most cases a great variability could be observed depending on the preload, the heart rate, and the mode of pressure application. When the heart was fibrillating, IMPS was able to maintain adequate circulatory conditions with LVPsys = 88%, blood pressure in the carotid artery = 85%, and LVdp/dtmax = 57% of the control values measured before fibrillation and beta-blockade. The system presented here is able to support the impaired left ventricle and to replace its pumping function. The advantages of the system are its efficiency and the lack of contact of the circulating blood with foreign surfaces. Whether the system is suited for bridging and recovery support shall be clarified in further studies.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 50,
+        "text": "Title: The Concept of “Direct Mechanical Ventricular Assistance” in the Treatment of Left-Ventricular Failure - Part 2: Results of the New Intrathoracic Implantable Multi-Chamber Pump System (IMPS) in an Animal Study",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 297,
+        "text": "Abstract: An assist device was developed which is able to support the pumping function of the heart by direct application of pressure to the left ventricle. The goal of this animal study in pigs was to determine whether it is possible to maintain sufficient blood circulation with the aid of the new system when the heart is fibrillating or its capacity has been greatly reduced. Following sternotomy complete invasive monitoring was installed. The intrathoracic implantable mechanical multi-chamber pump system (IMPS) was placed around the left ventricle. By means of the beta-blocker carazolol, systolic left-ventricular pressure (LVPsys), cardiac output, heart rate, and left-ventricular dp/dtmax (LVdp/dtmax) were gradually lowered and the pump system was tested intermittently. Then the heart was fibrillated and the system was tested again. When cardiac output, LVdp/dtmax, and systolic blood pressure were reduced by approximately 50% IMPS was able to increase LVPsys by 83% (IMPS) on: 96 +/- 9 mmHg vs. IMPS off: 63 +/- 6 mmHg), and the blood pressure in the carotid artery by 86% (IMPS on: 95/40 +/-15 mmHg vs. IMPS off: 69/38 +/- 9 mmHg). The mean cardiac output was 64% (IMPS on:",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 213,
+        "text": "the carotid artery by 86% (IMPS on: 95/40 +/-15 mmHg vs. IMPS off: 69/38 +/- 9 mmHg). The mean cardiac output was 64% (IMPS on: 4.3 L/min vs. IMPS off: 3.9L/min); in most cases a great variability could be observed depending on the preload, the heart rate, and the mode of pressure application. When the heart was fibrillating, IMPS was able to maintain adequate circulatory conditions with LVPsys = 88%, blood pressure in the carotid artery = 85%, and LVdp/dtmax = 57% of the control values measured before fibrillation and beta-blockade. The system presented here is able to support the impaired left ventricle and to replace its pumping function. The advantages of the system are its efficiency and the lack of contact of the circulating blood with foreign surfaces. Whether the system is suited for bridging and recovery support shall be clarified in further studies.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

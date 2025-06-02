@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051197126",
+    "company_name": "2051197126"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A papago maze\n\nAbstract: Are special considerations necessary in the development of a music education curriculum for reservation Indian students?\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 26,
+        "text": "Title: A papago maze\n\nAbstract: Are special considerations necessary in the development of a music education curriculum for reservation Indian students?",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

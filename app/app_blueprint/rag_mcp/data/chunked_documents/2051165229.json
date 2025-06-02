@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051165229",
+    "company_name": "2051165229"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Esophageal acid exposure still plays a major role in patients with NERD\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 17,
+        "text": "Title: Esophageal acid exposure still plays a major role in patients with NERD",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

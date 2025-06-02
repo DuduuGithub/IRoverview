@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051225778",
+    "company_name": "2051225778"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: SLOWLY PROGRESSIVE UPPER LIMB WEAKNESS: TWO CASES OF HIRAYAMA DISEASE AND REVIEW OF LITERATURE\n\nAbstract: <h3>Background</h3> We present two cases of Hirayama disease. Hirayama disease (HD) is a rare, disabling, anterior horn disorder affecting predominantly young, males. HD presents with asymmetric or unilateral wasting and weakness of the hands and forearm muscles. Progression tends to halt after a few years. The MRI findings are characteristic, showing high signal changes in the anterior cervical cord, sometimes, with asymmetric cord atrophy. The aetiology is unknown. Some authors, including Hirayama, have suggested mechanical deformation of the cervical cord on neck flexion (Hirayama <i>et al</i>, 2008, Chen <i>et al</i> 1998, Jamsheed et al 2011). The condition appears similar or identical to O9Sullivan McLeod syndrome (O9Sullivan <i>et al</i> 1978). The differential diagnosis includes motor neurone disease and multifocal motor neuropathy with conduction block. <h3>Case Presentations</h3> Our first patient is a 29 years old stonemason who presented with gradual onset of weakness and wasting over two years; initially of the left arm and hand and more recently the right hand, with no sensory symptoms. EMG showed acute and chronic degeneration in both upper limbs. MRI scan of the cervical cord showed long linear high signal changes anteriorly. The second patient is a 25 years old computer technician who presented with progressive distal wasting and weakness over 10 years, starting in the left hand and more recently the right hand with associated attacks of severe pain, but no sensory findings. His NCS/EMG showed chronic neurogenic changes in distal upper limb muscles with normal nerve conduction. His MRI showed cord atrophy and high signal in the anterior horns. <h3>Conclusion</h3> We present two cases of Hirayama disease, in two young male patients who presented with asymmetrical distal upper limb weakness and wasting. Clinical details will be supported with photographic material and anterior horn hyperintensities on MRI.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 33,
+        "text": "Title: SLOWLY PROGRESSIVE UPPER LIMB WEAKNESS: TWO CASES OF HIRAYAMA DISEASE AND REVIEW OF LITERATURE",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: <h3>Background</h3> We present two cases of Hirayama disease. Hirayama disease (HD) is a rare, disabling, anterior horn disorder affecting predominantly young, males. HD presents with asymmetric or unilateral wasting and weakness of the hands and forearm muscles. Progression tends to halt after a few years. The MRI findings are characteristic, showing high signal changes in the anterior cervical cord, sometimes, with asymmetric cord atrophy. The aetiology is unknown. Some authors, including Hirayama, have suggested mechanical deformation of the cervical cord on neck flexion (Hirayama <i>et al</i>, 2008, Chen <i>et al</i> 1998, Jamsheed et al 2011). The condition appears similar or identical to O9Sullivan McLeod syndrome (O9Sullivan <i>et al</i> 1978). The differential diagnosis includes motor neurone disease and multifocal motor neuropathy with conduction block. <h3>Case Presentations</h3> Our first patient is a 29 years old stonemason who presented with gradual onset of weakness and wasting over two years; initially of the left arm and hand and more recently the right hand, with no sensory symptoms. EMG showed acute and chronic degeneration in both upper limbs. MRI scan of the cervical cord showed long linear high signal changes anteriorly. The second patient is a 25",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 179,
+        "text": "left arm and hand and more recently the right hand, with no sensory symptoms. EMG showed acute and chronic degeneration in both upper limbs. MRI scan of the cervical cord showed long linear high signal changes anteriorly. The second patient is a 25 years old computer technician who presented with progressive distal wasting and weakness over 10 years, starting in the left hand and more recently the right hand with associated attacks of severe pain, but no sensory findings. His NCS/EMG showed chronic neurogenic changes in distal upper limb muscles with normal nerve conduction. His MRI showed cord atrophy and high signal in the anterior horns. <h3>Conclusion</h3> We present two cases of Hirayama disease, in two young male patients who presented with asymmetrical distal upper limb weakness and wasting. Clinical details will be supported with photographic material and anterior horn hyperintensities on MRI.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051171777",
+    "company_name": "2051171777"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Ruelle operators with two complex parameters and applications\n\nAbstract: For a C2 weak-mixing Axiom-A flow ϕt:M⟶M on a Riemannian manifold M and a basic set Λ for ϕt, we consider the Ruelle transfer operator Lf−sτ+zg, where f and g are real-valued Holder functions on Λ, τ is the roof function and s,z are complex parameters. Under some assumptions about ϕt for arbitrary Holder f,g, we establish estimates for the iterations of this Ruelle operator when |Imz|≤B|Ims|ν for some constants B>0, 0<ν<1 (ν=1 for Lipschitz f,g), in the spirit of the estimates for operators with one complex parameter (see [2,11,12]). Applying these estimates, we obtain a non-zero analytic extension of the zeta function ζ(s,z) for Pf−ϵ<Re(s)≤Pf and |z| small enough with a simple pole at s=s(z). Two other applications are considered as well: the first concerns the Hannay–Ozorio de Almeida sum formula, while the second deals with the asymptotic of the counting function πF(T) for weighted primitive periods of the flow ϕt.\n\n"
+      }
+    ]
+  }
+}

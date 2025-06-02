@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051148458",
+    "company_name": "2051148458"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Infection risks in haemodialysis.\n\nKeywords: Intensive care medicine, Medicine\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 17,
+        "text": "Title: Infection risks in haemodialysis.\n\nKeywords: Intensive care medicine, Medicine",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051270147",
+    "company_name": "2051270147"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Sex differences among treatment clients with cocaine-related problems\n\nAbstract: Background: In a sample of treatment clients with cocaine-related problems, the present study examined sex differences in measures across six key domains, including socio-demographics, mental health, substance use, physical health, sexual health and psychosocial health.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 61,
+        "text": "Title: Sex differences among treatment clients with cocaine-related problems\n\nAbstract: Background: In a sample of treatment clients with cocaine-related problems, the present study examined sex differences in measures across six key domains, including socio-demographics, mental health, substance use, physical health, sexual health and psychosocial health.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051310844",
+    "company_name": "2051310844"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A Proposed Technique for Solving Linear Fractional Bounded Variable Problems\n\nAbstract: In this paper, a new method is proposed for solving the problem in which the objective function is a linear fractional Bounded Variable (LFBV) function, where the constraints functions are in the form of linear inequalities and the variables are bounded. The proposed method mainly based upon the primal dual simplex algorithm. The Linear Programming Bounded Variables (LPBV) algorithm is extended to solve Linear Fractional Bounded Variables (LFBV).The advantages of LFBV algorithm are simplicity of implementation and less computational effort. We also compare our result with programming language MATHEMATICA.DOI: 10.3329/dujs.v60i2.11522 Dhaka Univ. J. Sci. 60(2): 223-230, 2012 (July)\n\n"
+      }
+    ]
+  }
+}

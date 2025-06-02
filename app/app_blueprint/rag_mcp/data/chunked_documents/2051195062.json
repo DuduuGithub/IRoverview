@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051195062",
+    "company_name": "2051195062"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Exploring the solar system — A current overview —\n\nAbstract: This paper examines the history of robotic exploration of the solar system from the initial flights to present day. Analysis demonstrates how flight rate and spacecraft mass have varied in the programs of the major space faring countries. The paper also demonstrates how the faster, better, cheaper approach has significantly increased scientific productivity and program resiliency to failures.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 78,
+        "text": "Title: Exploring the solar system — A current overview —\n\nAbstract: This paper examines the history of robotic exploration of the solar system from the initial flights to present day. Analysis demonstrates how flight rate and spacecraft mass have varied in the programs of the major space faring countries. The paper also demonstrates how the faster, better, cheaper approach has significantly increased scientific productivity and program resiliency to failures.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

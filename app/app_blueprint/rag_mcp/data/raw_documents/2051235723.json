@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051235723",
+    "company_name": "2051235723"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: L.S. category of the total space in a fibration and k-monomorphisms\n\nAbstract: Let Fι↪Ef↠B be a fibration, we focus on the relation between the homotopy invariants catE, catF and catB. The general formula due to Hardie says that catE⩽(catι+1)·(catf+1)−1; if the fibration is trivial, this upper bound can be replaced by catF+catB. In this paper, we introduce a notion of k-triviality and construct upper bound for catE in terms of k, catι and catf.\n\n"
+      }
+    ]
+  }
+}

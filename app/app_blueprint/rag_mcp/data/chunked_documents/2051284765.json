@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051284765",
+    "company_name": "2051284765"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: 129 Cross-reactivity of purified venom antigens of hornets, yellowjackets, and wasps\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 23,
+        "text": "Title: 129 Cross-reactivity of purified venom antigens of hornets, yellowjackets, and wasps",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

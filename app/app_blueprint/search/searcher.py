@@ -42,20 +42,9 @@ logger = logging.getLogger(__name__)
 rerank_model = None
 rerank_available = False  # 新增全局标志
 model_init_error = None  # 新增错误信息存储
-
-try:
-    rerank_model = ModelTrainer()
-    rerank_available = True  # 设置标志为True
-    logger.info("重排序模型加载成功")
-except Exception as e:
-    model_init_error = str(e)  # 保存错误信息
-    logger.error(f"重排序模型加载失败: {str(e)}")
-    logger.info("系统将在没有重排序功能的情况下继续运行")
-
-# 初始化BERT模型用于文本嵌入
 embedding_tokenizer = None
 embedding_model = None
-embedding_available = False  # 新增全局标志
+embedding_available = False
 
 def init_embedding_model():
     """初始化用于文本嵌入的BERT模型"""
@@ -67,21 +56,67 @@ def init_embedding_model():
             
         # 使用rerank_model的模型路径
         model_path = rerank_model.model_path
-        logger.info(f"从路径加载文本嵌入模型: {model_path}")
+        logger.info(f"从本地路径加载文本嵌入模型: {model_path}")
         
-        embedding_tokenizer = AutoTokenizer.from_pretrained(model_path)
-        embedding_model = AutoModel.from_pretrained(model_path)
+        # 验证模型文件是否存在
+        required_files = ['config.json', 'pytorch_model.bin', 'tokenizer.json', 'vocab.txt']
+        missing_files = [f for f in required_files if not os.path.exists(os.path.join(model_path, f))]
+        if missing_files:
+            raise FileNotFoundError(f"模型目录缺少必要文件: {', '.join(missing_files)}")
+        
+        # 添加详细日志
+        logger.info("开始加载tokenizer...")
+        embedding_tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+        logger.info("Tokenizer加载成功")
+        
+        logger.info("开始加载模型...")
+        embedding_model = AutoModel.from_pretrained(model_path, local_files_only=True)
+        logger.info("模型加载成功")
         
         if torch.cuda.is_available():
+            logger.info("检测到CUDA，将模型移至GPU...")
             embedding_model = embedding_model.cuda()
+            logger.info("模型已成功移至GPU")
+        
         embedding_model.eval()
         embedding_available = True  # 设置标志为True
-        logger.info("文本嵌入模型加载成功")
+        logger.info("文本嵌入模型初始化完成，可以使用")
     except Exception as e:
         logger.error(f"文本嵌入模型加载失败: {str(e)}")
+        logger.error(f"错误详情: {e.__class__.__name__}")
+        logger.error(f"错误堆栈: ", exc_info=True)
         embedding_tokenizer = None
         embedding_model = None
         embedding_available = False  # 确保标志为False
+
+try:
+    logger.info("开始初始化重排序模型...")
+    # 获取项目根目录
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../'))
+    # 使用绝对路径
+    model_path = os.path.join(project_root, 'sort_ai', 'bert', 'bert-base-uncased')
+    logger.info(f"使用模型路径: {model_path}")
+    
+    rerank_model = ModelTrainer(model_path=model_path)
+    if not hasattr(rerank_model, 'model_path'):
+        raise AttributeError("重排序模型缺少model_path属性")
+    logger.info(f"重排序模型路径: {rerank_model.model_path}")
+    rerank_available = True  # 设置标志为True
+    logger.info("重排序模型加载成功")
+    
+    # 初始化文本嵌入模型
+    logger.info("开始初始化文本嵌入模型...")
+    init_embedding_model()
+    if embedding_available:
+        logger.info("文本嵌入模型初始化成功")
+    else:
+        logger.warning("文本嵌入模型初始化失败，将使用基础相关性计算方法")
+except Exception as e:
+    model_init_error = str(e)  # 保存错误信息
+    logger.error(f"重排序模型加载失败: {str(e)}")
+    logger.error(f"错误详情: {e.__class__.__name__}")
+    logger.error(f"错误堆栈: ", exc_info=True)
+    logger.info("系统将在没有重排序功能的情况下继续运行")
 
 """
 高亮文本的辅助函数，用于突出显示查询关键词
@@ -1055,21 +1090,25 @@ def calculate_basic_relevance(result, prompt):
     try:
         # 如果嵌入模型可用，使用余弦相似度
         if embedding_available:
+            logger.info("使用文本嵌入模型计算余弦相似度")
             # 如果模型未初始化，先初始化
             if embedding_model is None or embedding_tokenizer is None:
+                logger.info("模型未初始化，尝试初始化...")
                 init_embedding_model()
                 if embedding_model is None or embedding_tokenizer is None:
                     logger.error("文本嵌入模型未能成功初始化")
+                    logger.info("回退到基础相关性计算方法")
                     return calculate_basic_relevance_fallback(result, prompt)
             
-            # 准备文档文本（标题和摘要）
+            # 只使用标题进行比较
             title = result.get('title', '')
-            abstract = result.get('abstract', '')
-            doc_text = f"{title} [SEP] {abstract}"
             
-            # 对查询和文档文本进行编码
+            logger.info(f"处理文档标题: {title[:100]}...")
+            logger.info(f"查询文本: {prompt}")
+            
+            # 对查询和标题文本进行编码
             inputs = embedding_tokenizer(
-                [prompt, doc_text],
+                [prompt, title],
                 padding=True,
                 truncation=True,
                 max_length=512,
@@ -1088,14 +1127,18 @@ def calculate_basic_relevance(result, prompt):
                 
             # 计算余弦相似度
             similarity = calculate_cosine_similarity(embeddings[0], embeddings[1])
+            logger.info(f"计算得到的余弦相似度: {similarity:.4f}")
             
             return float(similarity)
         else:
-            # 如果嵌入模型不可用，使用基础相关性计算方法
+            logger.info("文本嵌入模型不可用，使用基础相关性计算方法")
             return calculate_basic_relevance_fallback(result, prompt)
             
     except Exception as e:
         logger.error(f"计算余弦相似度时出错: {str(e)}")
+        logger.error(f"错误详情: {e.__class__.__name__}")
+        logger.error(f"错误堆栈: ", exc_info=True)
+        logger.info("发生错误，回退到基础相关性计算方法")
         return calculate_basic_relevance_fallback(result, prompt)
 
 def calculate_basic_relevance_fallback(result, prompt):
@@ -1108,20 +1151,17 @@ def calculate_basic_relevance_fallback(result, prompt):
         float: 基础相关性得分
     """
     try:
-        # 准备文档文本
+        # 只使用标题进行比较
         title = result.get('title', '').lower()
-        abstract = result.get('abstract', '').lower()
-        doc_text = f"{title} {abstract}"
         
         # 对提示词进行分词
         prompt_terms = set(prompt.lower().split())
         
         # 计算匹配分数
         title_matches = sum(1 for term in prompt_terms if term in title)
-        abstract_matches = sum(1 for term in prompt_terms if term in abstract)
         
-        # 标题匹配的权重更高
-        score = (title_matches * 2 + abstract_matches) / (len(prompt_terms) * 3)
+        # 计算得分
+        score = title_matches / len(prompt_terms)
         
         # 归一化到[0,1]范围
         return min(1.0, score)
@@ -1154,7 +1194,7 @@ def api_rerank():
         session_id = data.get('session_id', '')
         
         # 获取权重参数，默认重排序得分权重为0.7，基础相关性得分权重为0.3
-        rerank_weight = data.get('rerank_weight', 0.7)
+        rerank_weight = data.get('rerank_weight', 0.4)
         basic_weight = 1 - rerank_weight
         
         if not results or not prompt:
@@ -1214,9 +1254,10 @@ def api_rerank():
                 logger.info("-" * 30)
             
             # 对两种得分进行标准化
-            normalized_rerank_scores = normalize_scores(rerank_scores)
-            normalized_basic_scores = normalize_scores(basic_scores)
-            
+            # normalized_rerank_scores = normalize_scores(rerank_scores)
+            # normalized_basic_scores = normalize_scores(basic_scores)
+            normalized_rerank_scores = rerank_scores
+            normalized_basic_scores = basic_scores
             # 计算加权组合得分
             final_scores = []
             for i in range(len(results)):
@@ -1225,6 +1266,7 @@ def api_rerank():
                 final_scores.append((final_score, results[i]))
                 
                 logger.info(f"\n文献: {results[i]['title']}")
+                logger.info(f"余弦相似度得分: {basic_scores[i]:.4f}")
                 logger.info(f"标准化重排序得分: {normalized_rerank_scores[i]:.4f}")
                 logger.info(f"标准化余弦相似度得分: {normalized_basic_scores[i]:.4f}")
                 logger.info(f"最终加权得分: {final_score:.4f}")

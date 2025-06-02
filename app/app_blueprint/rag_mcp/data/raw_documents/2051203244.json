@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051203244",
+    "company_name": "2051203244"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Microstructure and composition of InSb-GaSb ingots directionally solidified aboard Skylab\n\nAbstract: InSb-GaSb solid solution ingots prepared by directional solidification aboard Skylab and on earth consist of twins with (111) twin planes parallel to the direction of solidification and growth directions that lie along 211, 110, or 321 crystallographic directions. Significant fractions of several ingots prepared aboard Skylab were solidified from melts that were not in contact with container walls, resulting in convection driven by surface tension gradients in the melt and corresponding radially-symmetric composition variations in the ingot. In these regions, adjacent twins exhibit marked differences in indium content, indicating a substantial dependence of composition on crystallographic orientation.\n\n"
+      }
+    ]
+  }
+}

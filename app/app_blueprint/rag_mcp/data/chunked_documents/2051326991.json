@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051326991",
+    "company_name": "2051326991"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Analyzing Data Dependencies for Increased Parallelism in Discrete Event Simulation\n\nAbstract: To parallelize simulations, independent events have to be identified, which can be executed concurrently. The highest level of parallelism is achieved if the number of events identified as independent is maximized. Traditionally, this identification is based on time and location of events, only allowing parallelization if events on the same simulation entity are executed in timestamp order. To increase the level of parallelism, we propose a novel approach investigating another criterion for independence: If two events on the same simulation entity do not access the same data items in a conflicting manner, they can as well be executed in parallel. To this end, we propose static analysis of the model code for data access. To ease this process we develop the simulation language PSimLa similar to C++ but modified where necessary to increase analyzability without removing essential C++ features. First evaluation results show the potential of this approach and increase the confidence that data-dependency analysis can improve future parallel simulation.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 207,
+        "text": "Title: Analyzing Data Dependencies for Increased Parallelism in Discrete Event Simulation\n\nAbstract: To parallelize simulations, independent events have to be identified, which can be executed concurrently. The highest level of parallelism is achieved if the number of events identified as independent is maximized. Traditionally, this identification is based on time and location of events, only allowing parallelization if events on the same simulation entity are executed in timestamp order. To increase the level of parallelism, we propose a novel approach investigating another criterion for independence: If two events on the same simulation entity do not access the same data items in a conflicting manner, they can as well be executed in parallel. To this end, we propose static analysis of the model code for data access. To ease this process we develop the simulation language PSimLa similar to C++ but modified where necessary to increase analyzability without removing essential C++ features. First evaluation results show the potential of this approach and increase the confidence that data-dependency analysis can improve future parallel simulation.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

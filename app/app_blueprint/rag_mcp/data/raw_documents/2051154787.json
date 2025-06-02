@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051154787",
+    "company_name": "2051154787"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Decision process simulation models of defense contractor behavior\n\nAbstract: The demand for defense systems is determined by a single buyer - the U.S. Department of Defense. In such an environment traditional competitive market mechanisms cannot be expected to operate effectively. Historically, the objective of procurement policies has been to prevent excess profits. This has resulted in bilateral contractual arrangements based on cost reimbursement, with low profits for the contractor and with the government bearing most of the risks. However, studies which have investigated incentive contracts conclude that their effectiveness in achieving DOD costs and performance objectives cannot be generalized.This paper describes the development of decision process simulation models describing defense contractor motivation, management and performance. The computerized models employ feedback/adaptation/search mechanisms to describe the internal decision making behavior of defense contractors at the project and corporate levels. It is expected that the simulation models will provide the basis for generating and testing various hypothetical incentive schemes.\n\nKeywords: Operating system, Risk analysis (engineering), Optics, Physics, Engineering, Philosophy, Business, Economics, Marketing, Microeconomics, Government (linguistics), Industrial organization, Computer science, Linguistics, Operations research, Process (computing)\n\n"
+      }
+    ]
+  }
+}

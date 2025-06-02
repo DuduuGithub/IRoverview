@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051159803",
+    "company_name": "2051159803"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The essentialities of productivity in information services\n\nAbstract: The concept of productivity in information services is very elusive. What economic value is created by information services? When we consider the role of information as a lubricant for the development and execution of international trade, this is especially difficult. My position is that information is essential to the development of international transactions. In effect, no international trade can occur in the absence of solid, accurate, and timely information about the trading partners. That assertion is an empty statement in the absence of an understanding about the role of information in enhancing productivity. do we understand the role of information as a factor in productivity improvement? One approach is that of the librarian, who measures productivity by thinking, How much time did I save for the scientist, engineer, or social researcher when I did a more efficient search of the literature as defined? A second approach is that of the management analyst. In that case the thinking might be: How much did the information I supplied add to the cost effectiveness of the decision that was being made? In other words, did the information make the final decision more accurate, more persuasive, or more defensible? In each case there is a subjective judgment to be made about the overall efficacy of the decision itself and of the information that was important to the decision or the action. This subjective judgment is important, yet there is an overall skepticism that information is simply an additional cost, that information does not yield measurable benefits. In these remarks I will seek to set a framework for evaluating the value and productivity of information systems. While this subject has been studied for many years, the reality is that there are not many practical examples of the productivity of information activities and, more importantly, the concepts of measuring the national income accounts make it extremely difficult to measure the impact of value added in information activities. For this reason, I will use examples based on our experience in the United States, but our experience at Dun & Bradstreet is that the models that work in the United States can be adapted to other national settings. In fact, nearly one-third of our revenue and profits originate outside of North America. The basic concept of value added in the national accounts (GNP in the U.S., and the SNA, or System of National Accounts in the United Nations) is that value added is the sum of capital and labor inputs in information activities. Thus, wages of analysts combined with the allocation of computer and telecommunications costs equal the value added. You will immediately note that there has been no recognition of the so-called\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 10,
+        "text": "Title: The essentialities of productivity in information services",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: The concept of productivity in information services is very elusive. What economic value is created by information services? When we consider the role of information as a lubricant for the development and execution of international trade, this is especially difficult. My position is that information is essential to the development of international transactions. In effect, no international trade can occur in the absence of solid, accurate, and timely information about the trading partners. That assertion is an empty statement in the absence of an understanding about the role of information in enhancing productivity. do we understand the role of information as a factor in productivity improvement? One approach is that of the librarian, who measures productivity by thinking, How much time did I save for the scientist, engineer, or social researcher when I did a more efficient search of the literature as defined? A second approach is that of the management analyst. In that case the thinking might be: How much did the information I supplied add to the cost effectiveness of the decision that was being made? In other words, did the information make the final decision more accurate, more persuasive, or more defensible? In each case there is a subjective judgment to be made about the overall efficacy of the decision itself and of the information that was important to the decision or the action. This subjective judgment is important, yet there is an overall skepticism that information is simply an additional cost, that information does not yield measurable benefits. In these remarks I will seek to set a framework for evaluating the value and productivity of",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 249,
+        "text": "decision or the action. This subjective judgment is important, yet there is an overall skepticism that information is simply an additional cost, that information does not yield measurable benefits. In these remarks I will seek to set a framework for evaluating the value and productivity of information systems. While this subject has been studied for many years, the reality is that there are not many practical examples of the productivity of information activities and, more importantly, the concepts of measuring the national income accounts make it extremely difficult to measure the impact of value added in information activities. For this reason, I will use examples based on our experience in the United States, but our experience at Dun & Bradstreet is that the models that work in the United States can be adapted to other national settings. In fact, nearly one-third of our revenue and profits originate outside of North America. The basic concept of value added in the national accounts (GNP in the U.S., and the SNA, or System of National Accounts in the United Nations) is that value added is the sum of capital and labor inputs in information activities. Thus, wages of analysts combined with the allocation of computer and telecommunications costs equal the value added. You will immediately note that there has been no recognition of the so-called",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051311710",
+    "company_name": "2051311710"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Rapid prototyping of real-time controllers for humanoid robotics: A case study\n\nAbstract: This paper presents a rapid prototyping of realtime controllers for humanoid robotics based on standard off-the-shelf hardware and software. The proposed scheme allows control of a wide class of robotic systems in hard real-time. To take advantage of Simulink graphic programming interfaces, robotic programming environment, middleware and library are also presented based on Matlab/Simulink/RTW toolchain. Experiments are presented to show the performance on current computing hardware.\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "metainfo": {
+    "sha1_name": "2051332963",
+    "company_name": "2051332963"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: The ATDM methodology to support the design and implementation of an enterprise data warehouse\n\nAbstract: The structure and abundance of Online Resource Usage (ORU) data restricts the effective and efficient analysis of this data by decision makers. Existing enterprise data warehouse (DW) methodologies do not provide sufficient support for the full DW development lifecycle in that support for metadata documentation, logical design, physical design and implementation is often neglected. This paper proposes an extension to the Triple-Driven Data Modelling (TDM) methodology to include the addition of a design and implementation phase. The Adapted Triple-Driven Methodology (ATDM) supports the generation and documentation of semantic and technical metadata that describes an enterprise data warehouse structure at the logical, physical and implementation levels. The ATDM was successfully applied to the Information and Communication Technology Services (ICTS) department of the Nelson Mandela Metropolitan University (NMMU). The application of the ATDM to ICTS resulted in the generation and documentation of semantic and technical metadata for both the logical and physical design of an enterprise data warehouse structure. The implementation phase was applied using the Microsoft SQL Server integrated tool to obtain an implemented DW for ICTS that is described by technical metadata at an implementation level. Several experiments were conducted to benchmark the accuracy, effectiveness and efficiency of the ICTS DW against the existing operational model used for running ad-hoc queries. The results of the investigation have shown that the ATDM can be successfully applied to obtain an effective and efficient enterprise data warehouse for analysing ORU data.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 17,
+        "text": "Title: The ATDM methodology to support the design and implementation of an enterprise data warehouse",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 287,
+        "text": "Abstract: The structure and abundance of Online Resource Usage (ORU) data restricts the effective and efficient analysis of this data by decision makers. Existing enterprise data warehouse (DW) methodologies do not provide sufficient support for the full DW development lifecycle in that support for metadata documentation, logical design, physical design and implementation is often neglected. This paper proposes an extension to the Triple-Driven Data Modelling (TDM) methodology to include the addition of a design and implementation phase. The Adapted Triple-Driven Methodology (ATDM) supports the generation and documentation of semantic and technical metadata that describes an enterprise data warehouse structure at the logical, physical and implementation levels. The ATDM was successfully applied to the Information and Communication Technology Services (ICTS) department of the Nelson Mandela Metropolitan University (NMMU). The application of the ATDM to ICTS resulted in the generation and documentation of semantic and technical metadata for both the logical and physical design of an enterprise data warehouse structure. The implementation phase was applied using the Microsoft SQL Server integrated tool to obtain an implemented DW for ICTS that is described by technical metadata at an implementation level. Several experiments were conducted to benchmark the accuracy, effectiveness and efficiency of the ICTS DW against the existing operational model used for running ad-hoc queries. The results of the investigation have shown that the ATDM can be successfully applied to obtain an effective and efficient enterprise data warehouse for analysing ORU data.",
+        "id": 1,
+        "type": "content"
+      }
+    ]
+  }
+}

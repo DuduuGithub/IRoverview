@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051222933",
+    "company_name": "2051222933"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Aging studies on stressed and unstressed scintillating, wave-shifting, and clear fibers\n\nAbstract: For the upgrade in 1998, the Fermilab D-Zero collaboration will install detectors which have many thousand scintillating and wavelength shifting fibers coupled to clear lightguide fibers. Our objective was to study whether the fibers' performance will deteriorate with age. Aging in these three kinds of fibers were studied by measuring attenuation lengths and light yields as a function of time. Attenuation lengths of scintillating and wavelength shifting fibers were measured using an ultraviolet light source and effective light yields of scintillating fibers were measured using a <SUP>207</SUP>Bi radiation source. For clear fibers, attenuation measurements were made using light from a green light-emitting diode. Scintillating fibers have shown no noticeable changes in attenuation lengths and light yields over periods of up to 3.5 years when they were stored properly. Wavelength shifting fibers have been studied for a period of five months and have shown no degradation. Clear fibers have been studied over periods of up to seven months and have shown a reduction of a few percent in the attenuation length. These will have to be monitored for a longer period of time to establish if the effect is significant. The effects of aging on mechanically stressed fibers have also been studied. Light transmissions in clear fibers coiled into loops of various radii have been compared to transmissions in straight fibers. The stressed fibers have shown no change in the light loss for almost one year. The observations made over the past 3.5 years indicate that fiber aging is not a serious problem, however, the clear fibers require further investigation.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 20,
+        "text": "Title: Aging studies on stressed and unstressed scintillating, wave-shifting, and clear fibers",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: For the upgrade in 1998, the Fermilab D-Zero collaboration will install detectors which have many thousand scintillating and wavelength shifting fibers coupled to clear lightguide fibers. Our objective was to study whether the fibers' performance will deteriorate with age. Aging in these three kinds of fibers were studied by measuring attenuation lengths and light yields as a function of time. Attenuation lengths of scintillating and wavelength shifting fibers were measured using an ultraviolet light source and effective light yields of scintillating fibers were measured using a <SUP>207</SUP>Bi radiation source. For clear fibers, attenuation measurements were made using light from a green light-emitting diode. Scintillating fibers have shown no noticeable changes in attenuation lengths and light yields over periods of up to 3.5 years when they were stored properly. Wavelength shifting fibers have been studied for a period of five months and have shown no degradation. Clear fibers have been studied over periods of up to seven months and have shown a reduction of a few percent in the attenuation length. These will have to be monitored for a longer period of time to establish if the effect is significant. The effects of aging on mechanically stressed fibers have also been studied. Light transmissions in clear fibers coiled into loops of various radii have been compared to transmissions in straight fibers. The stressed fibers have shown no change in the light loss for almost one year. The observations made over the past 3.5 years indicate that",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 68,
+        "text": "transmissions in clear fibers coiled into loops of various radii have been compared to transmissions in straight fibers. The stressed fibers have shown no change in the light loss for almost one year. The observations made over the past 3.5 years indicate that fiber aging is not a serious problem, however, the clear fibers require further investigation.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

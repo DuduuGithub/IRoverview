@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051171033",
+    "company_name": "2051171033"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Prognosis for children with acute liver failure due to Amanita phalloides poisoning\n\nAbstract: The primary objective of this article is to find new effective methods of diagnosis of urgent liver transplantation after Amanita phalloides intoxication amongst pediatric patients. The research was carried out using a medical database of pediatric patients who suffered from acute liver failure after amatoxin consumption. After data preprocessing and attribute selection steps, a two-phase experiment was conducted, which incorporated a wide variety of data mining algorithms. The results deliver two equivalent classification models with simple decision structure and reasonable quality of surgery prediction.\n\n"
+      }
+    ]
+  }
+}

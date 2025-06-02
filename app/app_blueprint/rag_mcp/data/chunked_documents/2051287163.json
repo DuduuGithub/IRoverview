@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051287163",
+    "company_name": "2051287163"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Medical Malpractice - the Legal Situation in Norway\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 11,
+        "text": "Title: Medical Malpractice - the Legal Situation in Norway",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

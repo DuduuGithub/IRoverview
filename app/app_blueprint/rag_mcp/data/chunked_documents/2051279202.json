@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051279202",
+    "company_name": "2051279202"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Interpreting text messages with graphic facial expression by deaf and hearing people\n\nAbstract: In interpreting verbal messages, humans use not only verbal information but also non-verbal signals such as facial expression. For example, when a person says “yes” with a troubled face, what he or she really means appears ambiguous. In the present study, we examined how deaf and hearing people differ in perceiving real meanings in texts accompanied by representations of facial expression. Deaf and hearing participants were asked to imagine that the face presented on the computer monitor was asked a question from another person (e.g., do you like her?). They observed either a realistic or a schematic face with a different magnitude of positive or negative expression on a computer monitor. A balloon that contained either a positive or negative text response to the question appeared at the same time as the face. Then, participants rated how much the individual on the monitor really meant it (i.e., perceived earnestness), using a 7-point scale. Results showed that the facial expression significantly modulated the perceived earnestness. The influence of positive expression on negative text responses was relatively weaker than that of negative expression on positive responses (i.e., “no” tended to mean “no” irrespective of facial expression) for both participant groups. However, this asymmetrical effect was stronger in the hearing group. These results suggest that the contribution of facial expression in perceiving real meanings from text messages is qualitatively similar but quantitatively different between deaf and hearing people.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 300,
+        "text": "Title: Interpreting text messages with graphic facial expression by deaf and hearing people\n\nAbstract: In interpreting verbal messages, humans use not only verbal information but also non-verbal signals such as facial expression. For example, when a person says “yes” with a troubled face, what he or she really means appears ambiguous. In the present study, we examined how deaf and hearing people differ in perceiving real meanings in texts accompanied by representations of facial expression. Deaf and hearing participants were asked to imagine that the face presented on the computer monitor was asked a question from another person (e.g., do you like her?). They observed either a realistic or a schematic face with a different magnitude of positive or negative expression on a computer monitor. A balloon that contained either a positive or negative text response to the question appeared at the same time as the face. Then, participants rated how much the individual on the monitor really meant it (i.e., perceived earnestness), using a 7-point scale. Results showed that the facial expression significantly modulated the perceived earnestness. The influence of positive expression on negative text responses was relatively weaker than that of negative expression on positive responses (i.e., “no” tended to mean “no” irrespective of facial expression) for both participant groups. However, this asymmetrical effect was stronger in the hearing group. These results suggest that the contribution of facial expression in perceiving real meanings from text messages is qualitatively similar but quantitatively different between deaf and hearing people.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

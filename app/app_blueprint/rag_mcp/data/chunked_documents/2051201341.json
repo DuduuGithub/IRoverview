@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051201341",
+    "company_name": "2051201341"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Smart antenna system design for localization of wireless capsule\n\nAbstract: Smart antenna is recognized as an intelligent antenna system in modern wireless communication for its adaptive beam forming technique and direction of arrival (DoA) estimation features. However, this system is yet to be introduced extensively for biomedical applications. A sectoral sweeper based algorithm is proposed in this article for RF localization of wireless capsule inside the human gastro intestinal (GI) tract. This algorithm basically works using the alteration of task beam power level and direction of smart antenna array. It is proposed that, one transmitting antenna element of antenna array transmits signals towards the GI tract at a time and others will be in receive mode. The received signals are then processed based on space-frequency signal processing concept which is derived in this paper for cylindrical shaped antenna array. Particle swarm optimization model is developed to predict the 2D location of robotic capsule from the received information of smart antenna system with about 99% successful.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 191,
+        "text": "Title: Smart antenna system design for localization of wireless capsule\n\nAbstract: Smart antenna is recognized as an intelligent antenna system in modern wireless communication for its adaptive beam forming technique and direction of arrival (DoA) estimation features. However, this system is yet to be introduced extensively for biomedical applications. A sectoral sweeper based algorithm is proposed in this article for RF localization of wireless capsule inside the human gastro intestinal (GI) tract. This algorithm basically works using the alteration of task beam power level and direction of smart antenna array. It is proposed that, one transmitting antenna element of antenna array transmits signals towards the GI tract at a time and others will be in receive mode. The received signals are then processed based on space-frequency signal processing concept which is derived in this paper for cylindrical shaped antenna array. Particle swarm optimization model is developed to predict the 2D location of robotic capsule from the received information of smart antenna system with about 99% successful.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

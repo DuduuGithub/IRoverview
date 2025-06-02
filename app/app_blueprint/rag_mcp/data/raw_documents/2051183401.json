@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051183401",
+    "company_name": "2051183401"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Gas-phase thermolysis ofN-methyl-N-phenyl-tert-butylsulfenamide and morpholinyl-tert-butylsulfenamide\n\nAbstract: N-Methyl-N-phenyl-tert-butylsulfenamide (MPSA) and morpholinyl-tert-butylsulfenamide (MOSA) were thermolyzed in a stirred-flow reactor at temperatures of 340–390 °C and pressures of 7–13 Torr, using toluene as carrier gas, at residence times of 0.3–1.3 s. Isobutene was formed in 99% yield through first-order reactions having the following Arrhenius parameters (A,s−1, Ea, kJ mol−1): MPSA, log A = 12.41 ± 0.02, Ea = 158.8 ± 0.2; MOSA, log A = 12.91 ± 0.22, Ea = 159 ± 3. It is proposed that the elimination of isobutene takes place by unimolecular reaction mechanisms involving polar, four-center cyclic transition states, forming S-unsubstituted thiohydroxylamines as co-products. Thermochemical parameters, estimated by semiempirical AM1 calculations, are reported for the latter and for the parent molecules. © 1998 John Wiley & Sons, Ltd.\n\n"
+      }
+    ]
+  }
+}

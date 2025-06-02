@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051317493",
+    "company_name": "2051317493"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Effect of Ar+ ion sputtering on the electronic transport of MgB2 surface\n\nAbstract: Scanning tunneling microscopy and spectroscopy (STM/STS) experiments on a high-density sintered MgB2 surface were performed at 4.2 K, using a low-temperature STM. For a 20-min Ar+ ion sputtered MgB2 surface, a double-gap structure with gap values of ΔL=9.5 meV and ΔS=4.0 meV was clearly observed in the local tunneling spectra, exhibiting the BCS-shaped characteristic with a metallic background. But for a 2-h Ar+ ion sputtered surface, the observed current–voltage characteristics of the MgB2 surface show metallic electronic transport behavior. In an attempt to clarify the effect of Ar+ ion sputtering on the electronic transport, the MgB2 surface was characterized by Auger electron spectroscopy (AES). The compositional changes of the MgB2 surface were investigated in real time during the course of Ar+ ion sputtering. The detailed compositional analysis of the MgB2 surface may help to elucidate the various electronic transport behavior observed in surface-sensitive STS measurements.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 239,
+        "text": "Title: Effect of Ar+ ion sputtering on the electronic transport of MgB2 surface\n\nAbstract: Scanning tunneling microscopy and spectroscopy (STM/STS) experiments on a high-density sintered MgB2 surface were performed at 4.2 K, using a low-temperature STM. For a 20-min Ar+ ion sputtered MgB2 surface, a double-gap structure with gap values of ΔL=9.5 meV and ΔS=4.0 meV was clearly observed in the local tunneling spectra, exhibiting the BCS-shaped characteristic with a metallic background. But for a 2-h Ar+ ion sputtered surface, the observed current–voltage characteristics of the MgB2 surface show metallic electronic transport behavior. In an attempt to clarify the effect of Ar+ ion sputtering on the electronic transport, the MgB2 surface was characterized by Auger electron spectroscopy (AES). The compositional changes of the MgB2 surface were investigated in real time during the course of Ar+ ion sputtering. The detailed compositional analysis of the MgB2 surface may help to elucidate the various electronic transport behavior observed in surface-sensitive STS measurements.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

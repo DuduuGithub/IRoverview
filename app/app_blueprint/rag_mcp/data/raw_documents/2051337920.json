@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051337920",
+    "company_name": "2051337920"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: &lt;title&gt;IP switching in a simplified ATM environment&lt;/title&gt;\n\nAbstract: Key issues in the current development of Internet seem to be its capability to scale and to support new real-time or near real-time applications like video- and audio-conferencing. There are two factors that affect these qualities: one is the ability to distinguish which connections should be switched and the other is the effective control over network resources. ATM is a serious attempt to standardize global multiservice networks. This attempt seems to suit well for the future Internet. ATM was originally meant to be an easy and an efficient protocol but it is now turning to be 'yet another ISDN.' More and more features are implemented to ATM resulting in the overloading of the network with management procedures. Therefore a new approach needs to be taken. In this approach a strong reminder of 'what is necessary' needs to be kept in mind. This paper presents an alternative, simpler approach to the ATM traffic management and introduces some suggestions how to map Internet applications to simplified ATM environment using an advanced IP switching concept.\n\n"
+      }
+    ]
+  }
+}

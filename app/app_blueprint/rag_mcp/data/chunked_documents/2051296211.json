@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051296211",
+    "company_name": "2051296211"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: ACL reconstruction with BTB graft: Unusual evolution of knee arthrofibrosis case report\n\nAbstract: Knee arthrofibrosis, which usually occurs after trauma or surgery, can inhibit joint biomechanics. An elaborated interaction of growth factors and other inflammatory mediators initiates and coordinates this deleterious tissue proliferation. Knowledge of risk factors can aid clinicians in helping patients avoid knee arthrofibrosis. Once the condition is present, a history and examination are imperative to institute the most appropriate treatment regimen. Nonoperative measures can be used as therapy, though surgery is often necessary for optimal results. We have analyzed problems in patient with uncommon evolution of knee arthrofibrosis following ACL recontruction with BTB autograft.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 147,
+        "text": "Title: ACL reconstruction with BTB graft: Unusual evolution of knee arthrofibrosis case report\n\nAbstract: Knee arthrofibrosis, which usually occurs after trauma or surgery, can inhibit joint biomechanics. An elaborated interaction of growth factors and other inflammatory mediators initiates and coordinates this deleterious tissue proliferation. Knowledge of risk factors can aid clinicians in helping patients avoid knee arthrofibrosis. Once the condition is present, a history and examination are imperative to institute the most appropriate treatment regimen. Nonoperative measures can be used as therapy, though surgery is often necessary for optimal results. We have analyzed problems in patient with uncommon evolution of knee arthrofibrosis following ACL recontruction with BTB autograft.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

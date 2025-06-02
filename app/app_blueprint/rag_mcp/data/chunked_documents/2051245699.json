@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051245699",
+    "company_name": "2051245699"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Application of Topology Optimization to Commercial Vehicle Cab Design\n\nAbstract: A topology optimization approach based on FEM is presented in this paper, which can be used to simplify the topological structure of an ldquooptimumrdquo structure obtained from the topology optimization process, and thus significantly improves the manufacturability of the final design. The design of commercial vehicle cab body topologic structure is presented using this approach. The existing model is made modifications according to the results of the optimization, and compared with original design. The results show that by optimizing the topology of the structure, the material can be distributed in a more efficient manner thus giving equal or better structural performance at a lower mass. Finite element analysis with optimization process has proven very useful in virtual manufacturing world.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 152,
+        "text": "Title: Application of Topology Optimization to Commercial Vehicle Cab Design\n\nAbstract: A topology optimization approach based on FEM is presented in this paper, which can be used to simplify the topological structure of an ldquooptimumrdquo structure obtained from the topology optimization process, and thus significantly improves the manufacturability of the final design. The design of commercial vehicle cab body topologic structure is presented using this approach. The existing model is made modifications according to the results of the optimization, and compared with original design. The results show that by optimizing the topology of the structure, the material can be distributed in a more efficient manner thus giving equal or better structural performance at a lower mass. Finite element analysis with optimization process has proven very useful in virtual manufacturing world.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

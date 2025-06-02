@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051187689",
+    "company_name": "2051187689"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Pion Production, Current Algebra, and Coupling-Constant Relations\n\nAbstract: The techniques of current algebra are applied to the process $\\ensuremath{\\pi}N\\ensuremath{\\rightarrow}\\ensuremath{\\pi}\\ensuremath{\\pi}N$, with a view of obtaining certain coupling-constant sum rules. The emphasis is on the evaluation of the limit when all three pions become soft. While the matrix elements for such a process all vanish in this limit, it is possible to use a suitable limiting procedure to obtain nontrivial relations involving various strong coupling constants and certain low-energy $\\ensuremath{\\pi}\\ensuremath{-}\\ensuremath{\\pi}$ parameters. The entire formalism is based on using an extensive pole model for the evaluation of the $\\ensuremath{\\pi}N\\ensuremath{\\rightarrow}\\ensuremath{\\pi}\\ensuremath{\\pi}N$ matrix elements. The problem of ambiguous terms which have a more complicated structure in such processes is treated in some detail. One of the interesting results is an independent determination of the pion scattering lengths (in terms of the known coupling constants of hadrons), in almost exact agreement with Weinberg's original result.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 239,
+        "text": "Title: Pion Production, Current Algebra, and Coupling-Constant Relations\n\nAbstract: The techniques of current algebra are applied to the process $\\ensuremath{\\pi}N\\ensuremath{\\rightarrow}\\ensuremath{\\pi}\\ensuremath{\\pi}N$, with a view of obtaining certain coupling-constant sum rules. The emphasis is on the evaluation of the limit when all three pions become soft. While the matrix elements for such a process all vanish in this limit, it is possible to use a suitable limiting procedure to obtain nontrivial relations involving various strong coupling constants and certain low-energy $\\ensuremath{\\pi}\\ensuremath{-}\\ensuremath{\\pi}$ parameters. The entire formalism is based on using an extensive pole model for the evaluation of the $\\ensuremath{\\pi}N\\ensuremath{\\rightarrow}\\ensuremath{\\pi}\\ensuremath{\\pi}N$ matrix elements. The problem of ambiguous terms which have a more complicated structure in such processes is treated in some detail. One of the interesting results is an independent determination of the pion scattering lengths (in terms of the known coupling constants of hadrons), in almost exact agreement with Weinberg's original result.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

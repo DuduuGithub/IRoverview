@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051286919",
+    "company_name": "2051286919"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Dome C: new Antarctic base\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 8,
+        "text": "Title: Dome C: new Antarctic base",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

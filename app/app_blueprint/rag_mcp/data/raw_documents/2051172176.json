@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051172176",
+    "company_name": "2051172176"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Spin-wave spectrum of a two-dimensional itinerant electron system: Analytic results for the incommensurate spiral phase in the strong-coupling limit\n\nAbstract: We study the zero-temperature spin fluctuations of a two-dimensional itinerant-electron system with an incommensurate magnetic ground state described by a single-band Hubbard Hamiltonian. We introduce the (broken-symmetry) magnetic phase at the mean-field (Hartree-Fock) level through a spiral spin configuration with characteristic wave vector Q different in general from the antiferromagnetic wave vector Q AF, and consider spin fluctuations over and above it within the electronic random-phase (RPA) approximation. We obtain a closed system of equations for the generalized wave vector and frequency dependent susceptibilities, which are equivalent to the ones reported recently by Brenig. We obtain, in addition, analytic results for the spin-wave dispersion relation in the strong-coupling limit of the Hubbard Hamiltonian and find that at finite doping the spin-wave dispersion relation has a hybrid form between that associated with the (localized) Heisenberg model and that associated with the (long-range) RKKY exchange interaction. We also find an instability of the spin-wave spectrum in a finite region about the center of the Brillouin zone, which signals a physical instability toward a different spin- or, possibly, charge-ordered phase, as, for example, the stripe structures observed in the high-T c materials. We expect, however, on physical grounds that for wave vectors external to this region the spin-wave spectrum that we have determined should survive consideration of more sophisticated mean-field solutions.\n\n"
+      }
+    ]
+  }
+}

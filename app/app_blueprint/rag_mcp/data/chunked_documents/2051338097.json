@@ -1,0 +1,37 @@
+{
+  "metainfo": {
+    "sha1_name": "2051338097",
+    "company_name": "2051338097"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Treatment of vincristine overdosage\n\nAbstract: During the close supervision of by now over 30 children with this condition, we have observed excessive somnolence in older obese children, but this symptom has disappeared when weight loss could be achieved as a result of nutritional management.The authors state that factors other than weight are implicated in the pathogenesis of the obesity-hypoventilation syndrome.We noted that the post-treatment weight, associated with the recurrence of the symptoms, was still extreme for height and age in the one child reported in the article.Without doubting the demonstrated benefical effects of the treatment with progesterone on the obesity-hypoventilation syndrome, we feel that the importance of the correction of the primary problem of obesity needs to be stressed.We agree with the authors that no appetite decreasing treatment for patients with Prader-Willi syndrome has been successful.Still, weight loss can be achieved by caloric restrictionY The use of a diet limited to 400 calories per day in the described patient seems excessive and it is difficult to conceive how adequate nutrition can be provided within this restriction.Caloric intake in children with the Prader-Willi syndrome needs to be individualized3; the diet prescribed for the child provides 3.8 calories/cm and in our experience a caloric intake of approximately 7 to 8 calories/cm in a girl this age would still allow weight loss.We would agree with the authors that their patient's ecchymosis probably was not caused by the medication, since approximately 50% of children with this condition show increased bruisability (our own unpublished data).They blame the premature pubarche on the medication, but this condition has been described in girls with the Prader-Willi syndrome 4 and has also been observed by us in a few cases, even though it has not occurred at such an early age in any of our patients.It would seem that early recognition of children afflicted with the Prader-Willi syndrome and the institution of appropriate management programs to prevent the extreme obesity with its many secondary problems should be stressed as the ultimate goal for this patient population.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 10,
+        "text": "Title: Treatment of vincristine overdosage",
+        "id": 0,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 299,
+        "text": "Abstract: During the close supervision of by now over 30 children with this condition, we have observed excessive somnolence in older obese children, but this symptom has disappeared when weight loss could be achieved as a result of nutritional management.The authors state that factors other than weight are implicated in the pathogenesis of the obesity-hypoventilation syndrome.We noted that the post-treatment weight, associated with the recurrence of the symptoms, was still extreme for height and age in the one child reported in the article.Without doubting the demonstrated benefical effects of the treatment with progesterone on the obesity-hypoventilation syndrome, we feel that the importance of the correction of the primary problem of obesity needs to be stressed.We agree with the authors that no appetite decreasing treatment for patients with Prader-Willi syndrome has been successful.Still, weight loss can be achieved by caloric restrictionY The use of a diet limited to 400 calories per day in the described patient seems excessive and it is difficult to conceive how adequate nutrition can be provided within this restriction.Caloric intake in children with the Prader-Willi syndrome needs to be individualized3; the diet prescribed for the child provides 3.8 calories/cm and in our experience a caloric intake of approximately 7 to 8 calories/cm in a girl this age would still allow weight loss.We would agree with the authors that their patient's ecchymosis probably was not caused by the medication, since approximately 50% of children with this condition",
+        "id": 1,
+        "type": "content"
+      },
+      {
+        "page": 0,
+        "length_tokens": 161,
+        "text": "of approximately 7 to 8 calories/cm in a girl this age would still allow weight loss.We would agree with the authors that their patient's ecchymosis probably was not caused by the medication, since approximately 50% of children with this condition show increased bruisability (our own unpublished data).They blame the premature pubarche on the medication, but this condition has been described in girls with the Prader-Willi syndrome 4 and has also been observed by us in a few cases, even though it has not occurred at such an early age in any of our patients.It would seem that early recognition of children afflicted with the Prader-Willi syndrome and the institution of appropriate management programs to prevent the extreme obesity with its many secondary problems should be stressed as the ultimate goal for this patient population.",
+        "id": 2,
+        "type": "content"
+      }
+    ]
+  }
+}

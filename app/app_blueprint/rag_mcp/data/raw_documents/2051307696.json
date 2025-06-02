@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051307696",
+    "company_name": "2051307696"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: A microfabricated intravascular ultrasound scanner for intravascular interventions\n\nAbstract: Minimally invasive medical therapy can reduce both healthcare costs and patient suffering. The development of submillimeter scale instruments falls in a gap of manufacturing technologies between traditional machining and microfabrication techniques. To address this need we have developed a fabrication technique based upon laser machining of tubular structures combined with shaped-memory alloy actuators to create compliant devices for minimally invasive interventions. The initial application of this approach has been to develop a forward viewing intravascular ultrasound scanner for use in guiding intravascular interventions in situations where traditional angiography and intravascular ultrasound are unable to provide adequate guidance. The ultrasound device is less than 1.5 mm in diameter and provides imaging at 20 frames per second. Imaging currently is performed with a 20 MHz 800 micron diameter transducer producing axial resolutions of approximately 150 microns. Device optimization has resulted in peak strains of less than 1% within the compliant structure resulting in device life greater than 200,000 cycles providing usable times greater than twice the anticipated procedure length. The design concepts embodied in this initial implementation will serve as a platform for a variety of self actuated minimally invasive tools.\n\n"
+      }
+    ]
+  }
+}

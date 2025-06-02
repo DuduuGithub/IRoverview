@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051305851",
+    "company_name": "2051305851"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Patch-clamp Analysis of Hypoglycemia-induced Inhibition of Synaptic Transmission in the Rat Dorsolateral Septal Nucleus.\n\nAbstract: The role of glucose in neuronal transmission was examined in the rat dorsolateral septal nucleus (DLSN) by using 'slice-patch' techniques. Removal of glucose from the oxygenated Krebs solution produced an outward current associated with an increased K+ conductance. The glucosedepletion depressed the excitatory postsynaptic current (EPSC), the inhibitory postsynaptic current (IPSC) and the late hyperpolarizing current (LHC) produced by stimulation of the fimbria/fornix pathway. It is hypothesized that glucose regulates neurotransmission in the rat DLSN by modulating the release of transmitters from presynaptic nerve terminals.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 166,
+        "text": "Title: Patch-clamp Analysis of Hypoglycemia-induced Inhibition of Synaptic Transmission in the Rat Dorsolateral Septal Nucleus.\n\nAbstract: The role of glucose in neuronal transmission was examined in the rat dorsolateral septal nucleus (DLSN) by using 'slice-patch' techniques. Removal of glucose from the oxygenated Krebs solution produced an outward current associated with an increased K+ conductance. The glucosedepletion depressed the excitatory postsynaptic current (EPSC), the inhibitory postsynaptic current (IPSC) and the late hyperpolarizing current (LHC) produced by stimulation of the fimbria/fornix pathway. It is hypothesized that glucose regulates neurotransmission in the rat DLSN by modulating the release of transmitters from presynaptic nerve terminals.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

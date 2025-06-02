@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051225431",
+    "company_name": "2051225431"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: High power Raman diamond laser\n\nAbstract: We developed a cryogenically cooled Yb:YAG laser as the pump beam for a pulsed Raman laser based on CVD grown diamond crystals. The Q-switched cryogenic Yb-doped YAG 1030 nm pump laser delivered 340 W at 40 kHz with diffraction-limited beam quality, with an optical efficiency of 80%. The record average power of 24.5 W was generated from the Raman laser at 1193 nm. Modeling of the performance confirmed the corresponding Raman gain coefficient, 13.5 cm/GW. The laser was operated at room temperature and under cryogenic cooling at 77 K, with equal performance.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 144,
+        "text": "Title: High power Raman diamond laser\n\nAbstract: We developed a cryogenically cooled Yb:YAG laser as the pump beam for a pulsed Raman laser based on CVD grown diamond crystals. The Q-switched cryogenic Yb-doped YAG 1030 nm pump laser delivered 340 W at 40 kHz with diffraction-limited beam quality, with an optical efficiency of 80%. The record average power of 24.5 W was generated from the Raman laser at 1193 nm. Modeling of the performance confirmed the corresponding Raman gain coefficient, 13.5 cm/GW. The laser was operated at room temperature and under cryogenic cooling at 77 K, with equal performance.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051158193",
+    "company_name": "2051158193"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Approximate calculation of the critical pressures for turbulent boundary layer separation and attachment in supersonic flow\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 21,
+        "text": "Title: Approximate calculation of the critical pressures for turbulent boundary layer separation and attachment in supersonic flow",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

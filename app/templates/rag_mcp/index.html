@@ -1,0 +1,3760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG</title>
+    <!-- 添加Material Icons库 -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- 添加marked.js库用于Markdown解析 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f7f7f8;
+        }
+
+        /* 左侧边栏 */
+        .sidebar {
+            width: 260px;
+            background-color: #202123;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 12px;
+            left: 270px;
+            z-index: 100;
+            background: #444654;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar-toggle.collapsed {
+            left: 10px;
+        }
+
+        .tools-section {
+            padding: 16px;
+            border-bottom: 1px solid #444654;
+        }
+
+        .tools-section h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #ececf1;
+        }
+
+        .tools-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .tool-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-item:hover {
+            background-color: #343541;
+        }
+
+        .tool-item.active {
+            background-color: #343541;
+        }
+
+        .tool-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* 新建对话按钮 */
+        .new-chat-btn {
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: #10a37f;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .new-chat-btn:hover {
+            background-color: #0d8c6d;
+            transform: translateY(-1px);
+        }
+
+        /* 历史记录部分 */
+        .history-section {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .history-section h3 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #ececf1;
+        }
+
+        .time-group {
+            margin-bottom: 16px;
+        }
+
+        .time-label {
+            font-size: 12px;
+            color: #8e8ea0;
+            margin-bottom: 8px;
+        }
+
+        .chat-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-item:hover {
+            background-color: #343541;
+        }
+
+        .chat-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .delete-chat {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: #8e8ea0;
+        }
+
+        .chat-item:hover .delete-chat {
+            opacity: 1;
+        }
+
+        /* 主聊天区域 */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            transition: width 0.3s ease;
+            position: relative;
+            max-width: 100%;
+        }
+
+        .search-active .chat-container {
+            max-width: 50%;
+        }
+
+        .chat-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            z-index: 5;
+        }
+
+        .chat-header h2 {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            display: flex;
+            padding: 10px 20px;
+            border-radius: 8px;
+            animation: fadeIn 0.3s ease-out;
+            margin-bottom: 10px;
+            align-items: flex-start;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background-color: #f7f7f8;
+            align-self: flex-end;
+            max-width: 85%;
+            border-radius: 18px 18px 4px 18px;
+        }
+
+        .message.assistant {
+            background-color: #f0f7ff;
+            align-self: flex-start;
+            max-width: 85%;
+            border-radius: 18px 18px 18px 4px;
+        }
+
+        /* 添加系统消息样式 */
+        .message.system {
+            background-color: #fffbe6;
+            align-self: center;
+            max-width: 80%;
+            border-radius: 18px;
+            padding: 8px 15px;
+            color: #555;
+            font-style: italic;
+            border: 1px dashed #d9d9d9;
+            margin: 10px 0;
+            text-align: center;
+        }
+        
+        /* 添加系统错误消息样式 */
+        .message.system.error {
+            background-color: #fff1f0;
+            border: 1px dashed #ffccc7;
+            color: #cf1322;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .user .avatar {
+            background-color: #6e8efb;
+        }
+
+        .assistant .avatar {
+            background-color: #10a37f;
+        }
+
+        .message-content {
+            flex: 1;
+            line-height: 1.5;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .message-content pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+            margin: 10px 0;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px 0;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #10a37f;
+            border-radius: 50%;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+
+        .chat-input-container {
+            padding: 16px 20px;
+            border-top: 1px solid #e5e5e5;
+            position: relative;
+            z-index: 5;
+            background: #ffffff;
+        }
+
+        .chat-input-wrapper {
+            border: 1px solid #e5e5e5;
+            border-radius: 24px;
+            display: flex;
+            padding: 8px 16px;
+            background-color: #ffffff;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .chat-input-wrapper:focus-within {
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            border-color: #10a37f;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            min-height: 24px;
+            max-height: 200px;
+            padding: 8px 0;
+            line-height: 1.4;
+            font-size: 16px;
+        }
+
+        .send-button {
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            align-self: flex-end;
+            transition: transform 0.2s ease;
+        }
+
+        .send-button:hover {
+            background-color: #0d8c6d;
+            transform: scale(1.05);
+        }
+        
+        .send-button.sending {
+            animation: pulse 1.5s infinite;
+            background-color: #ff4d4f;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* 生成停止提示 */
+        .generation-stopped {
+            margin-top: 8px;
+            color: #ff4d4f;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        /* 右侧搜索结果面板 */
+        .search-results {
+            width: 0;
+            background-color: #ffffff;
+            border-left: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        #search-panel {
+            width: 0;
+            background-color: #ffffff;
+            border-left: 1px solid #e5e5e5;
+            display: none;
+            flex-direction: column;
+            transition: width 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #search-panel.visible {
+            display: flex;
+            width: 50%;
+            flex: 0 0 50%;
+        }
+
+        body.search-active {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .search-result-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .search-result-item:hover {
+            background-color: #f0f7ff;
+            border-color: #c2dbff;
+        }
+        
+        .search-result-item.selected {
+            background-color: #e8f2ff;
+            border-color: #a9d3ff;
+        }
+        
+        /* 复选框容器样式 */
+        .search-result-checkbox-container {
+            flex: 0 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 24px;
+        }
+        
+        /* 复选框样式 */
+        .search-result-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        /* 内容容器样式 */
+        .search-result-content-container {
+            flex: 1;
+            min-width: 0; /* 防止内容溢出 */
+        }
+        
+        .search-result-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .search-result-item.selected {
+            border-color: #10a37f;
+            background-color: #f0f9f4;
+        }
+        
+        .search-result-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .search-result-title {
+            font-weight: 600;
+            color: #1a73e8;
+            font-size: 16px;
+            line-height: 1.3;
+        }
+        
+        .search-result-score {
+            color: #5f6368;
+            font-size: 0.85em;
+            font-weight: 500;
+            padding: 2px 8px;
+            background-color: #f1f3f4;
+            border-radius: 12px;
+        }
+        
+        .search-result-content {
+            font-size: 0.95em;
+            line-height: 1.5;
+            color: #202124;
+            max-height: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+        }
+        
+        .search-result-content::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 20px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+        }
+        
+        .result-count {
+            font-size: 14px;
+            color: #5f6368;
+            margin-bottom: 15px;
+            padding: 5px 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .loading-results {
+            padding: 20px;
+            text-align: center;
+            color: #5f6368;
+            font-style: italic;
+        }
+        
+        .error-results {
+            padding: 20px;
+            text-align: center;
+            color: #d93025;
+            background-color: #fce8e6;
+            border-radius: 4px;
+        }
+        
+        .no-results {
+            padding: 30px;
+            text-align: center;
+            color: #5f6368;
+            font-style: italic;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .search-active .search-results {
+            width: 50%;
+        }
+
+        .search-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-header h2 {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .close-search {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #555;
+            font-size: 20px;
+            transition: transform 0.2s ease;
+        }
+        
+        .close-search:hover {
+            transform: scale(1.1);
+            color: #10a37f;
+        }
+
+        /* 右侧搜索结果面板的筛选区域 */
+        .filter-section {
+            padding: 12px 20px;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-dropdown {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        
+        .filter-dropdown:focus {
+            border-color: #10a37f;
+            outline: none;
+        }
+
+        .search-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .selection-actions {
+            padding: 12px 20px;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+        }
+
+        .selection-count {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .add-selected {
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .add-selected:hover {
+            background-color: #0d8c6d;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .add-selected:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        /* PDF上传相关样式 */
+        .pdf-upload-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            height: 100%;
+            background-color: #f9f9f9;
+        }
+        
+        .pdf-upload-container.active {
+            display: flex;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #10a37f;
+        }
+        
+        .upload-title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .upload-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-button {
+            padding: 10px 20px;
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .file-input-button:hover {
+            background-color: #0d8c6d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .selected-file {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e6f7f1;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .selected-file.active {
+            display: flex;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: #10a37f;
+        }
+        
+        .remove-file {
+            color: #ff4d4f;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .process-pdf-button {
+            padding: 10px 24px;
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+            transition: all 0.2s ease;
+        }
+        
+        .process-pdf-button.active {
+            display: block;
+        }
+        
+        .process-pdf-button:hover {
+            background-color: #0d8c6d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* API通知样式 */
+        .api-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slide-in 0.5s ease;
+            max-width: 350px;
+        }
+        
+        .api-notification.fade-out {
+            animation: slide-out 0.5s ease;
+        }
+        
+        .api-notification-content {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+        }
+        
+        .api-notification.error .api-notification-content {
+            background-color: #fef0f0;
+            border-left: 4px solid #f56c6c;
+        }
+        
+        .api-notification.restore .api-notification-content {
+            background-color: #f0f9eb;
+            border-left: 4px solid #67c23a;
+        }
+        
+        .api-notification-icon {
+            margin-right: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .api-notification.error .api-notification-icon {
+            color: #f56c6c;
+        }
+        
+        .api-notification.restore .api-notification-icon {
+            color: #67c23a;
+        }
+        
+        .api-notification-message {
+            flex: 1;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .api-notification-close {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #909399;
+            font-size: 18px;
+        }
+        
+        .api-notification-close:hover {
+            color: #606266;
+        }
+        
+        @keyframes slide-in {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slide-out {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .offline-message {
+            background-color: #fff8e1 !important;
+            border-left: 4px solid #ffc107 !important;
+        }
+
+        .offline-message .message-content {
+            color: #856404;
+        }
+
+        .error-status {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .success-status {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        /* 新建对话输入框居中样式 */
+        .chat-messages.new-chat {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-input-container.centered {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 650px;
+            z-index: 10;
+            background: transparent;
+            border: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .chat-input-container.centered .chat-input-wrapper {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border: 1px solid #10a37f;
+            padding: 15px 20px;
+        }
+
+        .chat-input-container.centered .chat-input {
+            font-size: 18px;
+            min-height: 45px;
+        }
+
+        .centered-prompt {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .search-result-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .search-result-title {
+            font-weight: 500;
+            color: #1a73e8;
+        }
+
+        .search-result-score {
+            color: #5f6368;
+            font-size: 0.85em;
+        }
+        
+        .search-result-authors {
+            font-size: 0.9em;
+            color: #5f6368;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        /* 在body.search-active中添加所需的样式 */
+        body.search-active {
+            display: flex;
+            justify-content: flex-start; /* 从左到右排列 */
+        }
+
+        /* 添加支持侧边栏与搜索面板共存的样式 */
+        body.search-active .sidebar:not(.collapsed) {
+            width: 260px;
+            flex-shrink: 0; /* 防止侧边栏被压缩 */
+        }
+
+        /* 聊天容器样式 */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 0; /* 允许容器收缩 */
+        }
+
+        body.search-active .chat-container {
+            flex: 0 0 50%; /* 搜索激活时固定宽度为50% */
+        }
+
+        /* 搜索面板样式 */
+        #search-panel {
+            width: 0;
+            background-color: #ffffff;
+            border-left: 1px solid #e5e5e5;
+            display: none;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        #search-panel.visible {
+            display: flex;
+            width: 50%;
+            flex: 0 0 50%;
+        }
+
+        /* 搜索项容器样式 */
+        .search-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* 当侧栏展开且搜索激活时，调整聊天容器宽度 */
+        body.search-active .sidebar:not(.collapsed) ~ .chat-container {
+            flex: 0 0 calc(50% - 130px); /* 减去侧栏的一半宽度，避免容器过窄 */
+        }
+        
+        /* 当侧栏展开且搜索激活时，调整搜索面板宽度 */
+        body.search-active .sidebar:not(.collapsed) ~ #search-panel.visible {
+            flex: 0 0 calc(50% - 130px); /* 与聊天容器保持一致 */
+            width: calc(50% - 130px);
+        }
+
+        .no-results {
+            padding: 30px;
+            text-align: center;
+            color: #5f6368;
+            font-style: italic;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .search-active .search-results {
+            width: 50%;
+        }
+
+        .no-results {
+            padding: 30px;
+            text-align: center;
+            color: #5f6368;
+            font-style: italic;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .search-instruction {
+            padding: 40px 20px;
+            text-align: center;
+            color: #5f6368;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px dashed #d3d3d3;
+        }
+
+        .search-active .search-results {
+            width: 50%;
+        }
+
+        /* 添加恢复检索结果的按钮样式 */
+        .restore-search-button {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            z-index: 100;
+            padding: 8px 16px;
+            background-color: #10a37f;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .restore-search-button:hover {
+            background-color: #0d8c6d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .restore-search-button .material-icons {
+            font-size: 18px;
+        }
+
+        /* 1. 首先，添加PDF上传按钮的样式 */
+        .chat-input-wrapper {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 10px 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-input-wrapper:focus-within {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-color: #aaaaaa;
+        }
+
+        /* 添加PDF上传按钮的样式 */
+        .pdf-upload-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .pdf-upload-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .pdf-upload-btn span {
+            font-size: 20px;
+        }
+
+        /* 隐藏实际的文件输入 */
+        .pdf-upload-input {
+            display: none;
+        }
+
+    
+        /* 1. 在CSS部分添加处理消息的样式 */
+        .processing-message {
+            background-color: #e6f3ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #0078d7;
+            font-style: italic;
+        }
+        
+        .error-message {
+            background-color: #fde8e8;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #e53e3e;
+            color: #c53030;
+        }
+        
+        /* 移除 pdf-upload-container 的显示，但保留样式供将来可能使用 */
+        .pdf-upload-container {
+            display: none; /* 默认隐藏，不再作为工具使用 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧边栏 -->
+    <div class="sidebar" id="sidebar">
+        <div class="tools-section">
+            <h3>Tools</h3>
+            <div class="tools-list">
+                <!-- 工具项将由JavaScript动态添加 -->
+                </div>
+            <button class="new-chat-btn" onclick="createNewChat()">
+                <span>New Chat</span>
+            </button>
+        </div>
+        <div class="history-section">
+            <h3>History</h3>
+            <div class="time-group">
+                <div class="time-label">Today</div>
+                <div class="chat-item" onclick="loadChat('chat1')">
+                    <div class="chat-title">Data Analysis Method Discussion</div>
+                    <span class="delete-chat" onclick="deleteChat(event, 'chat1')">×</span>
+                </div>
+                <div class="chat-item" onclick="loadChat('chat2')">
+                    <div class="chat-title">Paper Structure Optimization</div>
+                    <span class="delete-chat" onclick="deleteChat(event, 'chat2')">×</span>
+                </div>
+            </div>
+            <div class="time-group">
+                <div class="time-label">Yesterday</div>
+                <div class="chat-item" onclick="loadChat('chat3')">
+                    <div class="chat-title">Writing Guide for Literature Review</div>
+                    <span class="delete-chat" onclick="deleteChat(event, 'chat3')">×</span>
+                </div>
+            </div>
+            <div class="time-group">
+                <div class="time-label">7 days ago</div>
+                <div class="chat-item" onclick="loadChat('chat4')">
+                    <div class="chat-title">Comparison of Research Methods</div>
+                    <span class="delete-chat" onclick="deleteChat(event, 'chat4')">×</span>
+                </div>
+                <div class="chat-item" onclick="loadChat('chat5')">
+                    <div class="chat-title">Discussion on Experimental Design</div>
+                    <span class="delete-chat" onclick="deleteChat(event, 'chat5')">×</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebar()">
+        ☰
+    </button>
+
+    <!-- 主聊天区域 -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <h2>Smart Assistant</h2>
+        </div>
+        
+        <!-- 隐藏的PDF上传容器，仅用于显示处理状态 -->
+        <div class="pdf-upload-container" id="pdf-upload-container">
+            <div id="pdf-status" class="processing-status" style="display: none;"></div>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <!-- 欢迎消息将由JavaScript动态添加 -->
+                </div>
+        <div class="chat-input-container" id="chat-input-container">
+            <div class="chat-input-wrapper">
+                <button class="pdf-upload-btn" id="pdf-upload-btn" title="上传PDF文件">
+                    <span>📄</span>
+                </button>
+                <input type="file" class="pdf-upload-input" id="pdf-upload-input" accept=".pdf">
+                <textarea class="chat-input" id="chat-input" placeholder="Send a message..." rows="1" oninput="autoResize(this)"></textarea>
+                <button class="send-button" id="send-button" title="发送消息">→</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧搜索结果面板 -->
+    <div id="search-panel">
+        <div class="search-header">
+            <h2>检索结果</h2>
+            <button class="close-search" onclick="closeSearch()">×</button>
+        </div>
+        <!-- 删除筛选区域 -->
+        <div id="search-results" class="search-items">
+            <!-- 搜索结果将在这里显示 -->
+        </div>
+        <div class="selection-actions">
+            <div class="selection-count" id="selection-count">已选择 0 项</div>
+            <button class="add-selected" id="add-selected" onclick="addSelectedToChat()" disabled>添加到对话</button>
+        </div>
+    </div>
+
+    <script>
+        // API路径配置
+        const API = {
+            PROCESS: '/rag_mcp/process',
+            SEARCH: '/rag_mcp/search',
+            UPLOAD: '/rag_mcp/upload',
+            TASK: '/rag_mcp/task',
+            HISTORY: '/rag_mcp/history',
+            TOOLS: '/rag_mcp/tools'
+        };
+
+        // 全局变量
+        let isSearchActive = false;
+        let selectedItems = new Set();
+        let currentTool = 'chat';
+        let selectedFile = null;
+        let isAssistantTyping = false;
+        let currentTaskId = null;
+        let taskCheckInterval = null;
+        let controller = null; // 用于中断请求的AbortController
+        let isPageLoad = true; // 用于标记页面是否刚加载
+        let apiAvailable = true; // 标记API是否可用
+        let apiCheckInterval = null; // API健康检查定时器
+        let chatHistory = []; // 初始化聊天历史数组
+
+        // 立即清除本地存储中的搜索结果，防止显示默认检索结果
+        localStorage.removeItem('rag_mcp_search_results');
+        localStorage.removeItem('searchResults');
+        localStorage.removeItem('searchActive');
+
+        // 全局错误处理
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error('全局错误:', message, source, lineno, colno);
+            // 不要中断正常的错误处理流程
+            return false;
+        };
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加错误处理，确保页面始终加载
+            window.addEventListener('error', function(e) {
+                console.error('页面错误:', e.message);
+                // 不阻止默认行为，但记录错误
+            });
+
+            // 添加PDF文件输入元素检查和日志
+            const pdfFileInput = document.getElementById('pdf-file-input');
+            if (pdfFileInput) {
+                console.log('PDF文件输入元素已找到', pdfFileInput);
+                
+                // 确保事件绑定正确，添加额外的事件监听以便调试
+                pdfFileInput.addEventListener('change', function() {
+                    console.log('PDF文件输入元素的change事件触发 - 通过addEventListener');
+                });
+            } else {
+                console.error('找不到PDF文件输入元素 id="pdf-file-input"');
+            }
+
+            // 立即显示UI，不等待API
+            initializeUI();
+            
+            // 启动API健康检查
+            startApiHealthCheck();
+            
+            // 异步加载非关键数据
+            setTimeout(() => {
+                safeLoadHistory();
+                safeLoadTools();
+                // 不再尝试恢复上次的搜索结果
+            }, 500);
+
+            // 在DOMContentLoaded中添加过滤器事件监听
+            // 监听聊天输入框的回车键事件
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                chatInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+            }
+            
+            // 添加过滤器事件监听
+            const fieldFilter = document.getElementById('field-filter');
+            const sortOrder = document.getElementById('sort-order');
+            
+            if (fieldFilter) {
+                fieldFilter.addEventListener('change', applyFilters);
+            }
+            
+            if (sortOrder) {
+                sortOrder.addEventListener('change', applyFilters);
+            }
+
+            // 添加页面卸载事件监听器，保存当前状态
+            window.addEventListener('beforeunload', function() {
+                saveCurrentState();
+            });
+
+            // 设置PDF上传按钮点击事件
+            const pdfUploadBtn = document.getElementById('pdf-upload-btn');
+            const pdfUploadInput = document.getElementById('pdf-upload-input');
+            
+            if (pdfUploadBtn && pdfUploadInput) {
+                pdfUploadBtn.addEventListener('click', function() {
+                    pdfUploadInput.click();
+                });
+                
+                pdfUploadInput.addEventListener('change', function() {
+                    if (this.files && this.files.length > 0) {
+                        handleFileSelect(this);
+                    }
+                });
+            } else {
+                console.error('找不到PDF上传按钮或输入元素');
+            }
+        });
+
+        // 保存当前状态
+        function saveCurrentState() {
+            try {
+                // 保存搜索状态
+                if (isSearchActive && document.getElementById('search-results').children.length > 0) {
+                    localStorage.setItem('searchActive', 'true');
+                } else {
+                    localStorage.setItem('searchActive', 'false');
+                }
+                
+                // 保存当前工具
+                localStorage.setItem('currentTool', currentTool);
+                
+                // 保存选中的项目
+                localStorage.setItem('selectedItems', JSON.stringify(Array.from(selectedItems)));
+                
+                console.log('当前状态已保存到本地存储');
+            } catch (error) {
+                console.error('保存当前状态时出错:', error);
+            }
+        }
+        
+        // 恢复上次的搜索结果
+        function restoreSearchResults() {
+            try {
+                // 先清空选中项，后续会根据保存的状态重新设置
+                selectedItems.clear();
+                
+                // 检查是否有保存的搜索结果
+                const savedResults = loadSearchResultsFromStorage();
+                if (savedResults && savedResults.length > 0) {
+                    console.log('从本地存储恢复搜索结果:', savedResults.length);
+                    
+                    // 恢复搜索面板状态
+                    const searchActive = localStorage.getItem('searchActive') === 'true';
+                    if (searchActive) {
+                        // 显示搜索结果
+                        showSearchResults(savedResults);
+                        
+                        // 恢复选中的项目
+                        const savedSelectedItems = localStorage.getItem('selectedItems');
+                        if (savedSelectedItems) {
+                            try {
+                                const items = JSON.parse(savedSelectedItems);
+                                if (Array.isArray(items)) {
+                                    // 添加保存的项目
+                                    items.forEach(id => {
+                                        selectedItems.add(id);
+                                    });
+                                    
+                                    // 更新选择框状态
+                                    document.querySelectorAll('.search-result-checkbox').forEach(checkbox => {
+                                        const docId = checkbox.dataset.docId;
+                                        if (selectedItems.has(docId)) {
+                                            checkbox.checked = true;
+                                            const resultItem = checkbox.closest('.search-result-item');
+                                            if (resultItem) {
+                                                resultItem.classList.add('selected');
+                                            }
+                                        }
+                                    });
+                                    
+                                    // 更新UI
+                                    updateSelectionCount();
+                                }
+                            } catch (parseError) {
+                                console.error('解析已保存的选择项时出错:', parseError);
+                                localStorage.removeItem('selectedItems');
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('恢复搜索结果时出错:', error);
+                // 出错时清空本地存储的搜索结果，避免持续出错
+                localStorage.removeItem('searchResults');
+                localStorage.removeItem('selectedItems');
+            }
+        }
+
+        // 恢复上次的搜索结果
+        function restoreSearchResults() {
+            console.log('不再自动恢复搜索结果');
+            // 清空任何可能存在的搜索结果和选中项
+            selectedItems.clear();
+            localStorage.removeItem('searchResults');
+            localStorage.removeItem('rag_mcp_search_results');
+            localStorage.removeItem('selectedItems');
+            localStorage.removeItem('searchActive');
+            return; // 直接返回，不执行恢复逻辑
+        }
+
+        // API健康检查
+        function startApiHealthCheck() {
+            // 立即执行一次健康检查
+            checkApiHealth();
+            
+            // 设置定期检查（每60秒）
+            apiCheckInterval = setInterval(checkApiHealth, 60000);
+        }
+
+        // 检查API健康状态
+        function checkApiHealth() {
+            // 使用简单的tools API作为健康检查端点
+            fetch(API.TOOLS, { 
+                method: 'GET',
+                // 设置较短的超时时间
+                signal: AbortSignal.timeout(5000)
+            })
+            .then(response => {
+                if (response.ok) {
+                    if (!apiAvailable) {
+                        console.log('API服务恢复正常');
+                        apiAvailable = true;
+                        showApiRestoreNotification();
+                    }
+                } else {
+                    throw new Error(`API返回: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                if (apiAvailable) {
+                    console.warn('API服务不可用:', error);
+                    apiAvailable = false;
+                    showApiErrorNotification();
+                }
+            });
+        }
+
+        // 显示API恢复通知
+        function showApiRestoreNotification() {
+            const notificationContainer = document.createElement('div');
+            notificationContainer.className = 'api-notification restore';
+            notificationContainer.innerHTML = `
+                <div class="api-notification-content">
+                    <span class="api-notification-icon">✓</span>
+                    <span class="api-notification-message">Server connection restored. Full functionality available.</span>
+                    <span class="api-notification-close" onclick="this.parentElement.parentElement.remove()">×</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notificationContainer);
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                notificationContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    notificationContainer.remove();
+                }, 500);
+            }, 5000);
+        }
+
+        // 显示API错误通知
+        function showApiErrorNotification() {
+            const notificationContainer = document.createElement('div');
+            notificationContainer.className = 'api-notification error';
+            notificationContainer.innerHTML = `
+                <div class="api-notification-content">
+                    <span class="api-notification-icon">!</span>
+                    <span class="api-notification-message">Server connection lost. Limited functionality available.</span>
+                    <span class="api-notification-close" onclick="this.parentElement.parentElement.remove()">×</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notificationContainer);
+            
+            // 10秒后自动隐藏
+            setTimeout(() => {
+                notificationContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    notificationContainer.remove();
+                }, 500);
+            }, 10000);
+        }
+
+        // 初始化UI，不依赖API
+        function initializeUI() {
+            console.log('初始化UI...');
+            // 基本UI初始化，即使API不可用也会执行
+            const chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                chatInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    sendMessage();
+                }
+            });
+                console.log('聊天输入框事件监听器已添加');
+            } else {
+                console.error('找不到聊天输入框元素');
+            }
+            
+            const sendButton = document.getElementById('send-button');
+            if (sendButton) {
+                sendButton.addEventListener('click', sendMessage);
+                console.log('发送按钮事件监听器已添加');
+            } else {
+                console.error('找不到发送按钮元素');
+            }
+            
+            // 设置工具切换
+            setupToolSwitchers();
+            
+            // 立即显示默认工具
+            displayDefaultTools();
+            
+            // 检查是否有保存的会话ID
+            const sessionId = get_or_create_session_id();
+            console.log('当前会话ID:', sessionId);
+            
+            // 不显示欢迎消息
+            isPageLoad = false;
+        }
+
+        // 安全加载历史记录
+        function safeLoadHistory() {
+            console.log('Attempting to load history...');
+            fetch(API.HISTORY, {
+                method: 'GET',
+                signal: AbortSignal.timeout(10000) // 10秒超时
+            })
+            .then(response => {
+                console.log('History API response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`Failed to load history: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Successfully loaded history:', data);
+                if (data && data.length > 0) {
+                    displayHistory(data);
+                } else {
+                    console.log('No history records found');
+                    // 不显示欢迎消息
+                }
+            })
+            .catch(error => {
+                console.warn('Failed to load history from API:', error);
+                // 尝试从本地存储加载历史记录
+                const loaded = loadHistoryFromLocalStorage();
+                console.log('Loaded history from local storage:', loaded);
+                
+                // 标记API可能不可用
+                if (apiAvailable) {
+                    apiAvailable = false;
+                    checkApiHealth(); // 立即执行健康检查
+                }
+            });
+        }
+
+        // 安全加载工具
+        function safeLoadTools() {
+            console.log('尝试加载工具...');
+            fetch(API.TOOLS, {
+                method: 'GET',
+                signal: AbortSignal.timeout(10000) // 10秒超时
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`加载工具失败: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('工具加载成功:', data);
+                if (data && Array.isArray(data)) {
+                    // 过滤掉PDF工具
+                    const filteredTools = data.filter(tool => tool.id !== 'pdf');
+                    populateTools(filteredTools);
+                } else {
+                    console.log('没有可用工具数据，显示默认工具');
+                    displayDefaultTools();
+                }
+            })
+            .catch(error => {
+                console.warn('无法从API加载工具:', error);
+                // 显示默认工具
+                displayDefaultTools();
+                // 标记API可能不可用
+                if (apiAvailable) {
+                    apiAvailable = false;
+                    checkApiHealth(); // 立即执行健康检查
+                }
+            });
+        }
+
+        // 显示默认工具
+        function displayDefaultTools() {
+            const defaultTools = [
+                { id: 'chat', name: 'Chat' },
+                { id: 'search', name: 'Search' }
+                // 已移除PDF工具
+            ];
+            populateTools(defaultTools);
+        }
+
+        // 找到sendMessage函数并修改相关部分
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            console.log("发送消息:", message);
+            
+            // 清空输入框
+            input.value = '';
+            
+            // 显示用户消息
+            const userMessage = {
+                role: 'user',
+                content: message,
+                timestamp: new Date().toISOString()
+            };
+            
+            displayMessage(userMessage);
+            
+            // 保存到历史记录
+            addToHistory(userMessage);
+            
+            // 显示助手正在输入
+            showTypingIndicator();
+            
+            // 如果API不可用，显示离线模式消息
+            if (!apiAvailable) {
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    const offlineMessage = {
+                        role: 'assistant',
+                        content: `服务器连接暂时不可用。您的消息已保存，将在连接恢复后处理。`,
+                        timestamp: new Date().toISOString(),
+                        offline: true
+                    };
+                    
+                    displayMessage(offlineMessage);
+                    addToHistory(offlineMessage);
+                    
+                    // 尝试再次检查API健康状态
+                    checkApiHealth();
+                }, 1500);
+                return;
+            }
+            
+            // 中断之前的请求（如果有）
+            if (controller) {
+                controller.abort();
+            }
+            
+            // 创建新的AbortController
+            controller = new AbortController();
+            
+            // 准备发送数据 - 简化请求格式，与后端期望的格式保持一致
+            const requestData = {
+                query: message,
+                session_id: get_or_create_session_id()
+            };
+            
+            // 检查是否是新对话的第一条消息
+            const isNewChat = localStorage.getItem('is_new_chat') === 'true';
+            if (isNewChat) {
+                requestData.is_new_chat = true;
+                localStorage.removeItem('is_new_chat'); // 使用后移除标志
+                console.log("这是新对话的第一条消息");
+            }
+            
+            // 如果有选中的文档，添加到请求中
+            const savedSelectedDocs = localStorage.getItem('rag_mcp_selected_docs');
+            if (savedSelectedDocs) {
+                try {
+                    const selectedDocs = JSON.parse(savedSelectedDocs);
+                    if (selectedDocs && selectedDocs.length > 0) {
+                        requestData.selected_docs = selectedDocs;
+                        console.log("已添加选中的文档到请求:", selectedDocs);
+                        // 使用后清除，避免影响下一次请求
+                        localStorage.removeItem('rag_mcp_selected_docs');
+                    }
+                } catch (e) {
+                    console.error("解析选中文档出错:", e);
+                }
+            } else if (selectedItems.size > 0) {
+                requestData.selected_docs = Array.from(selectedItems);
+            }
+            
+            console.log("发送API请求数据:", requestData);
+            console.log("发送API请求URL:", API.PROCESS);
+            
+            // 发送请求
+            fetch(API.PROCESS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData),
+                signal: controller.signal
+            })
+            .then(response => {
+                console.log("API响应状态:", response.status);
+                
+                // 检查详细的响应信息
+                response.clone().text().then(text => {
+                    console.log("API响应原始内容:", text.substring(0, 500) + (text.length > 500 ? '...' : ''));
+                    try {
+                        // 尝试解析为JSON
+                        const jsonResponse = JSON.parse(text);
+                        console.log("API响应JSON解析结果:", jsonResponse);
+                    } catch (e) {
+                        console.log("API响应不是有效JSON");
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Request failed: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("API响应数据:", data);
+                hideTypingIndicator();
+                
+                // 处理响应
+                if (data.response) {
+                    const assistantMessage = {
+                        role: 'assistant',
+                        content: data.response,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    displayMessage(assistantMessage);
+                    addToHistory(assistantMessage);
+                } else if (data.answer) {
+                    // 兼容可能的不同响应格式
+                    const assistantMessage = {
+                        role: 'assistant',
+                        content: data.answer,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    displayMessage(assistantMessage);
+                    addToHistory(assistantMessage);
+                } else {
+                    console.error("API响应中没有找到回答");
+                    const errorMessage = {
+                        role: 'assistant',
+                        content: "Received an empty response from the server. Please try again.",
+                        timestamp: new Date().toISOString(),
+                        error: true
+                    };
+                    
+                    displayMessage(errorMessage);
+                    addToHistory(errorMessage);
+                }
+                
+                // 判断当前操作是否是基于预选文档的请求（如：生成综述）
+                const isUsingPreselectedDocs = (selectedItems.size > 0 || 
+                    (savedSelectedDocs && JSON.parse(savedSelectedDocs).length > 0)) &&
+                    !message.toLowerCase().match(/检索|搜索|search|find|papers about/i);
+                
+                // 只有在非预选文档操作时才更新检索结果面板
+                if (!isUsingPreselectedDocs) {
+                    // 处理搜索结果 - 同时检查两个可能的字段名
+                    if (data.search_results && data.search_results.length > 0) {
+                        console.log("找到search_results字段:", data.search_results.length);
+                        showSearchResults(data.search_results);
+                    } else if (data.references && data.references.length > 0) {
+                        console.log("找到references字段:", data.references.length);
+                        showSearchResults(data.references);
+                    } else {
+                        console.log("API响应中没有找到搜索结果");
+                    }
+                } else {
+                    console.log("使用预选文档生成综述，不更新检索结果面板");
+                }
+            })
+            .catch(error => {
+                // 仅处理非中断错误
+                if (error.name !== 'AbortError') {
+                    console.error('处理消息时出错:', error);
+                    hideTypingIndicator();
+                    
+                    // 创建错误消息
+                    const errorMessage = {
+                        role: 'assistant',
+                        content: `处理请求时出现问题，请稍后再试。(错误: ${error.message})`,
+                        timestamp: new Date().toISOString(),
+                        error: true
+                    };
+                    
+                    displayMessage(errorMessage);
+                    addToHistory(errorMessage);
+                    
+                    // 标记API可能不可用
+                    apiAvailable = false;
+                    checkApiHealth(); // 立即执行健康检查
+                } else {
+                    console.log('请求已中断');
+                }
+            });
+        }
+
+        // 安全处理搜索结果
+        function showSearchResults(results) {
+            try {
+                // 如果没有传入结果，尝试从本地存储加载
+                if (!results) {
+                    results = loadSearchResultsFromStorage();
+                    if (!results || results.length === 0) {
+                        console.log("没有可用的搜索结果");
+                    }
+                }
+                
+                console.log("显示搜索结果:", results);
+                
+                // 保存搜索结果到本地存储
+                if (results && results.length > 0) {
+                    saveSearchResultsToStorage(results);
+                }
+                
+                // 高亮搜索工具选择
+                const searchTool = document.querySelector('[data-tool="search"]');
+                if (searchTool) {
+                    searchTool.classList.add('selected');
+                }
+                
+                // 修改这部分，使搜索结果并排显示
+                const searchPanel = document.getElementById('search-panel');
+                const resultsContainer = document.getElementById('search-results');
+                
+                // 清空之前的结果
+                resultsContainer.innerHTML = '';
+                
+                // 处理没有结果的情况
+                if (!results || results.length === 0) {
+                    searchPanel.classList.add('visible');
+                    resultsContainer.innerHTML = '<div class="no-results">没有找到相关结果</div>';
+                    document.body.classList.add('search-active'); // 激活并排布局
+                    
+                    // 自动收起侧栏以腾出空间
+                    const sidebar = document.getElementById('sidebar');
+                    const toggle = document.getElementById('sidebar-toggle');
+                    sidebar.classList.add('collapsed');
+                    toggle.classList.add('collapsed');
+                    return;
+                }
+                
+                // 处理结果
+                searchPanel.classList.add('visible');
+                document.body.classList.add('search-active'); // 激活并排布局
+                
+                // 自动收起侧栏以腾出空间
+                const sidebar = document.getElementById('sidebar');
+                const toggle = document.getElementById('sidebar-toggle');
+                sidebar.classList.add('collapsed');
+                toggle.classList.add('collapsed');
+                
+                // 显示结果数量
+                const resultCountHeader = document.createElement('div');
+                resultCountHeader.className = 'result-count';
+                resultCountHeader.textContent = `找到 ${results.length} 条结果`;
+                resultsContainer.appendChild(resultCountHeader);
+                
+                // 遍历结果并显示
+                results.forEach((result, index) => {
+                    try {
+                        // 获取文档ID (确保兼容不同格式)
+                        const docId = result.document_id || result.doc_id || result.id || index.toString();
+                        
+                        // 创建结果项
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'search-result-item';
+                        resultItem.dataset.docId = docId;
+                        
+                        // 添加选择框
+                        const checkboxContainer = document.createElement('div');
+                        checkboxContainer.className = 'search-result-checkbox-container';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.className = 'search-result-checkbox';
+                        checkbox.dataset.docId = docId;
+                        
+                        // 检查是否已被选中
+                        if (selectedItems.has(docId)) {
+                            checkbox.checked = true;
+                            resultItem.classList.add('selected');
+                        }
+                        
+                        // 添加选择框的事件处理
+                        checkbox.addEventListener('change', function(e) {
+                            e.stopPropagation(); // 阻止事件冒泡
+                            toggleItemSelection(docId);
+                            if (this.checked) {
+                                resultItem.classList.add('selected');
+                            } else {
+                                resultItem.classList.remove('selected');
+                            }
+                        });
+                        
+                        checkboxContainer.appendChild(checkbox);
+                        resultItem.appendChild(checkboxContainer);
+                        
+                        // 创建内容容器
+                        const contentContainer = document.createElement('div');
+                        contentContainer.className = 'search-result-content-container';
+                        
+                        // 创建结果头部 (标题和相关度)
+                        const resultHeader = document.createElement('div');
+                        resultHeader.className = 'search-result-header';
+                        
+                        // 添加标题
+                        const resultTitle = document.createElement('div');
+                        resultTitle.className = 'search-result-title';
+                        resultTitle.textContent = result.title || '无标题文档';
+                        resultHeader.appendChild(resultTitle);
+                        
+                        // 添加相关性分数
+                        if (result.score || result.relevance_score) {
+                            const score = result.score || result.relevance_score;
+                            const resultScore = document.createElement('div');
+                            resultScore.className = 'search-result-score';
+                            resultScore.textContent = `${parseFloat(score).toFixed(2)}`;
+                            resultHeader.appendChild(resultScore);
+                        }
+                        
+                        contentContainer.appendChild(resultHeader);
+                        
+                        // 添加内容摘要 - 按照优先级使用不同字段
+                        const contentElem = document.createElement('div');
+                        contentElem.className = 'search-result-content';
+                        
+                        // 内容优先级: snippet > abstract > text
+                        let content = '无可用内容';
+                        if (result.snippet && result.snippet.trim()) {
+                            content = result.snippet;
+                        } else if (result.abstract && result.abstract.trim()) {
+                            content = result.abstract;
+                        } else if (result.text && result.text.trim()) {
+                            // 只取前300个字符作为摘要
+                            content = result.text.substring(0, 300) + (result.text.length > 300 ? '...' : '');
+                        }
+                        
+                        contentElem.textContent = content;
+                        contentContainer.appendChild(contentElem);
+                        
+                        resultItem.appendChild(contentContainer);
+                        
+                        // 移除原来的点击事件，改为点击选择框
+                        resultItem.addEventListener('click', function(e) {
+                            // 如果点击的不是选择框本身，则触发选择框的点击
+                            if (!e.target.classList.contains('search-result-checkbox')) {
+                                const cb = this.querySelector('.search-result-checkbox');
+                                cb.checked = !cb.checked;
+                                // 触发change事件
+                                const event = new Event('change');
+                                cb.dispatchEvent(event);
+                            }
+                        });
+                        
+                        resultsContainer.appendChild(resultItem);
+                    } catch (itemError) {
+                        console.error(`处理搜索结果项 ${index} 时出错:`, itemError);
+                    }
+                });
+                
+                // 确保搜索面板可见
+                searchPanel.classList.add('visible');
+                
+                // 更新选择计数
+                updateSelectionCount();
+            } catch (error) {
+                console.error("显示搜索结果时出错:", error);
+            }
+        }
+
+        // 切换左侧边栏
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebar-toggle');
+            
+            // 保存当前侧栏状态
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            
+            // 检查是否处于搜索激活状态
+            const isSearchActive = document.body.classList.contains('search-active');
+            
+            if (isSearchActive) {
+                // 在搜索激活状态下
+                if (isCollapsed) {
+                    // 如果侧栏已收起，先移除search-active类，再展开侧栏
+                    // 暂时保存搜索面板状态
+                    const searchPanel = document.getElementById('search-panel');
+                    const wasSearchPanelVisible = searchPanel.classList.contains('visible');
+                    
+                    // 移除搜索活动状态类
+                    document.body.classList.remove('search-active');
+                    
+                    // 展开侧栏
+                    sidebar.classList.remove('collapsed');
+                    toggle.classList.remove('collapsed');
+                    
+                    // 恢复搜索面板状态
+                    if (wasSearchPanelVisible) {
+                        searchPanel.classList.add('visible');
+                        // 使用setTimeout以确保CSS过渡效果正常
+                        setTimeout(() => {
+                            document.body.classList.add('search-active');
+                        }, 10);
+                    }
+                } else {
+                    // 如果侧栏已展开，直接收起
+                    sidebar.classList.add('collapsed');
+                    toggle.classList.add('collapsed');
+                }
+            } else {
+                // 在普通状态下，简单地切换类
+            sidebar.classList.toggle('collapsed');
+            toggle.classList.toggle('collapsed');
+            }
+        }
+
+        // 选择工具
+        function selectTool(element, toolType) {
+            // 移除所有工具的active类
+            document.querySelectorAll('.tool-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // 给当前选中的工具添加active类
+            element.classList.add('active');
+            currentTool = toolType;
+            
+            // 根据选择的工具执行对应操作
+            if (toolType === 'search') {
+                // 不再自动加载历史搜索结果，只打开空的搜索面板
+                const searchPanel = document.getElementById('search-panel');
+                searchPanel.classList.add('visible');
+                document.body.classList.add('search-active');
+                
+                // 清空之前的结果
+                const resultsContainer = document.getElementById('search-results');
+                
+                // 确保聊天消息显示
+                document.getElementById('chat-messages').style.display = 'flex';
+                // 移除PDF上传容器的active状态
+                document.getElementById('pdf-upload-container').classList.remove('active');
+            } else { // chat工具
+                closeSearch();
+                // 确保聊天消息显示
+                document.getElementById('chat-messages').style.display = 'flex';
+                // 移除PDF上传容器的active状态
+                document.getElementById('pdf-upload-container').classList.remove('active');
+            }
+        }
+
+        // 处理PDF文件选择
+        function handleFileSelect(input) {
+            try {
+                console.log('文件选择函数被调用', input);
+                // 检查input是否是有效的DOM元素
+                if (!input || !input.files) {
+                    console.error('无效的文件输入元素', input);
+                    alert('无法访问文件输入元素。请刷新页面后重试。');
+                    return;
+                }
+
+                const files = input.files;
+                if (!files || files.length === 0) {
+                    console.log('未选择文件');
+                    return;
+                }
+
+                // 只处理第一个文件
+                selectedFile = files[0];
+                console.log('已选择文件:', selectedFile.name, '大小:', selectedFile.size, 'bytes');
+                
+                // 根据当前工具决定处理逻辑
+                if (currentTool === 'search') {
+                    // 直接开始处理PDF进行检索相关文献
+                    processPdf(true);
+                } else { // chat工具
+                    // 开始处理PDF进行解析和分析
+                    processPdf(false);
+                }
+            } catch (error) {
+                console.error('文件选择过程中出错:', error);
+                alert('无法选择文件。请重试。错误详情: ' + error.message);
+            }
+        }
+
+        // 移除选定的PDF文件
+        function removeFile() {
+            try {
+                selectedFile = null;
+                const fileInput = document.getElementById('pdf-file-input');
+                if (fileInput) {
+                    fileInput.value = '';
+                } else {
+                    console.error('找不到pdf-file-input元素');
+                }
+                
+                const selectedFileElement = document.getElementById('selected-file');
+                if (selectedFileElement) {
+                    selectedFileElement.classList.remove('active');
+                } else {
+                    console.error('找不到selected-file元素');
+                }
+                
+                const processButton = document.getElementById('process-pdf-button');
+                if (processButton) {
+                    processButton.classList.remove('active');
+                } else {
+                    console.error('找不到process-pdf-button元素');
+                }
+                
+                console.log('已移除选择的文件');
+            } catch (error) {
+                console.error('移除文件时出错:', error);
+                alert('无法移除选定的文件。错误: ' + error.message);
+            }
+        }
+
+        // 处理PDF解读
+        function processPdf(isSearchMode = false) {
+            try {
+                // 检查文件是否已选择
+                if (!selectedFile) {
+                    alert('请先选择一个PDF文件');
+                    return;
+                }
+                
+                // 验证是否是PDF文件
+                if (selectedFile.type !== 'application/pdf' && !selectedFile.name.toLowerCase().endsWith('.pdf')) {
+                    alert('请选择有效的PDF文件');
+                    return;
+                }
+                
+                // 检查文件大小 (限制为50MB)
+                const maxSizeInBytes = 50 * 1024 * 1024;
+                if (selectedFile.size > maxSizeInBytes) {
+                    alert(`PDF文件过大，最大支持50MB，当前文件大小: ${(selectedFile.size / (1024 * 1024)).toFixed(2)}MB`);
+                    return;
+                }
+                
+                // 检查API是否可用
+                if (!apiAvailable) {
+                    alert('服务器连接不可用，无法处理PDF文件。请稍后再试。');
+                    return;
+                }
+                
+                // 显示处理提示消息
+                const processingMsg = {
+                    role: 'system',
+                    content: `<div class="processing-message">正在处理PDF文件：${selectedFile.name}...</div>`,
+                    timestamp: new Date().toISOString()
+                };
+                displayMessage(processingMsg);
+                
+                // 准备表单数据
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('search_mode', isSearchMode.toString()); // 添加一个参数指示是否为搜索模式
+                
+                // 设置超时
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 60000); // 60秒超时
+                
+                console.log(`开始上传PDF文件: ${selectedFile.name}, 搜索模式: ${isSearchMode}`);
+                
+                // 发送请求
+                fetch(API.UPLOAD, {
+                    method: 'POST',
+                    body: formData,
+                    signal: controller.signal
+                })
+                .then(response => {
+                    clearTimeout(timeoutId);
+                    if (!response.ok) {
+                        throw new Error(`上传失败: ${response.status} - ${response.statusText}`);
+                    }
+                    console.log('PDF上传响应状态:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('PDF处理响应:', data);
+                    
+                    if (data.task_id) {
+                        currentTaskId = data.task_id;
+                        
+                        // 设置定时检查任务状态
+                        if (taskCheckInterval) {
+                            clearInterval(taskCheckInterval);
+                        }
+                        
+                        // 更新处理消息
+                        const updatedMsg = {
+                            role: 'system',
+                            content: `<div class="processing-message">正在处理PDF文件：${selectedFile.name}... 请稍候</div>`,
+                            timestamp: new Date().toISOString()
+                        };
+                        // 替换之前显示的处理消息
+                        const messagesContainer = document.getElementById('chat-messages');
+                        const lastMessage = messagesContainer.lastElementChild;
+                        if (lastMessage && lastMessage.querySelector('.processing-message')) {
+                            lastMessage.querySelector('.message-content').innerHTML = updatedMsg.content;
+                        } else {
+                            displayMessage(updatedMsg);
+                        }
+                        
+                        // 每3秒检查一次任务状态，传入搜索模式参数
+                        taskCheckInterval = setInterval(() => checkTaskStatus(currentTaskId, isSearchMode), 3000);
+                    } else {
+                        // 没有任务ID，可能是立即处理完成了
+                        handleProcessingComplete(data, isSearchMode);
+                    }
+                })
+                .catch(error => {
+                    clearTimeout(timeoutId);
+                    console.error('PDF处理出错:', error);
+                    
+                    // 显示错误消息
+                    const errorMsg = {
+                        role: 'system',
+                        content: `<div class="error-message">处理PDF失败: ${error.name === 'AbortError' ? '请求超时' : error.message}</div>`,
+                        timestamp: new Date().toISOString()
+                    };
+                    displayMessage(errorMsg);
+                    
+                    // 如果是非中断错误，标记API可能不可用
+                    if (error.name !== 'AbortError') {
+                        apiAvailable = false;
+                        checkApiHealth(); // 立即执行健康检查
+                    }
+                });
+                
+                // 重置文件输入
+                const pdfUploadInput = document.getElementById('pdf-upload-input');
+                if (pdfUploadInput) {
+                    pdfUploadInput.value = '';
+                }
+            } catch (error) {
+                console.error('PDF处理函数出错:', error);
+                alert('处理PDF文件时遇到错误: ' + error.message);
+            }
+        }
+        
+        // 检查任务状态
+        function checkTaskStatus(taskId, isSearchMode = false) {
+            if (!taskId) {
+                console.error('没有任务ID，无法检查状态');
+                return;
+            }
+            
+            console.log(`检查任务状态: ${taskId}, 搜索模式: ${isSearchMode}`);
+            
+            fetch(`${API.TASK}/${taskId}`, {
+                method: 'GET',
+                signal: AbortSignal.timeout(5000) // 5秒超时
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`获取任务状态失败: ${response.status} - ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('任务状态:', data);
+                
+                // 更新处理消息
+                const statusMessage = `正在处理PDF文件：${selectedFile ? selectedFile.name : ''}... ${data.progress || 0}%`;
+                const messagesContainer = document.getElementById('chat-messages');
+                const lastMessage = messagesContainer.lastElementChild;
+                if (lastMessage && lastMessage.querySelector('.processing-message')) {
+                    lastMessage.querySelector('.message-content').innerHTML = `<div class="processing-message">${statusMessage}</div>`;
+                }
+                
+                // 如果任务已完成，停止检查
+                if (data.status === 'completed') {
+                    if (taskCheckInterval) {
+                        clearInterval(taskCheckInterval);
+                        taskCheckInterval = null;
+                    }
+                    
+                    // 处理完成
+                    handleProcessingComplete(data, isSearchMode);
+                } else if (data.status === 'failed') {
+                    // 任务失败
+                    if (taskCheckInterval) {
+                        clearInterval(taskCheckInterval);
+                        taskCheckInterval = null;
+                    }
+                    
+                    const errorMsg = {
+                        role: 'system',
+                        content: `<div class="error-message">处理PDF失败: ${data.error || '未知错误'}</div>`,
+                        timestamp: new Date().toISOString()
+                    };
+                    displayMessage(errorMsg);
+                }
+            })
+            .catch(error => {
+                console.error('检查任务状态出错:', error);
+                
+                // 如果是非中断错误，可能是服务器问题
+                if (error.name !== 'AbortError') {
+                    // 停止检查
+                    if (taskCheckInterval) {
+                        clearInterval(taskCheckInterval);
+                        taskCheckInterval = null;
+                    }
+                    
+                    const errorMsg = {
+                        role: 'system',
+                        content: `<div class="error-message">无法获取处理状态: ${error.message}</div>`,
+                        timestamp: new Date().toISOString()
+                    };
+                    displayMessage(errorMsg);
+                    
+                    // 标记API可能不可用
+                    apiAvailable = false;
+                    checkApiHealth(); // 立即执行健康检查
+                }
+            });
+        }
+
+        // 删除聊天记录
+        function deleteChat(event, chatId) {
+            event.stopPropagation();
+            // TODO: 实现删除聊天记录的API
+            const chatItem = event.target.parentElement;
+            chatItem.remove();
+        }
+
+        // 加载聊天
+        function loadChat(chatId) {
+            console.log('加载聊天:', chatId);
+            
+            // 设置当前会话ID
+            localStorage.setItem('current_session_id', chatId);
+            
+            // 从本地存储加载聊天记录
+            const history = JSON.parse(localStorage.getItem('chat_history')) || {};
+            const session = history[chatId];
+            
+            if (session && session.messages) {
+                // 清空聊天消息区域
+                const messagesContainer = document.getElementById('chat-messages');
+                messagesContainer.innerHTML = '';
+                
+                // 添加所有消息，但不使用打字效果
+                session.messages.forEach(msg => {
+                    // 使用displayMessage代替addMessage
+                    displayMessage({
+                        role: msg.role,
+                        content: msg.content,
+                        timestamp: new Date().toISOString()
+                    }, false);
+                });
+                
+                console.log('聊天消息已加载');
+            } else {
+                console.error(`未找到会话ID: ${chatId}`);
+            }
+            
+            // 确保选中聊天工具
+            document.querySelectorAll('.tool-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const chatTool = document.getElementById('chat-tool');
+            if (chatTool) {
+                chatTool.classList.add('active');
+            }
+            currentTool = 'chat';
+            
+            // 隐藏PDF上传界面，显示聊天界面
+            const pdfUploadContainer = document.getElementById('pdf-upload-container');
+            const chatMessages = document.getElementById('chat-messages');
+            
+            if (pdfUploadContainer) {
+                pdfUploadContainer.classList.remove('active');
+            }
+            
+            if (chatMessages) {
+                chatMessages.style.display = 'flex';
+            }
+            
+            // 关闭搜索结果
+            closeSearch();
+        }
+
+        // 加载历史记录
+        function loadHistory() {
+            // 先尝试从本地存储加载
+            const localHistory = loadHistoryFromLocalStorage();
+            
+            // 清除现有历史记录
+            const historySection = document.querySelector('.history-section');
+            historySection.innerHTML = '<h3>History</h3>';
+            
+            // 按时间分组显示历史记录
+            if (localHistory.today && localHistory.today.length > 0) {
+                appendHistoryGroup(historySection, 'Today', localHistory.today);
+            }
+            if (localHistory.yesterday && localHistory.yesterday.length > 0) {
+                appendHistoryGroup(historySection, 'Yesterday', localHistory.yesterday);
+            }
+            if (localHistory.older && localHistory.older.length > 0) {
+                appendHistoryGroup(historySection, 'Earlier', localHistory.older);
+            }
+            
+            // 如果没有历史记录
+            if (!localHistory.today?.length && !localHistory.yesterday?.length && !localHistory.older?.length) {
+                const emptyMsg = document.createElement('p');
+                emptyMsg.style.color = '#8e8ea0';
+                emptyMsg.style.textAlign = 'center';
+                emptyMsg.style.marginTop = '20px';
+                emptyMsg.textContent = 'No history records';
+                historySection.appendChild(emptyMsg);
+            }
+            
+            // 加载当前会话的消息（优先使用本地存储的当前会话）
+            const currentSessionId = localStorage.getItem('current_session_id');
+            if (currentSessionId) {
+                const history = JSON.parse(localStorage.getItem('chat_history')) || {};
+                const currentSession = history[currentSessionId];
+                if (currentSession && currentSession.messages) {
+                    loadChatMessages(currentSession.messages);
+                    return;
+                }
+            }
+            
+            // 回退：使用第一个可用会话
+            const currentChat = localHistory.today?.[0] || localHistory.yesterday?.[0] || localHistory.older?.[0];
+            if (currentChat) {
+                loadChatMessages(currentChat.messages);
+            }
+        }
+        
+        // 加载聊天消息
+        function loadChatMessages(messages) {
+            // 清除聊天消息区域
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = '';
+            
+            // 添加初始助手消息（如果没有消息）
+            if (!messages || messages.length === 0) {
+                // 仅显示欢迎消息，但不保存到历史记录
+                addMessage('assistant', 'Hello! I am your intelligent research assistant. I can help you retrieve academic data, answer questions, or analyze PDF documents. What can I help you with today?', false);
+                return;
+            }
+            
+            // 添加所有消息，但不使用打字效果（因为是历史消息）
+            messages.forEach(msg => {
+                addMessage(msg.role, msg.content, false);
+            });
+        }
+        
+        // 添加历史组
+        function appendHistoryGroup(container, title, chats) {
+            const group = document.createElement('div');
+            group.className = 'time-group';
+            
+            const timeLabel = document.createElement('div');
+            timeLabel.className = 'time-label';
+            timeLabel.textContent = title;
+            group.appendChild(timeLabel);
+            
+            chats.forEach(chat => {
+                const chatItem = document.createElement('div');
+                chatItem.className = 'chat-item';
+                chatItem.onclick = () => loadChat(chat.id);
+                
+                const chatTitle = document.createElement('div');
+                chatTitle.className = 'chat-title';
+                chatTitle.textContent = chat.title;
+                
+                const deleteBtn = document.createElement('span');
+                deleteBtn.className = 'delete-chat';
+                deleteBtn.textContent = '×';
+                deleteBtn.onclick = (e) => deleteChat(e, chat.id);
+                
+                chatItem.appendChild(chatTitle);
+                chatItem.appendChild(deleteBtn);
+                group.appendChild(chatItem);
+            });
+            
+            container.appendChild(group);
+        }
+
+        // 自动调整输入框高度
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        // 停止生成
+        function stopGenerating() {
+            if (controller) {
+                controller.abort(); // 中断请求
+                controller = null;
+            }
+            
+            hideTypingIndicator();
+            
+            // 添加一条消息表示生成被中断
+            const messagesContainer = document.getElementById('chat-messages');
+            const lastMessage = messagesContainer.lastElementChild;
+            
+            if (lastMessage && lastMessage.classList.contains('assistant')) {
+                const messageContent = lastMessage.querySelector('.message-content');
+                messageContent.innerHTML += '<p class="generation-stopped">[生成已中断]</p>';
+            }
+        }
+
+        // 显示正在输入指示器
+        function showTypingIndicator() {
+            isAssistantTyping = true;
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            // 检查是否已存在
+            let typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+            
+            typingIndicator = document.createElement('div');
+            typingIndicator.className = 'message assistant';
+            typingIndicator.id = 'typing-indicator';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.innerHTML = '<span>AI</span>';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            const typingIndicatorDots = document.createElement('div');
+            typingIndicatorDots.className = 'typing-indicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('span');
+                typingIndicatorDots.appendChild(dot);
+            }
+            
+            messageContent.appendChild(typingIndicatorDots);
+            typingIndicator.appendChild(avatar);
+            typingIndicator.appendChild(messageContent);
+            
+            messagesContainer.appendChild(typingIndicator);
+            
+            // 滚动到底部
+            scrollToBottom();
+        }
+
+        // 隐藏正在输入指示器
+        function hideTypingIndicator() {
+            isAssistantTyping = false;
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+            
+            // 恢复发送按钮
+            const sendButton = document.getElementById('send-button');
+            sendButton.innerHTML = '→';
+            sendButton.title = '发送消息';
+            sendButton.classList.remove('sending');
+        }
+
+        // 处理搜索结果项的选择
+        function toggleItemSelection(docId) {
+            if (selectedItems.has(docId)) {
+                selectedItems.delete(docId);
+            } else {
+                selectedItems.add(docId);
+            }
+            console.log("已选择文档:", Array.from(selectedItems));
+            
+            // 更新所有结果项的选择状态
+            document.querySelectorAll('.search-result-item').forEach(item => {
+                if (selectedItems.has(item.dataset.docId)) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+            
+            // 更新选择计数
+            updateSelectionCount();
+        }
+
+        // 处理PDF完成
+        function handleProcessingComplete(result, isSearchMode = false) {
+            try {
+                console.log(`PDF处理完成，搜索模式: ${isSearchMode}`);
+                
+                // 移除处理中消息
+                const messagesContainer = document.getElementById('chat-messages');
+                const processingMessage = messagesContainer.querySelector('.processing-message');
+                if (processingMessage) {
+                    const messageItem = processingMessage.closest('.message-item');
+                    if (messageItem) {
+                        messageItem.remove();
+                    }
+                }
+                
+                if (isSearchMode) {
+                    // 搜索模式：显示搜索结果
+                    if (result && result.search_results && result.search_results.length > 0) {
+                        // 显示搜索结果
+                        showSearchResults(result.search_results);
+                        
+                        // 添加消息通知用户
+                        const resultMsg = {
+                            role: 'system',
+                            content: `📄 已找到 ${result.search_results.length} 条与PDF相关的文献。已在右侧显示检索结果。`,
+                            timestamp: new Date().toISOString()
+                        };
+                        displayMessage(resultMsg);
+                    } else {
+                        // 未找到相关文献
+                        const noResultMsg = {
+                            role: 'system',
+                            content: '未找到与PDF相关的文献。',
+                            timestamp: new Date().toISOString()
+                        };
+                        displayMessage(noResultMsg);
+                    }
+                } else {
+                    // 聊天模式：显示PDF摘要和分析
+                    if (result && result.summary) {
+                        // 添加消息显示PDF摘要
+                        const summaryMessage = {
+                            role: 'assistant',
+                            content: data.summary,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        displayMessage(summaryMessage);
+                        addToHistory(summaryMessage);
+                    } else {
+                        // 没有摘要，显示简单消息
+                        const message = {
+                            role: 'assistant',
+                            content: `PDF文件 ${selectedFile ? selectedFile.name : ''} 已处理完成。您可以询问关于该文档的任何问题。`,
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        displayMessage(message);
+                        addToHistory(message);
+                    }
+                }
+                
+                // 重置PDF上传界面
+                selectedFile = null;
+            } catch (error) {
+                console.error('处理PDF完成回调时出错:', error);
+                
+                const errorMsg = {
+                    role: 'system',
+                    content: `<div class="error-message">显示PDF处理结果时出错: ${error.message}</div>`,
+                    timestamp: new Date().toISOString()
+                };
+                displayMessage(errorMsg);
+            }
+        }
+
+        // 用于填充工具列表
+        function populateTools(tools) {
+            try {
+                const toolsList = document.querySelector('.tools-list');
+                
+                if (!toolsList) {
+                    console.error('找不到工具列表元素');
+                        return;
+                    }
+                    
+                // 检查是否已存在"新建对话"按钮
+                let newChatButton = null;
+                const existingNewChatBtn = document.querySelector('.new-chat-btn');
+                if (existingNewChatBtn) {
+                    // 暂时移除，稍后重新添加到最后
+                    newChatButton = existingNewChatBtn;
+                    existingNewChatBtn.remove();
+                }
+                
+                // 清空工具列表
+                toolsList.innerHTML = '';
+                
+                // 添加工具，过滤掉PDF工具
+                tools.forEach(tool => {
+                    // 跳过PDF工具
+                    if (tool.id === 'pdf') return;
+                    
+                    const toolItem = document.createElement('div');
+                    toolItem.className = 'tool-item';
+                    toolItem.id = `${tool.id}-tool`;
+                    toolItem.onclick = () => selectTool(toolItem, tool.id);
+                    
+                    if (tool.id === currentTool) {
+                        toolItem.classList.add('active');
+                    }
+                    
+                    // 确定合适的图标表情符号，不使用工具自带的icon
+                    let iconEmoji = '🔧'; // 默认图标
+                    if (tool.id === 'chat') iconEmoji = '💬';
+                    if (tool.id === 'search') iconEmoji = '🔍';
+                    
+                    // 创建工具图标和文本，避免重复
+                    toolItem.innerHTML = `
+                        <span class="tool-icon">${iconEmoji}</span>
+                        <span>${tool.name}</span>
+                    `;
+                    
+                    toolsList.appendChild(toolItem);
+                });
+                
+                // 放回"新建对话"按钮或创建新的
+                if (newChatButton) {
+                    // 重用已存在的按钮
+                    toolsList.parentElement.appendChild(newChatButton);
+            } else {
+                    // 创建新按钮
+                    const newChatBtn = document.createElement('button');
+                    newChatBtn.className = 'new-chat-btn';
+                    newChatBtn.onclick = createNewChat;
+                    newChatBtn.innerHTML = '<span>New Chat</span>';
+                    
+                    const toolsSection = document.querySelector('.tools-section');
+                    if (toolsSection) {
+                        toolsSection.appendChild(newChatBtn);
+                    }
+                }
+                
+                console.log('工具列表已更新（已过滤PDF工具）');
+            } catch (error) {
+                console.error('填充工具列表时出错:', error);
+            }
+        }
+
+        // 更新应用过滤器函数
+        function applyFilters() {
+            // 固定使用jina重排序
+            const searchMethod = 'jina';  // 固定使用jina重排序
+            
+            console.log(`应用检索方法: ${searchMethod}`);
+            
+            // 获取当前输入框中的内容或最后一条用户消息
+            let query = '';
+            const input = document.getElementById('chat-input');
+            if (input && input.value.trim()) {
+                query = input.value.trim();
+            } else if (chatHistory && chatHistory.length > 0) {
+                // 获取最后一条用户消息
+                for (let i = chatHistory.length - 1; i >= 0; i--) {
+                    if (chatHistory[i].role === 'user') {
+                        query = chatHistory[i].content;
+                        break;
+                    }
+                }
+            }
+            
+            if (!query) {
+                console.log('没有可用的查询内容，无法执行检索');
+                alert('请先输入一条消息或选择一个历史查询');
+                return;
+            }
+            
+            // 显示加载状态
+            const searchItems = document.getElementById('search-results');
+            if (searchItems) {
+                searchItems.innerHTML = '<div class="loading-results">正在检索中...</div>';
+                // 确保搜索面板可见
+                document.getElementById('search-panel').classList.add('visible');
+                document.body.classList.add('search-active');
+            }
+            
+            // 准备请求数据
+            const requestData = {
+                query: query,
+                search_method: searchMethod,
+                session_id: get_or_create_session_id(),
+                limit: 50  // 增加返回结果数量
+            };
+            
+            console.log("发送检索请求:", requestData);
+            
+            // 发送请求
+            fetch(API.SEARCH, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`检索请求失败: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("检索响应:", data);
+                
+                // 处理响应结果
+                if (data.results && data.results.length > 0) {
+                    showSearchResults(data.results);
+                } else if (data.search_results && data.search_results.length > 0) {
+                    showSearchResults(data.search_results);
+                } else if (data.references && data.references.length > 0) {
+                    showSearchResults(data.references);
+                } else {
+                    // 没有结果
+                    showSearchResults([]);
+                }
+            })
+            .catch(error => {
+                console.error('检索请求出错:', error);
+                
+                // 显示错误消息
+                if (searchItems) {
+                    searchItems.innerHTML = `<div class="error-results">检索出错: ${error.message}</div>`;
+                }
+            });
+        }
+
+        // 修改添加检索方法切换事件监听
+        document.addEventListener('DOMContentLoaded', function() {
+            // 由于已删除排序下拉框，不再需要相关事件监听
+            console.log("初始化检索，固定使用向量+Jina重排序");
+        });
+
+        // 添加在脚本开始处
+        // 本地存储键名
+        const STORAGE_KEYS = {
+            CHAT_HISTORY: 'rag_mcp_chat_history',
+            SEARCH_RESULTS: 'rag_mcp_search_results',
+            SESSION_ID: 'rag_mcp_session_id'
+        };
+
+        // 保存聊天历史到本地存储
+        function saveHistoryToStorage(history) {
+            try {
+                localStorage.setItem(STORAGE_KEYS.CHAT_HISTORY, JSON.stringify(history));
+            } catch (e) {
+                console.error('保存聊天历史到本地存储失败:', e);
+            }
+        }
+
+        // 从本地存储恢复聊天历史
+        function loadHistoryFromStorage() {
+            try {
+                const storedHistory = localStorage.getItem(STORAGE_KEYS.CHAT_HISTORY);
+                return storedHistory ? JSON.parse(storedHistory) : [];
+            } catch (e) {
+                console.error('从本地存储加载聊天历史失败:', e);
+                return [];
+            }
+        }
+
+        // 保存搜索结果到本地存储
+        function saveSearchResultsToStorage(results) {
+            try {
+                localStorage.setItem(STORAGE_KEYS.SEARCH_RESULTS, JSON.stringify(results));
+            } catch (e) {
+                console.error('保存搜索结果到本地存储失败:', e);
+            }
+        }
+
+        // 从本地存储恢复搜索结果
+        function loadSearchResultsFromStorage() {
+            try {
+                const storedResults = localStorage.getItem(STORAGE_KEYS.SEARCH_RESULTS);
+                return storedResults ? JSON.parse(storedResults) : [];
+            } catch (e) {
+                console.error('从本地存储加载搜索结果失败:', e);
+                return [];
+            }
+        }
+
+        // 获取或创建会话ID
+        function get_or_create_session_id() {
+            let sessionId = localStorage.getItem(STORAGE_KEYS.SESSION_ID);
+            if (!sessionId) {
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substring(2, 10);
+                localStorage.setItem(STORAGE_KEYS.SESSION_ID, sessionId);
+            }
+            return sessionId;
+        }
+        
+        // ... 现有代码 ...
+
+        // 修改addToHistory函数
+        function addToHistory(message) {
+            chatHistory.push(message);
+            // 保存到本地存储
+            saveHistoryToStorage(chatHistory);
+        }
+
+        // ... 现有代码 ...
+
+        // 修改showSearchResults函数
+        function showSearchResults(results) {
+            try {
+                console.log("显示搜索结果:", results);
+                
+                // 保存搜索结果到本地存储
+                if (results && results.length > 0) {
+                    saveSearchResultsToStorage(results);
+                }
+                
+                // 高亮搜索工具选择
+                const searchTool = document.querySelector('[data-tool="search"]');
+                if (searchTool) {
+                    searchTool.classList.add('selected');
+                }
+                
+                // 修改这部分，使搜索结果并排显示
+                const searchPanel = document.getElementById('search-panel');
+                const resultsContainer = document.getElementById('search-results');
+                
+                // 清空之前的结果
+                resultsContainer.innerHTML = '';
+                
+                // 处理没有结果的情况
+            if (!results || results.length === 0) {
+                    searchPanel.classList.add('visible');
+                    resultsContainer.innerHTML = '<div class="no-results">没有找到相关结果</div>';
+                    document.body.classList.add('search-active'); // 添加这行来激活并排布局
+                return;
+            }
+            
+                // 处理结果
+                searchPanel.classList.add('visible');
+                document.body.classList.add('search-active'); // 添加这行来激活并排布局
+                
+                // 显示结果数量
+                const resultCountHeader = document.createElement('div');
+                resultCountHeader.className = 'result-count';
+                resultCountHeader.textContent = `找到 ${results.length} 条结果`;
+                resultsContainer.appendChild(resultCountHeader);
+                
+                // 遍历结果并显示
+                results.forEach((result, index) => {
+                    try {
+                        // 获取文档ID (确保兼容不同格式)
+                        const docId = result.document_id || result.doc_id || result.id || `doc_${index}`;
+                        
+                        // 创建结果项
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'search-result-item';
+                        resultItem.dataset.docId = docId;
+                        
+                        // 添加选择框
+                const checkboxContainer = document.createElement('div');
+                        checkboxContainer.className = 'search-result-checkbox-container';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                        checkbox.className = 'search-result-checkbox';
+                        checkbox.dataset.docId = docId;
+                        
+                        // 检查是否已被选中
+                        if (selectedItems.has(docId)) {
+                            checkbox.checked = true;
+                            resultItem.classList.add('selected');
+                        }
+                        
+                        // 添加选择框的事件处理
+                        checkbox.addEventListener('change', function(e) {
+                            e.stopPropagation(); // 阻止事件冒泡
+                            toggleItemSelection(docId);
+                            if (this.checked) {
+                                resultItem.classList.add('selected');
+                            } else {
+                                resultItem.classList.remove('selected');
+                            }
+                });
+                
+                checkboxContainer.appendChild(checkbox);
+                        resultItem.appendChild(checkboxContainer);
+                        
+                        // 创建内容容器
+                        const contentContainer = document.createElement('div');
+                        contentContainer.className = 'search-result-content-container';
+                        
+                        // 创建结果头部 (标题和相关度)
+                        const resultHeader = document.createElement('div');
+                        resultHeader.className = 'search-result-header';
+                        
+                        // 添加标题
+                        const resultTitle = document.createElement('div');
+                        resultTitle.className = 'search-result-title';
+                        resultTitle.textContent = result.title || `文档 ${docId}`;
+                        resultHeader.appendChild(resultTitle);
+                        
+                        // 添加相关性分数
+                        if (result.score !== undefined || result.relevance_score !== undefined) {
+                            const score = result.score !== undefined ? result.score : result.relevance_score;
+                            const resultScore = document.createElement('div');
+                            resultScore.className = 'search-result-score';
+                            resultScore.textContent = `${parseFloat(score).toFixed(2)}`;
+                            resultHeader.appendChild(resultScore);
+                        }
+                        
+                        contentContainer.appendChild(resultHeader);
+                        
+                        // 添加作者信息（如果有）
+                        if (result.authors && result.authors.length > 0) {
+                            const authorsElem = document.createElement('div');
+                            authorsElem.className = 'search-result-authors';
+                            authorsElem.textContent = Array.isArray(result.authors) ? result.authors.join(', ') : result.authors;
+                            contentContainer.appendChild(authorsElem);
+                        }
+                        
+                        // 添加年份信息（如果有）
+                        if (result.year) {
+                            const yearElem = document.createElement('div');
+                            yearElem.className = 'search-result-year';
+                            yearElem.textContent = `发布年份: ${result.year}`;
+                            yearElem.style.fontSize = '0.9em';
+                            yearElem.style.color = '#5f6368';
+                            yearElem.style.marginBottom = '5px';
+                            contentContainer.appendChild(yearElem);
+                        }
+                        
+                        // 添加内容摘要 - 按照优先级使用不同字段
+                        const contentElem = document.createElement('div');
+                        contentElem.className = 'search-result-content';
+                        
+                        // 内容优先级: snippet > abstract > text
+                        let content = '无可用内容';
+                        if (result.snippet && result.snippet.trim()) {
+                            content = result.snippet;
+                        } else if (result.abstract && result.abstract.trim()) {
+                            content = result.abstract;
+                        } else if (result.text && result.text.trim()) {
+                            // 只取前300个字符作为摘要
+                            content = result.text.substring(0, 300) + (result.text.length > 300 ? '...' : '');
+                        }
+                        
+                        contentElem.textContent = content;
+                        contentContainer.appendChild(contentElem);
+                        
+                        resultItem.appendChild(contentContainer);
+                        
+                        // 移除原来的点击事件，改为点击选择框
+                        resultItem.addEventListener('click', function(e) {
+                            // 如果点击的不是选择框本身，则触发选择框的点击
+                            if (!e.target.classList.contains('search-result-checkbox')) {
+                                const cb = this.querySelector('.search-result-checkbox');
+                                cb.checked = !cb.checked;
+                                // 触发change事件
+                                const event = new Event('change');
+                                cb.dispatchEvent(event);
+                            }
+                        });
+                        
+                        resultsContainer.appendChild(resultItem);
+                    } catch (itemError) {
+                        console.error(`处理搜索结果项 ${index} 时出错:`, itemError);
+                    }
+                });
+                
+                // 确保搜索面板可见
+                searchPanel.classList.add('visible');
+                
+                // 更新选择计数
+                updateSelectionCount();
+            } catch (error) {
+                console.error("显示搜索结果时出错:", error);
+            }
+        }
+
+        // 页面加载时恢复数据
+        document.addEventListener('DOMContentLoaded', function() {
+            // 恢复聊天历史
+            chatHistory = loadHistoryFromStorage();
+            if (chatHistory && chatHistory.length > 0) {
+                // 有历史消息，移除新聊天样式
+                const chatMessages = document.getElementById('chat-messages');
+                const inputContainer = document.getElementById('chat-input-container');
+                
+                if (chatMessages.classList.contains('new-chat')) {
+                    chatMessages.classList.remove('new-chat');
+                    inputContainer.classList.remove('centered');
+                    
+                    const promptElement = document.querySelector('.centered-prompt');
+                    if (promptElement) {
+                        promptElement.remove();
+                    }
+                }
+                
+                // 显示所有历史消息
+                chatHistory.forEach(message => {
+                    displayMessage(message);
+                });
+                
+                // 滚动到底部
+                const messagesContainer = document.getElementById('chat-messages');
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+            
+            // 恢复搜索结果
+            const savedResults = loadSearchResultsFromStorage();
+            if (savedResults && savedResults.length > 0) {
+                showSearchResults(savedResults);
+            }
+            
+            // 初始化会话ID
+            get_or_create_session_id();
+            
+            // 检查API健康状态
+            checkApiHealth();
+        });
+
+        // 添加新聊天按钮功能
+        document.getElementById('new-chat-button').addEventListener('click', function() {
+            // 清空聊天历史
+            chatHistory = [];
+            saveHistoryToStorage(chatHistory);
+            
+            // 清空搜索结果
+            clearSearchResults();
+            saveSearchResultsToStorage([]);
+            
+            // 清空选择的文档
+            selectedItems.clear();
+            
+            // 刷新页面
+            location.reload();
+        });
+
+        // 清空搜索结果的辅助函数
+        function clearSearchResults() {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '';
+            document.getElementById('search-panel').classList.remove('visible');
+        }
+
+        // 更新选择计数
+        function updateSelectionCount() {
+            const countElem = document.getElementById('selection-count');
+            const addButton = document.getElementById('add-selected');
+            
+            if (countElem && addButton) {
+            const count = selectedItems.size;
+                countElem.textContent = `已选择 ${count} 项`;
+                
+                // 启用/禁用添加按钮
+                addButton.disabled = count === 0;
+            }
+        }
+        
+        // 添加选中的项目到对话
+        function addSelectedToChat() {
+            // 如果没有选中的项目，直接返回
+            if (selectedItems.size === 0) {
+                return;
+            }
+            
+            // 获取选中项的数量
+            const count = selectedItems.size;
+            
+            // 获取选中项的ID
+            const selectedDocs = Array.from(selectedItems);
+            
+            // 生成简洁的命令格式
+            let selectedIndices = [];
+            document.querySelectorAll('.search-result-item').forEach((item, index) => {
+                if (selectedItems.has(item.dataset.docId)) {
+                    selectedIndices.push(index + 1); // 添加1是因为用户界面从1开始计数
+                }
+            });
+            
+            // 格式化选择命令
+            let commandText = "";
+            if (selectedIndices.length > 0) {
+                // 寻找连续的序号区间
+                selectedIndices.sort((a, b) => a - b);
+                let ranges = [];
+                let start = selectedIndices[0];
+                let end = start;
+                
+                for (let i = 1; i < selectedIndices.length; i++) {
+                    if (selectedIndices[i] === end + 1) {
+                        end = selectedIndices[i];
+                    } else {
+                        ranges.push(start === end ? `${start}` : `${start}-${end}`);
+                        start = end = selectedIndices[i];
+                    }
+                }
+                ranges.push(start === end ? `${start}` : `${start}-${end}`);
+                
+                // 构建命令文本
+                commandText = `select${ranges.join(',')}共${count}篇`;
+            } else {
+                commandText = `select共${count}篇`;
+            }
+            
+            // 创建用户消息
+            const referenceCommand = {
+                role: 'user',
+                content: commandText,
+                timestamp: new Date().toISOString()
+            };
+            
+            // 显示消息
+            displayMessage(referenceCommand);
+            
+            // 添加到历史记录
+            addToHistory(referenceCommand);
+            
+            // 保存选择的文档ID到localStorage，在下一次发送消息时可以使用
+            localStorage.setItem('rag_mcp_selected_docs', JSON.stringify(selectedDocs));
+            console.log("已保存选择的文档IDs:", selectedDocs);
+            
+            // 自动发送这个命令
+            sendSelectedDocsMessage(commandText, selectedDocs);
+            
+            // 重要：不清空选择和不关闭搜索面板
+            // 只更新按钮状态，避免重复发送
+            const addButton = document.getElementById('add-selected');
+            if (addButton) {
+                // 暂时禁用按钮，防止重复点击
+                addButton.disabled = true;
+                addButton.textContent = '已添加到对话';
+                
+                // 3秒后恢复按钮
+                setTimeout(() => {
+                    addButton.disabled = false;
+                    addButton.textContent = '添加到对话';
+                }, 3000);
+            }
+            
+            // 显示成功消息
+            const successMessage = document.createElement('div');
+            successMessage.className = 'result-count success-message';
+            successMessage.textContent = `成功添加 ${count} 项到对话`;
+            successMessage.style.backgroundColor = '#e6f7f1';
+            successMessage.style.color = '#10a37f';
+            
+            // 将成功消息添加到结果容器的顶部
+            const resultsContainer = document.getElementById('search-results');
+            if (resultsContainer.firstChild) {
+                resultsContainer.insertBefore(successMessage, resultsContainer.firstChild);
+            } else {
+                resultsContainer.appendChild(successMessage);
+            }
+            
+            // 3秒后移除成功消息
+            setTimeout(() => {
+                successMessage.remove();
+            }, 3000);
+            
+            // 将焦点移至输入框
+            document.getElementById('chat-input').focus();
+        }
+
+        // 新增函数：专门处理选择文档的消息发送
+        function sendSelectedDocsMessage(commandText, selectedDocs) {
+            // 显示助手正在输入
+            showTypingIndicator();
+            
+            // 如果API不可用，显示离线模式消息
+            if (!apiAvailable) {
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    
+                    const offlineMessage = {
+                        role: 'assistant',
+                        content: `服务器连接暂时不可用。您的参考文献选择已保存，将在连接恢复后处理。`,
+                        timestamp: new Date().toISOString(),
+                        offline: true
+                    };
+                    
+                    displayMessage(offlineMessage);
+                    addToHistory(offlineMessage);
+                    
+                    // 尝试再次检查API健康状态
+                    checkApiHealth();
+                }, 1500);
+                return;
+            }
+            
+            // 中断之前的请求（如果有）
+            if (controller) {
+                controller.abort();
+            }
+            
+            // 创建新的AbortController
+            controller = new AbortController();
+            
+            // 准备发送数据
+            const requestData = {
+                query: commandText,
+                session_id: get_or_create_session_id(),
+                selected_docs: selectedDocs,
+                is_reference_selection: true  // 特殊标记，表明这是文献选择命令
+            };
+            
+            console.log("发送参考文献处理请求:", requestData);
+            
+            // 发送请求
+            fetch(API.PROCESS, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData),
+                signal: controller.signal
+            })
+            .then(response => {
+                console.log("API响应状态:", response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`请求失败: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("参考文献处理响应:", data);
+                hideTypingIndicator();
+                
+                // 处理响应
+                if (data.response) {
+                    const assistantMessage = {
+                        role: 'assistant',
+                        content: data.response,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    displayMessage(assistantMessage);
+                    addToHistory(assistantMessage);
+                } else {
+                    console.error("API响应中没有找到回答");
+                    const confirmMessage = {
+                        role: 'assistant',
+                        content: `已选择 ${selectedDocs.length} 篇参考文献。请继续输入您的问题，我将基于这些文献为您解答。`,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    displayMessage(confirmMessage);
+                    addToHistory(confirmMessage);
+                }
+            })
+            .catch(error => {
+                // 仅处理非中断错误
+                if (error.name !== 'AbortError') {
+                    console.error('处理参考文献时出错:', error);
+                    hideTypingIndicator();
+                    
+                    // 创建错误消息
+                    const errorMessage = {
+                        role: 'assistant',
+                        content: `处理参考文献时出现问题，请稍后再试。(错误: ${error.message})`,
+                        timestamp: new Date().toISOString(),
+                        error: true
+                    };
+                    
+                    displayMessage(errorMessage);
+                    addToHistory(errorMessage);
+                    
+                    // 标记API可能不可用
+                    apiAvailable = false;
+                    checkApiHealth(); // 立即执行健康检查
+                } else {
+                    console.log('请求已中断');
+                }
+            });
+        }
+
+        // 修改closeSearch函数，关闭搜索面板并保存当前检索结果
+        function closeSearch() {
+            const searchPanel = document.getElementById('search-panel');
+            searchPanel.classList.remove('visible');
+            document.body.classList.remove('search-active');
+            
+            // 保存当前检索结果以便后续恢复
+            const currentSearchResults = loadSearchResultsFromStorage();
+            if (currentSearchResults && currentSearchResults.length > 0) {
+                // 保存到一个专门的存储键中
+                localStorage.setItem('rag_mcp_last_search_results', JSON.stringify(currentSearchResults));
+                
+                // 添加恢复检索结果的按钮
+                addRestoreSearchButton();
+            }
+        }
+        
+        // 添加恢复检索结果按钮
+        function addRestoreSearchButton() {
+            // 检查是否已经存在恢复按钮
+            let restoreButton = document.getElementById('restore-search-button');
+            if (!restoreButton) {
+                restoreButton = document.createElement('button');
+                restoreButton.id = 'restore-search-button';
+                restoreButton.className = 'restore-search-button';
+                restoreButton.innerHTML = '<span class="material-icons">search</span> 恢复检索结果';
+                restoreButton.title = '恢复之前的检索结果';
+                restoreButton.onclick = restoreSearchResults;
+                
+                // 添加到body
+                document.body.appendChild(restoreButton);
+            }
+        }
+        
+        // 恢复检索结果
+        function restoreSearchResults() {
+            const lastSearchResults = localStorage.getItem('rag_mcp_last_search_results');
+            if (lastSearchResults) {
+                try {
+                    const results = JSON.parse(lastSearchResults);
+                    if (results && results.length > 0) {
+                        console.log("恢复之前的检索结果:", results.length);
+                        // 显示检索结果
+                        showSearchResults(results);
+                        
+                        // 移除恢复按钮
+                        const restoreButton = document.getElementById('restore-search-button');
+                        if (restoreButton) {
+                            restoreButton.remove();
+                        }
+                        return;
+                    }
+                } catch (e) {
+                    console.error("解析保存的检索结果出错:", e);
+                }
+            }
+            
+            console.log("没有找到之前的检索结果");
+            alert("没有找到之前的检索结果");
+        }
+        
+        // 页面加载时检查是否有上次的检索结果
+        document.addEventListener('DOMContentLoaded', function() {
+            const lastSearchResults = localStorage.getItem('rag_mcp_last_search_results');
+            if (lastSearchResults) {
+                try {
+                    const results = JSON.parse(lastSearchResults);
+                    if (results && results.length > 0) {
+                        // 添加恢复按钮
+                        addRestoreSearchButton();
+                    }
+                } catch (e) {
+                    console.error("检查保存的检索结果时出错:", e);
+                }
+            }
+        });
+        
+        // 创建新对话
+        function createNewChat() {
+            try {
+                // 清空当前聊天UI
+                const chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML = '';
+                
+                // 显示加载消息
+                const loadingMessage = document.createElement('div');
+                loadingMessage.className = 'message system';
+                loadingMessage.innerHTML = '<div class="message-content">正在创建新对话...</div>';
+                chatMessages.appendChild(loadingMessage);
+                
+                // 调用API创建新会话
+                fetch(API.PROCESS.replace('process', 'new_chat'), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`创建新会话失败: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('创建了新会话:', data);
+                    
+                    // 保存新的会话ID
+                    if (data.session_id) {
+                        localStorage.setItem('session_id', data.session_id);
+                    }
+                    
+                    // 清空当前聊天历史
+                    chatHistory = [];
+                    saveHistoryToStorage(chatHistory);
+                    
+                    // 重置选中的文档
+                    selectedItems.clear();
+                    
+                    // 清空搜索结果
+                    clearSearchResults();
+                    saveSearchResultsToStorage([]);
+                    
+                    // 清除所有保存的文档选择
+                    localStorage.removeItem('rag_mcp_selected_docs');
+                    
+                    // 设置新对话标志
+                    localStorage.setItem('is_new_chat', 'true');
+                    
+                    // 移除加载消息
+                    loadingMessage.remove();
+                    
+                    // 显示成功消息
+                    const successMessage = document.createElement('div');
+                    successMessage.className = 'message system';
+                    successMessage.innerHTML = '<div class="message-content">已创建新对话，所有历史记录和选择已清除。</div>';
+                    chatMessages.appendChild(successMessage);
+                    
+                    // 3秒后自动移除状态消息
+                    setTimeout(() => {
+                        successMessage.remove();
+                    }, 3000);
+                    
+                    // 焦点放在输入框上
+                    const chatInput = document.getElementById('chat-input');
+                    chatInput.focus();
+                    
+                    // 重置搜索结果
+                    if (isSearchActive) {
+                        document.getElementById('search-results').innerHTML = '';
+                        closeSearch();
+                    }
+                })
+                .catch(error => {
+                    console.error('创建新会话时出错:', error);
+                    
+                    // 移除加载消息
+                    loadingMessage.remove();
+                    
+                    // 显示错误消息
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'message system error';
+                    errorMessage.innerHTML = `<div class="message-content">创建新对话失败: ${error.message}</div>`;
+                    chatMessages.appendChild(errorMessage);
+                    
+                    // 5秒后自动移除错误消息
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 5000);
+                });
+            } catch (error) {
+                console.error('创建新会话时出错:', error);
+                alert('创建新会话时出错。请刷新页面重试。');
+            }
+        }
+        
+        // 设置工具切换器
+        function setupToolSwitchers() {
+            // 工具切换逻辑
+            document.querySelectorAll('.tool-switcher').forEach(item => {
+                item.addEventListener('click', function() {
+                    const tool = this.getAttribute('data-tool');
+                    
+                    if (tool === currentTool) return;
+                    
+                    // 更新当前工具
+                    currentTool = tool;
+                    
+                    // 更新活动样式
+                    document.querySelectorAll('.tool-switcher').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // 隐藏所有面板
+                    document.querySelectorAll('.tool-panel').forEach(panel => {
+                        panel.style.display = 'none';
+                    });
+                    
+                    // 显示选中的面板
+                    const panelId = `${tool}-panel`;
+                    const panel = document.getElementById(panelId);
+                    if (panel) {
+                        panel.style.display = 'block';
+                    }
+                });
+            });
+        }
+        
+        // 生成UUID
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        // 添加displayMessage函数
+        function displayMessage(message, withTypingEffect = true) {
+            const messagesContainer = document.getElementById('chat-messages');
+            if (!messagesContainer) {
+                console.error('找不到消息容器');
+                return;
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${message.role}`;
+            if (message.error) {
+                messageDiv.classList.add('error');
+            }
+            if (message.offline) {
+                messageDiv.classList.add('offline-message');
+            }
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'avatar';
+            avatar.innerHTML = message.role === 'user' ? '<span>U</span>' : '<span>AI</span>';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            // 添加到DOM
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            messagesContainer.appendChild(messageDiv);
+            
+            // 处理消息内容
+            if (message.content) {
+                // 检查是否包含完整的HTML文档结构
+                const hasFullHtmlStructure = /<html[\s\S]*?>[\s\S]*?<\/html>/i.test(message.content);
+                
+                // 检查是否包含任何HTML标签但不是完整的HTML文档
+                const containsHtmlTags = /<[a-z][\s\S]*?>/i.test(message.content) && !hasFullHtmlStructure;
+                
+                // 检查是否包含Markdown代码块
+                const containsCodeBlocks = /```[\s\S]*?```/g.test(message.content);
+                
+                // 检查是否包含Markdown格式
+                const containsMarkdown = /(\*\*|__|\*|_|~~|#|##|###|####|#####|######|\[.*?\]\(.*?\)|!\[.*?\]\(.*?\)|`[^`]+`|>|---|---|---)/g.test(message.content);
+                
+                if (hasFullHtmlStructure) {
+                    // 完整的HTML文档，创建iframe来显示
+                    const iframe = document.createElement('iframe');
+                    iframe.style.width = '100%';
+                    iframe.style.minHeight = '300px';
+                    iframe.style.border = 'none';
+                    iframe.srcdoc = message.content;
+                    messageContent.appendChild(iframe);
+                    console.log("使用iframe显示完整HTML文档");
+                } else if ((containsHtmlTags && !containsCodeBlocks) || message.content.trim().startsWith('<')) {
+                    // 包含HTML标签但不是代码块的一部分，直接作为HTML插入
+                    messageContent.innerHTML = message.content;
+                    console.log("直接作为HTML插入");
+                } else if (containsCodeBlocks || containsMarkdown) {
+                    // 包含Markdown代码块或Markdown格式，使用marked解析
+                    try {
+                        messageContent.innerHTML = marked.parse(message.content);
+                        console.log("使用marked解析Markdown");
+                        
+                        // 对代码块应用语法高亮（如果有引入相关库）
+                        if (typeof hljs !== 'undefined') {
+                            messageContent.querySelectorAll('pre code').forEach((block) => {
+                                hljs.highlightElement(block);
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Markdown解析错误，回退到基本处理:", e);
+                        messageContent.innerHTML = message.content.replace(/\n/g, '<br>');
+                    }
+                } else {
+                    // 普通文本，处理换行符
+                    messageContent.innerHTML = message.content.replace(/\n/g, '<br>');
+                    console.log("作为普通文本处理");
+                }
+            }
+            
+            // 滚动到底部
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // 添加滚动到底部的函数
+        function scrollToBottom() {
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

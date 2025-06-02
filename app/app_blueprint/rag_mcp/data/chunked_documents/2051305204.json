@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051305204",
+    "company_name": "2051305204"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Commercial Law – Confidentiality letters – protecting disclosed business secrets\n\nAbstract: Nigel Thorne (Shoosmith &amp; Harrison) explains the use of and effectiveness of confidentiality letters. Article published in Amicus Curiae - Journal of the Institute of Advanced Legal Studies and its Society for Advanced Legal Studies. The Journal is produced by the Society for Advanced Legal Studies at the Institute of Advanced Legal Studies, University of London.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 85,
+        "text": "Title: Commercial Law – Confidentiality letters – protecting disclosed business secrets\n\nAbstract: Nigel Thorne (Shoosmith &amp; Harrison) explains the use of and effectiveness of confidentiality letters. Article published in Amicus Curiae - Journal of the Institute of Advanced Legal Studies and its Society for Advanced Legal Studies. The Journal is produced by the Society for Advanced Legal Studies at the Institute of Advanced Legal Studies, University of London.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

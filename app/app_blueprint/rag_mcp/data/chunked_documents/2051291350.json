@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051291350",
+    "company_name": "2051291350"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Complement Service Composition through Domain Template and Requirement Context\n\nAbstract: Service composition has become an emerging and promising technology to design and build complex business applications. The advantage of SOA is software is divided into services to support reusability. On the other hand, software product line based on feature model is a method of creating a set of similar software. In previous works, the reuse of the legacy solution is lack of flexibility and inadequate especially in some domain. In our approach, we give a standard way to collect requirement based on domain template model (DTM) extended from the feature model. Based on defined DTM, we use the feature context and phase context to specify each software requirement, which include specify features and how the feature implement by compositing atomic services and so on. And our approach of complement a service composition consists of two parts. Firstly, we present how to extract the legacy component to meet the common requirement. And for the variables of the requirement, we give the atomic service a formal description with classic linear logic and construct the corresponding composition service through a CLL proof. We validated our approach based on a case study and give a promising result.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 233,
+        "text": "Title: Complement Service Composition through Domain Template and Requirement Context\n\nAbstract: Service composition has become an emerging and promising technology to design and build complex business applications. The advantage of SOA is software is divided into services to support reusability. On the other hand, software product line based on feature model is a method of creating a set of similar software. In previous works, the reuse of the legacy solution is lack of flexibility and inadequate especially in some domain. In our approach, we give a standard way to collect requirement based on domain template model (DTM) extended from the feature model. Based on defined DTM, we use the feature context and phase context to specify each software requirement, which include specify features and how the feature implement by compositing atomic services and so on. And our approach of complement a service composition consists of two parts. Firstly, we present how to extract the legacy component to meet the common requirement. And for the variables of the requirement, we give the atomic service a formal description with classic linear logic and construct the corresponding composition service through a CLL proof. We validated our approach based on a case study and give a promising result.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

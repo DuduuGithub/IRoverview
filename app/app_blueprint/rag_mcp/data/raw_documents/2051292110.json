@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051292110",
+    "company_name": "2051292110"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Torsion in the bordism of oriented involutions\n\nAbstract: In the bordism theory <inline-formula content-type=\"math/mathml\"> <mml:math xmlns:mml=\"1998/Math/MathML\" alttext=\"normal upper Omega Subscript asterisk Baseline left-parenthesis upper Z 2 Superscript k Baseline right-parenthesis\"> <mml:semantics> <mml:mrow> <mml:mrow class=\"MJX-TeXAtom-ORD\"> <mml:msub> <mml:mi mathvariant=\"normal\">Ω<!-- Ω --></mml:mi> <mml:mo>∗<!-- ∗ --></mml:mo> </mml:msub> </mml:mrow> <mml:mo stretchy=\"false\">(</mml:mo> <mml:msubsup> <mml:mi>Z</mml:mi> <mml:mn>2</mml:mn> <mml:mi>k</mml:mi> </mml:msubsup> <mml:mo stretchy=\"false\">)</mml:mo> </mml:mrow> <mml:annotation encoding=\"application/x-tex\">{\\Omega _ \\ast }(Z_2^k)</mml:annotation> </mml:semantics> </mml:math> </inline-formula> of smooth, orientation-preserving <inline-formula content-type=\"math/mathml\"> <mml:math xmlns:mml=\"1998/Math/MathML\" alttext=\"upper Z 2 Superscript k\"> <mml:semantics> <mml:msubsup> <mml:mi>Z</mml:mi> <mml:mn>2</mml:mn> <mml:mi>k</mml:mi> </mml:msubsup> <mml:annotation encoding=\"application/x-tex\">Z_2^k</mml:annotation> </mml:semantics> </mml:math> </inline-formula>-actions all torsion has order two. Furthermore, the torsion classes inject in the unoriented theory <inline-formula content-type=\"math/mathml\"> <mml:math xmlns:mml=\"1998/Math/MathML\" alttext=\"upper N Subscript asterisk Baseline left-parenthesis upper Z 2 Superscript k Baseline right-parenthesis\"> <mml:semantics> <mml:mrow> <mml:mrow class=\"MJX-TeXAtom-ORD\"> <mml:msub> <mml:mi>N</mml:mi> <mml:mo>∗<!-- ∗ --></mml:mo> </mml:msub> </mml:mrow> <mml:mo stretchy=\"false\">(</mml:mo> <mml:msubsup> <mml:mi>Z</mml:mi> <mml:mn>2</mml:mn> <mml:mi>k</mml:mi> </mml:msubsup> <mml:mo stretchy=\"false\">)</mml:mo> </mml:mrow> <mml:annotation encoding=\"application/x-tex\">{N_ \\ast }(Z_2^k)</mml:annotation> </mml:semantics> </mml:math> </inline-formula>, and any class represented by a stationary-point free action has infinite order. In addition, a procedure is given for producing Smith constructions in some generality.\n\n"
+      }
+    ]
+  }
+}

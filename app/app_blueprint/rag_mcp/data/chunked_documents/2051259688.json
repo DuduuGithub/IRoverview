@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051259688",
+    "company_name": "2051259688"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Venlafaxine for Functional Chest Pain: Hope or Hype?\n\nAbstract: Low-dose antidepressants are used as visceral analgesics in patients with functional bowel disorders, mainly in irritable bowel syndrome (IBS). Evidence supporting their use in the upper gastrointestinal (GI) tract is slowly emerging. A double-blind, placebo-controlled crossover study in 43 young patients with carefully documented functional chest pain showed that 52% of the patients benefited from a 4-week treatment with venlafaxine 75 mg q.h.s. These results provide evidence for the benefit of using venlafaxine in the treatment of young male patients with functional chest pain. Yet, further studies are required to evaluate whether this indication of venlafaxine can be extended to other patient groups and whether the symptomatic response is long-lasting.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 165,
+        "text": "Title: Venlafaxine for Functional Chest Pain: Hope or Hype?\n\nAbstract: Low-dose antidepressants are used as visceral analgesics in patients with functional bowel disorders, mainly in irritable bowel syndrome (IBS). Evidence supporting their use in the upper gastrointestinal (GI) tract is slowly emerging. A double-blind, placebo-controlled crossover study in 43 young patients with carefully documented functional chest pain showed that 52% of the patients benefited from a 4-week treatment with venlafaxine 75 mg q.h.s. These results provide evidence for the benefit of using venlafaxine in the treatment of young male patients with functional chest pain. Yet, further studies are required to evaluate whether this indication of venlafaxine can be extended to other patient groups and whether the symptomatic response is long-lasting.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

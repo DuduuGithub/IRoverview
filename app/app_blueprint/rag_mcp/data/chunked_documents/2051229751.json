@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051229751",
+    "company_name": "2051229751"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Observations on the Advantages to Be Derived from Increased Accommodation for the Insane; on the Beneficial Effects That Would Attend a More Extended Application of Moral Treatment; and on the Probable Cause of the High Rate of Mortality in Almost All County Asylums\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 54,
+        "text": "Title: Observations on the Advantages to Be Derived from Increased Accommodation for the Insane; on the Beneficial Effects That Would Attend a More Extended Application of Moral Treatment; and on the Probable Cause of the High Rate of Mortality in Almost All County Asylums",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

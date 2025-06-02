@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051270262",
+    "company_name": "2051270262"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Functional genetic and comparative genomic analysis of vector mosquito development\n\nAbstract: Although vector mosquitoes transmit deadly diseases, little is known about their development. Analysis of mosquito developmental genetics will advance the study of insect evolutionary development and may reveal novel vector control strategies. We recently described methods for functional analysis of embryonic genes in Aedes aegypti, the dengue fever vector and an emerging arthropod model. Although it was anticipated that Drosophila developmental genes and their functions would be generally well conserved in mosquitoes, our analyses are revealing striking differences. For example, knockdown of axon guidance genes in A. aegypti embryos indicates that nerve cord development has diverged in insects. We are now examining development of the A. aegypti olfactory system and salivary gland, two tissues of vector importance. Large-scale comparative analysis of developmental genes in D. melanogaster and three vector mosquito genomes suggests that genetic regulation of the development of these and other tissues has diverged. Lineage specific duplication, expansion, and loss of genes critical for Drosophila development were observed. Sequence analyses suggest that some processes, including salivary gland development, may be under more stringent selection forces than others. Comparative analysis of predicted miRNA binding sites suggests that the repertoire of developmental genes targeted by miRNAs is species-specific. Our comparative analyses are providing insight into the evolution of insect developmental genes and processes and will promote the design of additional functional genetic studies in mosquitoes.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 294,
+        "text": "Title: Functional genetic and comparative genomic analysis of vector mosquito development\n\nAbstract: Although vector mosquitoes transmit deadly diseases, little is known about their development. Analysis of mosquito developmental genetics will advance the study of insect evolutionary development and may reveal novel vector control strategies. We recently described methods for functional analysis of embryonic genes in Aedes aegypti, the dengue fever vector and an emerging arthropod model. Although it was anticipated that Drosophila developmental genes and their functions would be generally well conserved in mosquitoes, our analyses are revealing striking differences. For example, knockdown of axon guidance genes in A. aegypti embryos indicates that nerve cord development has diverged in insects. We are now examining development of the A. aegypti olfactory system and salivary gland, two tissues of vector importance. Large-scale comparative analysis of developmental genes in D. melanogaster and three vector mosquito genomes suggests that genetic regulation of the development of these and other tissues has diverged. Lineage specific duplication, expansion, and loss of genes critical for Drosophila development were observed. Sequence analyses suggest that some processes, including salivary gland development, may be under more stringent selection forces than others. Comparative analysis of predicted miRNA binding sites suggests that the repertoire of developmental genes targeted by miRNAs is species-specific. Our comparative analyses are providing insight into the evolution of insect developmental genes and processes and will promote the design of additional functional genetic studies in mosquitoes.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

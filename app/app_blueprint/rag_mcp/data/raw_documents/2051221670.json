@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051221670",
+    "company_name": "2051221670"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Effect of Interleukin-2 on Generation of Natural Killer Cells: Role of Major Histocompatibility Complex Class I in B6 and TAP-1-/-Mice\n\nAbstract: Long-term bone marrow cultures were used to investigate the effect of IL-2, a cytokine widely used in immunotherapy, on natural killer cell differentiation. Specifically, the role of MHC was evaluated by comparing normal B6 and class I-deficient TAP-1-/- mice. The number of cells generated after a 13-day culture was the same in cell cultures from TAP-1-/- or B6 mice but the relative number of natural killer cells, identified as NK-1.1+CD3- cells by flow cytometry analysis, was increased in TAP-1-/- compared to B6 cultures (74.4% and 63.9%, respectively). Addition of an anti-class I mAb determined a strong inhibition of natural killer cell generation in B6 cultures, and its effect was specific since no effect was seen in TAP-1-/- cell cultures. TAP-1-/- natural killer cells or the few natural killer cells escaping the inhibitory effect of anti-class I mAb, were less cytotoxic than total B6 natural killer cells against target cell lines of different haplotype.\n\n"
+      }
+    ]
+  }
+}

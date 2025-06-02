@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051247600",
+    "company_name": "2051247600"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Prognostic Role of New Biomarkers in Off-Pump Coronary Artery Bypass Surgery\n\nAbstract: The value of biomarkers of myocardial damage or inflammation in off-pump coronary artery bypass (OPCAB) surgery has not yet been established. In a prospective study of 51 consecutive patients scheduled for elective OPCAB surgery, preoperative levels of troponin T, C-reactive protein, interleukin-6 and tumor necrosis factor-alpha were determined. The primary endpoint was the combination of cardiac death or acute myocardial infarction (AMI) within 30 days. Seven patients (14%) presented with an adverse event: three cardiac deaths and six AMIs. Univariate analysis identified the following adverse event predictors: renal failure (50% vs 11%, P=.028), left ventricular ejection fraction 0.10 ng/dL (43% vs 9%, P=.016), and EuroSCORE rating (7.6 [2.5] VS. 5.2 [2.6], P=.031). A preoperative troponin-T level > 0.10 ng/dL (P=.03) was the only independent adverse event predictor. No significant differences were found with biomarkers of inflammation (P.05). The presence of a preoperative troponin-T level > 0.10 ng/dL is associated with a higher risk of cardiac death or AMI in patients undergoing OPCAB surgery.\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 291,
+        "text": "Title: Prognostic Role of New Biomarkers in Off-Pump Coronary Artery Bypass Surgery\n\nAbstract: The value of biomarkers of myocardial damage or inflammation in off-pump coronary artery bypass (OPCAB) surgery has not yet been established. In a prospective study of 51 consecutive patients scheduled for elective OPCAB surgery, preoperative levels of troponin T, C-reactive protein, interleukin-6 and tumor necrosis factor-alpha were determined. The primary endpoint was the combination of cardiac death or acute myocardial infarction (AMI) within 30 days. Seven patients (14%) presented with an adverse event: three cardiac deaths and six AMIs. Univariate analysis identified the following adverse event predictors: renal failure (50% vs 11%, P=.028), left ventricular ejection fraction 0.10 ng/dL (43% vs 9%, P=.016), and EuroSCORE rating (7.6 [2.5] VS. 5.2 [2.6], P=.031). A preoperative troponin-T level > 0.10 ng/dL (P=.03) was the only independent adverse event predictor. No significant differences were found with biomarkers of inflammation (P.05). The presence of a preoperative troponin-T level > 0.10 ng/dL is associated with a higher risk of cardiac death or AMI in patients undergoing OPCAB surgery.",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051219111",
+    "company_name": "2051219111"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Nat�rliche Gleichungen einer Kurve in der metrischen Differentialgeometrie\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 18,
+        "text": "Title: Nat�rliche Gleichungen einer Kurve in der metrischen Differentialgeometrie",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

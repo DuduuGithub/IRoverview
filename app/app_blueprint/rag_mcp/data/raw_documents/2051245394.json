@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051245394",
+    "company_name": "2051245394"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Review of Error Rate and Computation Time of Clustering Algorithms on Social Networking Sites\n\nAbstract: mining is a method of finding useful patters from large volumes of data. It is an extension of traditional data analysis and statistical approaches. Data Clustering is a task of grouping a set of items or objects into subsets (called clusters). It is an algorithm to discover the similarity between objects in the same class (intraclass similarity) and minimizing the similarity between objects of different classes (interclass similarity). This paper discusses the standard KMeans clustering algorithm and Kohonen Self Organizing Map(SOM) clustering algorithm using the Tanagra datamining tool .These algorithms are applied on facebook dataset i.e which type of information is shared by university students on facebook.And that information is then used for product marketing purposes. And according to our analysis SOM gives best result with high accuracy and less computational time.\n\n"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "metainfo": {
+    "sha1_name": "2051300592",
+    "company_name": "2051300592"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Book reviews: Microprocassor Based Robots\n\n"
+      }
+    ],
+    "chunks": [
+      {
+        "page": 0,
+        "length_tokens": 11,
+        "text": "Title: Book reviews: Microprocassor Based Robots",
+        "id": 0,
+        "type": "content"
+      }
+    ]
+  }
+}

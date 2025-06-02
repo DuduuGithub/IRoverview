@@ -1,0 +1,14 @@
+{
+  "metainfo": {
+    "sha1_name": "2051182868",
+    "company_name": "2051182868"
+  },
+  "content": {
+    "pages": [
+      {
+        "page": 0,
+        "text": "Title: Electro-Hydraulic Servo System Modeling and Dynamic Performance Analysis of Mechanics of Rock Materials Testing Machine\n\nAbstract: The complete stress-strain curve of rock is obtained mostly by the rock mechanics tester. So the rock mechanic tester is quite important in industry. It provides the scientific data for engineering design and construction. But the material of rock is made of special complex natural structure. It is very hard to obtain the complete and true performance data of rock by the common material tester which causes rock broken easily. The main cause lies on the slow response of control system, the bad performance and rigidity. In order to solve the question, this paper studies the rock mechanics tester intelligent control by computer electro-hydraulic servo device by means of computer technologies, electromechanical integration technologies and hydraulic technologies.The main work of this paper is about the modeling and simulation, mechanics of materials testing machine intelligent control to lay the foundation for further study.\n\n"
+      }
+    ]
+  }
+}
