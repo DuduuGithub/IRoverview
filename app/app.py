@@ -79,9 +79,9 @@ def index():
 
 if __name__ == '__main__':
     # 显示运行模式选择菜单
-    rebuild_choice = show_db_menu()
+    rebuild_choice = show_db_menu() # 完成第一次插入数据后，可注释掉这一行
     
     # 初始化数据库
-    init_database(rebuild=rebuild_choice)
+    init_database(rebuild=rebuild_choice) # 完成第一次插入数据后，可注释掉这一行
     
     app.run(debug=True)  # 这里的debug只控制Flask的调试模式，不影响SQL输出

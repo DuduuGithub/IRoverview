@@ -9,7 +9,9 @@ from ..search.search_utils import (
     calculate_relevance_score,
     update_search_result_score
 )
+from ..search.searcher import convert_abstract_to_text
 import sys
+import json
 # 创建蓝图
 reader_bp = Blueprint('reader', __name__,
                      template_folder='templates',
@@ -96,7 +98,7 @@ def document_detail(doc_id):
                 ref_info = {
                     'id': ref_work.id,
                     'title': ref_work.title,
-                    'abstract': ref_work.abstract_inverted_index,
+                    'abstract': convert_abstract_to_text(ref_work.abstract_inverted_index),
                     'publication_year': ref_work.publication_year,
                     'cited_by_count': ref_work.cited_by_count,
                     'doi': ref_work.doi,
@@ -144,7 +146,7 @@ def document_detail(doc_id):
                 rel_info = {
                     'id': rel_work.id,
                     'title': rel_work.title,
-                    'abstract': rel_work.abstract_inverted_index,
+                    'abstract': convert_abstract_to_text(rel_work.abstract_inverted_index),
                     'publication_year': rel_work.publication_year,
                     'cited_by_count': rel_work.cited_by_count,
                     'doi': rel_work.doi,
@@ -227,6 +229,10 @@ def document_detail(doc_id):
                 'citations': []
             }
             print("[DEBUG] 没有找到年度引用数据")
+                    
+        # 处理work对象的摘要
+        if work and work.abstract_inverted_index:
+            work.abstract_inverted_index = convert_abstract_to_text(work.abstract_inverted_index)
                     
         return render_template('reader/document_detail.html', 
                              work=work,
