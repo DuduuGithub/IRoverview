@@ -233,10 +233,10 @@
             
             // 准备力导向图
             const simulation = d3.forceSimulation(nodes)
-                .force("link", d3.forceLink(links).id(d => d.id).distance(100))
-                .force("charge", d3.forceManyBody().strength(-200))
+                .force("link", d3.forceLink(links).id(d => d.id).distance(150))  // 增加链接距离
+                .force("charge", d3.forceManyBody().strength(-300))  // 增加排斥力
                 .force("center", d3.forceCenter(width / 2, height / 2))
-                .force("collide", d3.forceCollide().radius(d => Math.sqrt(d.citations) * 1.5 + 10));
+                .force("collide", d3.forceCollide().radius(d => Math.sqrt(d.citations) * 2 + 15));  // 增加碰撞半径
             
             // 计算社区（采用简化版的社区发现算法）
             const communities = detectCommunities(nodes, links);
@@ -273,6 +273,32 @@
             // 创建图例
             createLegend(uniqueCommunities, colorScale);
             
+            // 计算图中实际的引用次数
+            function calculateLocalCitations(nodes, links) {
+                const citationCounts = new Map();
+                // 初始化所有节点的引用次数为0
+                nodes.forEach(node => {
+                    citationCounts.set(node.id, 0);
+                });
+                
+                // 统计每个节点在当前网络中被引用的次数
+                links.forEach(link => {
+                    const targetId = link.target.id || link.target;
+                    const currentCount = citationCounts.get(targetId) || 0;
+                    citationCounts.set(targetId, currentCount + 1);
+                });
+                
+                // 更新节点的本地引用次数
+                nodes.forEach(node => {
+                    node.localCitations = citationCounts.get(node.id);
+                    // 确保至少有一个最小值，避免节点太小
+                    node.localCitations = Math.max(node.localCitations, 1);
+                });
+            }
+
+            // 计算本地引用次数
+            calculateLocalCitations(nodes, links);
+
             // 先绘制连线
             const link = g.append("g")
                 .attr("class", "links")
@@ -288,13 +314,40 @@
             const nodeGroup = g.append("g")
                 .attr("class", "nodes");
             
+            // 为当前文档创建标记符号（红色倒三角）
+            const markerGroup = nodeGroup.selectAll(".focus-marker")
+                .data(nodes.filter(d => d.id === currentDocId))
+                .enter()
+                .append("g")
+                .attr("class", "focus-marker");
+
+            // 添加倒三角
+            markerGroup.append("path")
+                .attr("d", d => {
+                    const size = 10;  // 三角形大小
+                    const nodeRadius = Math.sqrt(d.citations) * 1.5 + 8;  // 获取节点半径
+                    return `M -${size} -${nodeRadius + size + 5} L ${size} -${nodeRadius + size + 5} L 0 -${nodeRadius + 5} Z`;
+                })
+                .attr("fill", "#ff4444")  // 红色
+                .attr("stroke", "none");
+
+            // 添加动画效果
+            markerGroup.append("circle")
+                .attr("r", 3)
+                .attr("fill", "#ff4444")
+                .attr("cy", d => {
+                    const nodeRadius = Math.sqrt(d.citations) * 1.5 + 8;
+                    return -nodeRadius - 5;
+                })
+                .style("animation", "pulse 2s infinite");
+
             // 为普通节点创建圆形
             const circleNodes = nodeGroup.selectAll(".circle-node")
                 .data(nodes.filter(d => d.id !== currentDocId))
                 .enter()
                 .append("circle")
                 .attr("class", "node circle-node")
-                .attr("r", d => Math.sqrt(d.citations) * 1.5 + 5)
+                .attr("r", d => Math.sqrt(d.localCitations) * 3 + 5)  // 调整系数使节点大小更合适
                 .attr("fill", d => colorScale(d.community))
                 .attr("stroke", "#fff")
                 .attr("stroke-width", 1.5);
@@ -305,7 +358,7 @@
                 .enter()
                 .append("path")
                 .attr("class", "node hex-node")
-                .attr("d", d => hexagonPath(Math.sqrt(d.citations) * 1.5 + 8))
+                .attr("d", d => hexagonPath(Math.sqrt(d.localCitations) * 3 + 8))  // 调整系数使节点大小更合适
                 .attr("fill", d => colorScale(d.community))
                 .attr("stroke", "#fff")
                 .attr("stroke-width", 1.5);
@@ -325,7 +378,7 @@
             circleNodes.on("mouseover", function(event, d) {
                 tooltip.style.opacity = 0.9;
                 tooltipTitle.textContent = d.title;
-                tooltipInfo.textContent = `被引用次数: ${d.citations}`;
+                tooltipInfo.textContent = `在图中被引用次数: ${d.localCitations}`;
                 
                 // 定位tooltip
                 tooltip.style.left = (event.pageX + 10) + "px";
@@ -353,7 +406,7 @@
             hexNodes.on("mouseover", function(event, d) {
                 tooltip.style.opacity = 0.9;
                 tooltipTitle.textContent = d.title;
-                tooltipInfo.textContent = `被引用次数: ${d.citations} (当前文档)`;
+                tooltipInfo.textContent = `在图中被引用次数: ${d.localCitations} (当前文档)`;
                 
                 // 定位tooltip
                 tooltip.style.left = (event.pageX + 10) + "px";
@@ -377,35 +430,54 @@
                 window.open(`/reader/document/${d.id}`, '_blank');
             });
             
-            // 仿真更新
+            // 添加CSS动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                    50% {
+                        transform: scale(1.5);
+                        opacity: 0.5;
+                    }
+                    100% {
+                        transform: scale(1);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // 在tick函数中更新标记符号的位置
             simulation.on("tick", () => {
                 link
                     .attr("x1", d => d.source.x)
                     .attr("y1", d => d.source.y)
                     .attr("x2", d => {
-                        // 计算从目标节点指向源节点的单位向量
                         const dx = d.source.x - d.target.x;
                         const dy = d.source.y - d.target.y;
                         const dist = Math.sqrt(dx * dx + dy * dy);
                         
                         if (dist === 0) return d.target.x;
                         
-                        // 计算目标节点半径（根据引用数）
-                        const nodeRadius = Math.sqrt(d.target.citations) * 1.5 + 10;
+                        // 使用本地引用次数计算节点半径
+                        const nodeRadius = Math.sqrt(d.target.localCitations) * 3 + 10;
                         
-                        // 设置箭头终点在节点边缘之外
                         const offsetX = dx / dist * nodeRadius;
                         return d.target.x + offsetX;
                     })
                     .attr("y2", d => {
-                        // 类似x2的计算方法
                         const dx = d.source.x - d.target.x;
                         const dy = d.source.y - d.target.y;
                         const dist = Math.sqrt(dx * dx + dy * dy);
                         
                         if (dist === 0) return d.target.y;
                         
-                        const nodeRadius = Math.sqrt(d.target.citations) * 1.5 + 10;
+                        // 使用本地引用次数计算节点半径
+                        const nodeRadius = Math.sqrt(d.target.localCitations) * 3 + 10;
+                        
                         const offsetY = dy / dist * nodeRadius;
                         return d.target.y + offsetY;
                     });
@@ -415,6 +487,10 @@
                     .attr("cy", d => d.y);
                     
                 hexNodes
+                    .attr("transform", d => `translate(${d.x},${d.y})`);
+
+                // 更新标记符号位置
+                markerGroup
                     .attr("transform", d => `translate(${d.x},${d.y})`);
             });
             
@@ -434,17 +510,17 @@
                 if (showClusters) {
                     // 增强社区之间的分离
                     simulation
-                        .force("link", d3.forceLink(links).id(d => d.id).distance(d => 100))
-                        .force("charge", d3.forceManyBody().strength(-400))
-                        .force("x", d3.forceX(width / 2).strength(d => 0.1 * d.community / uniqueCommunities.length))
-                        .force("y", d3.forceY(height / 2).strength(d => 0.1 * d.community / uniqueCommunities.length))
+                        .force("link", d3.forceLink(links).id(d => d.id).distance(d => 150))
+                        .force("charge", d3.forceManyBody().strength(-500))  // 增加排斥力
+                        .force("x", d3.forceX(width / 2).strength(d => 0.15 * d.community / uniqueCommunities.length))
+                        .force("y", d3.forceY(height / 2).strength(d => 0.15 * d.community / uniqueCommunities.length))
                         .alpha(1)
                         .restart();
                 } else {
                     // 还原为普通布局
                     simulation
-                        .force("link", d3.forceLink(links).id(d => d.id).distance(100))
-                        .force("charge", d3.forceManyBody().strength(-200))
+                        .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+                        .force("charge", d3.forceManyBody().strength(-300))
                         .force("x", null)
                         .force("y", null)
                         .alpha(1)
@@ -486,11 +562,53 @@
                 // 初始化每个节点为单独的社区
                 const communities = nodes.map((_, i) => i);
                 
-                // 简化的社区合并过程（迭代3次）
-                for (let iter = 0; iter < 3; iter++) {
+                const minCommunities = 3;  // 最小社区数
+                const maxCommunities = 5;  // 最大社区数
+                const maxIterations = 5;   // 迭代次数
+                
+                // 第一阶段：初始分配3-5个社区
+                // 根据节点数量动态确定初始社区数
+                const initialCommunities = Math.min(
+                    maxCommunities,
+                    Math.max(minCommunities, Math.ceil(nodes.length / 20))  // 每20个节点一个社区，但不超过最大限制
+                );
+                const nodesPerCommunity = Math.ceil(nodes.length / initialCommunities);
+                
+                // 初始强制分配到指定数量的社区
+                nodes.forEach((node, index) => {
+                    communities[index] = Math.min(Math.floor(index / nodesPerCommunity), initialCommunities - 1);
+                });
+                
+                // 第二阶段：优化社区结构，但保持社区数量在限制范围内
+                for (let iter = 0; iter < maxIterations; iter++) {
                     let changes = false;
                     
+                    // 计算当前社区大小
+                    const communitySizes = {};
+                    communities.forEach(c => {
+                        communitySizes[c] = (communitySizes[c] || 0) + 1;
+                    });
+                    
+                    // 计算每个社区的中心节点（度最大的节点）
+                    const communityHubs = {};
+                    nodes.forEach((node, i) => {
+                        const community = communities[i];
+                        const degree = adjList[node.id].length;
+                        if (!communityHubs[community] || degree > communityHubs[community].degree) {
+                            communityHubs[community] = { nodeIndex: i, degree: degree };
+                        }
+                    });
+                    
+                    // 保护社区中心节点
+                    const protectedNodes = new Set(Object.values(communityHubs).map(hub => hub.nodeIndex));
+                    
+                    // 计算当前社区数量
+                    const currentCommunityCount = new Set(communities).size;
+                    
                     for (let i = 0; i < nodes.length; i++) {
+                        // 跳过受保护的节点
+                        if (protectedNodes.has(i)) continue;
+                        
                         const nodeId = nodes[i].id;
                         const neighbors = adjList[nodeId];
                         
@@ -505,20 +623,54 @@
                             const neighborIndex = nodes.findIndex(n => n.id === neighborId);
                             if (neighborIndex >= 0) {
                                 const community = communities[neighborIndex];
-                                communityCounts[community] = (communityCounts[community] || 0) + 1;
+                                // 平衡因子：考虑社区大小和连接强度
+                                const sizeFactor = 1 / Math.sqrt(communitySizes[community] || 1);
+                                const strengthFactor = 1 + (protectedNodes.has(neighborIndex) ? 0.5 : 0);
+                                const score = sizeFactor * strengthFactor;
+                                
+                                communityCounts[community] = (communityCounts[community] || 0) + score;
                                 
                                 if (communityCounts[community] > maxCount) {
-                                    maxCount = communityCounts[community];
-                                    maxCommunity = community;
+                                    // 只有当移动不会导致社区数量超出范围时才更新
+                                    const wouldChangeCommunitiesCount = 
+                                        communities[i] !== community && 
+                                        communitySizes[communities[i]] === 1;
+                                        
+                                    if (!wouldChangeCommunitiesCount || 
+                                        (currentCommunityCount > minCommunities && 
+                                         currentCommunityCount <= maxCommunities)) {
+                                        maxCount = communityCounts[community];
+                                        maxCommunity = community;
+                                    }
                                 }
                             }
                         });
                         
-                        // 如果找到更好的社区，则更新
+                        // 如果找到更好的社区，检查是否可以安全移动
                         if (maxCommunity !== communities[i]) {
-                            communities[i] = maxCommunity;
-                            changes = true;
+                            const currentCommunity = communities[i];
+                            // 确保移动后不会导致社区数量超出范围
+                            const wouldChangeCommunitiesCount = communitySizes[currentCommunity] === 1;
+                            
+                            if (!wouldChangeCommunitiesCount || 
+                                (currentCommunityCount > minCommunities && 
+                                 currentCommunityCount <= maxCommunities)) {
+                                communities[i] = maxCommunity;
+                                communitySizes[currentCommunity]--;
+                                communitySizes[maxCommunity] = (communitySizes[maxCommunity] || 0) + 1;
+                                changes = true;
+                            }
                         }
+                    }
+                    
+                    // 检查是否保持了合适的社区数量
+                    const uniqueCommunitiesCount = new Set(communities).size;
+                    if (uniqueCommunitiesCount < minCommunities || uniqueCommunitiesCount > maxCommunities) {
+                        // 如果社区数量不在范围内，恢复到初始分配
+                        nodes.forEach((node, index) => {
+                            communities[index] = Math.min(Math.floor(index / nodesPerCommunity), initialCommunities - 1);
+                        });
+                        continue;
                     }
                     
                     if (!changes) break;

@@ -279,88 +279,111 @@ def citation_network(doc_id):
         if not work:
             return jsonify({'error': '未找到文档'}), 404
             
-        # 从数据库中查询引用关系
-        # 获取当前论文引用的论文（从属引用关系）
-        referenced_works_ids = WorkReferencedWork.query.filter_by(work_id=doc_id).all()
-        referenced_works_ids = [row.referenced_work_id for row in referenced_works_ids]
+        # 设置最大节点数限制
+        MAX_NODES = 50
+            
+        # 使用一次查询获取直接引用关系
+        direct_citations = db.session.query(
+            WorkReferencedWork.work_id,
+            WorkReferencedWork.referenced_work_id
+        ).filter(
+            db.or_(
+                WorkReferencedWork.work_id == doc_id,
+                WorkReferencedWork.referenced_work_id == doc_id
+            )
+        ).all()
         
-        # 获取引用当前论文的论文（被引用关系）
-        citing_works_ids = WorkReferencedWork.query.filter_by(referenced_work_id=doc_id).all()
-        citing_works_ids = [row.work_id for row in citing_works_ids]
+        # 收集相关论文ID
+        paper_ids = set([doc_id])
+        reference_ids = set()  # 存储焦点论文的参考文献ID
+        citing_paper_ids = set()  # 存储引用焦点论文的论文ID（b集合）
+        
+        for work_id, ref_id in direct_citations:
+            paper_ids.add(work_id)
+            paper_ids.add(ref_id)
+            # 如果这是焦点论文的参考文献，加入到reference_ids
+            if work_id == doc_id:
+                reference_ids.add(ref_id)
+            # 如果这是引用焦点论文的论文，加入到citing_paper_ids
+            if ref_id == doc_id:
+                citing_paper_ids.add(work_id)
+                
+        # 查找所有引用参考文献的论文
+        if reference_ids:
+            citations_to_references = db.session.query(
+                WorkReferencedWork.work_id,
+                WorkReferencedWork.referenced_work_id
+            ).filter(
+                WorkReferencedWork.referenced_work_id.in_(reference_ids)
+            ).all()
+            
+            # 添加引用参考文献的论文
+            for work_id, ref_id in citations_to_references:
+                paper_ids.add(work_id)
+                
+        # 查找b集合中论文的所有参考文献
+        if citing_paper_ids:
+            references_of_citing = db.session.query(
+                WorkReferencedWork.work_id,
+                WorkReferencedWork.referenced_work_id
+            ).filter(
+                WorkReferencedWork.work_id.in_(citing_paper_ids)
+            ).all()
+            
+            # 添加b集合论文的参考文献
+            for work_id, ref_id in references_of_citing:
+                paper_ids.add(ref_id)
+        
+        # 限制节点数量
+        if len(paper_ids) > MAX_NODES:
+            # 获取引用次数最多的论文
+            top_papers = db.session.query(Work.id)\
+                .filter(Work.id.in_(paper_ids))\
+                .order_by(Work.cited_by_count.desc())\
+                .limit(MAX_NODES)\
+                .all()
+            paper_ids = set([p[0] for p in top_papers])
+            # 确保当前论文在集合中
+            paper_ids.add(doc_id)
+        
+        # 批量获取论文信息
+        papers_data = db.session.query(
+            Work.id,
+            Work.title,
+            Work.cited_by_count
+        ).filter(
+            Work.id.in_(paper_ids)
+        ).all()
         
         # 准备节点数据
-        papers = []
-        paper_ids = set()
+        papers = [{
+            'id': p.id,
+            'title': p.title,
+            'citations': p.cited_by_count if p.cited_by_count else 5
+        } for p in papers_data]
         
-        # 添加当前论文
-        papers.append({
-            'id': work.id,
-            'title': work.title,
-            'citations': work.cited_by_count if hasattr(work, 'cited_by_count') else 10
-        })
-        paper_ids.add(work.id)
+        # 批量获取这些论文之间的引用关系
+        citations_data = db.session.query(
+            WorkReferencedWork.work_id,
+            WorkReferencedWork.referenced_work_id
+        ).filter(
+            WorkReferencedWork.work_id.in_(paper_ids),
+            WorkReferencedWork.referenced_work_id.in_(paper_ids)
+        ).all()
         
-        # 添加当前论文引用的论文
-        for ref_id in referenced_works_ids:
-            if ref_id not in paper_ids:
-                ref_work = Work.query.get(ref_id)
-                if ref_work:
-                    papers.append({
-                        'id': ref_work.id,
-                        'title': ref_work.title,
-                        'citations': ref_work.cited_by_count if hasattr(ref_work, 'cited_by_count') else 5
-                    })
-                    paper_ids.add(ref_work.id)
-        
-        # 添加引用当前论文的论文
-        for citing_id in citing_works_ids:
-            if citing_id not in paper_ids:
-                citing_work = Work.query.get(citing_id)
-                if citing_work:
-                    papers.append({
-                        'id': citing_work.id,
-                        'title': citing_work.title,
-                        'citations': citing_work.cited_by_count if hasattr(citing_work, 'cited_by_count') else 5
-                    })
-                    paper_ids.add(citing_work.id)
-        
-        # 准备边数据（引用关系）
-        citations = []
-        
-        # 当前论文 -> 引用的论文
-        for ref_id in referenced_works_ids:
-            citations.append({
-                'source': work.id,
-                'target': ref_id
-            })
-        
-        # 引用当前论文的论文 -> 当前论文
-        for citing_id in citing_works_ids:
-            citations.append({
-                'source': citing_id,
-                'target': work.id
-            })
-        
-        # 添加二级引用关系（可选：如果图太简单可以添加更多连接）
-        # 在已有节点之间查找额外的引用关系
-        for paper1_id in paper_ids:
-            for paper2_id in paper_ids:
-                if paper1_id != paper2_id and paper1_id != work.id and paper2_id != work.id:
-                    # 检查paper1是否引用了paper2
-                    ref_exists = WorkReferencedWork.query.filter_by(work_id=paper1_id, 
-                                                                 referenced_work_id=paper2_id).first()
-                    if ref_exists:
-                        citations.append({
-                            'source': paper1_id,
-                            'target': paper2_id
-                        })
+        # 准备边数据
+        citations = [{
+            'source': work_id,
+            'target': ref_id
+        } for work_id, ref_id in citations_data]
         
         print(f"[INFO] 引用关系图: 找到 {len(papers)} 个节点和 {len(citations)} 条边")
         
         return render_template('reader/citation_network.html', 
                               papers=papers,
                               citations=citations,
-                              current_doc_id=doc_id)  # 传递当前文档ID
+                              current_doc_id=doc_id)
+                              
     except Exception as e:
         import traceback
         print(f"[ERROR] 生成引用关系图失败: {e}")
