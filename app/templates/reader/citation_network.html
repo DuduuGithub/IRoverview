@@ -288,16 +288,28 @@
                     citationCounts.set(targetId, currentCount + 1);
                 });
                 
+                // 找出最大引用次数，用于归一化
+                const maxCitations = Math.max(...citationCounts.values(), 1);
+                
                 // 更新节点的本地引用次数
                 nodes.forEach(node => {
                     node.localCitations = citationCounts.get(node.id);
                     // 确保至少有一个最小值，避免节点太小
                     node.localCitations = Math.max(node.localCitations, 1);
+                    // 计算透明度（0.3到1之间）
+                    node.opacity = 0.3 + (0.7 * node.localCitations / maxCitations);
                 });
             }
 
             // 计算本地引用次数
             calculateLocalCitations(nodes, links);
+
+            // 获取带透明度的颜色
+            function getColorWithOpacity(communityColor, opacity) {
+                const color = d3.color(communityColor);
+                color.opacity = opacity;
+                return color.toString();
+            }
 
             // 先绘制连线
             const link = g.append("g")
@@ -307,8 +319,16 @@
                 .enter()
                 .append("line")
                 .attr("class", "link")
-                .attr("stroke-width", 1)
-                .attr("marker-end", "url(#arrowhead)");
+                .attr("stroke-width", 1.5)
+                .attr("stroke-opacity", 0.6)
+                .attr("marker-end", "url(#arrowhead)")
+                .attr("stroke", d => {
+                    const sourceOpacity = d.source.opacity;
+                    const targetOpacity = d.target.opacity;
+                    // 使用源节点和目标节点透明度的平均值
+                    const avgOpacity = (sourceOpacity + targetOpacity) / 2;
+                    return getColorWithOpacity(colorScale(d.source.community), avgOpacity);
+                });
             
             // 创建所有节点的容器组
             const nodeGroup = g.append("g")
@@ -347,8 +367,8 @@
                 .enter()
                 .append("circle")
                 .attr("class", "node circle-node")
-                .attr("r", d => Math.sqrt(d.localCitations) * 3 + 5)  // 调整系数使节点大小更合适
-                .attr("fill", d => colorScale(d.community))
+                .attr("r", d => Math.sqrt(d.localCitations) * 3 + 5)
+                .attr("fill", d => getColorWithOpacity(colorScale(d.community), d.opacity))
                 .attr("stroke", "#fff")
                 .attr("stroke-width", 1.5);
             
@@ -358,8 +378,8 @@
                 .enter()
                 .append("path")
                 .attr("class", "node hex-node")
-                .attr("d", d => hexagonPath(Math.sqrt(d.localCitations) * 3 + 8))  // 调整系数使节点大小更合适
-                .attr("fill", d => colorScale(d.community))
+                .attr("d", d => hexagonPath(Math.sqrt(d.localCitations) * 3 + 8))
+                .attr("fill", d => getColorWithOpacity(colorScale(d.community), d.opacity))
                 .attr("stroke", "#fff")
                 .attr("stroke-width", 1.5);
             
@@ -378,7 +398,7 @@
             circleNodes.on("mouseover", function(event, d) {
                 tooltip.style.opacity = 0.9;
                 tooltipTitle.textContent = d.title;
-                tooltipInfo.textContent = `在图中被引用次数: ${d.localCitations}`;
+                tooltipInfo.textContent = `在图中被引用次数: ${d.localCitations}\n颜色深度: ${Math.round(d.opacity * 100)}%`;
                 
                 // 定位tooltip
                 tooltip.style.left = (event.pageX + 10) + "px";
@@ -406,7 +426,7 @@
             hexNodes.on("mouseover", function(event, d) {
                 tooltip.style.opacity = 0.9;
                 tooltipTitle.textContent = d.title;
-                tooltipInfo.textContent = `在图中被引用次数: ${d.localCitations} (当前文档)`;
+                tooltipInfo.textContent = `在图中被引用次数: ${d.localCitations}\n颜色深度: ${Math.round(d.opacity * 100)}% (当前文档)`;
                 
                 // 定位tooltip
                 tooltip.style.left = (event.pageX + 10) + "px";
